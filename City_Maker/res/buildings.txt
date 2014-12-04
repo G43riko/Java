@@ -1,0 +1,2 @@
+# nazov velkost_X velkost_Y people_max
+1 TownHall 2 3 20

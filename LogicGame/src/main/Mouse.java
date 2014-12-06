@@ -42,6 +42,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 			this.leftIsDown = true;
 		}
 		else if(arg0.getButton()==3){
+			
 			this.rightIsDown = true;
 		}
 		
@@ -50,6 +51,9 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		if(arg0.getButton()==1){
+			if(movable!=null){
+				level.checkEdgeColisions();
+			}
 			this.movable = null;
 			this.leftIsDown = false;
 		}
@@ -63,8 +67,8 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent arg0) {
 		if(leftIsDown){
 			if(movable!=null){
-				movable.setX((int)(arg0.getX()));
-				movable.setY((int)(arg0.getY()));
+				movable.setX((int)(arg0.getX()-Point.size/2));
+				movable.setY((int)(arg0.getY()-Point.size/2));
 			}
 		}
 	}

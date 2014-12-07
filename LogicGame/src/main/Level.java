@@ -11,19 +11,8 @@ public class Level {
 	private List<Edge> edges = new ArrayList<Edge>();
 	
 	public Level(){
-		for(int i =0 ; i<20 ; i++){
-			int x = (int)(Math.random()*Main.WIDTH);
-			int y = (int)(Math.random()*Main.HEIGHT);
-			vertices.add(new Point(x,y));
-		}
-		int num = vertices.size();
-		for(int i=0 ; i<num ; i++){
-			int b, a = (int)(Math.random()*num);
-			while((b = (int)(Math.random()*num)) == a);
-			connect(vertices.get(b), vertices.get(a));
-		}
 		
-		
+		newGame(5);
 //		vertices.add(new Point(140,20));
 //		vertices.add(new Point(240,140));
 //		vertices.add(new Point(40,140));
@@ -35,6 +24,25 @@ public class Level {
 //		connect(vertices.get(1), vertices.get(3));
 //		connect(vertices.get(2), vertices.get(3));
 //		System.out.println(vertices.size()+" a "+edges.size());
+	}
+	
+	public void newGame(int points){
+		vertices.clear();
+		edges.clear();
+		
+		for(int i =0 ; i<points ; i++){
+			int x = (int)(Math.random()*Main.WIDTH);
+			int y = (int)(Math.random()*Main.HEIGHT);
+			vertices.add(new Point(x,y));
+		}
+		
+		int num = vertices.size();
+		
+		for(int i=0 ; i<num ; i++){
+			int b, a = (int)(Math.random()*num);
+			while((b = (int)(Math.random()*num)) == a);
+			connect(vertices.get(b), vertices.get(a));
+		}
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -93,7 +101,7 @@ public class Level {
 				}
 			}
 		}
-		System.out.println("vyhral si!");
+		newGame(vertices.size()+1);
 	}
 
 }

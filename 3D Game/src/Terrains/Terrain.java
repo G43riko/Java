@@ -97,7 +97,6 @@ public class Terrain {
 			return 0;
 		}
 		float height = image.getRGB(x, z);
-		System.out.println(height);
 		height += MAX_PIXEL_COLOR/8*5.5;
 		height /= MAX_PIXEL_COLOR/2f;
 		height *= MAX_HEIGHT;

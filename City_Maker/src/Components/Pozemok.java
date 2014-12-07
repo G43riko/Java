@@ -32,15 +32,9 @@ public class Pozemok {
 		this.setBudova(null);
 		mesto.takeMoney(this.cena);;
 	}
-
-	public void postav(types building) {
-		postav(building.ordinal());
-	}
 	
-	public void postav(int ordinal) {
-
-		
-		switch(ordinal){
+	public void postav(types building) {
+		switch(building.ordinal()){
 			case 0:
 				this.setBudova(new TownHall());
 				break;

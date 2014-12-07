@@ -1,8 +1,9 @@
 package Components;
 
 public class Pocasie {
-	private float teplotaCelzius;
+	private float teplota;
 	private int stavPocasia;
+	
 //	0 - slnecno;
 //	1 - prsi;
 //	2 - snezi; 
@@ -11,7 +12,7 @@ public class Pocasie {
 	public Pocasie(){
 		
 		setRandPocasie();
-		teplotaCelzius = (float)Math.random()*40-10;
+		teplota = (float)Math.random()*40-10;
 	}
 	
 	public void zacniBitSlnecno(){
@@ -31,7 +32,7 @@ public class Pocasie {
 	}
 
 	public float getTeplotaCelzius() {
-		return teplotaCelzius;
+		return teplota;
 	}
 
 	public String getStavPocasia() {

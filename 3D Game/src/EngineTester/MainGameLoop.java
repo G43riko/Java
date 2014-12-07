@@ -106,8 +106,8 @@ public class MainGameLoop {
 		particles.add(entity3);
 		
 		
-		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap);
-		Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap);
+		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap,"heightMap");
+		Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightMap");
 		terrains.add(terrain);
 		terrains.add(terrain2);
 		

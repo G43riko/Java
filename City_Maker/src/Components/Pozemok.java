@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import Buildings.Building;
 import Buildings.Building.types;
-import Buildings.Factory;
-import Buildings.Hospital;
-import Buildings.House;
-import Buildings.Offices;
-import Buildings.PoliceStation;
-import Buildings.TownHall;
+import Buildings.Houses.Skyscraper;
+import Buildings.Infrastructures.Hospital;
+import Buildings.Infrastructures.PoliceStation;
+import Buildings.Infrastructures.TownHall;
+import Buildings.Workstations.Factory;
+import Buildings.Workstations.Offices;
 import Main.City;
 import Peoples.Obyvatel;
 
@@ -45,7 +45,7 @@ public class Pozemok {
 				this.setBudova(new Hospital());
 				break;
 			case 3:
-				this.setBudova(new House());
+				this.setBudova(new Skyscraper());
 				break;
 			case 4:
 				this.setBudova(new Offices());

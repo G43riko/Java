@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import Peoples.Clovek;
 
-public abstract class Building {
+public abstract class Building implements BuildingsDo{
 	
 	protected int Healt, maxPeople;
-	protected float moneyPerYear,Payout;
+	protected float moneyPerYear;
 	private  ArrayList<Clovek> peopleIn;
 	public int price;
 	
@@ -15,12 +15,6 @@ public abstract class Building {
 	
 	public Building(){
 		setPeopleIn(new ArrayList<Clovek>());
-	}
-	
-	public void dajZamestancomVyplatu(){
-		for(Clovek c:getPeopleIn()){
-			c.addMoney(this.Payout);
-		}
 	}
 
 	public int getMaxPeople() {
@@ -34,6 +28,8 @@ public abstract class Building {
 	public void setPeopleIn(ArrayList<Clovek> peopleIn) {
 		this.peopleIn = peopleIn;
 	};
+	
+	
 	
 	
 }

@@ -8,21 +8,18 @@ public class MouseEvents implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		if(!Main.startIsSet){
+		if(Main.start==null){
 			int X=(int)Math.floor(arg0.getX()/Main.block);
 			int Y=(int)Math.floor(arg0.getY()/Main.block);
 			Main.map[X][Y].type=1;
-			Main.startIsSet=true;
+			Main.start=new int[]{X,Y};
 		}
-		else if(!Main.goalIsSet){
+		else if(Main.goal==null){
 			int X=(int)Math.floor(arg0.getX()/Main.block);
 			int Y=(int)Math.floor(arg0.getY()/Main.block);
 			Main.map[X][Y].type=2;
-			//PathFinding.getDistFromGoal(X,Y);
-			Main.goalIsSet=true;
-			
-			Main.removedPossibles=false;
-			Main.findGoal=false;
+			Main.goal=new int[]{X,Y};
+
 		}
 		else{
 			int X=(int)Math.floor(arg0.getX()/Main.block);

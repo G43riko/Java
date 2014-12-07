@@ -3,8 +3,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Mapa {
-	public int type,direction,stepsFromGoal;
-	public double distToGoal;
+	public int type,direction;
+	public double distToGoal,stepsFromGoal;
 	
 	public Mapa(int type){
 		this.type=type;
@@ -16,7 +16,7 @@ public class Mapa {
 		Main.map=new Mapa[sizeX][sizeY];
 		for(int i=0 ; i<sizeX ; i++){
 			for(int j=0 ; j<sizeY ; j++){
-				int co=(int)Math.floor(Math.random()*100);
+				int co=(int)Math.floor(Math.random()*300);
 				if(co==0){
 					Main.map[i][j]=new Mapa(3);
 				}
@@ -37,7 +37,7 @@ public class Mapa {
 				g.setColor(Color.BLACK);
 				g.drawString(Double.toString(Main.map[i][j].distToGoal), i*Main.block, j*Main.block+10);
 				g.drawString(Integer.toString(Main.map[i][j].direction), i*Main.block+Main.block-8, j*Main.block+Main.block);
-				g.drawString(Integer.toString(Main.map[i][j].stepsFromGoal), i*Main.block, j*Main.block+Main.block);
+				g.drawString(Integer.toString((int)Main.map[i][j].stepsFromGoal), i*Main.block, j*Main.block+Main.block);
 			}
 		}
 	};

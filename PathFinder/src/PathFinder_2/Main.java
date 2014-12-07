@@ -18,7 +18,9 @@ public class Main extends JFrame{
 	public static boolean fullScreen=false;
 	public static Mapa[][] map;
 	public static int block=40;
-	public static boolean startIsSet,goalIsSet,onlyGoal,findGoal,removedPossibles;
+	public static boolean onlyGoal,findGoal,removedPossibles;
+	public static int[] goal = null;
+	public static int[] start = null;
 	
 	public static void main(String[] args) {
 		
@@ -56,7 +58,7 @@ public class Main extends JFrame{
 	};
 	
 	public static void newGame(){
-		Main.startIsSet=Main.goalIsSet=false;
+		Main.goal=Main.start=null;
 		Main.onlyGoal=Main.findGoal=removedPossibles=true;
 		Mapa.create((int)Main.HEIGHT/Main.block,(int)Main.WIDTH/Main.block);
 		//Mapa.create(5,5);

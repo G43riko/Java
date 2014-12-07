@@ -10,7 +10,11 @@ public class KeyEvents implements KeyListener {
 		System.out.println(arg0.getKeyCode());
 		switch(arg0.getKeyCode()){
 			case 97:
-				PathFinding.getDistFromGoal();
+				if(Main.goal==null||Main.start==null){
+					break;
+				}
+				PathFinding.getDistFromGoal(Main.goal,Main.start);
+				Main.map[Main.goal[0]][Main.goal[1]].distToGoal = 0;
 				break;
 			case 98:
 				break;
@@ -24,7 +28,7 @@ public class KeyEvents implements KeyListener {
 				Main.removedPossibles=false;
 				Main.findGoal=false;
 				break;
-			case 10:
+			case 10://enter
 				Main.newGame();
 				break;
 			case 27:

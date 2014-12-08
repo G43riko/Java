@@ -20,7 +20,7 @@ public class Main extends JFrame{
 	public static int WIDTH,HEIGHT,gameIs;
 	public static boolean isRunning;
 	public static boolean fullScreen=false;
-	public static boolean canAdd=false;
+	public static boolean canAdd=true;
 
 	
 	public static void main(String[] args) {

@@ -16,6 +16,19 @@ public class KeyEvents implements KeyListener {
 				PathFinding.getDistFromGoal(Main.goal,Main.start);
 				Main.map[Main.goal[0]][Main.goal[1]].distToGoal = 0;
 				break;
+				
+			case 49:
+				if(Main.goal==null||Main.start==null){
+					break;
+				}
+				Main.map[Main.goal[0]][Main.goal[1]].distToGoal = 0;
+				PathFinding.getDistFromGoal(Main.goal,Main.start);
+				break;
+			case 50:
+				if(Main.goal==null||Main.start==null){
+					break;
+				}
+				PathFinding.findShortestDistance(Main.start,Main.goal);
 			case 98:
 				break;
 			case 99:

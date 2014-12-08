@@ -30,6 +30,9 @@ public class Point {
 	public void draw(Graphics2D g2) {
 		g2.setColor(this.color);
 		g2.fillArc(x, y, size, size, 0, 360);
+		g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g2.setColor(Color.black);
+		g2.drawArc(x, y, size, size, 0, 360);
 	}
 
 	public void addPoint(Point p){

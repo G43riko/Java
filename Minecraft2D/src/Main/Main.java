@@ -41,12 +41,12 @@ public class Main extends JFrame{
 	public static ArrayList<Light> lights = new ArrayList<Light>();
 	public static boolean[] keys;
 	public static boolean isRunning;
-	public static boolean LightsAndShadows=false;
+	public static boolean LightsAndShadows=true;
 	public static boolean BacgroundAsImage=true;
 	public static boolean HelpingTexts=true;
 	public static boolean fullScreen=true;
 	public static boolean Warnings=false;
-	public static boolean Images=false;
+	public static boolean Images=true;
 	public static boolean isClick=false;
 	public static boolean Skosenie=true;
 	public static boolean Sidebar=true;

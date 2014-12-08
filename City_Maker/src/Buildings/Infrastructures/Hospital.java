@@ -10,7 +10,7 @@ public class Hospital extends Building{
 	}
 	
 	public void dajZamestancomVyplatu() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
+	
 }

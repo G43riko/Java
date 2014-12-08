@@ -36,11 +36,9 @@ public class Level {
 			vertices.add(new Point(x,y));
 		}
 		
-		int num = vertices.size();
-		
-		for(int i=0 ; i<num ; i++){
-			int b, a = (int)(Math.random()*num);
-			while((b = (int)(Math.random()*num)) == a);
+		for(int i=0 ; i<points ; i++){
+			int b, a = (int)(Math.random()*points);
+			while((b = (int)(Math.random()*points)) == a);
 			connect(vertices.get(b), vertices.get(a));
 		}
 	}

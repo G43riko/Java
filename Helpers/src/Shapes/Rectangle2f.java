@@ -9,8 +9,8 @@ public class Rectangle2f {
 	private float w,h;
 	private Vector2f pos;
 	private Color edge=Color.BLACK,ground=Color.WHITE;
-	private Point2d[] points;
-	private Line2d[] lines;
+	private Vector2f[] points;
+	private Line2f[] lines;
 	
 	public Rectangle2f(float x, float y, float w, float h){
 		this(new Vector2f(x,y),w,h);

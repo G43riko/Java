@@ -44,7 +44,7 @@ public class City {
 		Main.napis("bolo kúpených "+Constants.POZEMKOV_NA_ZACIATKU+" pozemkov");
 		
 		for(int i=0 ; i<Constants.LUDI_NA_ZACIATKU ; i++){
-			obyvatelia.add(new Obyvatel().findHome(pozemky,this).findJob(pozemky, this));
+			obyvatelia.add(new Obyvatel((int)(Math.random()*2)).findHome(pozemky,this).findJob(pozemky, this));
 		}
 		
 		Main.napis("bolo pridaných "+Constants.LUDI_NA_ZACIATKU+" obyvatelov");
@@ -80,7 +80,7 @@ public class City {
 	private void importPeople() {
 		int num = (int)(Math.random()*this.obyvatelia.size()/20);
 		for(int i=0 ; i<num ; i++){
-			this.obyvatelia.add(new Obyvatel().findHome(pozemky,this).findJob(pozemky, this));
+			this.obyvatelia.add(new Obyvatel((int)(Math.random()*2)).findHome(pozemky,this).findJob(pozemky, this));
 		}
 		
 		Main.napis("Dnes sa pristahovalo do mesta " + num + " obyvatelov, vytajte nový obyvatelia " + name + " :)");

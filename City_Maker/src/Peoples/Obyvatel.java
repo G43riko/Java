@@ -8,8 +8,8 @@ import Main.City;
 import Main.Main;
 
 public class Obyvatel extends Clovek{
-	public Obyvatel(){
-		this.pohlavie = (char)Math.floor(Math.random()*2);
+	public Obyvatel(int pohlavie){
+		this.pohlavie = pohlavie;
 		this.meno = FileLoader.getMeno();
 		this.money = (int)(Math.random()*2000);
 	}
@@ -36,6 +36,7 @@ public class Obyvatel extends Clovek{
 			if(p.getBudova()==null){
 				break;
 			}
+			//if(p.getBudova().getClass()==House){
 			if(p.getBudova().getClass().getName()=="Buildings.House"){
 				if(p.getBudova().getPeopleIn().size()<p.getBudova().getMaxPeople()){
 					p.getBudova().getPeopleIn().add(this);

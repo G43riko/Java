@@ -6,10 +6,10 @@ import Main.City;
 public abstract class Clovek {
 	protected Building pracujeKde;
 	protected Building byvamKde;
-	protected char pohlavie;
-	protected String meno;
+	protected int pohlavie;
+	protected String meno = null;
 	protected Building pozicia;
-	protected int activita;
+	protected int activita = 0;
 	protected int money;
 	protected int aktDan;
 	

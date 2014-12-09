@@ -5,7 +5,8 @@ import java.awt.Color;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;	
 
-import main.Box;
+import entities.Camera;
+import entities.Selector;
 import maps.Block;
 
 public class Game {

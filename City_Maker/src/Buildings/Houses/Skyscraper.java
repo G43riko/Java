@@ -5,5 +5,10 @@ public class Skyscraper extends House{
 	
 	public Skyscraper(){
 		super(100,200);
+		najom = 200;
+	}
+	
+	public void zvacsNajom(){
+		najom *= 1.3;
 	}
 }

@@ -1,4 +1,4 @@
-package main;
+package entities;
 
 import static org.lwjgl.opengl.GL11.GL_DEPTH;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;

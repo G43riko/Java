@@ -4,6 +4,9 @@ import maps.Block;
 
 import org.lwjgl.input.Keyboard;
 
+import entities.Camera;
+import entities.Selector;
+
 public class Input {
 	private static int rotationSpeed = 2;
 	

@@ -12,10 +12,12 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
 
+
 import java.awt.Color;
 
 import main.Utils;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
 public class Block {
@@ -26,9 +28,9 @@ public class Block {
 	private boolean repeat;
 	private double r,g,b;
 	private int type;
-	private Texture texture = null;
+	private int textureID;
 	private Color color = null;
-	private static Texture[] textures = new Texture[]{null,Utils.textureLoader("dirt.jpg")};
+	private static int[] texturesID = new int[]{-1,Utils.textureLoaderID("dirt.jpg")};
 	
 	public Block(int x, int y, int z,int type){
 		this.x = x*(int)Map.width*2;
@@ -43,8 +45,9 @@ public class Block {
 		this.w = Map.width;
 		this.h = Map.height;
 		this.d = Map.depth;
-		if(type>=0)
-			this.texture = textures[type];
+		if(type>=0){
+			this.textureID = texturesID[type];
+		}
 	}
 	
 	public int[] getSur(){
@@ -57,15 +60,15 @@ public class Block {
 		this.d = d;
 	}
 	
-	public void setTexture(Texture text,boolean repeat){
-		this.texture = text;
-		this.repeat=repeat;
-		if(repeat){
-			th=h;
-			tw=w;
-			td=d;
-		}
-	}
+//	public void setTexture(Texture text,boolean repeat){
+//		this.texture = text;
+//		this.repeat=repeat;
+//		if(repeat){
+//			th=h;
+//			tw=w;
+//			td=d;
+//		}
+//	}
 	
 	public void setRandColor(){
 		this.r = Math.random();
@@ -98,46 +101,47 @@ public class Block {
 			glRotatef(this.rx,1,0,0);
 			glRotatef(this.ry,0,1,0);
 			glRotatef(this.rz,0,0,1);
-			if(this.texture!=null){
-				this.texture.bind();
-			}
+			
+			if(this.textureID>=0)
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+			
 			glBegin(GL_QUADS);
 			{
 				//FrontFace
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(-w,-h,d);
-				if(this.texture!=null)glTexCoord2f(0,th); glVertex3f(-w,h,d);
-				if(this.texture!=null)glTexCoord2f(tw,th); glVertex3f(w,h,d);
-				if(this.texture!=null)glTexCoord2f(tw,0); glVertex3f(w,-h,d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(-w,-h,d);
+				if(this.textureID>=0)glTexCoord2f(0,th); glVertex3f(-w,h,d);
+				if(this.textureID>=0)glTexCoord2f(tw,th); glVertex3f(w,h,d);
+				if(this.textureID>=0)glTexCoord2f(tw,0); glVertex3f(w,-h,d);
 
 				//BackFace
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(-w,-h,-d);
-				if(this.texture!=null)glTexCoord2f(0,th); glVertex3f(-w,h,-d);
-				if(this.texture!=null)glTexCoord2f(tw,th); glVertex3f(w,h,-d);
-				if(this.texture!=null)glTexCoord2f(tw,0); glVertex3f(w,-h,-d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(-w,-h,-d);
+				if(this.textureID>=0)glTexCoord2f(0,th); glVertex3f(-w,h,-d);
+				if(this.textureID>=0)glTexCoord2f(tw,th); glVertex3f(w,h,-d);
+				if(this.textureID>=0)glTexCoord2f(tw,0); glVertex3f(w,-h,-d);
 
 				//BottomFace
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(-w,-h,-d);
-				if(this.texture!=null)glTexCoord2f(0,td); glVertex3f(-w,-h,d);
-				if(this.texture!=null)glTexCoord2f(th,td); glVertex3f(-w,h,d);
-				if(this.texture!=null)glTexCoord2f(th,0); glVertex3f(-w,h,-d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(-w,-h,-d);
+				if(this.textureID>=0)glTexCoord2f(0,td); glVertex3f(-w,-h,d);
+				if(this.textureID>=0)glTexCoord2f(th,td); glVertex3f(-w,h,d);
+				if(this.textureID>=0)glTexCoord2f(th,0); glVertex3f(-w,h,-d);
 
 				//TopFace
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(1*w,-1*h,-1*d);
-				if(this.texture!=null)glTexCoord2f(0,td); glVertex3f(1*w,-1*h,1*d);
-				if(this.texture!=null)glTexCoord2f(th,td); glVertex3f(1*w,1*h,1*d);
-				if(this.texture!=null)glTexCoord2f(th,0); glVertex3f(1*w,1*h,-1*d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(1*w,-1*h,-1*d);
+				if(this.textureID>=0)glTexCoord2f(0,td); glVertex3f(1*w,-1*h,1*d);
+				if(this.textureID>=0)glTexCoord2f(th,td); glVertex3f(1*w,1*h,1*d);
+				if(this.textureID>=0)glTexCoord2f(th,0); glVertex3f(1*w,1*h,-1*d);
 
 				//LeftFace
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(-1*w,-1*h,-1*d);
-				if(this.texture!=null)glTexCoord2f(0,tw); glVertex3f(1*w,-1*h,-1*d);
-				if(this.texture!=null)glTexCoord2f(td,tw); glVertex3f(1*w,-1*h,1*d);
-				if(this.texture!=null)glTexCoord2f(td,0); glVertex3f(-1*w,-1*h,1*d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(-1*w,-1*h,-1*d);
+				if(this.textureID>=0)glTexCoord2f(0,tw); glVertex3f(1*w,-1*h,-1*d);
+				if(this.textureID>=0)glTexCoord2f(td,tw); glVertex3f(1*w,-1*h,1*d);
+				if(this.textureID>=0)glTexCoord2f(td,0); glVertex3f(-1*w,-1*h,1*d);
 
 				//Right Face
-				if(this.texture!=null)glTexCoord2f(0,0); glVertex3f(-w,h,-d);
-				if(this.texture!=null)glTexCoord2f(0,tw); glVertex3f(w,h,-d);
-				if(this.texture!=null)glTexCoord2f(td,tw); glVertex3f(w,h,d);
-				if(this.texture!=null)glTexCoord2f(td,0); glVertex3f(-w,h,d);
+				if(this.textureID>=0)glTexCoord2f(0,0); glVertex3f(-w,h,-d);
+				if(this.textureID>=0)glTexCoord2f(0,tw); glVertex3f(w,h,-d);
+				if(this.textureID>=0)glTexCoord2f(td,tw); glVertex3f(w,h,d);
+				if(this.textureID>=0)glTexCoord2f(td,0); glVertex3f(-w,h,d);
 			}
 			glEnd();
 		}

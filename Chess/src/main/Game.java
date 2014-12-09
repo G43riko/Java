@@ -14,6 +14,7 @@ public class Game {
 	public static int height = 720;
 	public static String title = "nadpis";
 	public static boolean fullscreen = false;
+	public static boolean mipMapping = true;
 	
 	private Window window;
 	private Level actLevel; 

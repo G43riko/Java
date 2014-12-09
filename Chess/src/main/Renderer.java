@@ -16,6 +16,8 @@ import static org.lwjgl.opengl.GL11.glGetString;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
 
+import org.lwjgl.opengl.GL11;
+
 public class Renderer {
 	
 	public static void clearScreen(){

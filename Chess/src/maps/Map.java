@@ -8,6 +8,7 @@ public class Map {
 	public static int height = 1;
 	public static int depth = 2;
 	private int numWidth, numHeight, numDepth;
+	private int blockShader = 0;
 	
 	public Map(int numWidth, int numHeight, int numDepth){
 		this.numWidth = numWidth; //X
@@ -34,6 +35,17 @@ public class Map {
 	
 	public Block getMapa(int x, int y, int z){
 		return mapa[x][y][z];
+	}
+	
+	public void addBlockShader(int shader){
+		this.blockShader = shader;
+		for(Block[][] a:mapa){
+			for(Block[] b:a){
+				for(Block c:b){
+					c.addShader(shader);
+				}
+			}
+		}
 	}
 	
 	public Block getMapa(String kde,Block od){

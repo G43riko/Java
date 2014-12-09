@@ -1,5 +1,9 @@
 package EngineTester;
 
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
+import static org.lwjgl.opengl.GL11.GL_LINE;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +122,7 @@ public class MainGameLoop {
 		Camera camera = new Camera();
 		MasterRenderer renderer = new MasterRenderer();
 		while(!Display.isCloseRequested()){
+			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 			entity.increaseRotation(0,1,0);
 			camera.move();
 			

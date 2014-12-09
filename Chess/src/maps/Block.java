@@ -1,6 +1,7 @@
 package maps;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
@@ -9,9 +10,12 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
 
+
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.awt.Color;
 
@@ -28,9 +32,10 @@ public class Block {
 	private boolean repeat;
 	private double r,g,b;
 	private int type;
-	private int textureID;
+	private int textureID = -1;
+	private int shader = 0;
 	private Color color = null;
-	private static int[] texturesID = new int[]{-1,Utils.textureLoaderID("dirt.jpg")};
+	private static int[] texturesID = new int[]{-1,Utils.textureLoader("dirt.jpg")};
 	
 	public Block(int x, int y, int z,int type){
 		this.x = x*(int)Map.width*2;
@@ -48,6 +53,11 @@ public class Block {
 		if(type>=0){
 			this.textureID = texturesID[type];
 		}
+	}
+	
+	public void addShader(int shader){
+		this.shader = shader;
+		//System.out.println("pridal sa shader "+shader);
 	}
 	
 	public int[] getSur(){
@@ -102,8 +112,11 @@ public class Block {
 			glRotatef(this.ry,0,1,0);
 			glRotatef(this.rz,0,0,1);
 			
-			if(this.textureID>=0)
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+			if(this.textureID>=0){
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+			}
+			
+			glUseProgram(shader);
 			
 			glBegin(GL_QUADS);
 			{
@@ -144,6 +157,7 @@ public class Block {
 				if(this.textureID>=0)glTexCoord2f(td,0); glVertex3f(-w,h,d);
 			}
 			glEnd();
+			
 		}
 		glPopMatrix();
 	}

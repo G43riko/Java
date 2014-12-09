@@ -13,7 +13,7 @@ public class Selector extends Block{
 		this.h*=1.1;
 		this.d*=1.1;
 		
-		setColor(Color.black);
+		setColor(Color.RED);
 		
 	}
 	

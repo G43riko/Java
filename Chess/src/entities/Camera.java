@@ -104,4 +104,16 @@ public class Camera {
 	public void setRz(float rz) {
 		this.rz = rz;
 	}
+	
+	public void move(float x, float y, float z){
+		this.x += x;
+		this.y += y;
+		this.z += z;
+	}
+	
+	public void rotate(float x, float y, float z){
+		this.rx += x;
+		this.ry += y;
+		this.rz += z;
+	}
 }

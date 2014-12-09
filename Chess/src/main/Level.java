@@ -15,4 +15,7 @@ public class Level {
 		map.draw();
 	}
 	
+	public Map getMap(){
+		return map;
+	}
 }

@@ -36,7 +36,7 @@ public class Game extends JFrame{
 		mapa = new Map(10,4,10);
 		mapa.initDefaultMap();
 		
-		logs = new Logs();
+		//logs = new Logs();
 	}
 	
 	public void mainLoop(){
@@ -45,7 +45,7 @@ public class Game extends JFrame{
 			//toto by sa dalu urËite upraviù nejako
 			GL11.glClearColor((float)rmenu.BGRed.getValue()/255,(float)rmenu.BGGreen.getValue()/255,(float)rmenu.BGBlue.getValue()/255, 1.0f);
 			
-			logs.update();
+			//logs.update();
 			
 			
 			window.update();
@@ -65,7 +65,8 @@ public class Game extends JFrame{
 	
 	public void cleanUp(){
 		window.cleanUp();
-	}
+		System.exit(0);
+	};
 	
 	private void initFrame(){
 		setResizable(true);
@@ -81,7 +82,7 @@ public class Game extends JFrame{
 		setTitle(Main.TITLE);
 		setSize(Main.WIDTH, Main.HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
+	};
 	
 	private void createContentPanel(){
 		contentPanel = new JPanel();
@@ -98,11 +99,6 @@ public class Game extends JFrame{
 		
 		canvas = new Canvas();
 		contentPanel.add(canvas,BorderLayout.CENTER);
-	}
+	};
 	
-
-	public static void changeBGColor(Color color) {
-		
-		
-	}
 }

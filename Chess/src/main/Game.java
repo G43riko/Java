@@ -8,7 +8,14 @@ import java.awt.Color;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;	
+import org.lwjgl.util.vector.Vector3f;
 
+import stolen.Entity;
+import stolen.Loader;
+import stolen.ModelTexture;
+import stolen.OBJLoader;
+import stolen.RawModel;
+import stolen.TexturedModel;
 import entities.Camera;
 import entities.Selector;
 import maps.Block;
@@ -27,7 +34,9 @@ public class Game {
 	private Selector selector;
 	private HUD info;
 	private Shader shader;
-	private Entity model;
+	private Entita model;
+	
+	private Loader loader;
 	
 	public void init() {
 		window = new Window(width,height,"Chess");
@@ -37,10 +46,17 @@ public class Game {
 		
 		actLevel = new Level(40,10,40);
 		
+		loader = new Loader();
+		
+//		RawModel drakModel = OBJLoader.loadObjModel("box", loader);
+//		TexturedModel drakTexturedModel = new TexturedModel(drakModel,new ModelTexture(loader.loadTexture("stallTexture.png")));
+//		Entity drak = new Entity(drakTexturedModel,	new Vector3f(0,0,-25),0,0,0,1);
+		
+		
 		selector = new Selector(0,1,0);
 		selector.setSize(2.1f,1.1f,2.1f);
 		
-		model = new Entity("stall");
+		model = new Entita("stall");
 	}
 
 	public void start() {

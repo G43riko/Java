@@ -6,12 +6,12 @@ import org.lwjgl.util.vector.Vector3f;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
-public class Entity {
+public class Entita {
 
 	private Model m=null;
 	int objectDisplayList; 
 	
-	public Entity(String file) {
+	public Entita(String file) {
 		objectDisplayList = glGenLists(1);
 		glNewList(objectDisplayList, GL_COMPILE);
 		{

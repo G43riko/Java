@@ -16,7 +16,7 @@ public class Mapa {
 		Main.map=new Mapa[sizeX][sizeY];
 		for(int i=0 ; i<sizeX ; i++){
 			for(int j=0 ; j<sizeY ; j++){
-				int co=(int)Math.floor(Math.random()*3);
+				int co=(int)Math.floor(Math.random()*300);
 				if(co==0){
 					Main.map[i][j]=new Mapa(3);
 				}

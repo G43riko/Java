@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex3f;
+import static org.lwjgl.opengl.GL11.glIsEnabled;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.awt.Color;
@@ -27,10 +28,10 @@ public abstract class TexturedEntity extends BasicEntity{
 	private int texture;
 	private Color color;
 	
-	protected TexturedEntity(float x, float y, float z, float rx, float ry, float rz,int width, int height, int depth, float scale) {
+	public TexturedEntity(float x, float y, float z, float rx, float ry, float rz,int width, int height, int depth, float scale) {
 		super(x, y, z, rx, ry, rz, scale);
 		th=tw=td=1;
-		color = new Color(0,1,0);
+		color = new Color(0,1,1);
 		this.texture = 0;
 		this.width = width;
 		this.height = height;
@@ -69,7 +70,7 @@ public abstract class TexturedEntity extends BasicEntity{
 		glPushMatrix();
 		{
 			
-			if(this.texture<0)
+			if(this.texture<=0||!glIsEnabled(GL11.GL_TEXTURE_2D))
 				glColor3f(color.getRed(), color.getGreen(), color.getBlue());
 			else
 				glColor3f(1,1,1);
@@ -79,7 +80,7 @@ public abstract class TexturedEntity extends BasicEntity{
 			glRotatef(this.ry,0,1,0);
 			glRotatef(this.rz,0,0,1);
 			
-			if(this.texture>=0)
+			if(this.texture>=0&&glIsEnabled(GL11.GL_TEXTURE_2D))
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 			
 			//glUseProgram(shader);
@@ -123,7 +124,6 @@ public abstract class TexturedEntity extends BasicEntity{
 				if(this.texture>=0)glTexCoord2f(td,0); glVertex3f(-width,height,depth);
 			}
 			glEnd();
-			
 		}
 		glPopMatrix();
 	}

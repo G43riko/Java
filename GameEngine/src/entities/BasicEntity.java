@@ -1,5 +1,9 @@
 package entities;
-
+/*
+ * ud·va iba kde sa objekt vyskytuje a jeho rot·ciu a velkosù
+ * neobsahuje rozmery
+ * m· metÛdy na pohyb
+ */
 public abstract class BasicEntity {
 	protected float x,y,z;
 	protected float rx, ry, rz;

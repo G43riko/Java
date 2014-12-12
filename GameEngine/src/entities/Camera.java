@@ -20,11 +20,12 @@ public class Camera extends BasicEntity {
 	//private float dx, dy, dz;
 	
 	public Camera() {
-		super(0, 0, -20, 0, 0, 0, 1);
-		//init3DProjection();
+		super(0, 0, -20, 45, 0, 0, 1);
+		init3DProjection();
 	}
 	
 	public void init3DProjection(){
+		//GL11.glEnable(GL11.GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		
@@ -37,24 +38,17 @@ public class Camera extends BasicEntity {
 	
 	public void init2DProjection(){
 		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_SMOOTH);        
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);                    
- 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);                
+              
 		glClearDepth(1);                                       
         
         
         
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		 
-//		glMatrixMode(GL_PROJECTION);
-//		glLoadIdentity();
-//		glOrtho(0.0f,Display.getWidth(),Display.getHeight(), 0.0f, 0.0f, 1.0f);
-//		glMatrixMode(GL_MODELVIEW);
-//		glLoadIdentity();
 		
         GL11.glViewport(0,0,Display.getWidth(),Display.getHeight());
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -64,6 +58,9 @@ public class Camera extends BasicEntity {
 		GL11.glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		
 	}
 	
 	public void useView(){

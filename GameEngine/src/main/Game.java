@@ -54,16 +54,17 @@ public class Game extends JFrame{
 			Input.update(camera, null);
 			rmenu.useOptions();
 				
-			Renderer.clearScreen();
+			Renderer.clearScreen(rmenu);
 			//toto by sa dalu urËite upraviù nejako
-			GL11.glClearColor((float)rmenu.BGRed.getValue()/255,(float)rmenu.BGGreen.getValue()/255,(float)rmenu.BGBlue.getValue()/255, 1.0f);
-			glLoadIdentity();
+			
+			
 			camera.init3DProjection();
 			camera.useView();
 			mapa.draw();
+			
+			
 			//tu sa aû kreslÌ;
-			camera.init2DProjection();
-			logs.update();
+			//logs.update();
 			
 			window.update();
 			

@@ -23,15 +23,15 @@ public class Input {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
-			camera.setRy(camera.getRy()-Camera.ROTATION_SPEED);
+			camera.rotate(0, -Camera.ROTATION_SPEED, 0);
 		if(Keyboard.isKeyDown(Keyboard.KEY_E))
-			camera.setRy(camera.getRy()+Camera.ROTATION_SPEED);
+			camera.rotate(0, Camera.ROTATION_SPEED, 0);
 		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_ADD))
-//			camera.setY(camera.getY()-rotationSpeed);
-//		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT))
-//			camera.setY(camera.getY()+rotationSpeed);
-//		
+		if(Keyboard.isKeyDown(Keyboard.KEY_ADD))
+			camera.move(0, -Camera.MOVE_SPEED, 0);
+		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT))
+			camera.move(0, Camera.MOVE_SPEED, 0);
+		
 //		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 //			int speed = 4;
 //			float angle = camera.getRy()%360;

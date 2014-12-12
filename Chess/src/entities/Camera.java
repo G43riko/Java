@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
-public class Camera {
+public class Camera{
 	private float x;
 	private float y;
 	private float z;
@@ -43,11 +43,8 @@ public class Camera {
 	private void initProjection(){
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(this.fov,this.aspect,this.near,this.far);
+		gluPerspective(fov,aspect,near,far);
 		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_DEPTH);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_DEPTH_TEST);
 	}
 	
 	public void useView(){

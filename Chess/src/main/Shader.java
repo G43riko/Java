@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL20;
 
 public class Shader {
 	private int shaderProgram;
@@ -33,10 +34,12 @@ public class Shader {
 	}
 	
 	public void cleanUp(){
+		GL20.glDetachShader(shaderProgram, vertexShader);
+		GL20.glDetachShader(shaderProgram, fragmentShader);
 		glDeleteProgram(shaderProgram);
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
-		Display.destroy();
+		//Display.destroy();
 	}
 
 }

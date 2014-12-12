@@ -27,7 +27,7 @@ public class Renderer {
 	
 	public static void initGraphics(){
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
-		
+		System.out.println("ide tooo");
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);

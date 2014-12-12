@@ -14,5 +14,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/ibxm.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/slick-util/lib/lwjgl_util_applet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

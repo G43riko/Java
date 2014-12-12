@@ -1,5 +1,10 @@
 package menus;
 
+import static org.lwjgl.opengl.GL11.GL_FILL;
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
+import static org.lwjgl.opengl.GL11.GL_LINE;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -31,7 +36,7 @@ public class RMenu extends JPanel{
 	public void init() {
 		setLayout(new FlowLayout());
 		a = createCheckBox("Vsyc",Main.VSYNC);
-		b = createCheckBox("Wireframe",true);
+		b = createCheckBox("Wireframe",false);
 		c = createCheckBox("Textures",true);
 		d = createCheckBox("Mipmapping",true);
 		e = createCheckBox("Logs",true);
@@ -69,11 +74,28 @@ public class RMenu extends JPanel{
 		return new Color(BGRed.getValue(),BGGreen.getValue(),BGBlue.getValue());
 	}
 	
+	public boolean isActive(String what){
+		switch(what){
+			case "b":
+				return b.isSelected();
+			default:
+				return false;
+		}
+	}
+	
 	private JCheckBox createCheckBox(String name, boolean selected){
 		JCheckBox novy = new JCheckBox(name);
 		novy.setSelected(selected);
 	    add(novy);
 		return novy;
+	}
+
+	public void useOptions() {
+		if(b.isSelected())
+			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		
 	}
 
 }

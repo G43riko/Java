@@ -17,10 +17,21 @@ public class Map {
 		for(i=0 ; i<numX ; i++){
 			for(k=0 ; k<numZ ; k++){
 				for(j=0 ; j<half ; j++){
-					mapa[i][j][k] = new Block(i*Block.WIDTH,j*Block.HEIGHT, k*Block.DEPTH,1);
+					mapa[i][j][k] = new Block(i*Block.WIDTH*2,j*Block.HEIGHT*2, k*Block.DEPTH*2,1);
 				}
 				for( ; j<numY ; j++){
-					mapa[i][j][k] = new Block(i*Block.WIDTH,j*Block.HEIGHT, k*Block.DEPTH);
+					mapa[i][j][k] = new Block(i*Block.WIDTH*2,j*Block.HEIGHT*2, k*Block.DEPTH*2);
+				}
+			}
+		}
+	}
+
+	public void draw() {
+		for(Block[][] a:mapa){
+			for(Block[] b:a){
+				for(Block c:b){
+					if(c.getType()!=0)
+						c.draw();
 				}
 			}
 		}

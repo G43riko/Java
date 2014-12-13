@@ -19,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 import entities.Camera;
 import renderers.Renderer;
 import terrains.Map;
+import tests.vbo.StaticShader;
 import utils.Logs;
 import menus.RMenu;
 import menus.BMenu;
@@ -35,6 +36,7 @@ public class Game extends JFrame{
 	private Map mapa = null;
 	private Camera camera = null;
 	
+	
 	public void init(){
 		createFrame();
 		Renderer.initGraphics();
@@ -43,6 +45,7 @@ public class Game extends JFrame{
 		
 		mapa = new Map(10,5,10);
 		mapa.initDefaultMap();
+		
 		
 		
 		logs = new Logs();

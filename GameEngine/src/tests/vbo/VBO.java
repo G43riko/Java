@@ -2,6 +2,8 @@ package tests.vbo;
 
 import org.lwjgl.opengl.Display;
 
+import utils.FileLoader;
+
 public class VBO {
 	public static void main(String[] args){
 		DisplayManager.createDisplay();
@@ -20,10 +22,10 @@ public class VBO {
 //				-0.5f,  0.5f,  0f
 //		};
 		float[] vertices = {
-				-0.5f,  0.5f,  0f,
-				-0.5f, -0.5f,  0f,
-				 0.5f, -0.5f,  0f,
-				 0.5f,  0.5f,  0f
+				-0.5f,  0.5f,  0f,//v1
+				-0.5f, -0.5f,  0f,//v2
+				 0.5f, -0.5f,  0f,//v3
+				 0.5f,  0.5f,  0f //v4
 		};
 		
 		int[] indices = {
@@ -31,13 +33,22 @@ public class VBO {
 			3,1,2
 		};
 		
-		RawModel model = loader.loadToVAO(vertices,indices);
+		float[]textureCoords = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		
+		RawModel model = loader.loadToVAO(vertices, textureCoords,indices);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("dirt.jpg"));
+		TexturedModel textureModel = new TexturedModel(model,texture);
 		
 		while(!Display.isCloseRequested()){
 			renderer.prepare();
 			
 			shader.start();
-			renderer.render(model);
+			renderer.render(textureModel);
 			shader.stop();
 			
 			DisplayManager.updateDisplay();

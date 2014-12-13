@@ -15,7 +15,11 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.TextureLoader;
 
 public class Loader {
-	
+	/*
+	 * posiela veci na vypoËet
+	 * upravuje udaje aby ich bolo moûne spracovaù
+	 * 
+	 */
 	private ArrayList<Integer> vaos = new ArrayList<Integer>();
 	private ArrayList<Integer> vbos = new ArrayList<Integer>();
 	private ArrayList<Integer> textures = new ArrayList<Integer>();
@@ -30,20 +34,32 @@ public class Loader {
 //		return new RawModel(vaoID,indices.length);
 //	}
 	
-	public RawModel loadToVAO(float[] positions,  int[] indices){
+	
+	public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices){
+		/*
+		 * spracuje udaje a vytvor˝ raw model s udajami o bodoch, indÌci·ch, norm·lach, a text˙rach
+		 */
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0,3,positions);
+		storeDataInAttributeList(1,2,textureCoords);
 		unbindVAO();
 		return new RawModel(vaoID,indices.length);
 	}
 
+	
 	public int loadTexture(String filename){
+		/*
+		 * naËÌta texturu
+		 * //prid· ju do zoznamu text˙r
+		 * nastav˝ jej mipmapping
+		 * vr·ti jej id
+		 */
 		String[] splitArray = filename.split("\\.");
 		String ext = splitArray[splitArray.length-1];
 		int id = 0;
 		try{
-			id = TextureLoader.getTexture(ext, new FileInputStream(new File("res/"+filename))).getTextureID();
+			id = TextureLoader.getTexture(ext, new FileInputStream(new File("res/textures/"+filename))).getTextureID();
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
@@ -55,7 +71,11 @@ public class Loader {
 		return id;
 	}
 	
+	
 	public void cleanUp(){
+		/*
+		 * vymaûe vöetky uloûenÈ veci v pam‰ti
+		 */
 		for(int vao:vaos){
 			GL30.glDeleteVertexArrays(vao);
 		}
@@ -68,6 +88,9 @@ public class Loader {
 	}
 	
 	private int createVAO(){
+		/*
+		 * vytvor˝ miesto pre vao
+		 */
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
 		GL30.glBindVertexArray(vaoID);
@@ -75,6 +98,9 @@ public class Loader {
 	}
 	
 	private void storeDataInAttributeList(int AttributeNumber, int coordinateSize, float[] data){
+		/*
+		 * uklad· d·ta niekde 
+		 */
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -97,6 +123,9 @@ public class Loader {
 	}
 	
 	private IntBuffer storeDataInIntBuffer(int[] data){
+		/*
+		 * premenÌ pole na intBuffer ktor˝ je moûne poslaù do gpu
+		 */
 		IntBuffer buffer =	BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();
@@ -104,6 +133,9 @@ public class Loader {
 	}
 	
 	private FloatBuffer storeDataInFloatBuffer(float[] data){
+		/*
+		 * premenÌ pole na floatBuffer ktor˝ je moûne poslaù do gpu
+		 */
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();

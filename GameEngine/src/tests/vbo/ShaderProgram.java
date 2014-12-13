@@ -26,8 +26,8 @@ public abstract class ShaderProgram {
 	private int fragmentShaderID;
 	
 	public ShaderProgram(String vertexFile,String fragmentFile){
-		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile,GL20.GL_FRAGMENT_SHADER);
+		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
 		
 		programID = glCreateProgram();
 		
@@ -68,7 +68,7 @@ public abstract class ShaderProgram {
 			BufferedReader reader = new BufferedReader(new FileReader("res/shaders/"+fileName));
 			String line;
 			while((line = reader.readLine())!=null){
-				source.append(line);
+				source.append(line).append("\n");
 			}
 			reader.close();
 		}catch(IOException e){
@@ -80,8 +80,8 @@ public abstract class ShaderProgram {
 		glShaderSource(shader,source);
 		glCompileShader(shader);
 		if(glGetShaderi(shader,GL_COMPILE_STATUS)==GL_FALSE){
+			System.out.println(GL20.glGetShaderInfoLog(shader, 500));
 			System.out.println("shader "+fileName+" nebol skompilovany");
-			Display.destroy();
 			System.exit(1);
 		}
 		

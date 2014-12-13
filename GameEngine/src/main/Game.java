@@ -5,65 +5,94 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import entities.Camera;
 import renderers.Renderer;
+import shaders.StaticShader;
+import shapes.twoDimensional.Squad;
 import terrains.Map;
-import tests.vbo.StaticShader;
+import textures.ModelTexture;
+import utils.FileLoader;
 import utils.Logs;
 import menus.RMenu;
 import menus.BMenu;
+import menus.TMenu;
+import models.RawModel;
+import models.TexturedModel;
 
 public class Game extends JFrame{
 	public static boolean mipMapping = true;
 	
 	private RMenu rmenu = null;
 	private BMenu bmenu = null;
+	private TMenu tmenu = null;
 	private Window window = null;
 	private Canvas canvas = null;
 	private JPanel contentPanel = null;
+	private Loader loader = null;
+	private Renderer renderer = null;
 	private Logs logs = null;
 	private Map mapa = null;
 	private Camera camera = null;
+	private StaticShader shader = null;
 	
+	private TexturedModel textureModel = null;
 	
 	public void init(){
 		createFrame();
 		Renderer.initGraphics();
 		
-		camera = new Camera();
 		
-		mapa = new Map(10,5,10);
-		mapa.initDefaultMap();
+		loader  = new Loader();
+		renderer = new Renderer();
+		shader = new StaticShader();
+
+		
+		RawModel model = Squad.getModel(loader, 1, 1);
+		System.out.println("toto ide");
+		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
+		System.out.println("toto ide");
+		textureModel = new TexturedModel(model,texture);
+		
+		//camera = new Camera();
+		
+		//mapa = new Map(10,5,10);
+		//mapa.initDefaultMap();
 		
 		
 		
-		logs = new Logs();
+		//logs = new Logs();
 	}
 	
 	public void mainLoop(){
 		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			
-			Input.update(camera, null);
-			rmenu.useOptions();
-				
+			//Input.update(camera, null);
+			//rmenu.useOptions();
 			Renderer.clearScreen(rmenu);
+			
+			shader.start();
+			renderer.render(textureModel);
+			shader.stop();
 			//toto by sa dalu urËite upraviù nejako
 			
 			
-			camera.init3DProjection();
-			camera.useView();
-			mapa.draw();
+			//camera.init3DProjection();
+			//camera.useView();
+			//mapa.draw();
 			
 			
 			//tu sa aû kreslÌ;
@@ -77,13 +106,11 @@ public class Game extends JFrame{
 	private void createFrame(){
 		initFrame();
 		
-		createContentPanel();
-		add(contentPanel);
-		
+		add(createContentPanel());
 		contentPanel.updateUI();
 		window = new Window(canvas);
 	};
-	
+
 	public void cleanUp(){
 		window.cleanUp();
 		System.exit(0);
@@ -105,10 +132,14 @@ public class Game extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	};
 	
-	private void createContentPanel(){
+	
+	private JPanel createContentPanel(){
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.red);
+		
+		tmenu = new TMenu();
+		contentPanel.add(tmenu,BorderLayout.NORTH);
 		
 		bmenu = new BMenu();
 		bmenu.init();
@@ -120,6 +151,8 @@ public class Game extends JFrame{
 		
 		canvas = new Canvas();
 		contentPanel.add(canvas,BorderLayout.CENTER);
+		
+		return contentPanel;
 	};
 	
 }

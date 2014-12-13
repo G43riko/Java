@@ -1,4 +1,4 @@
-package tests.vbo;
+package shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
 

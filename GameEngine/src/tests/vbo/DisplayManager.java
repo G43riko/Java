@@ -14,7 +14,7 @@ public class DisplayManager {
 	private static final boolean FULLSCREEN = false;
 	
 	public static void createDisplay(){
-		ContextAttribs attribs = new ContextAttribs(3,0).withForwardCompatible(true);//.withProfileCore(true);
+		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		if(FULLSCREEN){
 			try {
 				Display.setDisplayMode(Display.getDesktopDisplayMode());

@@ -9,8 +9,6 @@ public abstract class BasicEntity {
 	protected float rx, ry, rz;
 	protected float scale;
 	
-	
-	
 	public BasicEntity(float x, float y, float z, float rx, float ry, float rz, float scale) {
 		this.x = x;
 		this.y = y;

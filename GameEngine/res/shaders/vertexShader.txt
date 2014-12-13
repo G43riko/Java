@@ -2,12 +2,44 @@
 
 in vec3 position;
 in vec2 textureCoords;
+in vec3 normal;
 
 out vec2 pass_textureCoords;
+out vec3 surfaceNormal;
+out vec3 toLightVector;
+out vec3 toCameraVector;
 
 uniform mat4 transformationMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+uniform vec3 lightPosition;
 
 void main(void){
-	gl_Position = vec4(position,1.0);
+	/*
+	 *worldPosition je vlasntne umiesnie každeho bodu po posuvanie objektu
+	 */ 
+	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
+	
+	
+	/*
+	 * vynasbý projekènú maticu s maticov pohladu s poziciou bodou vo svete
+	 * dostaneme suradnicu každeho bodu pre zobrazenie na monitore
+	 */ 
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 	pass_textureCoords = textureCoords;
+	
+	/*
+	 * kedže hýbeme objektom aj jeho normálu vynasobime transformaènou maticou
+	 */
+	surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
+	 
+	/*
+	 * uhol medzy normálov a svetlo urèuje ako intenzívne ovplivnuje svetlo farbu normaly
+	 */
+	toLightVector = lightPosition - worldPosition.xyz;
+	 
+	/*
+	 * vypoèíta vektor od bodu ku kamere
+	 */ 
+	toCameraVector = (inverse(viewMatrix) * vec4(0,0,0,1)).xyz - worldPosition.xyz;
 }

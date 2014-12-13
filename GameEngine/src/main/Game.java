@@ -18,15 +18,21 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
+import entities.Camerka;
+import entities.Entity;
 import renderers.Renderer;
 import shaders.StaticShader;
+import shapes.threeDimensional.Box;
 import shapes.twoDimensional.Squad;
 import terrains.Map;
 import textures.ModelTexture;
 import utils.FileLoader;
 import utils.Logs;
+import utils.OBJLoader;
+import lights.Light;
 import menus.RMenu;
 import menus.BMenu;
 import menus.TMenu;
@@ -47,9 +53,11 @@ public class Game extends JFrame{
 	private Logs logs = null;
 	private Map mapa = null;
 	private Camera camera = null;
+	private Camerka camerka = null;
 	private StaticShader shader = null;
+	private Light light = null;
 	
-	private TexturedModel textureModel = null;
+	private Entity entity = null;
 	
 	public void init(){
 		createFrame();
@@ -59,14 +67,18 @@ public class Game extends JFrame{
 		loader  = new Loader();
 		renderer = new Renderer();
 		shader = new StaticShader();
-
+		camerka = new Camerka(shader);
 		
-		RawModel model = Squad.getModel(loader, 1, 1);
-		System.out.println("toto ide");
-		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
-		System.out.println("toto ide");
+		RawModel model = OBJLoader.loadObjModel("dragon", loader);
+		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("stall.png"));
+//		texture.setShineDamper(10);
+//		texture.setReflectivity(1);
+		
+		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
+		entity = new Entity(textureModel,0,-1,0,0,0,0,0.5f);
 		
+		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
 		//camera = new Camera();
 		
 		//mapa = new Map(10,5,10);
@@ -81,11 +93,15 @@ public class Game extends JFrame{
 		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			
 			//Input.update(camera, null);
-			//rmenu.useOptions();
+			rmenu.useOptions();
 			Renderer.clearScreen(rmenu);
-			
+			camerka.move();
+			entity.rotate(0, 1, 0);
 			shader.start();
-			renderer.render(textureModel);
+			shader.loadLight(light);
+			shader.loadViewMatrix(camerka);
+			renderer.render(entity,shader);
+			
 			shader.stop();
 			//toto by sa dalu urËite upraviù nejako
 			

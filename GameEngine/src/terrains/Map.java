@@ -30,8 +30,8 @@ public class Map {
 		for(Block[][] a:mapa){
 			for(Block[] b:a){
 				for(Block c:b){
-					if(c.getType()!=0)
-						c.draw();
+//					if(c.getType()!=0)
+//						c.draw();
 				}
 			}
 		}

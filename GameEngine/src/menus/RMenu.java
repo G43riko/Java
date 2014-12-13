@@ -17,8 +17,9 @@ import javax.swing.event.ChangeListener;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL20.*;
 
+import renderers.Renderer;
+import static org.lwjgl.opengl.GL20.*;
 import main.Game;
 import main.Main;
 
@@ -104,7 +105,7 @@ public class RMenu extends JPanel{
 
 	public void useOptions() {
 		//a - VSYNC
-		Display.setVSyncEnabled(a.isSelected());
+		//Display.setVSyncEnabled(a.isSelected());
 		
 		//b - WIREFRAME
 		if(b.isSelected())
@@ -113,6 +114,12 @@ public class RMenu extends JPanel{
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		
 		//c - TEXTURES
+//		c.addChangeListener(new ChangeListener(){
+//			public void stateChanged(ChangeEvent arg0) {
+//				Renderer.change(GL_TEXTURE_2D);
+//			}
+//			
+//		});
 		if(c.isSelected())
 			glEnable(GL_TEXTURE_2D);
 		else

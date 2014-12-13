@@ -14,8 +14,7 @@ public class Entity extends BasicEntity{
 	
 	public Entity(TexturedModel model,float x, float y, float z, float rx, float ry, float rz, float scale) {
 		super(x, y, z, rx, ry, rz, scale);
-		model = model;
-		// TODO Auto-generated constructor stub
+		this.model = model;
 	}
 
 	public TexturedModel getModel() {

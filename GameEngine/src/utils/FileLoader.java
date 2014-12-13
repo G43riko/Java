@@ -26,7 +26,8 @@ public class FileLoader {
 	public static int textureLoader(String fileName){
 		try {
 			int id = -1;
-			Texture tex = TextureLoader.getTexture("jpg", new FileInputStream(new File("res/textures/"+fileName)));
+			String[] format = fileName.split("\\.");
+			Texture tex = TextureLoader.getTexture(format[1], new FileInputStream(new File("res/textures/"+fileName)));
 			id = tex.getTextureID();
 			if(Game.mipMapping){
 				GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);

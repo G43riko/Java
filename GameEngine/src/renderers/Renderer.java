@@ -25,7 +25,13 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
+import shaders.StaticShader;
+import textures.ModelTexture;
+import utils.Maths;
+import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
 import menus.RMenu;
@@ -47,8 +53,8 @@ public class Renderer {
 		
 		glEnable(GL_DEPTH_TEST);
 //		glFrontFace(GL_CW);
-//		glCullFace(GL_BACK);
-//		glEnable(GL_CULL_FACE);
+		glEnable(GL11.GL_CULL_FACE);
+		glCullFace(GL11.GL_BACK);
 		glEnable(GL_DEPTH);
 		glEnable(GL_DEPTH_TEST);
 //		glEnable(GL_FRAMEBUFFER_SRGB);
@@ -65,19 +71,29 @@ public class Renderer {
 		}
 	}
 	
-	public void render(TexturedModel texturedModel){
+	public void render(Entity entity,StaticShader shader){
+		TexturedModel texturedModel = entity.getModel();
 		RawModel model = texturedModel.getRawModel();
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);//pre x,y,z - pos. suradnice
-		GL20.glEnableVertexAttribArray(1);//pre x,y - texturu
+		GL20.glEnableVertexAttribArray(1);//pre u,v - texturu
+		GL20.glEnableVertexAttribArray(2);//x,y,z - pre normálu
 		//GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
 		
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(entity.getX(),entity.getY(),entity.getZ()), 
+																		 entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
+		shader.loadTransformationMatrix(transformationMatrix);
 		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+		ModelTexture texture = texturedModel.getTexture();
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());//pripojí textúru
+		
+		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);//vykreslí model
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 	

@@ -90,4 +90,12 @@ public abstract class BasicEntity {
 	public void setRz(float rz) {
 		this.rz = rz;
 	}
+
+	public float getScale() {
+		return scale;
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
 }

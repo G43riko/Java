@@ -71,9 +71,6 @@ public class Game extends JFrame{
 		
 		RawModel model = OBJLoader.loadObjModel("dragon", loader);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("stall.png"));
-//		texture.setShineDamper(10);
-//		texture.setReflectivity(1);
-		
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
 		entity = new Entity(textureModel,0,-1,0,0,0,0,0.5f);

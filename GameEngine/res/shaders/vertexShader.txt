@@ -7,7 +7,6 @@ in vec3 normal;
 out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
-out vec3 toCameraVector;
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
@@ -37,9 +36,5 @@ void main(void){
 	 * uhol medzy normálov a svetlo urèuje ako intenzívne ovplivnuje svetlo farbu normaly
 	 */
 	toLightVector = lightPosition - worldPosition.xyz;
-	 
-	/*
-	 * vypoèíta vektor od bodu ku kamere
-	 */ 
-	toCameraVector = (inverse(viewMatrix) * vec4(0,0,0,1)).xyz - worldPosition.xyz;
+
 }

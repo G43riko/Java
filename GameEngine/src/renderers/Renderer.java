@@ -74,23 +74,28 @@ public class Renderer {
 	public void render(Entity entity,StaticShader shader){
 		TexturedModel texturedModel = entity.getModel();
 		RawModel model = texturedModel.getRawModel();
+		
+		//bind cube
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);//pre x,y,z - pos. suradnice
 		GL20.glEnableVertexAttribArray(1);//pre u,v - texturu
 		GL20.glEnableVertexAttribArray(2);//x,y,z - pre normálu
-		//GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
 		
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(entity.getX(),entity.getY(),entity.getZ()), 
 																		 entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
 		
 		ModelTexture texture = texturedModel.getTexture();
-		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		
+		//load shine variables
+		//shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+		
+		//bind texture
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());//pripojí textúru
-		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);//vykreslí model
+		
+		//unbind cube
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);

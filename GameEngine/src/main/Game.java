@@ -61,6 +61,8 @@ public class Game extends JFrame{
 	
 	public void init(){
 		createFrame();
+		
+		System.out.println(Display.getHeight());
 		Renderer.initGraphics();
 		
 		

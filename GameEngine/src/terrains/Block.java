@@ -1,25 +1,35 @@
 package terrains;
 
 
+import main.Loader;
+import models.RawModel;
+import models.TexturedModel;
+
 import org.lwjgl.util.vector.Vector3f;
 
+import entities.Entity;
+import textures.ModelTexture;
 import utils.FileLoader;
+import utils.OBJLoader;
 
-public class Block{
-	public static int WIDTH = 3;
-	public static int HEIGHT = 1;
-	public static int DEPTH = 3;
+public class Block extends Entity{
+	public static int WIDTH = 9;
+	public static int HEIGHT = 3;
+	public static int DEPTH = 9;
 	private int type;
-	private static int[] textures = new int[]{0,FileLoader.textureLoader("dirt.jpg")};
+	private static RawModel model;
+	private static ModelTexture[] textures = new ModelTexture[]{
+		new ModelTexture(FileLoader.textureLoader("dirt.jpg")),
+		new ModelTexture(FileLoader.textureLoader("stall.png"))
+	};
 	
 	public Block(float x, float y, float z,int type){
-//		this.x = x;
-//		this.y = y;
-//		this.z = z;
-//		this.type = type;
-//		this.setTexture(-1);
-//		this.setTexture(textures[type]);
-//		this.setRepeat(true);
+		super(new TexturedModel(model,textures[type]), x, y, z, 0, 0, 0, 1);
+	}
+	
+
+	public static void init(Loader loader){
+		model = OBJLoader.loadObjModel("stall", loader);
 	}
 	
 	public Block(float x, float y, float z) {

@@ -1,5 +1,10 @@
 package terrains;
 
+import entities.Entity;
+import renderers.Renderer;
+import shaders.StaticShader;
+import main.Loader;
+
 public class Map {
 	private Block[][][] mapa;
 	private int numX,numY,numZ;
@@ -11,7 +16,8 @@ public class Map {
 		mapa = new Block[x][y][z];
 	};
 	
-	public void initDefaultMap(){
+	public void initDefaultMap(Loader loader){
+		Block.init(loader);
 		int half = numY/2;
 		int i,j,k;
 		for(i=0 ; i<numX ; i++){
@@ -26,10 +32,11 @@ public class Map {
 		}
 	}
 
-	public void draw() {
+	public void draw(Renderer renderer, StaticShader shader) {
 		for(Block[][] a:mapa){
 			for(Block[] b:a){
 				for(Block c:b){
+					renderer.render(c, shader);
 //					if(c.getType()!=0)
 //						c.draw();
 				}

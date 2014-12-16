@@ -71,7 +71,7 @@ public class Game extends JFrame{
 		shader = new StaticShader();
 		camerka = new Camerka(shader);
 		
-		RawModel model = OBJLoader.loadObjModel("dragon", loader);
+		RawModel model = OBJLoader.loadObjModel("stall", loader);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("stall.png"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
@@ -80,8 +80,8 @@ public class Game extends JFrame{
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
 		//camera = new Camera();
 		
-		//mapa = new Map(10,5,10);
-		//mapa.initDefaultMap();
+		mapa = new Map(5,3,5);
+		mapa.initDefaultMap(loader);
 		
 		
 		
@@ -100,7 +100,7 @@ public class Game extends JFrame{
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
 			renderer.render(entity,shader);
-			
+			mapa.draw(renderer, shader);
 			shader.stop();
 			//toto by sa dalu urËite upraviù nejako
 			

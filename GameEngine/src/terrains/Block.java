@@ -29,7 +29,7 @@ public class Block extends Entity{
 	
 
 	public static void init(Loader loader){
-		model = OBJLoader.loadObjModel("stall", loader);
+		model = OBJLoader.loadObjModel("b", loader);
 	}
 	
 	public Block(float x, float y, float z) {

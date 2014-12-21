@@ -61,8 +61,6 @@ public class Game extends JFrame{
 	
 	public void init(){
 		createFrame();
-		
-		System.out.println(Display.getHeight());
 		Renderer.initGraphics();
 		
 		
@@ -80,7 +78,7 @@ public class Game extends JFrame{
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
 		//camera = new Camera();
 		
-		mapa = new Map(5,3,5);
+		mapa = new Map(10,4,10);
 		mapa.initDefaultMap(loader);
 		
 		
@@ -94,7 +92,7 @@ public class Game extends JFrame{
 			//Input.update(camera, null);
 			rmenu.useOptions();
 			Renderer.clearScreen(rmenu);
-			camerka.move();
+			camerka.update();
 			entity.rotate(0, 1, 0);
 			shader.start();
 			shader.loadLight(light);

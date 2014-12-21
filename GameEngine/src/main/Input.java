@@ -1,6 +1,7 @@
 package main;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import entities.Camera;
 import entities.Selector;
@@ -31,6 +32,8 @@ public class Input {
 			camera.move(0, -Camera.MOVE_SPEED, 0);
 		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT))
 			camera.move(0, Camera.MOVE_SPEED, 0);
+		
+		System.out.println(Mouse.isButtonDown(1));
 		
 //		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 //			int speed = 4;

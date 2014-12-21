@@ -12,6 +12,9 @@ public class Camerka {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	
+	public static final float ROTATION_SPEED = 0.6f;
+	public static final float MOVE_SPEED = 0.3f;
+	
 	private Matrix4f projectionMatrix;
 	
 	private Vector3f position = new Vector3f(0,0,0);
@@ -41,20 +44,74 @@ public class Camerka {
 		projectionMatrix.m33 = 0;
 	}
 
-	public void move(){
-		float speed = 0.2f;
+	public void update(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			position.z-=speed;
+			//position.z-=MOVE_SPEED;
+			goForward();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			position.z+=speed;
+			//position.z+=MOVE_SPEED;
+			goBack();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			position.x+=speed;
+			//position.x+=MOVE_SPEED;
+			goRight();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			position.x-=speed;
+			//position.x-=MOVE_SPEED;
+			goLeft();
 		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+			yaw-=ROTATION_SPEED;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+			yaw+=ROTATION_SPEED;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			goUp();
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			goDown();
+		}
+	}
+	
+	public void goForward(){
+		//move(-(float)Math.sin(Math.toRadians((yaw))), 0, (float)Math.cos(Math.toRadians((yaw))));
+		position.x += Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
+		position.z += -Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
+	}
+	
+	public void goBack(){
+		position.x -= Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
+		position.z -= -Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
+	}
+	
+	public void goLeft(){
+		position.z -= Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
+		position.x -= Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
+	}
+	
+	public void goRight(){
+		position.z += Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
+		position.x += Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
+	}
+	
+	public void goUp(){
+		move(0,MOVE_SPEED,0);
+	}
+	
+	public void goDown(){
+		move(0,-MOVE_SPEED,0);
+	}
+	
+	private void move(float x, float y, float z){
+		this.position.x += x;
+		this.position.y += y;
+		this.position.z += z;
 	}
 	
 	public Vector3f getPosition() {

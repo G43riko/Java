@@ -9,9 +9,10 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
 public class Game {
-	private Window window;
+	private Window window = null;
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private Map mapa;
+	public boolean wantNewGame = false;
 	
 	private void update(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
@@ -21,15 +22,22 @@ public class Game {
 			a.move(mapa.getMapa());
 			a.draw(g2);
 		}
+		if(wantNewGame){
+			init();
+		}
 	}
 	
 	public void init() {
+		units.clear();
 		mapa = new Map();
-		mapa.createRandomMap(1);
-		window = new Window(this);
-		for(int i=0 ; i<1000 ; i++){
-			units.add(new UnitA());
+		mapa.createRandomMap(20);
+		if(window == null)
+			window = new Window(this);
+		
+		for(int i=0 ; i<Integer.valueOf(window.numb.getText()) ; i++){
+			units.add(new UnitA(mapa.getMapa()));
 		}
+		wantNewGame = false;
 	}
 	
 	public void loop(){
@@ -50,5 +58,5 @@ public class Game {
 		for(Unit a:units){
 			((UnitA)a).setDirToTarger(t);
 		}
-	};
+	}
 }

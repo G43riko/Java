@@ -20,9 +20,10 @@ public abstract class Unit {
 			dir.setY(dir.getY()*-1);
 		}
 		Vector2f act = new Vector2f(pos.getX()/Map.size,pos.getY()/Map.size);
-		if(blocks[(int)act.getX()][(int)act.getY()].getType()==1){
-			
-		}
+		if(Map.exist((int)act.getX(), (int)act.getY(), blocks))
+			if(blocks[(int)act.getX()][(int)act.getY()].getType()==1){
+				this.dir.mul(-1);
+			}
 	};
 	
 	public void draw(Graphics2D g2){

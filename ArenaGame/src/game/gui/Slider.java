@@ -21,15 +21,16 @@ public class Slider extends JPanel{
 	private JSlider slider;
 	private JLabel label;
 	private Color backgroundColor;
-	private String value;
+	private String value,labelText;
 	private JPanel top;
-	private int maxValue, minValue;
+	private int maxValue = 1000, minValue = 0;
 	private int width, height;
 	
-	public Slider(){
-		maxValue = 1000;
-		minValue = 0;
-		backgroundColor = Color.green;
+	public Slider(String text, int maxValue,int actValue){
+		value = String.valueOf(actValue);
+		labelText = text;
+		this.maxValue = maxValue;
+		backgroundColor = Color.red;
 		width = 175;
 		height = 80;
 		setLayout(new BorderLayout());
@@ -50,14 +51,14 @@ public class Slider extends JPanel{
 	
 	private void initLabel(){
 		label = new JLabel();
-		label.setText("nepriatelov");
+		label.setText(labelText);
 		label.setPreferredSize(new Dimension(width/2,height/3));
 		top.add(label);
 	}
 	
 	private void initField(){
 		text = new JFormattedTextField(NumberFormat.getNumberInstance());
-		text.setText(String.valueOf(maxValue/2));
+		text.setText(value);
 		text.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==10){
@@ -72,7 +73,7 @@ public class Slider extends JPanel{
 	}
 	
 	private void initSlider(){
-		slider = new JSlider(JSlider.HORIZONTAL,minValue,maxValue, maxValue/2);
+		slider = new JSlider(JSlider.HORIZONTAL,minValue,maxValue, Integer.parseInt(value));
 		slider.setPreferredSize(new Dimension(width,height/2));
 		slider.setBackground(backgroundColor);
 		slider.setMajorTickSpacing(maxValue);
@@ -89,5 +90,10 @@ public class Slider extends JPanel{
 	
 	public int getValue(){
 		return Integer.valueOf(text.getText());
+	}
+
+	public void setDefaultValue(int i) {
+		slider.setValue(i);
+		text.setText(String.valueOf(i));
 	}
 }

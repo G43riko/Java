@@ -33,8 +33,8 @@ public class Map {
 		}
 	}
 	
-	public static boolean exist(int x, int y,Object[][] co){
-		if(x>=0&&x<co.length&&y>0&&y<co[x].length)
+	public static boolean exist(float x, float y,Object[][] co){
+		if(x>=0&&x<co.length&&y>=0&&y<co[(int)x].length)
 			return true;
 		return false;
 	}

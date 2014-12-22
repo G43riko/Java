@@ -17,7 +17,7 @@ public class Main extends JFrame{
 	public static boolean isRunning;
 	public static boolean fullScreen=true;
 	public static Mapa[][] map;
-	public static int block=5;
+	public static int block=40;
 	public static boolean onlyGoal,findGoal,removedPossibles;
 	public static int[] goal = null;
 	public static int[] start = null;

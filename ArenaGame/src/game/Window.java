@@ -2,6 +2,7 @@ package game;
 
 
 import game.gui.Slider;
+import game.gui.TwoFields;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -21,7 +22,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -33,8 +37,8 @@ public class Window extends JFrame {
 	private Canvas canvas;
 	private Keyboard keyboard = new Keyboard();
 	private Mouse mouse;
-	private JSlider number;
-	public JFormattedTextField numb;
+	public Slider enemyNum,blocksNum;
+	public TwoFields enemySpeed, enemySize;
 	
 	public Window(Game game){
 		setSize(Index.WIDTH+200+6, Index.HEIGHT+28);
@@ -61,42 +65,53 @@ public class Window extends JFrame {
 		but.setPreferredSize(new Dimension(150,20));
 		menu.add(but);
 		
-		JLabel label = new JLabel();
-		label.setText("nepriatelov");
-		menu.add(label);
+//		JLabel label = new JLabel();
+//		label.setText("nepriatelov");
+//		menu.add(label);
+//		
+//		numb = new JFormattedTextField(NumberFormat.getNumberInstance());
+//		numb.setText("500");
+//		numb.addKeyListener(new KeyListener(){
+//			public void keyPressed(KeyEvent e) {
+//				if(e.getKeyCode()==10){
+//					number.setValue(Integer.valueOf(numb.getText()));
+//				}
+//			}
+//			public void keyReleased(KeyEvent e) {}
+//			public void keyTyped(KeyEvent e) {}
+//		});
+//		numb.setPreferredSize(new Dimension(40,20));
+//		menu.add(numb);
+//		
+//		
+//		int max = 1000;
+//		number = new JSlider(JSlider.HORIZONTAL,0,max, max/2);
+//		number.setPreferredSize(new Dimension(120,40));
+//		number.setBackground(menu.getBackground());
+//		number.setMajorTickSpacing(max);
+//		number.setMinorTickSpacing(0);
+//		number.setPaintTicks(true);
+//		number.setPaintLabels(true);
+//		number.addChangeListener(new ChangeListener(){
+//			public void stateChanged(ChangeEvent arg0) {
+//				numb.setText(String.valueOf(number.getValue()));
+//			}
+//		});
+//		menu.add(number);
 		
-		numb = new JFormattedTextField(NumberFormat.getNumberInstance());
-		numb.setText("500");
-		numb.addKeyListener(new KeyListener(){
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==10){
-					number.setValue(Integer.valueOf(numb.getText()));
-				}
-			}
-			public void keyReleased(KeyEvent e) {}
-			public void keyTyped(KeyEvent e) {}
-		});
-		numb.setPreferredSize(new Dimension(40,20));
-		menu.add(numb);
+		enemyNum = new Slider("Nepriatelov",1000,5); 
+		menu.add(enemyNum);
+		
+		blocksNum = new Slider("políèok",99,30);
+		menu.add(blocksNum);
+		
+		enemySpeed = new TwoFields("rychlost",6,10);
+		menu.add(enemySpeed);
+		
+		enemySize = new TwoFields("velkost",8,20);
+		menu.add(enemySize);
 		
 		
-		int max = 1000;
-		number = new JSlider(JSlider.HORIZONTAL,0,max, max/2);
-		number.setPreferredSize(new Dimension(120,40));
-		number.setBackground(menu.getBackground());
-		number.setMajorTickSpacing(max);
-		number.setMinorTickSpacing(0);
-		number.setPaintTicks(true);
-		number.setPaintLabels(true);
-		number.addChangeListener(new ChangeListener(){
-			public void stateChanged(ChangeEvent arg0) {
-				numb.setText(String.valueOf(number.getValue()));
-			}
-		});
-		menu.add(number);
-		
-		menu.add(new Slider());
-		menu.add(new Slider());
 		//contentPanel.add(menu, BorderLayout.EAST);
 		
 		JScrollPane scroll = new JScrollPane();

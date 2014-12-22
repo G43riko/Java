@@ -6,6 +6,7 @@ import java.awt.event.MouseMotionListener;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 	private Game game;
+	public static boolean leftDown = false;
 	public Mouse(Game game) {
 		this.game = game;
 	}
@@ -19,13 +20,12 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		game.setTarget(new Vector2f(e.getX(),e.getY()));
+		PathFinder.getDist(game.getMapa().getMapa(), new Vector2f(0,0), new Vector2f(e.getX()/Map.size, e.getY()/Map.size));
 	}
 
 	@Override

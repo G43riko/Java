@@ -29,13 +29,14 @@ public class Game {
 	
 	public void init() {
 		units.clear();
-		mapa = new Map();
-		mapa.createRandomMap(20);
 		if(window == null)
 			window = new Window(this);
 		
-		for(int i=0 ; i<Integer.valueOf(window.numb.getText()) ; i++){
-			units.add(new UnitA(mapa.getMapa()));
+		mapa = new Map();
+		mapa.createRandomMap(window.blocksNum.getValue());
+		
+		for(int i=0 ; i<window.enemyNum.getValue() ; i++){
+			units.add(new UnitA(mapa.getMapa(),window));
 		}
 		wantNewGame = false;
 	}
@@ -58,5 +59,9 @@ public class Game {
 		for(Unit a:units){
 			((UnitA)a).setDirToTarger(t);
 		}
+	}
+
+	public Map getMapa() {
+		return mapa;
 	}
 }

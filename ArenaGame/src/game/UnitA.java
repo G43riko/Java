@@ -4,9 +4,9 @@ import java.awt.Color;
 
 public class UnitA extends Unit{
 
-	public UnitA(Block[][] blocks){
+	public UnitA(Block[][] blocks, Window window){
 
-		this.radius = (float)Math.random()*8+5;
+		this.radius = window.enemySize.getValue();
 		
 		this.pos = new Vector2f((float)Math.random()*1240+20,(float)Math.random()*680+20);
 		Vector2f act = new Vector2f(pos.getX()/Map.size,pos.getY()/Map.size);
@@ -18,7 +18,7 @@ public class UnitA extends Unit{
 		
 		this.dir = new Vector2f((float)Math.random()*20-10,(float)Math.random()*20-10).getNormalize();
 		
-		this.speed = (float)Math.random()*3+2;
+		this.speed = window.enemySpeed.getValue();
 		
 		this.color = Color.GREEN;
 	}

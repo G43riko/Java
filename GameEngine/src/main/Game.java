@@ -69,8 +69,10 @@ public class Game extends JFrame{
 		shader = new StaticShader();
 		camerka = new Camerka(shader);
 		
-		RawModel model = OBJLoader.loadObjModel("stall", loader);
-		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("stall.png"));
+		//RawModel model = OBJLoader.loadObjModel("stall", loader);
+		//RawModel model = Squad.getModel(loader, 20, 20);
+		RawModel model = Box.getModel(loader, 20, 20,20);
+		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
 		entity = new Entity(textureModel,0,-1,0,0,0,0,0.5f);
@@ -98,7 +100,7 @@ public class Game extends JFrame{
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
 			renderer.render(entity,shader);
-			//mapa.draw(renderer, shader);
+			mapa.draw(renderer, shader);
 			shader.stop();
 			//toto by sa dalu urËite upraviù nejako
 			

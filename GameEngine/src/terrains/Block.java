@@ -32,8 +32,8 @@ public class Block extends Entity{
 	
 
 	public static void init(Loader loader){
-		model = OBJLoader.loadObjModel("b", loader);
-		//model = Box.getModel(loader, 3, 1, 3);
+		//model = OBJLoader.loadObjModel("b", loader);
+		model = Box.getModel(loader, 3, 1, 3);
 	}
 	
 	public Block(float x, float y, float z) {

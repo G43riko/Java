@@ -19,7 +19,6 @@ public class Vector2f {
 	};
 	
 	public float dot(Vector2f v){
-		//vytvorí krížik s 2 vektorov;
         return x * v.getX() + y * v.getY();
     };
     

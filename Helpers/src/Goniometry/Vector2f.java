@@ -16,7 +16,8 @@ public class Vector2f {
 	public Vector2f(Vector2f v){
 		this.x = v.getX();
 		this.y = v.getY();
-	};	
+	};
+	
 	public float dot(Vector2f v){
 		//vytvorí krížik s 2 vektorov;
         return x * v.getX() + y * v.getY();
@@ -37,7 +38,7 @@ public class Vector2f {
 		return Math.min(this.x,this.y);
 	};
 	
-	public Vector2f getNormalize(){
+	public Vector2f normalize(){
 		//vráti nový normálový vektor
 		float dlzka=this.getLength();
 		float bx=this.x/dlzka;
@@ -45,7 +46,7 @@ public class Vector2f {
 		return new Vector2f(bx,by);
 	};
 	
-	public void normalize(){
+	public void normalizeThis(){
 		//normalizuje vektor
 		float dlzka=this.getLength();
 		this.x/=dlzka;
@@ -61,7 +62,17 @@ public class Vector2f {
 		return new Vector2f((x*cos-y*sin),(x*sin+y*cos));
 	}
 	
+	public void rotateThis(float angle){
+		float rad=(float)Math.toRadians(angle);
+		
+		float cos=(float)Math.cos(rad);
+		float sin=(float)Math.sin(rad);
+		this.x = (x*cos-y*sin);
+		this.y = (x*sin+y*cos);
+	}
+	
 	public float dist(Vector2f v){
+		//ako keby boly hodnoty suradnice
 		float dx = x - v.x;
 		float dy = y - v.y;
 		return (float)Math.sqrt(dx * dx + dy * dy);
@@ -70,6 +81,12 @@ public class Vector2f {
 	public Vector2f negate() {
         return new Vector2f(-x, -y);
     }
+	
+	public void negateThis(){
+		this.x *= -1;
+		this.y *= -1;
+	}
+	
 	public float angleBetween(Vector2f v) {
 		float dotProduct = dot(v);
 		float angle = (float)Math.acos(dotProduct);
@@ -78,32 +95,52 @@ public class Vector2f {
 	
 	public void add(Vector2f v){
 		//sèítanie
-		this.x+=v.getX();
-		this.y+=v.getY();
+		this.x += v.getX();
+		this.y += v.getY();
+	};
+	
+	public void add(float num){
+		//sèítanie
+		this.x += num;
+		this.y += num;
 	};
 	
 	public void sub(Vector2f v){
 		//odcitanie
-		this.x-=v.getX();
-		this.y-=v.getY();
+		this.x -= v.getX();
+		this.y -= v.getY();
 	};
 	
-	public void mul(float num){
-		this.x*=num;
-		this.y*=num;
+	public void sub(float num){
+		this.x -= num;
+		this.y -= num;
 	}
 	
 	public void mul(Vector2f v){
-		this.x*=v.getX();
-		this.y*=v.getY();
+		this.x *= v.getX();
+		this.y *= v.getY();
 	};
+	
+	public void mul(float num){
+		this.x *= num;
+		this.y *= num;
+	}
 	
 	public void div (Vector2f v){
-		this.x/=v.getX();
-		this.y/=v.getY();
+		this.x /= v.getX();
+		this.y /= v.getY();
 	};
 	
-	public void abs(){
+	public void div (float num){
+		this.x /= num;
+		this.y /= num;
+	};
+	
+	public Vector2f abs(){
+		return new Vector2f(Math.abs(this.x),Math.abs(this.y));
+	}
+	
+	public void absThis(){
 		this.x = Math.abs(this.x);
 		this.y = Math.abs(this.y);
 	}
@@ -130,8 +167,7 @@ public class Vector2f {
 	};
 	
 	public void set(Vector2f a){
-		this.x = a.getX();
-		this.y = a.getY();
+		set(a.getX(), a.getY());
 	};
 	
 	public String toString(){
@@ -165,6 +201,7 @@ public class Vector2f {
     }
 	
 	public boolean isInRect(float x, float y, float w, float h){
+		//èi sa vektor so hodnotaby ako suradnicami nachádza v štvorci
 		if(this.x > x && this.x < x + w && this.y > y && this.y < y + h){
 			return true;
 		}
@@ -182,6 +219,12 @@ public class Vector2f {
 	}
 	
 	public void move(double x, double y){
+		//asi zbytoèné
 		this.x += x;
 		this.y += y;
-	}}
+	}
+
+	public boolean equals(Vector3f v){
+		return x == v.getX() && y == v.getY();
+	};
+}

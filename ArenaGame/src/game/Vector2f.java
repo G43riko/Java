@@ -98,7 +98,11 @@ public class Vector2f {
 		this.y*=v.getY();
 	};
 	
-	public void div (Vector2f v){
+	public Vector2f div (float num){
+		return new Vector2f(x/num,y/num);
+	};
+	
+	public void divThis (Vector2f v){
 		this.x/=v.getX();
 		this.y/=v.getY();
 	};
@@ -189,5 +193,12 @@ public class Vector2f {
 	public void move(Vector2f dir){
 		this.x += dir.getX();
 		this.y += dir.getY();
+	}
+	
+	public boolean equals(Vector2f v){
+		if(v.getX()==x&&v.getY()==y){
+			return true;
+		}
+		return false;
 	}
 }

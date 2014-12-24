@@ -98,7 +98,7 @@ public class Game extends JFrame{
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
 			renderer.render(entity,shader);
-			mapa.draw(renderer, shader);
+			//mapa.draw(renderer, shader);
 			shader.stop();
 			//toto by sa dalu urèite upravi nejako
 			

@@ -99,7 +99,7 @@ public class Window extends JFrame {
 //		});
 //		menu.add(number);
 		
-		enemyNum = new Slider("Nepriatelov",1000,5); 
+		enemyNum = new Slider("Nepriatelov",1000,1); 
 		menu.add(enemyNum);
 		
 		blocksNum = new Slider("políèok",99,30);

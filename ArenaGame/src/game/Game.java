@@ -57,11 +57,22 @@ public class Game {
 
 	public void setTarget(Vector2f t) {
 		for(Unit a:units){
-			((UnitA)a).setDirToTarger(t);
+			((UnitA)a).addTarget(t);
 		}
 	}
 
 	public Map getMapa() {
 		return mapa;
+	}
+
+	public void everybodyCameHere(Vector2f vec) {
+		PathFinder.clear(mapa.getMapa());
+		PathFinder.getDist(mapa.getMapa(), new Vector2f(0,0), vec.div(Map.size));
+		//PathFinder.getDirection(mapa.getMapa());
+		for(Unit a:units){
+			a.clear();
+			a.fintPathTo(vec,mapa.getMapa());
+		}
+		
 	}
 }

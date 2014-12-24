@@ -142,7 +142,6 @@ public class Vector3f
 	public Vector2f GetXY() { return new Vector2f(m_x, m_y); }
 	public Vector2f GetYZ() { return new Vector2f(m_y, m_z); }
 	public Vector2f GetZX() { return new Vector2f(m_z, m_x); }
-
 	public Vector2f GetYX() { return new Vector2f(m_y, m_x); }
 	public Vector2f GetZY() { return new Vector2f(m_z, m_y); }
 	public Vector2f GetXZ() { return new Vector2f(m_x, m_z); }

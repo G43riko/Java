@@ -22,8 +22,4 @@ public class UnitA extends Unit{
 		
 		this.color = Color.GREEN;
 	}
-	
-	public void setDirToTarger(Vector2f t){
-		this.dir = new Vector2f(t.getX()-pos.getX(),t.getY()-pos.getY()).getNormalize();
-	}
 }

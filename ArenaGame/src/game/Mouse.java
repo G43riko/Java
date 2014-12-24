@@ -25,7 +25,8 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		PathFinder.getDist(game.getMapa().getMapa(), new Vector2f(0,0), new Vector2f(e.getX()/Map.size, e.getY()/Map.size));
+		game.everybodyCameHere(new Vector2f(e.getX(),e.getY()));
+		
 	}
 
 	@Override

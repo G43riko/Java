@@ -4,6 +4,15 @@ import java.awt.Graphics2D;
 
 public class Map {
 	public static final int size = 40;
+	public static final int[][] DIRECTIONS = new int[][]{new int[]{ 0, 0},
+														 new int[]{-1,-1},
+														 new int[]{-1, 0},
+														 new int[]{-1, 1},
+														 new int[]{ 0,-1},
+														 new int[]{ 0, 1},
+														 new int[]{ 1,-1},
+														 new int[]{ 1 ,0},
+														 new int[]{ 1 ,1}};
 	private Block[][] mapa;
 	private Vector2f num;
 	

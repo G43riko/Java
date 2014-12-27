@@ -133,6 +133,7 @@ public abstract class Unit {
 				if(!targets.isEmpty()){
 					setDirToTarget(targets.get(0));
 				}
+//				else this.radius = 0;
 			}
 		}
 		
@@ -171,13 +172,13 @@ public abstract class Unit {
 		g2.setColor(Color.BLACK);
 		g2.drawArc((int)(pos.getX()-radius), (int)(pos.getY()-radius), (int)radius*2, (int)radius*2, 0, 360);
 		
-//		g2.setColor(Color.red);
-//		if(!targets.isEmpty())
-//			g2.drawLine((int)pos.getX(), (int)pos.getY(), (int)targets.get(0).getX(), (int)targets.get(0).getY());
-//		
-//		for(int i=0 ; i+1<targets.size() ; i++){
-//			g2.drawLine((int)targets.get(i).getX(), (int)targets.get(i).getY(), (int)targets.get(i+1).getX(), (int)targets.get(i+1).getY());
-//		}
+		g2.setColor(Color.red);
+		if(!targets.isEmpty())
+			g2.drawLine((int)pos.getX(), (int)pos.getY(), (int)targets.get(0).getX(), (int)targets.get(0).getY());
+		
+		for(int i=0 ; i+1<targets.size() ; i++){
+			g2.drawLine((int)targets.get(i).getX(), (int)targets.get(i).getY(), (int)targets.get(i+1).getX(), (int)targets.get(i+1).getY());
+		}
 		
 		
 //		for(Vector2f bod:targets){

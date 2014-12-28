@@ -27,4 +27,10 @@ public class Light {
 	public void setColor(Vector3f color) {
 		this.color = color;
 	}
+	
+	public void move(float x, float y, float z){
+		this.position.x+=x;
+		this.position.y+=y;
+		this.position.z+=z;
+	}
 }

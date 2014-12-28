@@ -14,40 +14,6 @@ public abstract class Unit {
 	
 	private ArrayList<Vector2f> targets = new ArrayList<Vector2f>();
 	
-	public void fintPathToOldOld(Vector2f target,Block[][] mapa){
-		int[] actPos = new int[]{(int)pos.getX()/Map.size,(int)pos.getY()/Map.size};
-		int[] goal = new int[]{(int)target.getX()/Map.size,(int)target.getY()/Map.size};
-		boolean finding = true;
-		System.out.println("start: "+actPos[0]+" == "+goal[0]+" && "+actPos[1]+" == "+goal[1]);
-		if(mapa[actPos[0]][actPos[1]].getDistToGoal()==-1){
-			finding=false;
-		}
-		int q=0;
-		while(finding){
-			float[] shortest = new float[]{0,0,-1};
-			for(int i=-1 ; i<=1 ; i++){
-				for(int j=-1 ; j<=1 ; j++){
-					if(i==0&&j==0)
-						continue;
-					if(Map.exist(actPos[0]+i, actPos[1]+j, mapa)&&mapa[actPos[0]+i][actPos[1]+j].getDistToGoal()<shortest[2]||shortest[2]==-1){
-						actPos[0] = (actPos[0]+i);
-						actPos[1] = (actPos[1]+j);
-						shortest = new float[]{actPos[0],actPos[1],mapa[actPos[0]][actPos[1]].getDistToGoal()};
-					}
-				}
-			}
-			System.out.println(shortest[0]+" && "+shortest[1]+" == "+shortest[2]);
-			addTarget(new Vector2f(shortest[0]*Map.size+Map.size/2,shortest[1]*Map.size+Map.size/2));
-			if(actPos[0]==goal[0]&&actPos[1]==goal[1]){
-				finding = false;
-			}
-			q++;
-			if(q>=20){
-				finding = false;
-			}
-		}
-	}
-	
 	public void fintPathTo(Vector2f target,Block[][] mapa){
 		int[] actPos = new int[]{(int)pos.getX()/Map.size,(int)pos.getY()/Map.size};
 		int[] goal = new int[]{(int)target.getX()/Map.size,(int)target.getY()/Map.size};
@@ -57,6 +23,8 @@ public abstract class Unit {
 		}
 		while(finding){
 			int smer = mapa[actPos[0]][actPos[1]].getDir();
+//			if(mapa[actPos[0]][actPos[1]].dir2!=0&&Math.random()<0.5)
+//				smer = mapa[actPos[0]][actPos[1]].dir2;
 			if(smer==0){
 				break;
 			}
@@ -84,48 +52,7 @@ public abstract class Unit {
 		//stop();
 		setDirToTarget(targets.get(0));
 	}
-	
-	public void fintPathToOld(Vector2f target,Block[][] mapa){
-		int[] actPos = new int[]{(int)pos.getX()/Map.size,(int)pos.getY()/Map.size};
-		int[] goal = new int[]{(int)target.getX()/Map.size,(int)target.getY()/Map.size};
-		int num = (int)mapa[actPos[0]][actPos[1]].getDistToGoal(),q=0;
-		boolean finding = true;
-		if(mapa[actPos[0]][actPos[1]].getDistToGoal()<0){
-			return;
-		}
-		while(q<=num&&finding){
-			q++;
-			float[] shortest = new float[]{0,0,-1};
-			for(int i=-1 ; i<=1 ; i++){
-				for(int j=-1 ; j<=1 ; j++){
-					if((i==0&&j==0)||(!Map.exist(actPos[0]+i, actPos[1]+j, mapa))||(mapa[actPos[0]+i][actPos[1]+j].getType()!=0)){
-						continue;
-					}
-					if(mapa[actPos[0]+i][actPos[1]+j].getDistToGoal()<0){
-						continue;
-					}
-					if(i!=0&&j!=0){
-						if(Math.abs(mapa[actPos[0]][actPos[1]].getDistToGoal()-mapa[actPos[0]+i][actPos[1]+j].getDistToGoal())>=2){
-							continue;
-						}
-					}
-					if(mapa[actPos[0]+i][actPos[1]+j].getDistToGoal()<shortest[2]||shortest[2]==-1){
-						shortest = new float[]{actPos[0]+i,actPos[1]+j,mapa[actPos[0]+i][actPos[1]+j].getDistToGoal()};
-					}
-				}
-			}
-			actPos[0] = (int)shortest[0];
-			actPos[1] = (int)shortest[1];
-			Vector2f addable = new Vector2f(actPos[0]*Map.size+Map.size/2,actPos[1]*Map.size+Map.size/2);
-			targets.add(addable);
-			if(actPos[0]==goal[0]&&actPos[1]==goal[1]){
-				break;
-			}
-		}
-		targets.add(target);
-		stop();
-	}
-	
+
 	public void move(Block[][] blocks){
 		if(!targets.isEmpty()){
 			if(targets.get(0).dist(pos)<TARGET_DISTANCE){

@@ -67,41 +67,55 @@ public class Game extends JFrame{
 		loader  = new Loader();
 		renderer = new Renderer();
 		shader = new StaticShader();
-		camerka = new Camerka(shader);
 		
-		//RawModel model = OBJLoader.loadObjModel("stall", loader);
-		//RawModel model = Squad.getModel(loader, 20, 20);
-		RawModel model = Box.getModel(loader, 20, 20,20);
+		RawModel model = OBJLoader.loadObjModel("box", loader);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
 		entity = new Entity(textureModel,0,-1,0,0,0,0,0.5f);
 		
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
+		
+		
+		
 		//camera = new Camera();
 		
-		mapa = new Map(10,4,10);
+		mapa = new Map(15,4,15);
 		mapa.initDefaultMap(loader);
+		mapa.createTerrain();
+		rmenu.setMinimap(mapa.getTerrain());
 		
-		
+
+		camerka = new Camerka(shader);
 		
 		//logs = new Logs();
 	}
 	
 	public void mainLoop(){
 		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-			
-			//Input.update(camera, null);
-			rmenu.useOptions();
+			//Input.update(camera, null);	
 			Renderer.clearScreen(rmenu);
+			rmenu.useOptions();
+			rmenu.getMinimap().update();
+			
 			camerka.update();
+			bmenu.updateCameraWindow(camerka);
 			entity.rotate(0, 1, 0);
 			shader.start();
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
 			renderer.render(entity,shader);
 			mapa.draw(renderer, shader);
+
+//			shader.loadChangeColor(true);
+//			shader.loadColor(new Vector3f(1,0,1));
+//			glBegin(GL_LINES);
+//				glVertex3f(0, 0, 0);
+//				glVertex3f(0,20, 0);
+//			glEnd();
+//			shader.loadChangeColor(false);
 			shader.stop();
+			
 			//toto by sa dalu urËite upraviù nejako
 			
 			

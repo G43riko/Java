@@ -13,6 +13,7 @@ public class Game {
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private Map mapa;
 	public boolean wantNewGame = false;
+	private Player player;
 	
 	private void update(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
@@ -22,6 +23,8 @@ public class Game {
 			a.move(mapa.getMapa());
 			a.draw(g2);
 		}
+		player.move();
+		player.draw(g2);
 		if(wantNewGame){
 			init();
 		}
@@ -31,7 +34,7 @@ public class Game {
 		units.clear();
 		if(window == null)
 			window = new Window(this);
-		
+		player = new Player();
 		mapa = new Map();
 		mapa.createRandomMap(window.blocksNum.getValue());
 		

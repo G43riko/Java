@@ -9,15 +9,19 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JPanel;
 
+import terrains.Block;
+
 
 
 public class Minimap extends JPanel {
 	private Canvas canvas;
+	private Block[][] minimap = null;;
 	
 	public Minimap(int width){
 		setPreferredSize(new Dimension(width,width));
-		setBackground(Color.CYAN);
+		//setBackground(Color.CYAN);
 		canvas = new Canvas();
+		canvas.setPreferredSize(this.getPreferredSize());
 		add(canvas);
 	}
 	
@@ -34,9 +38,27 @@ public class Minimap extends JPanel {
 		
 		g.dispose();
 		buffer.show();
+
 	}
 
 	private void draw(Graphics2D g2) {
-		
+		if(minimap == null){
+			return;
+		}
+		g2.setColor(Color.CYAN);
+		g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		int numX = canvas.getWidth()/minimap.length;
+		int numY = canvas.getHeight()/minimap[0].length;
+		for(int i=0 ; i<minimap.length ; i++){
+			for(int j=0 ; j<minimap[i].length ; j++){
+				g2.setColor(Color.black);
+				g2.setColor((minimap[i][j].getY()==0)?Color.green:Color.red);
+				g2.fillRect(i*numX, j*numY, numX, numY);
+			}
+		}
+	}
+
+	public void setMinimap(Block[][] terrain) {
+		this.minimap = terrain;
 	}
 }

@@ -14,9 +14,9 @@ import utils.FileLoader;
 import utils.OBJLoader;
 
 public class Block extends Entity{
-	public static float WIDTH = 1;
-	public static float HEIGHT = 1f;
-	public static float DEPTH = 1;
+	public static float WIDTH = 1.1f;
+	public static float HEIGHT = 1.1f;
+	public static float DEPTH = 1.1f;
 	private int type;
 	private static RawModel model;
 	private static ModelTexture[] textures = new ModelTexture[]{
@@ -32,8 +32,8 @@ public class Block extends Entity{
 	
 
 	public static void init(Loader loader){
-		//model = OBJLoader.loadObjModel("b", loader);
-		model = Box.getModel(loader, 3, 1, 3);
+		model = OBJLoader.loadObjModel("box", loader);
+		//model = Box.getModel(loader, 3, 1, 3);
 	}
 	
 	public Block(float x, float y, float z) {

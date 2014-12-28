@@ -1,11 +1,17 @@
 package entities;
 
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex3f;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
+import terrains.Block;
 
 public class Camerka {
 	private static final float FOV = 70;
@@ -17,7 +23,7 @@ public class Camerka {
 	
 	private Matrix4f projectionMatrix;
 	
-	private Vector3f position = new Vector3f(0,0,0);
+	private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
 	private float pitch;
 	private float yaw;
 	private float roll;
@@ -27,6 +33,8 @@ public class Camerka {
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
+		pitch = 40;
+		//yaw = 135;
 	}
 	
 	private void createProjectionMatrix(){
@@ -76,6 +84,14 @@ public class Camerka {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			goDown();
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_ADD)){
+			pitch-=ROTATION_SPEED;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)){
+			pitch+=ROTATION_SPEED;
 		}
 	}
 	

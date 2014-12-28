@@ -90,6 +90,15 @@ public class PathFinder {
 									mapa[(int)k[0]+i][(int)k[1]+j].setDistToGoal(num);
 									mapa[(int)k[0]+i][(int)k[1]+j].setDir(direction);
 									act.add(new float[]{k[0]+i,k[1]+j,num,level+1});
+									if(mapa[(int)k[0]+i][(int)k[1]+j].dir2!=0){
+										mapa[(int)k[0]+i][(int)k[1]+j].dir2 = 0;
+									}
+								}
+								else if(num==mapa[(int)k[0]+i][(int)k[1]+j].getDistToGoal()){
+									if(mapa[(int)k[0]+i][(int)k[1]+j].dir2 == 0 || mapa[(int)k[0]+i][(int)k[1]+j].dir2<direction){
+										mapa[(int)k[0]+i][(int)k[1]+j].dir2 = direction;
+										act.add(new float[]{k[0]+i,k[1]+j,num,level+1});
+									}
 								}
 							}
 						}

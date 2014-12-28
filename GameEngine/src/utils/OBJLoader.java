@@ -95,6 +95,10 @@ public class OBJLoader {
 		for(int i=0 ; i<indices.size() ; i++){
 			indicesArray[i]  = indices.get(i);
 		}
+//		System.out.println(verticesArray.length);
+//		System.out.println(textureArray.length);
+//		System.out.println(normalsArray.length);
+//		System.out.println(indicesArray.length);
 		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 	}
 	
@@ -102,6 +106,7 @@ public class OBJLoader {
 			List<Vector2f> textures, List<Vector3f> normals,float[] textureArray,float[] normalsArray){
 		int currentVertexPointer = Math.abs(Integer.parseInt(vertexData[0]))-1;
 		indices.add(currentVertexPointer);
+		
 		Vector2f currentTex = textures.get(Math.abs(Integer.parseInt(vertexData[1]))-1);
 		textureArray[currentVertexPointer*2] = currentTex.x;	
 		textureArray[currentVertexPointer*2+1] = 1 - currentTex.y;

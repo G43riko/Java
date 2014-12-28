@@ -19,6 +19,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import renderers.Renderer;
+import terrains.Block;
 import static org.lwjgl.opengl.GL20.*;
 import main.Game;
 import main.Main;
@@ -129,6 +130,14 @@ public class RMenu extends JPanel{
 		
 		//e
 		
+	}
+	
+	public void setMinimap(Block[][] minimap){
+		this.minimap.setMinimap(minimap);
+	}
+
+	public Minimap getMinimap() {
+		return minimap;
 	}
 
 }

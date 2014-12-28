@@ -9,6 +9,7 @@ public class Block {
 	private float distToGoal=-1;
 	private Vector2f pos;
 	private int dir = 0;
+	public int dir2 = 0;
 	
 	public Block(int x, int y,int type){
 		pos = new Vector2f(x,y);

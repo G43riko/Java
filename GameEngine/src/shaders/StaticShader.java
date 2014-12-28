@@ -3,6 +3,7 @@ package shaders;
 import lights.Light;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import utils.Maths;
 import entities.Camerka;
@@ -18,6 +19,9 @@ public class StaticShader extends ShaderProgram{
 	
 	private int location_lightPosition;
 	private int location_lightColor;
+	
+	private int location_changeColor;
+	private int location_color;
 	
 	
 	public StaticShader() {
@@ -42,6 +46,9 @@ public class StaticShader extends ShaderProgram{
 		location_lightPosition = super.getUniformLocation("lightPosition");
 		location_lightColor = super.getUniformLocation("lightColor");
 		
+		location_changeColor = super.getUniformLocation("changeColor");
+		location_color = super.getUniformLocation("color");
+		
 	}
 	
 	
@@ -62,6 +69,13 @@ public class StaticShader extends ShaderProgram{
 	
 	public void loadProjectionMatrix(Matrix4f matrix){
 		super.loadMatrix(location_projectionMatrix, matrix);
+	}
+	
+	public void loadChangeColor(boolean val){
+		super.loadInt(location_changeColor, val?1:0);
+	}
+	public void loadColor(Vector3f color){
+		super.loadVector(location_color, color);
 	}
 
 }

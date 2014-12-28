@@ -41,10 +41,7 @@ public class Renderer {
 	
 	
 	public static void clearScreen(RMenu rmenu){
-		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glLoadIdentity();
-		
 		GL11.glClearColor((float)rmenu.BGRed.getValue()/255,(float)rmenu.BGGreen.getValue()/255,(float)rmenu.BGBlue.getValue()/255, 1.0f);
 	}
 	

@@ -25,22 +25,14 @@ public class Map {
 		for(i=0 ; i<numX ; i++){
 			for(k=0 ; k<numZ ; k++){
 				boolean ground = false;
-				for(j=0 ; j<half ; j++){
+				int dist = half+((int)(Math.random()*2)-1);
+				for(j=0 ; j<dist ; j++){
 					mapa[i][j][k] = new Block(i*Block.WIDTH*2,j*Block.HEIGHT*2, k*Block.DEPTH*2,1);
 				}
 				for( ; j<numY ; j++){
 					mapa[i][j][k] = new Block(i*Block.WIDTH*2,j*Block.HEIGHT*2, k*Block.DEPTH*2);
 				}
 			}
-		}
-		
-		getTerrain();
-		
-		for(Block[] a:terrain){
-			for(Block b:a){
-				System.out.print(b.getType());
-			}
-			System.out.print("\n");
 		}
 	}
 
@@ -59,7 +51,7 @@ public class Map {
 		}
 	}
 	
-	public void getTerrain(){
+	public void createTerrain(){
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numZ ; j++){
 				for(int k=numY-1 ; k>=0 ; k-- ){
@@ -70,5 +62,15 @@ public class Map {
 				}
 			}
 		}
+//		for(Block[] b:terrain){
+//			for(int i=b.length-1 ; i>=0 ; i--){
+//				System.out.print((int)(b[i].getY()/Block.HEIGHT/2)+"  ");
+//			}
+//			System.out.print("\n");
+//		}
+	}
+	
+	public Block[][] getTerrain(){
+		return terrain;
 	}
 }

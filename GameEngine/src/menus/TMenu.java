@@ -64,6 +64,13 @@ public class TMenu extends JMenuBar{
 		});
 		menuA.add(menuItem);
 		
+		menuItem = new JMenuItem("Exit");
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		menuA.add(menuItem);
 		
 	}
 }

@@ -33,7 +33,7 @@ public class Input {
 		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT))
 			camera.move(0, Camera.MOVE_SPEED, 0);
 		
-		System.out.println(Mouse.isButtonDown(1));
+		//System.out.println(Mouse.isButtonDown(1));
 		
 //		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 //			int speed = 4;

@@ -122,7 +122,7 @@ public class MainGameLoop {
 		Camera camera = new Camera();
 		MasterRenderer renderer = new MasterRenderer();
 		while(!Display.isCloseRequested()){
-			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+//			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 			entity.increaseRotation(0,1,0);
 			camera.move();
 			

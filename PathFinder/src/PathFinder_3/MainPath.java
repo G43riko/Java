@@ -4,33 +4,57 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class MainPath {
+	public static ArrayList<Point> points = new ArrayList<Point>();
+	public static ArrayList<Point> pointsChecked = new ArrayList<Point>();
+	public static ArrayList<Point> pointsChecking = new ArrayList<Point>(); 
 	public static void main(String[] args) {
-		ArrayList<Point> points = new ArrayList<Point>();
-		//points.addAll(MainPath.createCompleteMap());
-		points.addAll(createCompleteClasic(5));
-		vypis(points);
-	}
+		points.addAll(createCompleteClasic(8));
+		//vypis(points);
+		int from=0, to = 63;
+//		ArrayList<Point> hist = new ArrayList<Point>();
+//		hist.add(points.get(from));
+		boolean keepGoing = true;
+		pointsChecking.add(points.get(from));
+		while(keepGoing){
+			for(int i=0 ; i<pointsChecking.size() ; i++){
+				Point p=pointsChecking.get(i);
+				for(Edge e:p.getEdges()){
+					if(e.getTarget().getId()==to){
+						System.out.println("našiel som cestu z "+p.getId()+" do "+to+" za "+(p.getTotalDist()+e.getDistance())+" krokov");
+						return;
+					}
+					if(!pointsChecked.contains(e.getTarget())&&!pointsChecking.contains(e.getTarget())){
+						System.out.println("do kontrolovaných sa z "+p.getId()+" pridalo: "+e.getTarget().getId()+" dist: "+e.getDistance());
+						e.getTarget().addTotalDist(e.getDistance()+p.getTotalDist());
+						pointsChecking.add(e.getTarget());
+					}
+				}
 
-	private static ArrayList<Point> createCompleteMap() {
-		ArrayList<Point> p = new ArrayList<Point>();
-		Point a,b,c,d;
-		
-		a = new Point();
-		b = new Point();
-		p.addAll(connectTwo(a,b,1));
-		
-		a = new Point();
-		b = new Point();
-		c = new Point();
-		p.addAll(connectThree(a,b,c,2));
-		
-		a = new Point();
-		b = new Point();
-		c = new Point();
-		d = new Point();
-		p.addAll(connectFour(a,b,c,d,3));
-		
-		return p;
+				System.out.println("do skontrolovaných sa pridalo: "+p.getId());
+				pointsChecking.remove(p);
+				pointsChecked.add(p);
+				i--;
+			}
+		}
+//		System.out.println("dist je: "+find(hist,to));
+	} 
+	
+	private static int find(ArrayList<Point> hist, int goal){
+		Point from = hist.get(hist.size()-1);
+		for(Edge p:from.getEdges()){
+			if(!hist.contains(p.getTarget())){
+				if(p.getTarget().getId()==goal){
+					return p.getDistance();
+				}
+				hist.add(p.getTarget());
+				int res = find(hist,goal);
+				if(res!=0){
+					return res+p.getDistance();//add
+				}
+				hist.remove(p.getTarget());
+			}
+		}
+		return 0;
 	}
 	
 	private static ArrayList<Point> createCompleteClasic(int num) {

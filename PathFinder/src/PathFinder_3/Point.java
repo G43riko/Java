@@ -6,6 +6,8 @@ public class Point {
 	private static ArrayList<Integer> ides = new ArrayList<Integer>();
 	private int id;
 	private ArrayList<Edge> edges;
+	private int totalDist = 0;
+	private int lastDist = 0;
 	
 	public Point(Edge...edges){
 		this.id = makeId();
@@ -58,5 +60,29 @@ public class Point {
 	
 	public int getId() {
 		return id;
+	}
+
+	public ArrayList<Edge> getEdges() {
+		return edges;
+	}
+
+	public int getTotalDist() {
+		return totalDist;
+	}
+
+	public void setTotalDist(int totalDist) {
+		this.totalDist = totalDist;
+	}
+	
+	public void addTotalDist(int totalDist){
+		this.totalDist += totalDist;
+	}
+
+	public int getLastDist() {
+		return lastDist;
+	}
+
+	public void setLastDist(int lastDist) {
+		this.lastDist = lastDist;
 	}
 }

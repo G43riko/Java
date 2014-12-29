@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +35,7 @@ public class RMenu extends JPanel{
 	private JCheckBox e;
 	private JCheckBox f;
 	private JCheckBox g;
+	private JCheckBox h;
 	
 	public JSlider BGRed;
 	public JSlider BGGreen;
@@ -47,15 +50,72 @@ public class RMenu extends JPanel{
 		
 		minimap = new Minimap(this.getPreferredSize().width-8);
 		add(minimap);
-		a = createCheckBox("Vsyc",Main.VSYNC);
-		b = createCheckBox("Wireframe",false);
-		c = createCheckBox("Textures",true);
-		d = createCheckBox("Mipmapping",true);
-		e = createCheckBox("Logs",true);
-		f = createCheckBox("Models",true);
-		g = createCheckBox("Shadows",true);
-		
+		add(createCheckBoxes());
 		createBGColorSliders();
+	}
+	
+	private JPanel createCheckBoxes(){
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		a = createCheckBox("Vsyc",Main.VSYNC);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		panel.add(a, gbc);
+		
+		gbc = new GridBagConstraints();
+		b = createCheckBox("Wireframe",false);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		panel.add(b, gbc);
+		
+		
+		gbc = new GridBagConstraints();
+		c = createCheckBox("Textures",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		panel.add(c, gbc);
+		
+		gbc = new GridBagConstraints();
+		d = createCheckBox("Mipmapping",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		panel.add(d, gbc);
+		
+		gbc = new GridBagConstraints();
+		e = createCheckBox("Logs",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		panel.add(e, gbc);
+		
+		gbc = new GridBagConstraints();
+		f = createCheckBox("Models",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		panel.add(f, gbc);
+		
+		gbc = new GridBagConstraints();
+		g = createCheckBox("Shadows",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		panel.add(g, gbc);
+		
+		gbc = new GridBagConstraints();
+		h = createCheckBox("Something",true);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		panel.add(h, gbc);
+		
+		return panel;
 	}
 	
 	private void createBGColorSliders(){

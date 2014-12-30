@@ -41,6 +41,7 @@ import models.TexturedModel;
 
 public class Game extends JFrame{
 	public static boolean mipMapping = true;
+	public static boolean isLoading = false;
 	
 	private RMenu rmenu = null;
 	private BMenu bmenu = null;
@@ -60,6 +61,7 @@ public class Game extends JFrame{
 	private Entity entity = null;
 	
 	public void init(){
+		isLoading = true;
 		createFrame();
 		Renderer.initGraphics();
 		
@@ -81,49 +83,48 @@ public class Game extends JFrame{
 		
 		//camera = new Camera();
 		
-		mapa = new Map(32,8,32);
+		//mapa = new Map(8,4,8);
+		mapa = new Map(16,64,16);
 		mapa.initDefaultMap(loader);
-		mapa.createTerrain();
 		rmenu.setMinimap(mapa.getTerrain());
-		
+		tmenu.setMap(mapa);
 
 		camerka = new Camerka(shader);
-		
+		bmenu.setCamerka(camerka);
 		//logs = new Logs();
+		isLoading = false;
 	}
 	
 	public void mainLoop(){
 		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(isLoading){
+				continue;
+			}
 			//Input.update(camera, null);	
 			Renderer.clearScreen(rmenu);
 			rmenu.useOptions();
 			rmenu.getMinimap().update();
 			
 			camerka.update();
-			bmenu.updateCameraWindow(camerka);
+			bmenu.updateCameraWindow();
 			
 			entity.rotate(0, 1, 0);
 			shader.start();
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
+
+//			shader.loadChangeColor(true);
+//			shader.loadColor(new Vector3f(1,0,1));
+//			glBegin(GL_LINES);
+//				float x = -20;
+//				float y = -20;
+//				glVertex3f(x, 0, y);
+//				glVertex3f(x,20, y);
+//			glEnd();
+//			shader.loadChangeColor(false);
+			
 			renderer.render(entity,shader);
 			mapa.draw(renderer, shader);
-
-			shader.loadChangeColor(true);
-			shader.loadColor(new Vector3f(1,0,1));
-			glBegin(GL_LINES);
-				float x = -20;
-				float y = -20;
-				glVertex3f(x, 0, y);
-				glVertex3f(x,20, y);
-			glEnd();
-			glBegin(GL_QUADS);
-				glTexCoord2f(1,0); glVertex3f(20, 0, 0);
-				glTexCoord2f(1,1); glVertex3f(20,20, 0);
-				glTexCoord2f(0,1); glVertex3f( 0,20, 0);
-				glTexCoord2f(0,0); glVertex3f( 0, 0, 0);
-			glEnd();
-			shader.loadChangeColor(false);
 			shader.stop();
 			
 			//toto by sa dalu urËite upraviù nejako

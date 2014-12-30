@@ -24,7 +24,7 @@ public class Camerka {
 	private Matrix4f projectionMatrix;
 	
 	//private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
-	private Vector3f position = new Vector3f(-15,40,-15);
+	private Vector3f position = new Vector3f();
 	private float pitch;
 	private float yaw;
 	private float roll;
@@ -34,8 +34,7 @@ public class Camerka {
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
-		pitch = 20;
-		yaw = 135;
+		reset();
 	}
 	
 	private void createProjectionMatrix(){
@@ -94,6 +93,12 @@ public class Camerka {
 		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)){
 			pitch+=ROTATION_SPEED;
 		}
+	}
+	
+	public void reset(){
+		position = new Vector3f(-15,40,-15);
+		pitch = 20;
+		yaw = 135;
 	}
 	
 	public void goForward(){

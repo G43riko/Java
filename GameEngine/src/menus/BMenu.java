@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ public class BMenu extends JPanel{
 	private JPanel cameraWindow;
 	private JLabel[] cameraData;
 	private JButton cameraReset;
+	private Camerka camerka;
 	
 	public void init(){	
 		//setBackground(Color.green);
@@ -114,6 +117,11 @@ public class BMenu extends JPanel{
 		helper.setLayout(new FlowLayout());
 		cameraReset = new JButton("reset");
 		cameraReset.setPreferredSize(new Dimension(140,20));
+		cameraReset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				camerka.reset();
+			}
+		});
 		helper.add(cameraReset);
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -124,13 +132,17 @@ public class BMenu extends JPanel{
 		return cameraWindow;
 	}
 	
-	public void updateCameraWindow(Camerka camerka){
+	public void updateCameraWindow(){
 		cameraData[0].setText(String.valueOf((int)camerka.getPosition().x));
 		cameraData[1].setText(String.valueOf((int)camerka.getPosition().y));
 		cameraData[2].setText(String.valueOf((int)camerka.getPosition().z));
 		cameraData[3].setText(String.valueOf((int)camerka.getPitch()));
 		cameraData[4].setText(String.valueOf((int)camerka.getYaw()));
 		cameraData[5].setText(String.valueOf((int)camerka.getRoll()));
+	}
+	
+	public void setCamerka(Camerka camerka){
+		this.camerka = camerka;
 	}
 	
 }

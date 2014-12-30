@@ -84,7 +84,7 @@ public class Game extends JFrame{
 		//camera = new Camera();
 		
 		//mapa = new Map(8,4,8);
-		mapa = new Map(16,64,16);
+		mapa = new Map(32,4,32);
 		mapa.initDefaultMap(loader);
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);

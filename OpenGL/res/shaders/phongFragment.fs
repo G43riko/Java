@@ -1,4 +1,4 @@
-#version 330
+#version 130
 
 const int MAX_POINTS_LIGHTS = 4;
 
@@ -63,11 +63,11 @@ vec4 calcLight(BaseLight baseLight, vec3 direction, vec3 normal){
     }
     
     return diffuseColor + specularColor;
-};
+}
 
 vec4 calcDirectionalLight(DirectionalLight directionalLight, vec3 normal){
     return calcLight(directionalLight.base,-directionalLight.direction, normal);
-};
+}
 
 vec4 calcPointLight(PointLight pointLight, vec3 normal){
     vec3 lightDirection = worldPos0 - pointLight.position;
@@ -82,7 +82,7 @@ vec4 calcPointLight(PointLight pointLight, vec3 normal){
                         0.0001;
                         
     return color / attenuation;   
-};
+}
 
 void main()
 {
@@ -90,19 +90,19 @@ void main()
     vec4 totalLight = vec4(ambientLight,1);
     vec4 color = vec4(baseColor,1);
     vec4 textureColor = texture(sampler, texCoord0.xy);
-    
+
     if(textureColor != vec4(0,0,0,0))
 	   color *= textureColor;
-       
+
     vec3 normal = normalize(normal0);
-    
-    totalLight += calcDirectionalLight(directionalLight, normal);   
-                              
-    for(int i=0 ; i<MAX_POINTS_LIGHTS ; i++){     
+
+    totalLight += calcDirectionalLight(directionalLight, normal);
+	
+    for(int i=0 ; i<MAX_POINTS_LIGHTS ; i++){
         if(pointLights[i].baseLight.intensity > 0){
             totalLight += calcPointLight(pointLights[i], normal);
         }
-    }                              
-                              
+    }
+	
     fragColor = color * totalLight;
 }                                 

@@ -32,7 +32,6 @@ public class Game {
 	private Level actLevel; 
 	private Camera camera;
 	private Selector selector;
-	private HUD info;
 	private Shader shader;
 	private Entita model;
 	
@@ -41,10 +40,9 @@ public class Game {
 	public void init() {
 		window = new Window(width,height,"Chess");
 		camera = new Camera(70,Display.getWidth()/Display.getHeight(),0.3f,1000);
-		info = new HUD();
 		shader = new Shader("shader");
 		
-		actLevel = new Level(40,10,40);
+		actLevel = new Level(20,10,20);
 		
 		loader = new Loader();
 		

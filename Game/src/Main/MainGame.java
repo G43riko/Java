@@ -20,7 +20,7 @@ public class MainGame {
 		System.out.println(Mouse.getX()+" "+Mouse.getY());
 		mapa.draw();
 		Display.update();
-		Display.sync(60);
+		Display.sync(120);
 	}
 	
 	public MainGame(){

@@ -21,7 +21,7 @@ public class Map {
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numY ; j++){
 				//if(Math.random()<0.5)
-				if(j<numY/2)
+				if(j<numY/2||j>-1)
 					mapa[i][j] = new Block(i,j,1);
 				else
 					mapa[i][j] = new Block(i,j,0);

@@ -15,8 +15,11 @@ public class Game {
 	private Options options;
 	private float temp = 0.0f;
 	
-	PointLight pLight1 = new PointLight(new BaseLight(new Vector3f(1,0,0),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(-2,3,5f));
-	PointLight pLight2 = new PointLight(new BaseLight(new Vector3f(0,0,1),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(2,3,7f));
+	PointLight pLight1 = new PointLight(new BaseLight(new Vector3f(1,0,0),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(-2,1,5f),5);
+	PointLight pLight2 = new PointLight(new BaseLight(new Vector3f(0,0,1),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(2,1,7f),5);
+	
+	SpotLight sLight1 = new SpotLight(new PointLight(new BaseLight(new Vector3f(0,1,1),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(-2,0,5f),30),
+									  new Vector3f(1,1,1),0.7f);
 	
 	public Game(){
 		//options = options;
@@ -33,8 +36,8 @@ public class Game {
 		PhongShader.setDirectionalLight( new DirectionalLight(new BaseLight(new Vector3f(1,1,1),0.8f),new Vector3f(1,1,1)));
 		
 		
-		PhongShader.setPointLight(new PointLight[]{pLight1, pLight2});
-		
+//		PhongShader.setPointLight(new PointLight[]{pLight1, pLight2});
+		PhongShader.setSpotLight(new SpotLight[]{sLight1});
 
 		Vertex[] data = new Vertex[]{new Vertex(new Vector3f(-1.0f ,-1.0f ,0.5f), new Vector2f(0.0f, 0.0f)),
 									 new Vertex(new Vector3f( 0.0f , -1.0f , -1.5f), new Vector2f(0.5f, 0.0f)),
@@ -73,6 +76,9 @@ public class Game {
 		//transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
 		pLight1.setPosition(new Vector3f(3, 1, 8.0f*(float)(sinTemp+0.5)+10));
 		pLight2.setPosition(new Vector3f(7, 1, 8.0f*(float)(Math.cos(temp)+0.5)+10));
+		
+		sLight1.getPointLight().setPosition(camera.getPos());
+		sLight1.setDirection(camera.getForward());
 		
 		options.getAllData();
 	}

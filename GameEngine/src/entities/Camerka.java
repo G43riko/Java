@@ -23,7 +23,8 @@ public class Camerka {
 	
 	private Matrix4f projectionMatrix;
 	
-	private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
+	//private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
+	private Vector3f position = new Vector3f(-15,40,-15);
 	private float pitch;
 	private float yaw;
 	private float roll;
@@ -33,8 +34,8 @@ public class Camerka {
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
-		pitch = 40;
-		//yaw = 135;
+		pitch = 20;
+		yaw = 135;
 	}
 	
 	private void createProjectionMatrix(){

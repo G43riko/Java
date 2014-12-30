@@ -25,7 +25,7 @@ public class Map {
 		for(i=0 ; i<numX ; i++){
 			for(k=0 ; k<numZ ; k++){
 				boolean ground = false;
-				int dist = half+((int)(Math.random()*2)-1);
+				int dist = half+((int)(Math.random()*numY/2)-numY/2/2);
 				for(j=0 ; j<dist ; j++){
 					mapa[i][j][k] = new Block(i*Block.WIDTH*2,j*Block.HEIGHT*2, k*Block.DEPTH*2,1);
 				}
@@ -37,18 +37,37 @@ public class Map {
 	}
 
 	public void draw(Renderer renderer, StaticShader shader) {
-		for(Block[][] a:mapa){
-			for(Block[] b:a){
-				for(Block c:b){
+//		int pocet = 0;
+		for(int i=0 ; i<numX ; i++){
+			for(int j=0 ; j<numY ; j++){
+				for(int k=0 ; k<numZ ; k++){
+					Block c = mapa[i][j][k];
 					if(c.getType()!=0){
+						if(isHide(i,j+1,k)&&isHide(i+1,j,k)&&isHide(i-1,j,k)&&isHide(i,j,k+1)&&isHide(i,j,k-1)){
+							continue;
+						}
+						//u,d,l,r,f,b
+						boolean u,d,l,r,f,b;
+						u=d=l=r=f=b=false;
+						if(isHide(i,j+1,k));
+							u=true;
+						if(isHide(i,j-1,k));
+							d=true;
+						if(isHide(i-1,j,k));
+							l=true;
+						if(isHide(i+1,j,k));
+							r=true;
+						if(isHide(i,j,k-1));
+							f=true;
+						if(isHide(i,j,k+1));
+							b=true;
 						renderer.render(c, shader);
+//						pocet++;
 					}
-					
-//					if(c.getType()!=0)
-//						c.draw();
 				}
 			}
 		}
+//		System.out.println("vykreslilo to "+pocet+" krát");
 	}
 	
 	public void createTerrain(){
@@ -62,12 +81,20 @@ public class Map {
 				}
 			}
 		}
-//		for(Block[] b:terrain){
-//			for(int i=b.length-1 ; i>=0 ; i--){
-//				System.out.print((int)(b[i].getY()/Block.HEIGHT/2)+"  ");
-//			}
-//			System.out.print("\n");
-//		}
+	}
+	
+	private boolean exist(int x,int y,int z){
+		if(x>0&&x<numX&&y>0&&y<numY&&z>0&&z<numZ){
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isHide(int x,int y,int z){
+		if(exist(x,y,z)&&mapa[x][y][z].getType()!=0){
+			return true;
+		}
+		return false;
 	}
 	
 	public Block[][] getTerrain(){

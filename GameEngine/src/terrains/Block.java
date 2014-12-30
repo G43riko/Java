@@ -9,16 +9,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 import entities.Entity;
 import shapes.threeDimensional.Box;
+import shapes.twoDimensional.Squad;
 import textures.ModelTexture;
 import utils.FileLoader;
 import utils.OBJLoader;
 
 public class Block extends Entity{
-	public static float WIDTH = 1.1f;
-	public static float HEIGHT = 1.1f;
-	public static float DEPTH = 1.1f;
+	public static float WIDTH = 3f;
+	public static float HEIGHT = 1f;
+	public static float DEPTH = 3f;
 	private int type;
-	private static RawModel model;
+	private static RawModel model,top,bottom,left,right,front,back;
 	private static ModelTexture[] textures = new ModelTexture[]{
 		null,
 		new ModelTexture(FileLoader.textureLoader("dirt.jpg")),
@@ -32,8 +33,9 @@ public class Block extends Entity{
 	
 
 	public static void init(Loader loader){
-		model = OBJLoader.loadObjModel("box", loader);
-		//model = Box.getModel(loader, 3, 1, 3);
+//		model = OBJLoader.loadObjModel("box", loader);
+		model = Box.getModel(loader, WIDTH, HEIGHT, DEPTH);
+//		model = OBJLoader.loadObjModel("plane", loader);
 	}
 	
 	public Block(float x, float y, float z) {

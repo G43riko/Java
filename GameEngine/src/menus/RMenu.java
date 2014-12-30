@@ -170,9 +170,9 @@ public class RMenu extends JPanel{
 		
 		//b - WIREFRAME
 		if(b.isSelected())
-			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+			glPolygonMode(GL_FRONT,GL_LINE);
 		else
-			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+			glPolygonMode(GL_FRONT,GL_FILL);
 		
 		//c - TEXTURES
 //		c.addChangeListener(new ChangeListener(){

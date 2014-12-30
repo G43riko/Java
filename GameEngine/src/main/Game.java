@@ -68,11 +68,12 @@ public class Game extends JFrame{
 		renderer = new Renderer();
 		shader = new StaticShader();
 		
-		RawModel model = OBJLoader.loadObjModel("box", loader);
+		//RawModel model = OBJLoader.loadObjModel("box", loader);
+		RawModel model = Box.getModel(loader, 2, 2, 2);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
-		entity = new Entity(textureModel,0,-1,0,0,0,0,0.5f);
+		entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);
 		
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
 		
@@ -80,7 +81,7 @@ public class Game extends JFrame{
 		
 		//camera = new Camera();
 		
-		mapa = new Map(15,4,15);
+		mapa = new Map(32,8,32);
 		mapa.initDefaultMap(loader);
 		mapa.createTerrain();
 		rmenu.setMinimap(mapa.getTerrain());
@@ -100,6 +101,7 @@ public class Game extends JFrame{
 			
 			camerka.update();
 			bmenu.updateCameraWindow(camerka);
+			
 			entity.rotate(0, 1, 0);
 			shader.start();
 			shader.loadLight(light);
@@ -107,13 +109,21 @@ public class Game extends JFrame{
 			renderer.render(entity,shader);
 			mapa.draw(renderer, shader);
 
-//			shader.loadChangeColor(true);
-//			shader.loadColor(new Vector3f(1,0,1));
-//			glBegin(GL_LINES);
-//				glVertex3f(0, 0, 0);
-//				glVertex3f(0,20, 0);
-//			glEnd();
-//			shader.loadChangeColor(false);
+			shader.loadChangeColor(true);
+			shader.loadColor(new Vector3f(1,0,1));
+			glBegin(GL_LINES);
+				float x = -20;
+				float y = -20;
+				glVertex3f(x, 0, y);
+				glVertex3f(x,20, y);
+			glEnd();
+			glBegin(GL_QUADS);
+				glTexCoord2f(1,0); glVertex3f(20, 0, 0);
+				glTexCoord2f(1,1); glVertex3f(20,20, 0);
+				glTexCoord2f(0,1); glVertex3f( 0,20, 0);
+				glTexCoord2f(0,0); glVertex3f( 0, 0, 0);
+			glEnd();
+			shader.loadChangeColor(false);
 			shader.stop();
 			
 			//toto by sa dalu urËite upraviù nejako

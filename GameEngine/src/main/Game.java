@@ -26,7 +26,7 @@ import entities.Entity;
 import renderers.Renderer;
 import shaders.StaticShader;
 import shapes.threeDimensional.Box;
-import shapes.twoDimensional.Squad;
+import shapes.twoDimensional.Rectangle;
 import terrains.Map;
 import textures.ModelTexture;
 import utils.FileLoader;
@@ -71,7 +71,7 @@ public class Game extends JFrame{
 		shader = new StaticShader();
 		
 		//RawModel model = OBJLoader.loadObjModel("box", loader);
-		RawModel model = Box.getModel(loader, 2, 2, 2);
+		RawModel model = Box.getModel(loader, .1f, 80, .1f);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
@@ -108,7 +108,7 @@ public class Game extends JFrame{
 			camerka.update();
 			bmenu.updateCameraWindow();
 			
-			entity.rotate(0, 1, 0);
+			entity.setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
 			shader.start();
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);

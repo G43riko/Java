@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
@@ -75,6 +76,11 @@ public class Camerka {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+			position.x =60 * (float)(Math.cos(Math.toRadians(yaw - ROTATION_SPEED)));
+			position.z =60 * (float)(Math.sin(Math.toRadians(yaw - ROTATION_SPEED)));
+			Vector2f r = rotatePoint(new Vector2f(position.x,position.z),new Vector2f(40,40),Math.toRadians(ROTATION_SPEED));
+			position.x=r.x;
+			position.z=r.y;
 			yaw+=ROTATION_SPEED;
 		}
 		
@@ -99,6 +105,12 @@ public class Camerka {
 		position = new Vector3f(-15,40,-15);
 		pitch = 20;
 		yaw = 135;
+	}
+	
+	public Vector2f getTargetPosition(){
+		int dist = 60;
+		return new Vector2f((float)(position.x + Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * dist),
+					 (float)(position.z + -Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * dist));
 	}
 	
 	public void goForward(){
@@ -150,5 +162,17 @@ public class Camerka {
 
 	public float getRoll() {
 		return roll;
+	}
+	
+	public Vector2f rotatePoint(Vector2f pt, Vector2f center, double angleDeg){
+	    double angleRad = (angleDeg/180)*Math.PI;
+	    double cosAngle = Math.cos(angleRad );
+	    double sinAngle = Math.sin(angleRad );
+	    double dx = (pt.x-center.x);
+	    double dy = (pt.y-center.y);
+
+	    pt.x = center.x + (int) (dx*cosAngle-dy*sinAngle);
+	    pt.y = center.y + (int) (dx*sinAngle+dy*cosAngle);
+	    return pt;
 	}
 }

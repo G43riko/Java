@@ -4,6 +4,7 @@ import GameEngine.core.Matrix4f;
 import GameEngine.core.ResourceLoader;
 
 public class BasicShader extends Shader {
+	
 	public BasicShader(){
 		super();
 		
@@ -16,12 +17,7 @@ public class BasicShader extends Shader {
 	}
 	
 	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectionMatrix, Material material){
-		if(material.getTexture() != null){
-			material.getTexture().bind();
-		}
-		else{
-			RenderUtil.unbindTextures();
-		}
+		material.getTexture().bind();
 		
 		setUniform("transform",projectionMatrix);
 		setUniform("color",material.getColor());

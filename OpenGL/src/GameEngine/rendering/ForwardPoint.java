@@ -1,0 +1,76 @@
+package GameEngine.rendering;
+
+import GameEngine.components.BaseLight;
+import GameEngine.components.PointLight;
+import GameEngine.core.Matrix4f;
+import GameEngine.core.ResourceLoader;
+import GameEngine.core.Transform;
+
+public class ForwardPoint extends Shader{
+private static final ForwardPoint instance = new ForwardPoint();
+	
+	public ForwardPoint(){
+		super();
+		
+		addVertexShader(ResourceLoader.loadShader("forward-point.vs"));
+		addFragmentShader(ResourceLoader.loadShader("forward-point.fs"));
+		
+		setAttribLocation("position", 0);
+		setAttribLocation("texCoord", 1);
+		setAttribLocation("normal", 2);	
+		
+		compileShader();
+		
+		addUniform("model");
+		addUniform("MVP");
+		
+		addUniform("specularIntensity");
+		addUniform("specularPower");
+		addUniform("eyePos");
+
+		addUniform("pointLight.baseLight.color");
+		addUniform("pointLight.baseLight.intensity");
+		addUniform("pointLight.atten.constant");
+		addUniform("pointLight.atten.linear");
+		addUniform("pointLight.atten.exponent");
+		addUniform("pointLight.position");
+		addUniform("pointLight.range");
+	}
+	
+	public void updateUniforms(Transform transform, Material material){
+		Matrix4f worldMatrix = transform.getTransformation();
+		Matrix4f projectedMatrix = getRenderingEngine().getMainCamera().getViewProjection().Mul(worldMatrix);
+		material.getTexture().bind();
+		
+//		setUniform("MVP",projectionMatrix);
+//		setUniform("ambientIntensity",getRenderingEngine().getAmbientLight());
+		setUniform("model",worldMatrix);
+		setUniform("MVP",projectedMatrix);
+		
+		setUniformf("specularIntensity",material.getSpecularIntensity());
+		setUniformf("specularPower",material.getSpecularPower());
+		
+		setUniform("eyePos",getRenderingEngine().getMainCamera().getPos());
+		
+		setUniformPointLight("pointLight",(PointLight)getRenderingEngine().getActiveLight());
+		
+	}
+
+	public static ForwardPoint getInstance(){
+		return instance;
+	}
+	
+	public void setUniformBaseLight(String uniformName, BaseLight baseLight){
+		setUniform(uniformName +".color",baseLight.getColor());
+		setUniformf(uniformName +".intensity",baseLight.getIntensity());
+	}
+	
+	public void setUniformPointLight(String uniformName, PointLight pointLight){
+		setUniformBaseLight(uniformName +".baseLight", pointLight);
+		setUniformf(uniformName +".atten.constant", pointLight.getConstant());
+		setUniformf(uniformName +".atten.linear", pointLight.getLinear());
+		setUniformf(uniformName +".atten.exponent", pointLight.getExponent());
+		setUniform(uniformName +".position", pointLight.getTransform().getPosition());
+		setUniformf(uniformName +".range", pointLight.getRange());
+	}
+}

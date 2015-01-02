@@ -32,8 +32,8 @@ public class Circle {
 		return null ;
 	}
 	
-	public static RawModel getModel(Loader loader, float dist,int num,float x, float y){
-		return loader.loadToVAO(getVertices(dist,num,x,y), getTextures(num,x,y),getIndices(num));
-	}
+//	public static RawModel getModel(Loader loader, float dist,int num,float x, float y){
+//		return loader.loadToVAO(getVertices(dist,num,x,y), getTextures(num,x,y),getIndices(num));
+//	}
 }
 

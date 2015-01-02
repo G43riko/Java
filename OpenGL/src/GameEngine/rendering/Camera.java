@@ -1,6 +1,7 @@
 package GameEngine.rendering;
 
 import GameEngine.core.Input;
+import GameEngine.core.Matrix4f;
 import GameEngine.core.Time;
 import GameEngine.core.Vector2f;
 import GameEngine.core.Vector3f;
@@ -14,16 +15,19 @@ public class Camera {
 	private Vector2f centerPosition = new Vector2f(Window.getWidth()/2,Window.getHeight()/2);
 	private boolean mouseLocked = false;
 	
-	public Camera(){
-		this(new Vector3f(5,0,5), new Vector3f(0,0,1), new Vector3f(0,1,0));
+	private Matrix4f projection;
+	
+	public Camera(float fov, float aspect, float zNear, float zFar){
+		this.up = new Vector3f(0,1,0);
+		this.forward = new Vector3f(0,0,1).Normalized();
+		this.pos = new Vector3f(5,0,5).Normalized();
+		this.projection = new Matrix4f().initPerspective(fov,aspect,zNear,zFar);
 	}
 	
-	public Camera(Vector3f pos, Vector3f forward, Vector3f up){
-		this.up = up;
-		this.forward = forward;
-		this.pos = pos;
-		forward.Normalized();
-		pos.Normalized();
+	public Matrix4f getViewProjection(){
+		Matrix4f cameraRotation = new Matrix4f().InitRotation(forward, up);
+		Matrix4f cameraTranslation =  new Matrix4f().InitTranslation(-pos.GetX(), -pos.GetY(), -pos.GetZ());
+		return projection.Mul(cameraRotation.Mul(cameraTranslation));
 	}
 	
 	public void rotateY(float angle){
@@ -42,10 +46,10 @@ public class Camera {
 		pos = pos.Add(dir.Mul(amt));
 	}
 	
-	public void input(){
+	public void input(float delta){
 		float sensitivity = 0.3f;
-		float movAmt = (float)(10 * Time.getDelta());
-		float rotAmt = (float)(100 * Time.getDelta());
+		float movAmt = (float)(10 * delta);
+		float rotAmt = (float)(100 * delta);
 		
 		if(Input.getKey(Input.KEY_ESCAPE)){
 			Input.SetCursor(true);

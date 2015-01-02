@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import GameEngine.components.PointLight;
 import GameEngine.core.Vector3f;
-import GameEngine.rendering.PointLight;
 
 public class PointLightMenu extends Component {
 	public JLabel position = new JLabel();
@@ -41,9 +41,9 @@ public class PointLightMenu extends Component {
 		posZ.setColumns(5);
 		
 		color.setText("RGB Color: ");
-		colR.setText(String.valueOf(String.format("%.0f", light.getBaseLight().getColor().GetX())));
-		colG.setText(String.valueOf(String.format("%.0f", light.getBaseLight().getColor().GetY())));
-		colB.setText(String.valueOf(String.format("%.0f", light.getBaseLight().getColor().GetZ())));
+		colR.setText(String.valueOf(String.format("%.0f", light.getColor().GetX())));
+		colG.setText(String.valueOf(String.format("%.0f", light.getColor().GetY())));
+		colB.setText(String.valueOf(String.format("%.0f", light.getColor().GetZ())));
 		
 		colR.setColumns(5);
 		colG.setColumns(5);
@@ -57,9 +57,9 @@ public class PointLightMenu extends Component {
 		//col.setBackground(new Color(1/255*Integer.valueOf(colR.getText()),1/255*Integer.valueOf(colG.getText()),1/255*Integer.valueOf(colB.getText())));
 		col.setBackground(new Color(0,255,0));
 		
-		posX.setText(String.valueOf(String.format("%.2f", light.getPosition().GetX())));
-		posY.setText(String.valueOf(String.format("%.2f", light.getPosition().GetY())));
-		posZ.setText(String.valueOf(String.format("%.2f", light.getPosition().GetZ())));
+//		posX.setText(String.valueOf(String.format("%.2f", light.getPosition().GetX())));
+//		posY.setText(String.valueOf(String.format("%.2f", light.getPosition().GetY())));
+//		posZ.setText(String.valueOf(String.format("%.2f", light.getPosition().GetZ())));
 		
 		
 		pos.add(position);
@@ -78,7 +78,7 @@ public class PointLightMenu extends Component {
 		if(light==null){
 			return;
 		}
-		getData(light.getPosition().GetX(),light.getPosition().GetY(),light.getPosition().GetZ());
+//		getData(light.getPosition().GetX(),light.getPosition().GetY(),light.getPosition().GetZ());
 	}
 	
 	public void getData(float x, float y, float z){
@@ -103,7 +103,7 @@ public class PointLightMenu extends Component {
 		Vector3f newColor = new Vector3f(Float.parseFloat(colR.getText()),
 										 Float.parseFloat(colG.getText()),
 										 Float.parseFloat(colB.getText()));
-		light.getBaseLight().setColor(newColor);
+		light.setColor(newColor);
 		
 	}
 	

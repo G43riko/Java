@@ -1,23 +1,17 @@
-package GameEngine.rendering;
+package GameEngine.components;
 
 import GameEngine.core.Vector3f;
+import GameEngine.rendering.ForwardSpot;
 
-public class SpotLight {
-	private PointLight pointLight;
+public class SpotLight extends PointLight {
 	private Vector3f direction;
 	private float cutoff;
 	
-	public SpotLight(PointLight pointLight, Vector3f direction, float cutoff) {
-		this.pointLight = pointLight;
+	public SpotLight(Vector3f color, float intensity, float constant,float linear,float exponent, Vector3f direction, float cutoff) {
+		super(color,intensity,new Vector3f(constant,linear,exponent));
+		setShader(ForwardSpot.getInstance());
 		this.direction = direction;
 		this.cutoff = cutoff;
-	}
-	
-	public PointLight getPointLight() {
-		return pointLight;
-	}
-	public void setPointLight(PointLight pointLight) {
-		this.pointLight = pointLight;
 	}
 	public Vector3f getDirection() {
 		return direction;

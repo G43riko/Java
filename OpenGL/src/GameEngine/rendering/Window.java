@@ -8,6 +8,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import GameEngine.core.Vector2f;
+
 public class Window {
 	public static void createWindow(int width, int height, String title){
 		Display.setTitle(title);
@@ -22,20 +24,6 @@ public class Window {
 			System.out.println(e);
 		}
 	}
-	
-	public static void createWindow(Canvas canvas){
-		try {
-			Display.setParent(canvas);
-	        Display.setVSyncEnabled(true);
-	        Display.create();
-	        Keyboard.create();
-			Mouse.create();
-		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	
 	public static void render(){
 		Display.update();
@@ -53,14 +41,14 @@ public class Window {
 		return Display.getDisplayMode().getHeight();
 	}
 	
-	public static String getTitle(){
-		return Display.getTitle();
-	}
-	
 	public static void dispose()
 	{
 		Display.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
+	}
+	
+	public Vector2f getCenter(){
+		return new Vector2f(getWidth()/2,getHeight()/2);
 	}
 }

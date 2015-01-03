@@ -3,6 +3,7 @@ package GameEngine;
 import java.util.ArrayList;
 
 import GameEngine.components.BaseLight;
+import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.MeshRenderer;
 import GameEngine.components.PointLight;
@@ -10,64 +11,24 @@ import GameEngine.components.SpotLight;
 //import Game3D.Window;
 import GameEngine.core.Game;
 import GameEngine.core.GameObject;
+import GameEngine.core.Quaternion;
 import GameEngine.core.ResourceLoader;
 import GameEngine.core.Time;
 import GameEngine.core.Transform;
 import GameEngine.core.Vector2f;
 import GameEngine.core.Vector3f;
-import GameEngine.rendering.BasicShader;
-import GameEngine.rendering.Camera;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
 import GameEngine.rendering.Vertex;
+import GameEngine.rendering.Window;
 
 public class TestGame extends Game{
-	private Mesh mesh;
-//	private PhongShader shader;
-	private Transform transform;
-//	private Camera camera;
-//	private ArrayList<Mesh> scena = new ArrayList<Mesh>();
-	private Material material;
-//	//private Options options;
-//	private float temp = 0.0f;
-//	
-//	PointLight pLight1 = new PointLight(new BaseLight(new Vector3f(1,0,0),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(-2,1,5f),5);
-//	PointLight pLight2 = new PointLight(new BaseLight(new Vector3f(0,0,1),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(2,1,7f),5);
-//	
-//	SpotLight sLight1 = new SpotLight(new PointLight(new BaseLight(new Vector3f(0,1,1),0.8f),new Attenuation(0.0f, 0.0f, 1.0f),new Vector3f(-2,0,5f),30),
-//									  new Vector3f(1,1,1),0.7f);
-	
-	
 	public void init(){
-//		options = options;
-		
-//		mesh2 = new Mesh();
-//		mesh = ResourceLoader.loadMesh("box_triangel.obj");
-//		shader = new PhongShader();
-//		camera = new Camera();
-//		transform = new Transform();
-		
-//		PhongShader.setAmbientLight(new Vector3f(0.1f,0.1f,0.1f));
-//		PhongShader.setDirectionalLight( new DirectionalLight(new BaseLight(new Vector3f(1,1,1),0.8f),new Vector3f(1,1,1)));
-		
-		
-//		PhongShader.setPointLight(new PointLight[]{pLight1, pLight2});
-//		PhongShader.setSpotLight(new SpotLight[]{sLight1});
-//
-//		Vertex[] data = new Vertex[]{new Vertex(new Vector3f(-1.0f ,-1.0f ,0.5f), new Vector2f(0.0f, 0.0f)),
-//									 new Vertex(new Vector3f( 0.0f , -1.0f , -1.5f), new Vector2f(0.5f, 0.0f)),
-//									 new Vertex(new Vector3f( 1.0f ,-1.0f ,0.5f), new Vector2f(1.0f, 0.0f)),
-//									 new Vertex(new Vector3f( 0.0f ,1.0f , 0.0f), new Vector2f(0.5f, 1.0f))};
-//		
-//		int[] indices = new int[]{3,1,0,
-//								  2,1,3,
-//								  0,1,2,
-//								  0,2,3};
-//		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
-//		Transform.setCamera(camera);
-//		mesh.addVertices(data,indices,true);
-//		scena.add(mesh);
-		
+
+		Material material = new Material();//ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
+		material.addTexture("diffuse", ResourceLoader.loadTexture("dirt.jpg"));
+		material.addFloat("specularIntensity", 1);
+		material.addFloat("specularPower", 8);
 		float size = 10;
 		Vertex[] vertices = new Vertex[]{new Vertex(new Vector3f(-size  ,-1.0f ,-size  ), new Vector2f(0.0f, 0.0f)),
 									 new Vertex(new Vector3f(-size   ,-1.0f , size*3), new Vector2f(0.0f, size)),
@@ -76,14 +37,35 @@ public class TestGame extends Game{
 		
 		int[] indices = new int[]{0,1,2,
 								   2,1,3};
+		Mesh mesh = new Mesh();
+		mesh.addVertices(vertices, indices, true);
+		MeshRenderer meshRenderer = new MeshRenderer(mesh,material);
+		
+		
+		size = 1;
+		vertices = new Vertex[]{new Vertex(new Vector3f(-size  ,-1.0f ,-size  ), new Vector2f(0.0f, 0.0f)),
+									 new Vertex(new Vector3f(-size   ,-1.0f , size*3), new Vector2f(0.0f, size)),
+									 new Vertex(new Vector3f( size*3 ,-1.0f ,-size  ), new Vector2f(size, 0.0f)),
+									 new Vertex(new Vector3f( size*3 ,-1.0f , size*3), new Vector2f(size, size))};
+		
+		indices = new int[]{0,1,2,
+								   2,1,3};
 		mesh = new Mesh();
 		mesh.addVertices(vertices, indices, true);
-		//scena.add(mesh);
-		material = new Material(ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
-		MeshRenderer meshRenderer = new MeshRenderer(mesh,material);
+		MeshRenderer meshRenderer2 = new MeshRenderer(mesh,material);
+		GameObject planeObject2 = new GameObject();
+		planeObject2.addComponent(meshRenderer2);
+		planeObject2.getTransform().getPosition().Set(0,2,0);
+		planeObject2.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0),(float)Math.toRadians(45)));
+		
+		MeshRenderer meshRenderer3 = new MeshRenderer(mesh,material);
+		GameObject planeObject3 = new GameObject();
+		planeObject3.addComponent(meshRenderer3);
+		planeObject3.getTransform().getPosition().Set(0,0,5);
 		
 		GameObject planeObject = new GameObject();
 		planeObject.addComponent(meshRenderer);
+		planeObject.getTransform().getPosition().Set(0,-1,5);
 		
 		
 		GameObject directionalLightObject = new GameObject();
@@ -95,14 +77,18 @@ public class TestGame extends Game{
 		pointLightObject.addComponent(pointLight);
 		
 		GameObject spotLightObject = new GameObject();
-		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1),2f,0.0f, 0.0f, 0.5f,new Vector3f(1,1,1),0.7f);
+		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1),2f,0.0f, 0.0f, 0.5f, 0.7f);
 		spotLightObject.addComponent(spotLight);
-		spotLight.getTransform().setPosition(new Vector3f(5,0,5));
+		spotLight.getTransform().setPosition((new Vector3f(5,0,5)));
+		spotLight.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0), (float)Math.toRadians(90)));
 		
-		getRootObject().addChild(planeObject);
-		getRootObject().addChild(directionalLightObject);
-		getRootObject().addChild(pointLightObject);
-		getRootObject().addChild(spotLightObject);
+		addObject(planeObject);
+		addObject(planeObject2);
+		planeObject2.addChild(planeObject3);
+		addObject(directionalLightObject);
+		addObject(pointLightObject);
+		addObject(spotLightObject);
+		addObject(new GameObject().addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f)));
 //		mesh2.addVertices(data2,indices2,true);
 //		scena.add(mesh2);
 	}

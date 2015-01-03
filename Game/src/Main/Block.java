@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Block {
-	private float range = 1.1f;
+	private float range = 3f;
 	private Vector2f pos;
 	private Vector3f color = new Vector3f();
 	public int type = 0;
@@ -43,7 +43,8 @@ public class Block {
 		Vector3f.sub(totoPos, mousePos, toMysVec);
 		color.x=0;
 		if(toMysVec.length()<range)
-			color.x=(float)Math.pow(Vector3f.dot(new Vector3f(0,0,-1), toMysVec.normalise(toMysVec)), 2);
+			
+			color.x=(float)Math.pow(Vector3f.dot(new Vector3f(0,0,-1), toMysVec.normalise(toMysVec)), 15);
 		glBegin(GL_TRIANGLES);
 		{
 			glColor3f(color.x,color.y,color.y);	glVertex3f(surX, surY,  1f);

@@ -22,6 +22,7 @@ public class StaticShader extends ShaderProgram{
 	
 	private int location_changeColor;
 	private int location_color;
+	private int location_typeOfView;
 	
 	
 	public StaticShader() {
@@ -48,6 +49,7 @@ public class StaticShader extends ShaderProgram{
 		
 		location_changeColor = super.getUniformLocation("changeColor");
 		location_color = super.getUniformLocation("color");
+		location_typeOfView = super.getUniformLocation("typeOfView");
 		
 	}
 	
@@ -74,8 +76,13 @@ public class StaticShader extends ShaderProgram{
 	public void loadChangeColor(boolean val){
 		super.loadInt(location_changeColor, val?1:0);
 	}
+	
 	public void loadColor(Vector3f color){
 		super.loadVector(location_color, color);
+	}
+	
+	public void loadTypeOfView(int type){
+		super.loadInt(location_typeOfView, type);
 	}
 
 }

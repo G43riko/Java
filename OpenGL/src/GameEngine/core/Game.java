@@ -8,14 +8,17 @@ import javax.swing.JButton;
 
 
 
+
+
 import GameEngine.components.BaseLight;
+import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
 //import GameEngine.core.Options;
-import GameEngine.rendering.Camera;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
+import GameEngine.rendering.RenderingEngine;
 import GameEngine.rendering.Vertex;
 
  
@@ -34,8 +37,16 @@ public abstract class Game {
 		getRootObject().update(delta);
 	};
 	
+	public void addObject(GameObject object){
+		getRootObject().addChild(object);
+	}
 	
-	public GameObject getRootObject(){
+	public void render(RenderingEngine renderingEngine){
+		renderingEngine.render(root);
+	}
+	
+	
+	private GameObject getRootObject(){
 		if(root == null){
 			root = new GameObject();
 		}

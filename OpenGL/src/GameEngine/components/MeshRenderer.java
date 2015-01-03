@@ -1,9 +1,9 @@
 package GameEngine.components;
 
 import GameEngine.core.Transform;
-import GameEngine.rendering.BasicShader;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
+import GameEngine.rendering.RenderingEngine;
 import GameEngine.rendering.Shader;
 
 public class MeshRenderer extends GameComponent{
@@ -14,9 +14,9 @@ public class MeshRenderer extends GameComponent{
 		this.material = material;
 		this.mesh = mesh;
 	}
-	public void render(Shader shader){
+	public void render(Shader shader, RenderingEngine renderingEngine){
 		shader.bind();
-		shader.updateUniforms(getTransform(),material);
+		shader.updateUniforms(getTransform(),material,renderingEngine);
 		mesh.draw();
 	}
 }

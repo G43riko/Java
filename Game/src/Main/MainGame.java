@@ -11,14 +11,16 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class MainGame {
 	private Map mapa;
+	private Terrain terrain;
 	public static void main(String[] args) {
 		MainGame game = new MainGame();
 
 	}
 	
 	private void update(){
-		System.out.println(Mouse.getX()+" "+Mouse.getY());
-		mapa.draw();
+		//System.out.println(Mouse.getX()+" "+Mouse.getY());
+		//mapa.draw();
+		terrain.draw();
 		Display.update();
 		Display.sync(120);
 	}
@@ -35,7 +37,8 @@ public class MainGame {
 			Display.destroy();
 			System.exit(1);
 		}
-		
+
+		terrain = new Terrain(10);
 		while(!Display.isCloseRequested()){
 			update();
 		}

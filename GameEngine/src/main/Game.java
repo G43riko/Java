@@ -23,11 +23,13 @@ import org.lwjgl.util.vector.Vector3f;
 import entities.Camera;
 import entities.Camerka;
 import entities.Entity;
+import entities.Selector;
 import renderers.Renderer;
 import shaders.StaticShader;
 import shapes.threeDimensional.Box;
 import shapes.twoDimensional.Rectangle;
 import terrains.Map;
+import terrains.Terrain;
 import textures.ModelTexture;
 import utils.FileLoader;
 import utils.Logs;
@@ -57,8 +59,8 @@ public class Game extends JFrame{
 	private Camerka camerka = null;
 	private StaticShader shader = null;
 	private Light light = null;
-	
-	private Entity entity = null;
+	private Terrain terrain = null;
+	private Selector selector = null;
 	
 	public void init(){
 		isLoading = true;
@@ -71,20 +73,21 @@ public class Game extends JFrame{
 		shader = new StaticShader();
 		
 		//RawModel model = OBJLoader.loadObjModel("box", loader);
-		RawModel model = Box.getModel(loader, .1f, 80, .1f);
+		RawModel model = Box.getModel(loader, .1f, 1000, .1f);
 		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
-		entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);
-		
+		Entity entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);
+		selector = new Selector(entity);
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
 		
-		
+		terrain = new Terrain("HeightMap", loader);
 		
 		//camera = new Camera();
 		
-		//mapa = new Map(8,4,8);
+//		mapa = new Map(8,4,8);
 		mapa = new Map(32,4,32);
+//		mapa = new Map(2,4,2);
 		mapa.initDefaultMap(loader);
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);
@@ -107,9 +110,10 @@ public class Game extends JFrame{
 			
 			camerka.update();
 			bmenu.updateCameraWindow();
-			
-			entity.setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
+			selector.input(mapa,camerka.getTargetPosition().x,camerka.getTargetPosition().y);
+			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
 			shader.start();
+			shader.loadTypeOfView(rmenu.getTypeOfView());
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
 
@@ -123,8 +127,12 @@ public class Game extends JFrame{
 //			glEnd();
 //			shader.loadChangeColor(false);
 			
-			renderer.render(entity,shader);
+			shader.loadChangeColor(true);
+			shader.loadColor(new Vector3f(1,0,1));
+			selector.draw(renderer, shader);
+			shader.loadChangeColor(false);
 			mapa.draw(renderer, shader);
+			terrain.draw(renderer, shader);
 			shader.stop();
 			
 			//toto by sa dalu urËite upraviù nejako

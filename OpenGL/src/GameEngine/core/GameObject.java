@@ -19,15 +19,17 @@ public class GameObject {
 	
 	public void addChild(GameObject child){
 		children.add(child);
+		child.getTransform().setParent(transform);
 	}
 	
 	public Transform getTransform(){
 		return transform;
 	}
 	
-	public void addComponent(GameComponent component){
+	public GameObject addComponent(GameComponent component){
 		component.setParent(this);
 		components.add(component);
+		return this;
 	}
 	
 	public void input(float delta){
@@ -48,12 +50,12 @@ public class GameObject {
 		}
 	}
 
-	public void render(Shader shader){
+	public void render(Shader shader, RenderingEngine renderingEngine){
 		for(GameComponent component:components){
-			component.render(shader);
+			component.render(shader,renderingEngine);
 		}
 		for(GameObject child:children){
-			child.render(shader);
+			child.render(shader,renderingEngine);
 		}
 	}
 	

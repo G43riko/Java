@@ -41,22 +41,22 @@ private static final ForwardSpot instance = new ForwardSpot();
 		addUniform("spotLight.cutoff");
 	}
 	
-	public void updateUniforms(Transform transform, Material material){
+	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){
 		Matrix4f worldMatrix = transform.getTransformation();
-		Matrix4f projectedMatrix = getRenderingEngine().getMainCamera().getViewProjection().Mul(worldMatrix);
-		material.getTexture().bind();
+		Matrix4f projectedMatrix = renderingEngine.getMainCamera().getViewProjection().Mul(worldMatrix);
+		material.getTexture("diffuse").bind();
 		
 //		setUniform("MVP",projectionMatrix);
 //		setUniform("ambientIntensity",getRenderingEngine().getAmbientLight());
 		setUniform("model",worldMatrix);
 		setUniform("MVP",projectedMatrix);
 		
-		setUniformf("specularIntensity",material.getSpecularIntensity());
-		setUniformf("specularPower",material.getSpecularPower());
+		setUniformf("specularIntensity",material.getFloat("specularIntensity"));
+		setUniformf("specularPower",material.getFloat("specularPower"));
 		
-		setUniform("eyePos",getRenderingEngine().getMainCamera().getPos());
+		setUniform("eyePos",renderingEngine.getMainCamera().getTransform().getPosition());
 		
-		setUniformSpotLight("spotLight",(SpotLight)getRenderingEngine().getActiveLight());
+		setUniformSpotLight("spotLight",(SpotLight)renderingEngine.getActiveLight());
 		
 	}
 

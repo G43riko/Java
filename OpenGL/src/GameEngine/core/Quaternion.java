@@ -7,6 +7,10 @@ public class Quaternion
 	private float m_z;
 	private float m_w;
 
+	public Quaternion(){
+		this(0,0,0,1);
+	}
+	
 	public Quaternion(float x, float y, float z, float w)
 	{
 		this.m_x = x;
@@ -77,13 +81,26 @@ public class Quaternion
 		return new Quaternion(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ(), m_w + r.GetW());
 	}
 
+//	public Quaternion InitRotation(Vector3f axis, float angle){
+//		float sinHalfAngle = (float)Math.sin(angle/2);
+//		float cosHalfAngle = (float)Math.cos(angle/2);
+//		
+//		this.m_x = axis.GetX() * sinHalfAngle;
+//		this.m_y = axis.GetY() * sinHalfAngle;
+//		this.m_z = axis.GetZ() * sinHalfAngle;
+//		this.m_w = cosHalfAngle;
+//		return this;
+//	}
+	
 	public Matrix4f ToRotationMatrix()
 	{
-		Vector3f forward =  new Vector3f(2.0f * (m_x * m_z - m_w * m_y), 2.0f * (m_y * m_z + m_w * m_x), 1.0f - 2.0f * (m_x * m_x + m_y * m_y));
-		Vector3f up = new Vector3f(2.0f * (m_x * m_y + m_w * m_z), 1.0f - 2.0f * (m_x * m_x + m_z * m_z), 2.0f * (m_y * m_z - m_w * m_x));
-		Vector3f right = new Vector3f(1.0f - 2.0f * (m_y * m_y + m_z * m_z), 2.0f * (m_x * m_y - m_w * m_z), 2.0f * (m_x * m_z + m_w * m_y));
-
-		return new Matrix4f().InitRotation(forward, up, right);
+//		Vector3f forward =  new Vector3f(2.0f * (m_x * m_z - m_w * m_y), 2.0f * (m_y * m_z + m_w * m_x), 1.0f - 2.0f * (m_x * m_x + m_y * m_y));
+//		Vector3f up = new Vector3f(2.0f * (m_x * m_y + m_w * m_z), 1.0f - 2.0f * (m_x * m_x + m_z * m_z), 2.0f * (m_y * m_z - m_w * m_x));
+//		Vector3f right = new Vector3f(1.0f - 2.0f * (m_y * m_y + m_z * m_z), 2.0f * (m_x * m_y - m_w * m_z), 2.0f * (m_x * m_z + m_w * m_y));
+//
+//		return new Matrix4f().InitRotation(forward, up, right);
+		
+		return new Matrix4f().InitRotation(GetForward(), GetUp(), GetRight());
 	}
 
 	public float Dot(Quaternion r)
@@ -175,35 +192,17 @@ public class Quaternion
 		m_w /= length;
 	}
 
-	public Vector3f GetForward()
-	{
-		return new Vector3f(0,0,1).Rotate(this);
-	}
+	public Vector3f GetForward(){return new Vector3f(0,0,1).Rotate(this);}
 
-	public Vector3f GetBack()
-	{
-		return new Vector3f(0,0,-1).Rotate(this);
-	}
+	public Vector3f GetBack(){return new Vector3f(0,0,-1).Rotate(this);}
 
-	public Vector3f GetUp()
-	{
-		return new Vector3f(0,1,0).Rotate(this);
-	}
+	public Vector3f GetUp(){return new Vector3f(0,1,0).Rotate(this);}
 
-	public Vector3f GetDown()
-	{
-		return new Vector3f(0,-1,0).Rotate(this);
-	}
+	public Vector3f GetDown(){return new Vector3f(0,-1,0).Rotate(this);}
 
-	public Vector3f GetRight()
-	{
-		return new Vector3f(1,0,0).Rotate(this);
-	}
+	public Vector3f GetRight(){return new Vector3f(1,0,0).Rotate(this);}
 
-	public Vector3f GetLeft()
-	{
-		return new Vector3f(-1,0,0).Rotate(this);
-	}
+	public Vector3f GetLeft(){return new Vector3f(-1,0,0).Rotate(this);}
 
 	public Quaternion Set(float x, float y, float z, float w) { this.m_x = x; this.m_y = y; this.m_z = z; this.m_w = w; return this; }
 	public Quaternion Set(Quaternion r) { Set(r.GetX(), r.GetY(), r.GetZ(), r.GetW()); return this; }

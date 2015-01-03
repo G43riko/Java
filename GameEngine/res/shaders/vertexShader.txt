@@ -7,6 +7,7 @@ in vec3 normal;
 out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
+out float distance;
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
@@ -19,12 +20,13 @@ void main(void){
 	 */ 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
 	
+	vec4 positionRelativeToCamera =  viewMatrix * worldPosition;
 	
 	/*
 	 * vynasbý projekènú maticu s maticov pohladu s poziciou bodou vo svete
 	 * dostaneme suradnicu každeho bodu pre zobrazenie na monitore
 	 */ 
-	gl_Position = projectionMatrix * viewMatrix * worldPosition;
+	gl_Position = projectionMatrix * positionRelativeToCamera;
 	pass_textureCoords = textureCoords;
 	
 	/*
@@ -36,5 +38,7 @@ void main(void){
 	 * uhol medzy normálov a svetlo urèuje ako intenzívne ovplivnuje svetlo farbu normaly
 	 */
 	toLightVector = lightPosition - worldPosition.xyz;
-
+	
+	distance = length(positionRelativeToCamera.xyz)/200;
+	//distance = worldPosition.y/120;
 }

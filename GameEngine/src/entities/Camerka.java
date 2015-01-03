@@ -76,11 +76,11 @@ public class Camerka {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-			position.x =60 * (float)(Math.cos(Math.toRadians(yaw - ROTATION_SPEED)));
-			position.z =60 * (float)(Math.sin(Math.toRadians(yaw - ROTATION_SPEED)));
-			Vector2f r = rotatePoint(new Vector2f(position.x,position.z),new Vector2f(40,40),Math.toRadians(ROTATION_SPEED));
-			position.x=r.x;
-			position.z=r.y;
+//			position.x =60 * (float)(Math.cos(Math.toRadians(yaw - ROTATION_SPEED)));
+//			position.z =60 * (float)(Math.sin(Math.toRadians(yaw - ROTATION_SPEED)));
+//			Vector2f r = rotatePoint(new Vector2f(position.x,position.z),new Vector2f(40,40),Math.toRadians(ROTATION_SPEED));
+//			position.x=r.x;
+//			position.z=r.y;
 			yaw+=ROTATION_SPEED;
 		}
 		

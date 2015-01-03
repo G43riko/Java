@@ -83,7 +83,6 @@ public class Matrix4f
 		return this;
 	}
 
-	
 	public Matrix4f InitOrthographic(float left, float right, float bottom, float top, float near, float far)
 	{
 		float width = right - left;

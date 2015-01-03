@@ -28,16 +28,14 @@ public class BMenu extends JPanel{
 		//setBackground(Color.green);
 		setPreferredSize(new Dimension(100,100));
 		setBorder(BorderFactory.createLineBorder(Color.black));
+
+		add(initCameraWindow());
 		
 		String[] petStrings = { "Grass", "Dirt", "Water", "Rock" };
-
-		//Create the combo box, select item at index 4.
-		//Indices start at 0, so 4 specifies the pig.
 		JComboBox petList = new JComboBox(petStrings);
 		petList.setSelectedIndex(3);
-		add(initCameraWindow());
-
 		add(petList);
+
 	}
 	
 	private JPanel initCameraWindow(){

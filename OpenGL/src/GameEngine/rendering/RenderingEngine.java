@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 import java.util.ArrayList;
 
 import GameEngine.components.BaseLight;
+import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
@@ -33,15 +34,7 @@ public class RenderingEngine {
 		glEnable(GL_DEPTH_CLAMP);
 		
 		glEnable(GL_TEXTURE_2D);
-		
-		mainCamera = new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f);
-		
 		ambientLight = new Vector3f(0.2f,0.2f,0.2f);
-		//glEnable(GL_FRAMEBUFFER_SRGB);
-	}
-	
-	public void input(float delta){
-		mainCamera.input(delta);
 	}
 	
 	public void render(GameObject object){
@@ -49,8 +42,8 @@ public class RenderingEngine {
 		lights.clear();
 		object.addToRenderingEngine(this);
 		Shader forwardAmbient = ForwardAmbient.getInstance();
-		forwardAmbient.setRenderingEngine(this);
-		object.render(forwardAmbient);
+//		forwardAmbient.setRenderingEngine(this);
+		object.render(forwardAmbient,this);
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE,GL_ONE);
@@ -58,9 +51,9 @@ public class RenderingEngine {
 		glDepthFunc(GL_EQUAL);
 		
 		for(BaseLight light:lights){
-			light.getShader().setRenderingEngine(this);
+//			light.getShader().setRenderingEngine(this);
 			activeLight = light;
-			object.render(light.getShader());
+			object.render(light.getShader(),this);
 		}
 		
 		glDepthFunc(GL_LESS);
@@ -105,11 +98,16 @@ public class RenderingEngine {
 		return mainCamera;
 	}
 	
-	public void setCamera(Camera mainCamera) {
-		this.mainCamera = mainCamera;
+	public void setCamera(Camera camera) {
+		this.mainCamera = camera;
 	}
 	
 	public BaseLight getActiveLight(){
 		return activeLight;
+	}
+
+	public void addCamera(Camera camera) {
+		// TODO Auto-generated method stub
+		this.mainCamera = camera;
 	}
 }

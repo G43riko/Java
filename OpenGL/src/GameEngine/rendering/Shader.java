@@ -13,7 +13,6 @@ import GameEngine.core.Vector3f;
 
 public class Shader {
 	private int program;
-	private RenderingEngine renderingEngine;
 	private HashMap<String, Integer>uniforms;
 	
 	public Shader(){
@@ -25,19 +24,11 @@ public class Shader {
 		}	
 	}
 	
-	public void setRenderingEngine(RenderingEngine renderingEngine){
-		this.renderingEngine = renderingEngine;
-	}
-	
 	public void setAttribLocation(String AttributName,int location){
 		glBindAttribLocation(program,location,AttributName);
 	}
 	
-	public RenderingEngine getRenderingEngine(){
-		return renderingEngine;
-	}
-	
-	public void updateUniforms(Transform transform, Material material){
+	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){
 		
 	};
 	

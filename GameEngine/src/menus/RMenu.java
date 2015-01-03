@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -41,6 +42,8 @@ public class RMenu extends JPanel{
 	public JSlider BGGreen;
 	public JSlider BGBlue;
 	
+	private JComboBox typeOfView;
+	
 	private Minimap minimap;
 	
 	public void init() {
@@ -50,8 +53,18 @@ public class RMenu extends JPanel{
 		
 		minimap = new Minimap(this.getPreferredSize().width-8);
 		add(minimap);
+		
+		String[] views = { "Clasic view", "Depth", "Normals", "HeightMap"};
+		typeOfView = new JComboBox(views);
+		typeOfView.setSelectedIndex(0);
+		add(typeOfView);
+		
 		add(createCheckBoxes());
 		createBGColorSliders();
+	}
+	
+	public int getTypeOfView(){
+		return typeOfView.getSelectedIndex();
 	}
 	
 	private JPanel createCheckBoxes(){
@@ -109,7 +122,7 @@ public class RMenu extends JPanel{
 		panel.add(g, gbc);
 		
 		gbc = new GridBagConstraints();
-		h = createCheckBox("Something",true);
+		h = createCheckBox("Lights",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 3;
@@ -198,6 +211,10 @@ public class RMenu extends JPanel{
 
 	public Minimap getMinimap() {
 		return minimap;
+	}
+	
+	public boolean showLights(){
+		return h.isSelected();
 	}
 
 }

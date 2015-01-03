@@ -65,4 +65,9 @@ public class Block extends Entity{
 	public int getSurZ(){
 		return z;
 	}
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
 }

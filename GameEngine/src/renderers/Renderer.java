@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
 import shaders.StaticShader;
 import textures.ModelTexture;
 import utils.Maths;
+import entities.BasicEntity;
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
@@ -49,8 +50,10 @@ public class Renderer {
 		}
 	}
 	
-	public void render(Entity entity,StaticShader shader){
-		TexturedModel texturedModel = entity.getModel();
+	public void render(BasicEntity entity,StaticShader shader){
+		if(entity==null)
+			return;
+		TexturedModel texturedModel = ((Entity)entity).getModel();
 		RawModel model = texturedModel.getRawModel();
 		
 		//bind cube

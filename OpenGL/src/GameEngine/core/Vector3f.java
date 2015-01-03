@@ -54,17 +54,18 @@ public class Vector3f
 						axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))); //Rotation on local Y
 	}
 
-	public Vector3f rotate(float angle, Vector3f axis){
+	public Vector3f rotate( Vector3f axis, float angle){
 		
-		float sinHalfAngle = (float)Math.sin(Math.toRadians(angle/2));
-		float cosHalfAngle = (float)Math.cos(Math.toRadians(angle/2));
-		
-		float rX = axis.GetX() * sinHalfAngle;
-		float rY = axis.GetY() * sinHalfAngle;
-		float rZ = axis.GetZ() * sinHalfAngle;
-		float rW = cosHalfAngle;
-		
-		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+//		float sinHalfAngle = (float)Math.sin(Math.toRadians(angle/2));
+//		float cosHalfAngle = (float)Math.cos(Math.toRadians(angle/2));
+//		
+//		float rX = axis.GetX() * sinHalfAngle;
+//		float rY = axis.GetY() * sinHalfAngle;
+//		float rZ = axis.GetZ() * sinHalfAngle;
+//		float rW = cosHalfAngle;
+//		
+//		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+		Quaternion rotation = new Quaternion(axis, angle);
 		Quaternion conjugate = rotation.Conjugate();
 		
 		Quaternion w = rotation.Mul(this).Mul(conjugate);

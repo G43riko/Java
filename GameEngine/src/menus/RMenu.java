@@ -2,6 +2,7 @@ package menus;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,6 +39,9 @@ public class RMenu extends JPanel{
 	private JCheckBox g;
 	private JCheckBox h;
 	
+	private JPanel checkBoxes;
+	private JPanel bgColor;
+	
 	public JSlider BGRed;
 	public JSlider BGGreen;
 	public JSlider BGBlue;
@@ -67,23 +71,27 @@ public class RMenu extends JPanel{
 		return typeOfView.getSelectedIndex();
 	}
 	
+	public JComboBox getTypeOfViewSelector(){
+		return typeOfView;
+	}
+	
 	private JPanel createCheckBoxes(){
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
+		checkBoxes = new JPanel();
+		checkBoxes.setLayout(new GridBagLayout());
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		a = createCheckBox("Vsyc",Main.VSYNC);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		panel.add(a, gbc);
+		checkBoxes.add(a, gbc);
 		
 		gbc = new GridBagConstraints();
 		b = createCheckBox("Wireframe",false);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		panel.add(b, gbc);
+		checkBoxes.add(b, gbc);
 		
 		
 		gbc = new GridBagConstraints();
@@ -91,54 +99,56 @@ public class RMenu extends JPanel{
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		panel.add(c, gbc);
+		checkBoxes.add(c, gbc);
 		
 		gbc = new GridBagConstraints();
 		d = createCheckBox("Mipmapping",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		panel.add(d, gbc);
+		checkBoxes.add(d, gbc);
 		
 		gbc = new GridBagConstraints();
 		e = createCheckBox("Logs",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		panel.add(e, gbc);
+		checkBoxes.add(e, gbc);
 		
 		gbc = new GridBagConstraints();
 		f = createCheckBox("Models",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		panel.add(f, gbc);
+		checkBoxes.add(f, gbc);
 		
 		gbc = new GridBagConstraints();
 		g = createCheckBox("Shadows",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		panel.add(g, gbc);
+		checkBoxes.add(g, gbc);
 		
 		gbc = new GridBagConstraints();
 		h = createCheckBox("Lights",true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		panel.add(h, gbc);
+		checkBoxes.add(h, gbc);
 		
-		return panel;
+		return checkBoxes;
 	}
 	
 	private void createBGColorSliders(){
+		bgColor = new JPanel();
+		bgColor.setLayout(new BorderLayout());
 		BGRed = new JSlider(JSlider.HORIZONTAL,0,255, 0);
 		BGRed.setMajorTickSpacing(255);
 		BGRed.setMinorTickSpacing(0);
 		BGRed.setPaintTicks(true);
 		BGRed.setPaintLabels(true);
 		BGRed.setPreferredSize(new Dimension(getPreferredSize().width-10,50));
-		add(BGRed);
+		bgColor.add(BGRed,BorderLayout.NORTH);
 		
 		BGGreen = new JSlider(JSlider.HORIZONTAL,0,255, 255);
 		BGGreen.setMajorTickSpacing(255);
@@ -146,7 +156,7 @@ public class RMenu extends JPanel{
 		BGGreen.setPaintTicks(true);
 		BGGreen.setPaintLabels(true);
 		BGGreen.setPreferredSize(new Dimension(getPreferredSize().width-10,50));
-		add(BGGreen);
+		bgColor.add(BGGreen,BorderLayout.CENTER);
 		
 		BGBlue = new JSlider(JSlider.HORIZONTAL,0,255, 0);
 		BGBlue.setMajorTickSpacing(255);
@@ -154,7 +164,9 @@ public class RMenu extends JPanel{
 		BGBlue.setPaintTicks(true);
 		BGBlue.setPaintLabels(true);
 		BGBlue.setPreferredSize(new Dimension(getPreferredSize().width-10,50));
-		add(BGBlue);
+		bgColor.add(BGBlue,BorderLayout.SOUTH);
+		
+		add(bgColor);
 	}
 	
 	public Color getBGcolor(){
@@ -215,6 +227,14 @@ public class RMenu extends JPanel{
 	
 	public boolean showLights(){
 		return h.isSelected();
+	}
+
+	public JPanel getCheckBoxes() {
+		return checkBoxes;
+	}
+
+	public JPanel getBgColor() {
+		return bgColor;
 	}
 
 }

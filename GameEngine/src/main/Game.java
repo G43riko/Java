@@ -111,7 +111,11 @@ public class Game extends JFrame{
 			camerka.update();
 			bmenu.updateCameraWindow();
 			selector.input(mapa,camerka.getTargetPosition().x,camerka.getTargetPosition().y);
-			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
+			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
+			float rot =(float)Math.toRadians(camerka.getYaw());
+			rot = (float)Math.PI/4;
+			//selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
+			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
 			shader.start();
 			shader.loadTypeOfView(rmenu.getTypeOfView());
 			shader.loadLight(light);
@@ -186,9 +190,6 @@ public class Game extends JFrame{
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.red);
 		
-		tmenu = new TMenu();
-		contentPanel.add(tmenu,BorderLayout.NORTH);
-		
 		bmenu = new BMenu();
 		bmenu.init();
 		contentPanel.add(bmenu,BorderLayout.SOUTH);
@@ -196,6 +197,9 @@ public class Game extends JFrame{
 		rmenu = new RMenu();
 		rmenu.init();
 		contentPanel.add(rmenu,BorderLayout.EAST);
+		
+		tmenu = new TMenu(bmenu, rmenu);
+		contentPanel.add(tmenu,BorderLayout.NORTH);
 		
 		canvas = new Canvas();
 		contentPanel.add(canvas,BorderLayout.CENTER);

@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -17,16 +18,37 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 import main.Main;
 import terrains.Map;
 
 public class TMenu extends JMenuBar{
 	private JMenu menuA;
+	private JMenu menuB;
+	private JMenu Rsubmenu;
 	private Map mapa;
 	
-	public TMenu(){
+	private BMenu bmenu;
+	private RMenu rmenu;
+	
+	private JCheckBoxMenuItem showRMenu;
+	private JCheckBoxMenuItem showBMenu;
+	
+	private JCheckBoxMenuItem showMiniMap;
+	private JCheckBoxMenuItem showViewControler;
+	private JCheckBoxMenuItem showCheckOptions;
+	private JCheckBoxMenuItem showViewBGColor;
+	
+	public TMenu(BMenu bmenu, RMenu rmenu){
+		this.rmenu = rmenu;
+		this.bmenu = bmenu;
 		if(Main.OSLOOK){
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -35,9 +57,86 @@ public class TMenu extends JMenuBar{
 				e2.printStackTrace();
 			}
 		}
-		menuA = new JMenu("Files");
+		
+		initMenuA();
+		initMenuB();
+	}
+	
+	private void initMenuB(){
+		menuB = new JMenu("View");
 		//menuA.setMnemonic(KeyEvent.VK_C);
-		menuA.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+//		menuB.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		add(menuB);
+		
+		showRMenu = new JCheckBoxMenuItem("Show right Menu",true);
+		showRMenu.setMnemonic(KeyEvent.VK_C);
+//		showRMenu.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
+		showRMenu.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				Rsubmenu.setEnabled(showRMenu.isSelected());
+//				System.out.println(rmenu.isVisible());
+//				rmenu.setVisible(showRMenu.isSelected());
+			}
+		});
+		menuB.add(showRMenu);
+		
+		Rsubmenu = new JMenu("A submenu");
+		
+		showMiniMap = new JCheckBoxMenuItem("Show Minimap",true);
+		showMiniMap.setMnemonic(KeyEvent.VK_C);
+		showMiniMap.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				rmenu.getMinimap().setVisible(showMiniMap.isSelected());
+			}
+		});
+		Rsubmenu.add(showMiniMap);
+		
+		showViewControler = new JCheckBoxMenuItem("Show view controler",true);
+		showViewControler.setMnemonic(KeyEvent.VK_C);
+		showViewControler.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				rmenu.getTypeOfViewSelector().setVisible(showViewControler.isSelected());
+			}
+		});
+		Rsubmenu.add(showViewControler);
+		
+		showCheckOptions = new JCheckBoxMenuItem("Show check options",true);
+		showCheckOptions.setMnemonic(KeyEvent.VK_C);
+		showCheckOptions.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				rmenu.getCheckBoxes().setVisible(showCheckOptions.isSelected());
+			}
+		});
+		Rsubmenu.add(showCheckOptions);
+		
+		showViewBGColor = new JCheckBoxMenuItem("Show BG editor",true);
+		showViewBGColor.setMnemonic(KeyEvent.VK_C);
+		showViewBGColor.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				rmenu.getBgColor().setVisible(showViewBGColor.isSelected());
+			}
+		});
+		Rsubmenu.add(showViewBGColor);
+		
+		menuB.add(Rsubmenu);
+		
+		
+		showBMenu = new JCheckBoxMenuItem("Show bottom Menu",true);
+		showBMenu.setMnemonic(KeyEvent.VK_C);
+		showBMenu.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) {
+				bmenu.setVisible(showBMenu.isSelected());
+			}
+		});
+		menuB.add(showBMenu);
+	}
+	
+	private void initMenuA(){
+		menuA = new JMenu("Files");
 		add(menuA);
 		
 		

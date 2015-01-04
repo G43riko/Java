@@ -13,6 +13,8 @@ uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
+uniform int typeOfView;
+
 
 void main(void){
 	/*
@@ -39,6 +41,11 @@ void main(void){
 	 */
 	toLightVector = lightPosition - worldPosition.xyz;
 	
-	distance = length(positionRelativeToCamera.xyz)/200;
-	//distance = worldPosition.y/120;
+	if(typeOfView != 3){
+		distance = length(positionRelativeToCamera.xyz)/200;
+	}
+	else{
+		distance = worldPosition.y/120;
+	}
+	
 }

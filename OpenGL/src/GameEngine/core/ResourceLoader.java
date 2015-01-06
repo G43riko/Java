@@ -79,13 +79,11 @@ public class ResourceLoader {
 			System.out.println(e);
 			System.exit(1);
 		}
-		Mesh res = new Mesh();
 		Vertex[] vertexData = new Vertex[vertices.size()];
 		vertices.toArray(vertexData);
 		
 		Integer[] indexData = new Integer[indices.size()];
 		indices.toArray(indexData);
-		res.addVertices(vertexData, Util.toIntArray(indexData));
-		return res;
+		return new Mesh(vertexData, Util.toIntArray(indexData));
 	}
 }

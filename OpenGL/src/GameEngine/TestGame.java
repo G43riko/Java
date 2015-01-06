@@ -38,8 +38,7 @@ public class TestGame extends Game{
 		
 		int[] indices = new int[]{0,1,2,
 								   2,1,3};
-		Mesh mesh = new Mesh();
-		mesh.addVertices(vertices, indices, true);
+		Mesh mesh = new Mesh(vertices, indices, true);
 		MeshRenderer meshRenderer = new MeshRenderer(mesh,material);
 		
 		
@@ -51,8 +50,7 @@ public class TestGame extends Game{
 		
 		indices = new int[]{0,1,2,
 								   2,1,3};
-		mesh = new Mesh();
-		mesh.addVertices(vertices, indices, true);
+		mesh = new Mesh(vertices, indices, true);
 		
 		//add mesh1
 		GameObject testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh,material));

@@ -1,0 +1,37 @@
+package GameEngine.rendering.resourceManagement;
+
+import static org.lwjgl.opengl.GL15.*;
+
+public class MeshResource {
+	private int vbo;
+	private int ibo;
+	private int size = 0;
+	
+	public MeshResource(){
+		vbo = glGenBuffers();
+		ibo = glGenBuffers();
+		size = 0;
+	}
+	
+	@Override
+	protected void finalize(){
+		glDeleteBuffers(vbo);
+		glDeleteBuffers(ibo);
+	}
+
+	public int getVbo() {
+		return vbo;
+	}
+
+	public int getIbo() {
+		return ibo;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+}

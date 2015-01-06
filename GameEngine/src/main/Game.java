@@ -80,7 +80,6 @@ public class Game extends JFrame{
 		Entity entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);
 		selector = new Selector(entity);
 		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
-		
 		terrain = new Terrain("HeightMap", loader);
 		
 		//camera = new Camera();
@@ -120,7 +119,7 @@ public class Game extends JFrame{
 			shader.loadTypeOfView(rmenu.getTypeOfView());
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
-
+//			System.out.println(mapa.getNumBlock());
 //			shader.loadChangeColor(true);
 //			shader.loadColor(new Vector3f(1,0,1));
 //			glBegin(GL_LINES);

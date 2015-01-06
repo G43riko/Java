@@ -29,6 +29,15 @@ public class Shader {
 		addFragmentShader(loadShader(fileName+".fs"));
 	}
 	
+	public Shader(){
+		program = glCreateProgram();
+		uniforms = new HashMap<String, Integer>();
+		if(program == 0){
+			System.err.println("Shader creation failed");
+			System.exit(1);
+		}
+	}
+	
 	public void setAttribLocation(String AttributName,int location){
 		glBindAttribLocation(program,location,AttributName);
 	}
@@ -48,6 +57,41 @@ public class Shader {
 			System.exit(1);
 		}
 		uniforms.put(uniform, uniformLocation);
+	}
+	
+	public void addAllAttributes(String shaderText){
+		final String ATTRIBUTE_KEYWORD = "attribute";
+		int attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD);
+		int attribNumber = 0;
+		while(attributeStartLocation != -1) {
+			int begin = attributeStartLocation + ATTRIBUTE_KEYWORD.length()+1;
+			int end = shaderText.indexOf(";",begin);
+			
+			String attributeLine = shaderText.substring(begin, end);
+			String attributeName = attributeLine.substring(attributeLine.indexOf(" ")+1, attributeLine.length());
+			
+			setAttribLocation(attributeName, attribNumber);
+			attribNumber++;
+//			addUniform(attributeName);
+			
+			attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD,attributeStartLocation + ATTRIBUTE_KEYWORD.length());
+		}
+	}
+	
+	public void addAllUniforms(String shaderText){
+		final String UNIFORM_KEYWORD = "uniform";
+		int uniformStartLocation = shaderText.indexOf(UNIFORM_KEYWORD);
+		while(uniformStartLocation != -1) {
+			int begin = uniformStartLocation + UNIFORM_KEYWORD.length()+1;
+			int end = shaderText.indexOf(";",begin);
+			
+			String uniformLine = shaderText.substring(begin, end);
+			String uniformName = uniformLine.substring(uniformLine.indexOf(" ")+1, uniformLine.length());
+			
+			addUniform(uniformName);
+			
+			uniformStartLocation = shaderText.indexOf(UNIFORM_KEYWORD,uniformStartLocation + UNIFORM_KEYWORD.length());
+		}
 	}
 	
 	public void addVertexShader(String text){

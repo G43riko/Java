@@ -8,15 +8,26 @@ public class ForwardAmbient extends Shader{
 	private static final ForwardAmbient instance = new ForwardAmbient();
 	
 	public ForwardAmbient(){
-		super("forward-ambient");
+		super();
 		
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
+		String vertexShaderText = loadShader("forward-ambient.vs");
+		String fragmentShaderText = loadShader("forward-ambient.fs");
+		
+		addVertexShader(vertexShaderText);
+		addFragmentShader(fragmentShaderText);
+		
+//		setAttribLocation("position", 0);
+//		setAttribLocation("texCoord", 1);
+		addAllAttributes(vertexShaderText);
+//		addAllAttributes(fragmentShaderText);
 		
 		compileShader();
 		
-		addUniform("MVP");
-		addUniform("ambientIntensity");
+		addAllUniforms(vertexShaderText);
+		addAllUniforms(fragmentShaderText);
+		
+//		addUniform("MVP");
+//		addUniform("ambientIntensity");
 	}
 	
 	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){

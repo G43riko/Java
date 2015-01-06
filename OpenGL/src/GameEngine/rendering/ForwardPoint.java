@@ -10,10 +10,7 @@ public class ForwardPoint extends Shader{
 private static final ForwardPoint instance = new ForwardPoint();
 	
 	public ForwardPoint(){
-		super();
-		
-		addVertexShader(ResourceLoader.loadShader("forward-point.vs"));
-		addFragmentShader(ResourceLoader.loadShader("forward-point.fs"));
+		super("forward-point");
 		
 		setAttribLocation("position", 0);
 		setAttribLocation("texCoord", 1);

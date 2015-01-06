@@ -10,10 +10,7 @@ public class ForwardDirectional extends Shader{
 private static final ForwardDirectional instance = new ForwardDirectional();
 	
 	public ForwardDirectional(){
-		super();
-		
-		addVertexShader(ResourceLoader.loadShader("forward-directional.vs"));
-		addFragmentShader(ResourceLoader.loadShader("forward-directional.fs"));
+		super("forward-directional");
 		
 		setAttribLocation("position", 0);
 		setAttribLocation("texCoord", 1);

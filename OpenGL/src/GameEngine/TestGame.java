@@ -29,7 +29,7 @@ public class TestGame extends Game{
 		Material material = new Material();//ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
 		material.addTexture("diffuse", new Texture("dirt.jpg"));
 		material.addFloat("specularIntensity", 1);
-		material.addFloat("specularPower", 8);
+		material.addFloat("specularPower", 16);
 		float size = 10;
 		Vertex[] vertices = new Vertex[]{new Vertex(new Vector3f(-size  ,-1.0f ,-size  ), new Vector2f(0.0f, 0.0f)),
 									 new Vertex(new Vector3f(-size   ,-1.0f , size*3), new Vector2f(0.0f, size)),
@@ -66,6 +66,9 @@ public class TestGame extends Game{
 		testMesh3.getTransform().getPosition().Set(5,5,5);
 		testMesh3.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0),(float)Math.toRadians(-70f)));
 		
+		//add mesh4
+		GameObject testMesh4 = new GameObject().addComponent(new MeshRenderer(new Mesh("stall.obj"),material));
+		
 		//add plane
 		GameObject planeObject = new GameObject().addComponent(meshRenderer);
 		planeObject.getTransform().getPosition().Set(0,-1,5);
@@ -88,6 +91,7 @@ public class TestGame extends Game{
 		addObject(testMesh1);
 		testMesh1.addChild(testMesh2);
 		addObject(testMesh3);
+		addObject(testMesh4);
 		addObject(directionalLightObject);
 		addObject(pointLightObject);
 		addObject(spotLightObject);

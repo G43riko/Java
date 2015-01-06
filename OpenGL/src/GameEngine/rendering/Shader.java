@@ -4,9 +4,12 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
 
 import GameEngine.core.Matrix4f;
+import GameEngine.core.ResourceLoader;
 import GameEngine.core.Transform;
 import GameEngine.core.Util;
 import GameEngine.core.Vector3f;
@@ -15,13 +18,15 @@ public class Shader {
 	private int program;
 	private HashMap<String, Integer>uniforms;
 	
-	public Shader(){
+	public Shader(String fileName){
 		program = glCreateProgram();
 		uniforms = new HashMap<String, Integer>();
 		if(program == 0){
 			System.err.println("Shader creation failed");
 			System.exit(1);
-		}	
+		}
+		addVertexShader(loadShader(fileName+".vs"));
+		addFragmentShader(loadShader(fileName+".fs"));
 	}
 	
 	public void setAttribLocation(String AttributName,int location){
@@ -82,6 +87,32 @@ public class Shader {
 	
 	public void setUniform(String uniformName, Matrix4f value){
 		glUniformMatrix4(uniforms.get(uniformName), true,Util.createFlippedBuffer(value));
+	}
+	
+	public static String loadShader(String filename){
+		StringBuilder shaderSource = new StringBuilder();
+		BufferedReader shaderReader = null;
+		final String INCLUDE_DIRECTIVE = "#include";
+		
+		try{
+			shaderReader = new BufferedReader(new FileReader("./res/shaders/" + filename));
+			String line;
+			while((line = shaderReader.readLine()) != null){
+				if(line.startsWith(INCLUDE_DIRECTIVE)){
+					shaderSource.append(loadShader(line.substring(INCLUDE_DIRECTIVE.length()+2,line.length()-1)));
+				}
+				else
+				shaderSource.append(line).append("\n");
+			}
+			shaderReader.close();
+		}
+		catch(Exception e){
+			System.out.println(e);
+			System.out.println("tuto to je");
+			System.exit(1);
+			System.out.println("aj tu");
+		}
+		return shaderSource.toString();
 	}
 	
 	private void addProgram(String text, int type){

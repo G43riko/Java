@@ -13,26 +13,7 @@ import GameEngine.rendering.Texture;
 import GameEngine.rendering.Vertex;
 
 public class ResourceLoader {
-	public static String loadShader(String filename){
-		StringBuilder shaderSource = new StringBuilder();
-		BufferedReader shaderReader = null;
-		
-		try{
-			shaderReader = new BufferedReader(new FileReader("./res/shaders/" + filename));
-			String line;
-			while((line = shaderReader.readLine()) != null){
-				shaderSource.append(line).append("\n");
-			}
-			shaderReader.close();
-		}
-		catch(Exception e){
-			System.out.println(e);
-			System.out.println("tuto to je");
-			System.exit(1);
-			System.out.println("aj tu");
-		}
-		return shaderSource.toString();
-	}
+	
 	
 	public static Mesh loadMesh(String filename){
 		String[] splitArray = filename.split("\\.");

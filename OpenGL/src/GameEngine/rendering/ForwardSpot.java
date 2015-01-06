@@ -11,10 +11,7 @@ public class ForwardSpot extends Shader{
 private static final ForwardSpot instance = new ForwardSpot();
 	
 	public ForwardSpot(){
-		super();
-		
-		addVertexShader(ResourceLoader.loadShader("forward-spot.vs"));
-		addFragmentShader(ResourceLoader.loadShader("forward-spot.fs"));
+		super("forward-spot");
 		
 		setAttribLocation("position", 0);
 		setAttribLocation("texCoord", 1);

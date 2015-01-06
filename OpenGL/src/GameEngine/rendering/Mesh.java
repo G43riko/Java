@@ -18,15 +18,16 @@ public class Mesh {
 //	private int ibo;
 	private static HashMap<String,MeshResource> loadedModels = new HashMap<String,MeshResource>();
 	private MeshResource resource;
+	private String fileName;
 	
 	public Mesh(String fileName){
-		
+		this.fileName = fileName;
 		MeshResource oldResource = loadedModels.get(fileName);
 		if(oldResource != null){
 			resource = oldResource;
+			resource.addReference();
 		}
 		else{
-			resource = new MeshResource();
 			loadMesh(fileName);
 			loadedModels.put(fileName, resource);
 		}
@@ -37,7 +38,8 @@ public class Mesh {
 	}
 	
 	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormal){
-		resource = new MeshResource();
+//		resource = new MeshResource();
+		fileName = "";
 		addVertices(vertices, indices, calcNormal);
 	}
 	
@@ -77,11 +79,19 @@ public class Mesh {
 		return null;
 	}
 	
+	@Override
+	protected void finalize(){
+		if(resource.removeReference()&&!fileName.isEmpty()){
+			loadedModels.remove(fileName);
+		}
+	}
+	
 	public void addVertices(Vertex[] vertices, int[] indices, boolean calcNormal){
 		if(calcNormal){
 			calcNormals(vertices, indices);
 		}
-		resource.setSize(indices.length);
+		//resource.setSize(indices.length);
+		resource = new MeshResource(indices.length);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo());
 		glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL_STATIC_DRAW);

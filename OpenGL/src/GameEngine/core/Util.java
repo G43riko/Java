@@ -1,5 +1,6 @@
 package GameEngine.core;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ import GameEngine.rendering.Vertex;
 public class Util {
 	public static FloatBuffer createFloatBuffer(int size){
 		return BufferUtils.createFloatBuffer(size);
+	}
+	
+	public static ByteBuffer createByteBuffer(int size){
+		return BufferUtils.createByteBuffer(size);
 	}
 	
 	public static IntBuffer createIntBuffer(int size){

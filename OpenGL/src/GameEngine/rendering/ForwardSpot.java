@@ -12,30 +12,6 @@ private static final ForwardSpot instance = new ForwardSpot();
 	
 	public ForwardSpot(){
 		super("forward-spot");
-		
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
-		setAttribLocation("normal", 2);	
-		
-		compileShader();
-		
-		addUniform("model");
-		addUniform("MVP");
-		
-		addUniform("specularIntensity");
-		addUniform("specularPower");
-		addUniform("eyePos");
-
-		addUniform("spotLight.pointLight.baseLight.color");
-		addUniform("spotLight.pointLight.baseLight.intensity");
-		addUniform("spotLight.pointLight.atten.constant");
-		addUniform("spotLight.pointLight.atten.linear");
-		addUniform("spotLight.pointLight.atten.exponent");
-		addUniform("spotLight.pointLight.position");
-		addUniform("spotLight.pointLight.range");
-		
-		addUniform("spotLight.direction");
-		addUniform("spotLight.cutoff");
 	}
 	
 	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){

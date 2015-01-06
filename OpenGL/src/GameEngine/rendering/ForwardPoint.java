@@ -11,27 +11,6 @@ private static final ForwardPoint instance = new ForwardPoint();
 	
 	public ForwardPoint(){
 		super("forward-point");
-		
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
-		setAttribLocation("normal", 2);	
-		
-		compileShader();
-		
-		addUniform("model");
-		addUniform("MVP");
-		
-		addUniform("specularIntensity");
-		addUniform("specularPower");
-		addUniform("eyePos");
-
-		addUniform("pointLight.baseLight.color");
-		addUniform("pointLight.baseLight.intensity");
-		addUniform("pointLight.atten.constant");
-		addUniform("pointLight.atten.linear");
-		addUniform("pointLight.atten.exponent");
-		addUniform("pointLight.position");
-		addUniform("pointLight.range");
 	}
 	
 	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){
@@ -39,8 +18,6 @@ private static final ForwardPoint instance = new ForwardPoint();
 		Matrix4f projectedMatrix = renderingEngine.getMainCamera().getViewProjection().Mul(worldMatrix);
 		material.getTexture("diffuse").bind();
 		
-//		setUniform("MVP",projectionMatrix);
-//		setUniform("ambientIntensity",getRenderingEngine().getAmbientLight());
 		setUniform("model",worldMatrix);
 		setUniform("MVP",projectedMatrix);
 		

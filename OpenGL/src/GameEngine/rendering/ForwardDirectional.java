@@ -7,27 +7,10 @@ import GameEngine.core.ResourceLoader;
 import GameEngine.core.Transform;
 
 public class ForwardDirectional extends Shader{
-private static final ForwardDirectional instance = new ForwardDirectional();
+	private static final ForwardDirectional instance = new ForwardDirectional();
 	
 	public ForwardDirectional(){
 		super("forward-directional");
-		
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
-		setAttribLocation("normal", 2);	
-		
-		compileShader();
-		
-		addUniform("model");
-		addUniform("MVP");
-		
-		addUniform("specularIntensity");
-		addUniform("specularPower");
-		addUniform("eyePos");
-		
-		addUniform("directionalLight.base.color");
-		addUniform("directionalLight.base.intensity");
-		addUniform("directionalLight.direction");
 	}
 	
 	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){
@@ -35,8 +18,6 @@ private static final ForwardDirectional instance = new ForwardDirectional();
 		Matrix4f projectedMatrix = renderingEngine.getMainCamera().getViewProjection().Mul(worldMatrix);
 		material.getTexture("diffuse").bind();
 		
-//		setUniform("MVP",projectionMatrix);
-//		setUniform("ambientIntensity",getRenderingEngine().getAmbientLight());
 		setUniform("model",worldMatrix);
 		setUniform("MVP",projectedMatrix);
 		

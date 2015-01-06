@@ -28,8 +28,13 @@ public class TestGame extends Game{
 
 		Material material = new Material();//ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
 		material.addTexture("diffuse", new Texture("dirt.jpg"));
+		material.addTexture("diffuse", new Texture("dirt.jpg"));
 		material.addFloat("specularIntensity", 1);
-		material.addFloat("specularPower", 16);
+		material.addFloat("specularPower", 8);
+		
+//		material.addTexture("diffuse", new Texture("stallTexture.png"));
+//		material.addFloat("specularIntensity",0.4f);
+//		material.addFloat("specularPower", 16);
 		float size = 10;
 		Vertex[] vertices = new Vertex[]{new Vertex(new Vector3f(-size  ,-1.0f ,-size  ), new Vector2f(0.0f, 0.0f)),
 									 new Vertex(new Vector3f(-size   ,-1.0f , size*3), new Vector2f(0.0f, size)),

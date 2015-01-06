@@ -14,11 +14,17 @@ import textures.ModelTexture;
 import utils.FileLoader;
 import utils.OBJLoader;
 
+/*
+ * 
+ */
+
+
 public class Block extends Entity{
 	public static float WIDTH = 3f;
 	public static float HEIGHT = 1f;
 	public static float DEPTH = 3f;
 	private int type,x,y,z;
+	private boolean transparency;
 	private static RawModel model=null;
 	private static ModelTexture[] textures = new ModelTexture[]{
 		null,
@@ -34,7 +40,6 @@ public class Block extends Entity{
 		this.type = type;
 	}
 	
-
 	public static void init(Loader loader){
 		if(model!=null){
 			return;
@@ -65,7 +70,6 @@ public class Block extends Entity{
 	public int getSurZ(){
 		return z;
 	}
-
 
 	public void setType(int type) {
 		this.type = type;

@@ -6,6 +6,15 @@ import main.Game;
 import renderers.Renderer;
 import shaders.StaticShader;
 
+/*
+ * +void add(Block b)
+ * +void add(Block b,int y)
+ * +void draw(Renderer renderer, Shader shader)
+ * +Block getTop()
+ * -void remove()
+ */
+
+
 public class Stlp {
 	private int numX;
 	private int numZ;
@@ -20,20 +29,36 @@ public class Stlp {
 	public void add(Block b){
 		blocks.add(b);
 	}
+	public void add(int type){
+		blocks.add(new Block(numX,blocks.size(),numZ,type));
+	}
 	
 	public void add(Block b,int y){
 		blocks.set(y, b);
 	}
 	
-//	public void add(int y,int type){
-//		blocks.add(new Block(x,y,z,type));
-//	}
-	
 	public void draw(Renderer renderer, StaticShader shader) {
 		for(Block b:blocks){
+			if(b.getType()!=0)
 			renderer.render(b, shader);
 		}
 	}
 	
+	public Block getTop(){
+		return blocks.get(blocks.size()-1);
+	}
+	
+	public boolean exist(int y){
+		return blocks.contains(y);
+	}
+	
+	public void removeTop(){
+		if(blocks.size()>1)
+			blocks.remove(blocks.size()-1);
+	}
+	
+	public int getNum(){
+		return blocks.size();
+	}
 	
 }

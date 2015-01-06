@@ -1,8 +1,8 @@
 package main;
 
 public class Main {
-	public final static boolean FULLSCREEN = false;
-	public final static boolean ALLERTS = true;
+	public final static boolean FULLSCREEN = true;
+	public final static boolean ALLERTS = false;
 	public final static boolean OSLOOK = false;
 	public final static boolean VSYNC = true;
 	public final static String TITLE = "Game Engine";

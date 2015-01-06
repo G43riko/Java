@@ -2,11 +2,16 @@ package GameEngine.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+
+import org.newdawn.slick.opengl.TextureLoader;
+
 public class Texture {
 	private int id;
 	
-	public Texture(int id){
-		this.id = id;
+	public Texture(String name){
+		this.id = loadTexture(name);
 	}
 	
 	public void bind(){
@@ -15,5 +20,23 @@ public class Texture {
 	
 	public int getID(){
 		return id;
+	}
+	
+	private int loadTexture(String filename){
+		String[] splitArray = filename.split("\\.");
+		String ext = splitArray[splitArray.length-1];
+
+		try{
+			int id = TextureLoader.getTexture(ext, new FileInputStream(new File("res/textures/"+filename))).getTextureID();
+			
+			//return new Texture(id);
+			return id;
+		}
+		catch(Exception e){
+			System.exit(1);
+		}
+
+		return 0;
+		
 	}
 }

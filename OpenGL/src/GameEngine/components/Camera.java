@@ -119,8 +119,8 @@ public class Camera extends GameComponent{
 			}
 			if(rotX){
 //				rotateX((float)Math.toRadians((-deltaPos.GetY() * sensitivity)));
-//				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight().Normalized(),(float)Math.toRadians(-deltaPos.GetY() * sensitivity))).Normalized());
-				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(new Vector3f(1,0,0),(float)Math.toRadians(-deltaPos.GetY() * sensitivity))).Normalized());
+				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight().Normalized(),(float)Math.toRadians(-deltaPos.GetY() * sensitivity))).Normalized());
+//				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(new Vector3f(1,0,0),(float)Math.toRadians(-deltaPos.GetY() * sensitivity))).Normalized());
 			}
 			
 			if(rotY || rotX){

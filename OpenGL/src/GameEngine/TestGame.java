@@ -19,6 +19,7 @@ import GameEngine.core.Vector2f;
 import GameEngine.core.Vector3f;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
+import GameEngine.rendering.Texture;
 import GameEngine.rendering.Vertex;
 import GameEngine.rendering.Window;
 
@@ -26,7 +27,7 @@ public class TestGame extends Game{
 	public void init(){
 
 		Material material = new Material();//ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
-		material.addTexture("diffuse", ResourceLoader.loadTexture("dirt.jpg"));
+		material.addTexture("diffuse", new Texture("dirt.jpg"));
 		material.addFloat("specularIntensity", 1);
 		material.addFloat("specularPower", 8);
 		float size = 10;
@@ -52,43 +53,47 @@ public class TestGame extends Game{
 								   2,1,3};
 		mesh = new Mesh();
 		mesh.addVertices(vertices, indices, true);
-		MeshRenderer meshRenderer2 = new MeshRenderer(mesh,material);
-		GameObject planeObject2 = new GameObject();
-		planeObject2.addComponent(meshRenderer2);
-		planeObject2.getTransform().getPosition().Set(0,2,0);
-		planeObject2.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0),(float)Math.toRadians(45)));
 		
-		MeshRenderer meshRenderer3 = new MeshRenderer(mesh,material);
-		GameObject planeObject3 = new GameObject();
-		planeObject3.addComponent(meshRenderer3);
-		planeObject3.getTransform().getPosition().Set(0,0,5);
+		//add mesh1
+		GameObject testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh,material));
+		testMesh1.getTransform().getPosition().Set(0,2,0);
+		testMesh1.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0),(float)Math.toRadians(45)));
+
+		//add mesh2
+		GameObject testMesh2 = new GameObject().addComponent(new MeshRenderer(mesh,material));
+		testMesh2.getTransform().getPosition().Set(0,0,5);
 		
-		GameObject planeObject = new GameObject();
-		planeObject.addComponent(meshRenderer);
+		//add mesh3
+		GameObject testMesh3 = new GameObject().addComponent(new MeshRenderer(new Mesh("stall.obj"),material));
+		testMesh3.getTransform().getPosition().Set(5,5,5);
+		testMesh3.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0),(float)Math.toRadians(-70f)));
+		
+		//add plane
+		GameObject planeObject = new GameObject().addComponent(meshRenderer);
 		planeObject.getTransform().getPosition().Set(0,-1,5);
 		
+		//add directional light
+		GameObject directionalLightObject = new GameObject().addComponent(new DirectionalLight(new Vector3f(0,0,1),0.4f,new Vector3f(1,1,1)));
+	
+		//add point light
+		GameObject pointLightObject = new GameObject().addComponent(new PointLight(new Vector3f(0,1,0),0.8f,new Vector3f(0.0f, 0.0f, 1.0f)));
 		
-		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0,0,1),0.4f,new Vector3f(1,1,1));
-		directionalLightObject.addComponent(directionalLight);
+		//add spot light
+		GameObject spotLightObject = new GameObject().addComponent(new SpotLight(new Vector3f(0,1,1),2f,0.0f, 0.0f, 0.5f, 0.7f));
+		spotLightObject.getTransform().setPosition((new Vector3f(5,0,5)));
+		spotLightObject.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0), (float)Math.toRadians(90)));
 		
-		GameObject pointLightObject = new GameObject();
-		PointLight pointLight = new PointLight(new Vector3f(0,1,0),0.8f,new Vector3f(0.0f, 0.0f, 1.0f));
-		pointLightObject.addComponent(pointLight);
-		
-		GameObject spotLightObject = new GameObject();
-		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1),2f,0.0f, 0.0f, 0.5f, 0.7f);
-		spotLightObject.addComponent(spotLight);
-		spotLight.getTransform().setPosition((new Vector3f(5,0,5)));
-		spotLight.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0), (float)Math.toRadians(90)));
+		//add camera
+		GameObject cam = new GameObject().addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
 		
 		addObject(planeObject);
-		addObject(planeObject2);
-		planeObject2.addChild(planeObject3);
+		addObject(testMesh1);
+		testMesh1.addChild(testMesh2);
+		addObject(testMesh3);
 		addObject(directionalLightObject);
 		addObject(pointLightObject);
 		addObject(spotLightObject);
-		addObject(new GameObject().addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f)));
+		addObject(cam);
 //		mesh2.addVertices(data2,indices2,true);
 //		scena.add(mesh2);
 	}

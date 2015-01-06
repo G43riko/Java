@@ -27,27 +27,16 @@ public class Selector{
 		this.entity = entity;
 	}
 	
-	public void input(Map mapa,float x, float z){
-		int i = (int)((x+Block.WIDTH)/Block.WIDTH/2);
-		int k = (int)((z+Block.DEPTH)/Block.DEPTH/2);
+	public void input(Map mapa){
+		int i = (int)((entity.x+Block.WIDTH)/Block.WIDTH/2);
+		int k = (int)((entity.z+Block.DEPTH)/Block.DEPTH/2);
 		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
-//			for(int j=mapa.getStlp(i, k).size()-1 ; j>=0 ; j--){
-//				if(mapa.getBlock(i,j, k).getType()==1){
-//					mapa.set(i,j+1,k,new Block(i,j+1, k,1));
-//					return;
-//				}
-//			}
-//		}
-//		if(Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-//			for(int j=mapa.getStlp(i, k).size()-1 ; j>=0 ; j--){
-//				if(mapa.getBlock(i,j, k).getType()==1){
-//					System.out.println("mažeee");
-//					mapa.set(i,j,k,null);
-//					return;
-//				}
-//			}
-//		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+			mapa.add(i,k,1);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+			mapa.remove(i, k);
+		}
 	}
 
 }

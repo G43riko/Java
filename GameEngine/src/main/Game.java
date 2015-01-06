@@ -86,9 +86,9 @@ public class Game extends JFrame{
 		//camera = new Camera();
 		
 //		mapa = new Map(8,4,8);
-		mapa = new Map(32,4,32);
+		mapa = new Map(32,4,32,loader);
 //		mapa = new Map(2,4,2);
-		mapa.initDefaultMap(loader);
+		mapa.initDefaultMap();
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);
 
@@ -110,12 +110,12 @@ public class Game extends JFrame{
 			
 			camerka.update();
 			bmenu.updateCameraWindow();
-			selector.input(mapa,camerka.getTargetPosition().x,camerka.getTargetPosition().y);
-			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
-			float rot =(float)Math.toRadians(camerka.getYaw());
-			rot = (float)Math.PI/4;
-			//selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
-			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
+//			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
+//			float rot =(float)Math.toRadians(camerka.getYaw());
+//			rot = (float)Math.PI/4;
+			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
+			selector.input(mapa);
+//			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
 			shader.start();
 			shader.loadTypeOfView(rmenu.getTypeOfView());
 			shader.loadLight(light);
@@ -165,7 +165,7 @@ public class Game extends JFrame{
 
 	public void cleanUp(){
 		window.cleanUp();
-		System.exit(0);
+		//System.exit(0);
 	};
 	
 	private void initFrame(){

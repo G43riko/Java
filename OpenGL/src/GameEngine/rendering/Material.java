@@ -24,7 +24,7 @@ public class Material {
 		Texture result = textureHashMap.get(name);
 		if(result != null)
 			return result;
-		return ResourceLoader.loadTexture("dirt.jpg");
+		return new Texture("dirt.jpg");
 	}
 	
 	public void addColor(String name,Vector3f color){

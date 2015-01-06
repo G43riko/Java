@@ -59,7 +59,7 @@ public class Window extends JFrame {
 		JButton but = new JButton("nová hra");
 		but.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				game.wantNewGame = true;
+//				game.wantNewGame = true;
 			}
 		});
 		but.setPreferredSize(new Dimension(150,20));

@@ -1,8 +1,8 @@
 package GameEngine.components;
 
 import GameEngine.core.Vector3f;
-import GameEngine.rendering.ForwardPoint;
 import GameEngine.rendering.RenderingEngine;
+import GameEngine.rendering.Shader;
 
 public class PointLight extends BaseLight{
 	private static final int COLOR_DEPTH = 256;
@@ -18,7 +18,7 @@ public class PointLight extends BaseLight{
 		float c = attenuation.GetX() - COLOR_DEPTH*getIntensity()*getColor().Max();
 		
 		this.range = (float)(-b + Math.sqrt(b*b-4*a*c))/2*a;
-		setShader(ForwardPoint.getInstance());
+		setShader(new Shader("forward-point"));
 	}
 
 	public float getRange() {

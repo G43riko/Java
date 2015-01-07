@@ -63,8 +63,7 @@ public class Transform {
 	public Matrix4f getProjectedTransformation(Camera camera){
 		return camera.getViewProjection().Mul(getTransformation());
 	}
-	
-	
+		
 	public Vector3f getPosition() {
 		return pos;
 	}

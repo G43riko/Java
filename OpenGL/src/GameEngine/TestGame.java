@@ -28,7 +28,6 @@ public class TestGame extends Game{
 
 		Material material = new Material();//ResourceLoader.loadTexture("dirt.jpg"),new Vector3f(1,1,1));
 		material.addTexture("diffuse", new Texture("dirt.jpg"));
-		material.addTexture("diffuse", new Texture("dirt.jpg"));
 		material.addFloat("specularIntensity", 1);
 		material.addFloat("specularPower", 8);
 		

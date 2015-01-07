@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
@@ -12,19 +13,27 @@ import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
 import GameEngine.core.GameObject;
 import GameEngine.core.Vector3f;
+import GameEngine.rendering.resourceManagement.MappedValues;
 
-public class RenderingEngine {
+public class RenderingEngine extends MappedValues{
 	private Camera mainCamera;
-	private Vector3f ambientLight;
+	private Shader forwardAmbient;
 	
 	private ArrayList<BaseLight> lights;
 	private BaseLight activeLight;
 	
+	private HashMap<String, Integer> samplerMap;
+	private HashMap<String, Float> floatHashMap;
+	
 	public RenderingEngine(){
+		super();
 		lights = new ArrayList<BaseLight>();
-		
+		samplerMap = new HashMap<String, Integer>();
+		samplerMap.put("diffuse", 0);
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		
+		forwardAmbient = new Shader("forward-ambient");
+				
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
 		
@@ -34,15 +43,14 @@ public class RenderingEngine {
 		glEnable(GL_DEPTH_CLAMP);
 		
 		glEnable(GL_TEXTURE_2D);
-		ambientLight = new Vector3f(0.2f,0.2f,0.2f);
+		addVector3f("ambient", new Vector3f(0.2f,0.2f,0.2f));
 	}
 	
 	public void render(GameObject object){
-		clearScreen();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		lights.clear();
 		object.addToRenderingEngine(this);
-		Shader forwardAmbient = ForwardAmbient.getInstance();
-//		forwardAmbient.setRenderingEngine(this);
+//		Shader forwardAmbient = ForwardAmbient.getInstance();
 		object.render(forwardAmbient,this);
 		
 		glEnable(GL_BLEND);
@@ -51,7 +59,6 @@ public class RenderingEngine {
 		glDepthFunc(GL_EQUAL);
 		
 		for(BaseLight light:lights){
-//			light.getShader().setRenderingEngine(this);
 			activeLight = light;
 			object.render(light.getShader(),this);
 		}
@@ -65,31 +72,13 @@ public class RenderingEngine {
 		lights.add(light);
 	}
 	
-	public Vector3f getAmbientLight(){
-		return ambientLight;
-	}
-	
-	private static void clearScreen(){
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-	
-	private static void setTexture(boolean enabled){
-		if(enabled){
-			glEnable(GL_TEXTURE_2D);
-		}
-		else{
-			glDisable(GL_TEXTURE_2D);
-		}
-	}
+//	public Vector3f getAmbientLight(){
+//		return ambientLight;
+//	}
 	
 	public static String getOpenGLVersion(){
 		return glGetString(GL_VERSION);
 	}
-
-	private static void unbindTextures() {
-		glBindTexture(GL_TEXTURE_2D,0);
-	}
-
 	public static void setClearColor(Vector3f color) {
 		glClearColor(color.GetX(),color.GetY(),color.GetZ(),1.0f);
 	}
@@ -107,7 +96,10 @@ public class RenderingEngine {
 	}
 
 	public void addCamera(Camera camera) {
-		// TODO Auto-generated method stub
 		this.mainCamera = camera;
+	}
+
+	public int getSamplerSlot(String samplerName) {
+		return samplerMap.get(samplerName );
 	}
 }

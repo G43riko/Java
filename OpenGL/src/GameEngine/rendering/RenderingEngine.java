@@ -48,9 +48,6 @@ public class RenderingEngine extends MappedValues{
 	
 	public void render(GameObject object){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		lights.clear();
-		object.addToRenderingEngine(this);
-//		Shader forwardAmbient = ForwardAmbient.getInstance();
 		object.render(forwardAmbient,this);
 		
 		glEnable(GL_BLEND);
@@ -72,13 +69,10 @@ public class RenderingEngine extends MappedValues{
 		lights.add(light);
 	}
 	
-//	public Vector3f getAmbientLight(){
-//		return ambientLight;
-//	}
-	
 	public static String getOpenGLVersion(){
 		return glGetString(GL_VERSION);
 	}
+	
 	public static void setClearColor(Vector3f color) {
 		glClearColor(color.GetX(),color.GetY(),color.GetZ(),1.0f);
 	}
@@ -87,16 +81,13 @@ public class RenderingEngine extends MappedValues{
 		return mainCamera;
 	}
 	
-	public void setCamera(Camera camera) {
-		this.mainCamera = camera;
-	}
-	
 	public BaseLight getActiveLight(){
 		return activeLight;
 	}
 
 	public void addCamera(Camera camera) {
-		this.mainCamera = camera;
+//		System.out.println("prindala sa kamera");
+		mainCamera = camera;
 	}
 
 	public int getSamplerSlot(String samplerName) {

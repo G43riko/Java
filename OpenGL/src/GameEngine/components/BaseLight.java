@@ -1,5 +1,6 @@
 package GameEngine.components;
 
+import GameEngine.core.CoreEngine;
 import GameEngine.core.Transform;
 import GameEngine.core.Vector3f;
 import GameEngine.rendering.RenderingEngine;
@@ -24,8 +25,8 @@ public class BaseLight extends GameComponent{
 		return shader;
 	}
 	
-	public void addToRenderingEngine(RenderingEngine rengeringEngine){
-		rengeringEngine.addLight(this);
+	public void addToEngine(CoreEngine engine){
+		engine.getRenderingEngine().addLight(this);
 	};
 	
 	public void setShader(Shader shader){

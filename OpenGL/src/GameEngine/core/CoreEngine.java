@@ -25,27 +25,24 @@ public class CoreEngine {
 		this.width = width;
 		this.height = height;
 		this.frameTime = 1/framerate;
+		game.setEngine(this);
 	}
 	
 	public void createWindow(String title){
 			Window.createWindow(width, height, title);
 			this.renderingEngine = new RenderingEngine();
 	}
-	
-	public void start(){
-		
-		if(this.isRunning){
-			return;
-		}
-		run();
+
+	public void start(){		
+		if(!this.isRunning)
+			run();
 	}
 	
 	public void stop(){
-		if(!this.isRunning){
-			return;
+		if(this.isRunning){
+			this.isRunning=false;
+			this.cleanUp();
 		}
-		this.isRunning=false;
-		this.cleanUp();
 	}
 	
 	private void run(){
@@ -104,5 +101,9 @@ public class CoreEngine {
 	
 	private void cleanUp(){
 		Window.dispose();
+	}
+
+	public RenderingEngine getRenderingEngine() {
+		return renderingEngine;
 	}
 }

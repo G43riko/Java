@@ -26,7 +26,7 @@ public class Game {
 	public static String title = "nadpis";
 	public static boolean fullscreen = false;
 	public static boolean mipMapping = true;
-	public static boolean wireFrame = true;
+	public static boolean wireFrame = false;
 	
 	private Window window;
 	private Level actLevel; 

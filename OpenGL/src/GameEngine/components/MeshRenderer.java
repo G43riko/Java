@@ -14,6 +14,7 @@ public class MeshRenderer extends GameComponent{
 		this.material = material;
 		this.mesh = mesh;
 	}
+	
 	public void render(Shader shader, RenderingEngine renderingEngine){
 		shader.bind();
 		shader.updateUniforms(getTransform(),material,renderingEngine);

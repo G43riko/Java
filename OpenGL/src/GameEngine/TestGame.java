@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
+import GameEngine.components.FreeLook;
 import GameEngine.components.MeshRenderer;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
@@ -89,7 +90,7 @@ public class TestGame extends Game{
 		spotLightObject.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0), (float)Math.toRadians(90)));
 		
 		//add camera
-		GameObject cam = new GameObject().addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
+		GameObject cam = new GameObject().addComponent(new FreeLook()).addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
 		
 		addObject(planeObject);
 		addObject(testMesh1);
@@ -103,43 +104,5 @@ public class TestGame extends Game{
 //		mesh2.addVertices(data2,indices2,true);
 //		scena.add(mesh2);
 	}
-	
-//	public void input(){
-//		camera.input();
-//		root.input();
-//	}
-//	
-//	float temp = 0;
-//	public void update(){
-//		//root.getTransform().setTranslation(0,-1,5);
-//		root.update();
-////		temp += Time.getDelta();
-////		float sinTemp = (float)Math.sin(temp);
-////		//transform.setTranslation(sinTemp, 0, 5);
-////		//transform.setRotation(0, sinTemp*180, 0);
-////		//transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
-////		pLight1.setPosition(new Vector3f(3, 1, 8.0f*(float)(sinTemp+0.5)+10));
-////		pLight2.setPosition(new Vector3f(7, 1, 8.0f*(float)(Math.cos(temp)+0.5)+10));
-////		
-////		sLight1.getPointLight().setPosition(camera.getPos());
-////		sLight1.setDirection(camera.getForward());
-////		
-//////		options.getAllData();
-//	}
-//	
-//	public void render(){
-//		root.render();
-////		mesh.draw();
-////		//RenderUtil.setClearColor(Transform.getCamera().getPos().Div(2048f).Abs());
-////		shader.bind();
-////		shader.updateUniforms(transform.getTransformation(), transform.getProjectedTransformation(),material);
-////		for(Mesh obj : scena){
-////			obj.draw();
-////		}
-//	}
-	
-//	public void addWindow(Options option){
-//		this.options = option;
-//		options.addLight(pLight1);
-//	}
+
 }

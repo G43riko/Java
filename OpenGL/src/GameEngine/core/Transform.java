@@ -60,6 +60,11 @@ public class Transform {
 		return false;
 	}
 	
+	public void Rotate(Vector3f axis, float angle)
+	{
+		rot = new Quaternion(axis, angle).Mul(rot).Normalized();
+	}
+	
 	public Matrix4f getProjectedTransformation(Camera camera){
 		return camera.getViewProjection().Mul(getTransformation());
 	}

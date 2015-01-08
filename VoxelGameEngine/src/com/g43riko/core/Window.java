@@ -1,4 +1,4 @@
-package GameEngine.rendering;
+package com.g43riko.core;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -6,7 +6,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import GameEngine.core.Vector2f;
+import org.lwjgl.util.vector.Vector2f;
 
 public class Window {
 	public static void createWindow(int width, int height, String title){
@@ -14,6 +14,20 @@ public class Window {
 		Display.setLocation(0, 0);
 		try{
 			Display.setDisplayMode(new DisplayMode(width, height));
+			Display.create();
+			Keyboard.create();
+			Mouse.create();
+		}
+		catch(LWJGLException e){
+			System.out.println(e);
+		}
+	}
+	
+	public static void createWindow(int width, int height, String title,boolean fullscreen){
+		Display.setTitle(title);
+		try{
+			Display.setDisplayMode(Display.getDesktopDisplayMode());
+			Display.setFullscreen(fullscreen);
 			Display.create();
 			Keyboard.create();
 			Mouse.create();
@@ -41,12 +55,12 @@ public class Window {
 	
 	public static void dispose()
 	{
-		Display.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
+		Display.destroy();
 	}
 	
-	public Vector2f getCenter(){
+	public static Vector2f getCenter(){
 		return new Vector2f(getWidth()/2,getHeight()/2);
 	}
 }

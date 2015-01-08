@@ -1,4 +1,4 @@
-package maps;
+package com.g43riko.voxel;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
@@ -19,8 +19,6 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.awt.Color;
 
-import main.Utils;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
@@ -35,24 +33,20 @@ public class Block {
 	private int textureID = -1;
 	private int shader = 0;
 	private Color color = null;
-	private static int[] texturesID = new int[]{-1,Utils.textureLoader("dirt.jpg")};
 	
 	public Block(int x, int y, int z,int type){
-		this.x = x*(int)Map.width*2;
-		this.y = y*(int)Map.height*2;
-		this.z = z*(int)Map.depth*2;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		this.type = type;
 		th=tw=td=1;
 		rx=ry=rz=0;
 		
 		setRandColor();
 		
-		this.w = Map.width;
-		this.h = Map.height;
-		this.d = Map.depth;
-		if(type>=0){
-			this.textureID = texturesID[type];
-		}
+		this.w = 1;
+		this.h = 1;
+		this.d = 1;
 	}
 	
 	public void addShader(int shader){

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Game;
 import main.Loader;
 import renderers.Renderer;
 import shaders.StaticShader;
@@ -36,8 +37,15 @@ public class Map {
 		mapa =  new Stlp[x][z];
 		terrain = new Block[x][z];
 	}
-	
 	public void initDefaultMap(){
+		initDefaultMap(numX,numZ);
+	}
+	
+	public void initDefaultMap(int x, int z){
+		numX = x;
+		numZ = z;
+		mapa =  new Stlp[x][z];
+		terrain = new Block[x][z];
 		int numY = 4;
 		int half = numY/2;
 		int j;

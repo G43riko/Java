@@ -10,11 +10,14 @@ import java.io.PrintStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -26,6 +29,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import main.Game;
 import main.Main;
 import terrains.Map;
 
@@ -144,15 +148,15 @@ public class TMenu extends JMenuBar{
 //		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-//				JOptionPane optionPane = new JOptionPane(
-//					    "The only way to close this dialog is by\n"
-//					    + "pressing one of the following buttons.\n"
-//					    + "Do you understand?",
-//					    JOptionPane.QUESTION_MESSAGE,
-//					    JOptionPane.YES_NO_OPTION);
-//				optionPane.setVisible(true);
-				//optionPane.showInputDialog("nazdar");
-				mapa.initDefaultMap();
+//				Game.isLoading = true;
+				JTextField num = new JTextField();
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("new map size:"),
+						num
+				};
+				JOptionPane.showMessageDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
+				mapa.initDefaultMap(Integer.valueOf(num.getText()),Integer.valueOf(num.getText()));
+//				Game.isLoading = false;
 			}
 		});
 		menuA.add(menuItem);

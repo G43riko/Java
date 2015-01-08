@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 
 
+
 import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
@@ -26,7 +27,6 @@ public abstract class Game {
 	private GameObject root; 
 	
 	public void init(){
-		
 	};
 	
 	public void input(float delta){
@@ -51,6 +51,11 @@ public abstract class Game {
 			root = new GameObject();
 		}
 		return root;
+	}
+
+	public void setEngine(CoreEngine engine) {
+		getRootObject().setEngine(engine);
+		
 	}
 }
 

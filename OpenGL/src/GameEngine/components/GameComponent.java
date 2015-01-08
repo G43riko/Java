@@ -1,5 +1,6 @@
 package GameEngine.components;
 
+import GameEngine.core.CoreEngine;
 import GameEngine.core.GameObject;
 import GameEngine.core.Transform;
 import GameEngine.rendering.RenderingEngine;
@@ -25,5 +26,7 @@ public abstract class GameComponent {
 		this.parent = parent;
 	}
 	
-	public void addToRenderingEngine(RenderingEngine rengeringEngine){};
+	public void addToRenderingEngine(RenderingEngine rengeringEngine){}
+
+	public void addToEngine(CoreEngine engine) {};
 }

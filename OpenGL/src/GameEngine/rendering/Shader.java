@@ -165,7 +165,7 @@ public class Shader {
 				
 				String componentName = shaderText.substring(componentNameStart, componentSemicolomPos);
 				String componentType = shaderText.substring(componentTypeStart, componentTypeEnd);
-				System.out.println(componentType+" "+componentName);
+//				System.out.println(componentType+" "+componentName);
 //				structComponents.add(shaderText.substring(componentNameStart, componentSemicolomPos));
 			
 				componentSemicolomPos = shaderText.indexOf(";",componentSemicolomPos+1);

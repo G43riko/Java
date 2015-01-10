@@ -17,7 +17,6 @@ public class Map {
 	private Vector2f num;
 	
 	public Map(){
-		
 		num = new Vector2f(Window.WIDTH/size, Window.HEIGHT/size);
 		Block.setSize(new Vector2f(Window.WIDTH/num.getX(),Window.HEIGHT/num.getY()));
 		mapa = new Block[(int)num.getX()][(int)num.getY()];	
@@ -48,6 +47,10 @@ public class Map {
 		return false;
 	}
 
+	public Block get(int x, int y){
+		return mapa[x][y];
+	}
+	
 	public Block[][] getMapa() {
 		return mapa;
 	}

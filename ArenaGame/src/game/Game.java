@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Game {
 	private Window window = null;
-	private ArrayList<Unit> units = new ArrayList<Unit>();
+	
 	private Map mapa;
 	public boolean wantNewGame = false;
 	private Player player;
@@ -19,19 +19,20 @@ public class Game {
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, Index.WIDTH, Index.HEIGHT);
 		mapa.draw(g2);
-		for(Unit a:units){
+		for(Unit a:Unit.units){
 			a.move(mapa.getMapa());
 			a.draw(g2);
 		}
 		player.move();
 		player.draw(g2);
+		
 		if(wantNewGame){
 			init();
 		}
 	}
 	
 	public void init() {
-		units.clear();
+		Unit.units.clear();
 		if(window == null)
 			window = new Window(this);
 		player = new Player();
@@ -39,7 +40,7 @@ public class Game {
 		mapa.createRandomMap(window.blocksNum.getValue());
 		
 		for(int i=0 ; i<window.enemyNum.getValue() ; i++){
-			units.add(new UnitA(mapa.getMapa(),window));
+			Unit.units.add(new UnitA(mapa.getMapa(),window));
 		}
 		wantNewGame = false;
 	}
@@ -57,9 +58,8 @@ public class Game {
 		buffer.show();
 	}
 	
-
 	public void setTarget(Vector2f t) {
-		for(Unit a:units){
+		for(Unit a:Unit.units){
 			((UnitA)a).addTarget(t);
 		}
 	}
@@ -72,7 +72,7 @@ public class Game {
 		PathFinder.clear(mapa.getMapa());
 		PathFinder.getDist(mapa.getMapa(), new Vector2f(0,0), vec.div(Map.size));
 		//PathFinder.getDirection(mapa.getMapa());
-		for(Unit a:units){
+		for(Unit a:Unit.units){
 			a.clear();
 			a.fintPathTo(vec,mapa.getMapa());
 		}

@@ -17,11 +17,12 @@ import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
 import org.lwjgl.opengl.Display;
 
 import com.g43riko.voxel.world.Chunk;
+import com.g43riko.voxel.world.World;
 
 public class RenderEngine {
 	private Camera camera = null;
 	//lights, cameras, meshes...
-	private Chunk chunk = new Chunk();
+	private World world = new World();
 	
 	public RenderEngine(){
 		init();
@@ -31,7 +32,7 @@ public class RenderEngine {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		camera.useView();
-		chunk.draw();
+		world.draw();
 	}
 	
 	public void init(){
@@ -41,7 +42,6 @@ public class RenderEngine {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_FRAMEBUFFER_SRGB);
-		
 	}
 	
 

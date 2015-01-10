@@ -2,21 +2,27 @@ package com.g43riko.voxel.world;
 
 import java.util.Arrays;
 
+import org.lwjgl.util.vector.Vector2f;
+
 public class Chunk {
-	public static final int NUM_X = 64;
-	public static final int NUM_Y = 16;
-	public static final int NUM_Z = 64;
-	
+	public static final int NUM_X = 16;
+	public static final int NUM_Y = 32;
+	public static final int NUM_Z = 16;
+	private Vector2f position;
 	private Block[][][] blocks;
 	
-	public Chunk(){
+	public Chunk(float x, float y){
+		position=new Vector2f(x,y);
 		blocks = new Block[NUM_X][NUM_Y][NUM_Z];
 		
 		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					blocks[i][j][k] = new Block(i,j,k,(int)(Math.random()*10));
+			for(int k=0 ; k<NUM_Z ; k++){
+				for(int j=0 ; j<NUM_Y ; j++){
+					blocks[i][j][k] = new Block(i,j,k,(int)(Math.random()*20));
 				}
+//				for(int j=NUM_Y/2 ; j<NUM_Y ; j++){
+//					blocks[i][j][k] = new Block(i,j,k,0);
+//				}
 			}
 		}
 		for(int i=0 ;i<5 ; i++){
@@ -50,7 +56,7 @@ public class Chunk {
 					if(b.getFaces()==null){
 						setFace(b, i,j,k);
 					}
-					blocks[i][j][k].draw();
+					blocks[i][j][k].draw(position);
 				}
 			}
 		}
@@ -82,13 +88,14 @@ public class Chunk {
 	}
 
 	private boolean exist(int x, int y, int z){
-		if(x>=0 && y>=0 && z>=0 && x<NUM_X && y<NUM_Y && z<NUM_Z && blocks[x][y][z].getType()!=0){
+		if(x>=0 && y>=0 && z>=0 && x<NUM_X && y<NUM_Y && z<NUM_Z){
 			return true;
 		}
 		return false;
 	}
+	
 	private boolean isActive(int x, int y, int z){
-		if(exist(x,y,z)){
+		if(exist(x,y,z) && blocks[x][y][z].getType()!=0){
 			return true;
 		}
 		if(x>0 && y>0 && z>0 && x<NUM_X-1 && y<NUM_Y-1 && z<NUM_Z-1){
@@ -99,6 +106,13 @@ public class Chunk {
 			}
 		}
 		return false;
+	}
+	
+	public Block get(int x, int y, int z){
+		if(!exist(x, y, z)){
+			return null;
+		}
+		else return blocks[x][y][z];
 	}
 	
 	

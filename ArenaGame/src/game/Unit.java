@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public abstract class Unit {
+	public static ArrayList<Unit> units = new ArrayList<Unit>();
 	protected Vector2f pos;
 	protected Vector2f dir;
 	protected float speed;
@@ -129,7 +130,6 @@ public abstract class Unit {
 		System.out.println("stoplo sa to");
 	}
 	
-
 	public void clear() {
 		targets.clear();
 		

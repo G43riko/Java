@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Block {
@@ -38,12 +39,12 @@ public class Block {
 		this.type = type;
 	};
 	
-	public void draw(){
+	public void draw(Vector2f pos){
 		glPushMatrix();
 		{
 			glColor3f(color.x,color.y,color.z);
 			
-			glTranslatef(position.x,position.y,position.z);
+			glTranslatef(pos.x+position.x,position.y,pos.y+position.z);
 			glRotatef(0,1,0,0);
 			glRotatef(0,0,1,0);
 			glRotatef(0,0,0,1);

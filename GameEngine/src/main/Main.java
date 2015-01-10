@@ -6,7 +6,7 @@ public class Main {
 	public final static boolean OSLOOK = false;
 	public final static boolean VSYNC = true;
 	public final static String TITLE = "Game Engine";
-	public static final int FPS = 120;
+	public static final int FPS = 30;
 	public static int WIDTH = 1280;
 	public static int HEIGHT = 720;
 	

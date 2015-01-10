@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 
 public class Entity extends BasicEntity{
-	private TexturedModel model;
+	protected TexturedModel texturedModel;
 	
 	public Entity(TexturedModel model, Vector3f pos, Vector3f rot,float scale ){
 		this(model, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale);
@@ -14,11 +14,11 @@ public class Entity extends BasicEntity{
 	
 	public Entity(TexturedModel model,float x, float y, float z, float rx, float ry, float rz, float scale) {
 		super(x, y, z, rx, ry, rz, scale);
-		this.model = model;
+		this.texturedModel = model;
 	}
 
 	public TexturedModel getModel() {
-		return model;
+		return texturedModel;
 	}
 
 }

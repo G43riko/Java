@@ -80,13 +80,13 @@ public class Game extends JFrame{
 		textureModel = new TexturedModel(model,texture);
 		Entity entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);
 		selector = new Selector(entity);
-		light = new Light(new Vector3f(20,20,20),new Vector3f(1,1,1));
+		light = new Light(new Vector3f(20,200,20),new Vector3f(1,1,1));
 		terrain = new Terrain("HeightMap", loader);
 		
 		//camera = new Camera();
 		
 //		mapa = new Map(8,4,8);
-		mapa = new Map(32,4,32,loader);
+		mapa = new Map(32,32,loader);
 //		mapa = new Map(2,4,2);
 		mapa.initDefaultMap();
 		rmenu.setMinimap(mapa.getTerrain());

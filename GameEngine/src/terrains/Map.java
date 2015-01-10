@@ -1,7 +1,12 @@
 package terrains;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -32,15 +37,23 @@ public class Map {
 	private int numX,numZ;
 	private Block[][] terrain;
 	
-	public Map(int x,int y, int z,Loader loader){
+	public Map(int x, int z,Loader loader){
 		Block.init(loader);
 		numX = x;
 		numZ = z;
 		mapa =  new Stlp[x][z];
-		terrain = new Block[x][z];
 	}
+	
 	public void initDefaultMap(){
 		initDefaultMap(numX,numZ);
+	}
+	
+	public void fixMap(){
+		for(int i=0 ; i<numX ; i++){
+			for(int k=0 ; k<numZ ; k++){
+				mapa[i][k].fix();
+			}
+		}
 	}
 	
 	public void initDefaultMap(int x, int z){
@@ -48,7 +61,7 @@ public class Map {
 		numZ = z;
 		mapa =  new Stlp[x][z];
 		terrain = new Block[x][z];
-		int numY = 4;
+		int numY = 8;
 		int half = numY/2;
 		int j;
 		for(int i=0 ; i<numX ; i++){
@@ -56,19 +69,26 @@ public class Map {
 				int dist = half+((int)(Math.random()*numY/2)-numY/2/2);
 				mapa[i][k] = new Stlp(i,k);
 				for(j=0 ; j<dist ; j++){
-					mapa[i][k].add(new Block(i,j, k,(int)(Math.random()*2+1)));
+					if(j==0){
+						mapa[i][k].add(new Block(i,j, k,1));
+						continue;
+					}
+					mapa[i][k].add(new Block(i,j, k,(int)(Math.random()*Block.maxTypes+1)));
 				}
 			}
 		}
+		fixMap();
 		createTerrain();
 	}
 	
 	public void add(int x,int z,int type){
 		mapa[x][z].add(type);
+		updateTerrain(x, z);
 	}
 	
 	public void remove(int x, int z){
 		mapa[x][z].removeTop();
+		updateTerrain(x, z);
 	}
 	
 	private boolean exist(int x,int y,int z){
@@ -92,6 +112,11 @@ public class Map {
 	public void draw(Renderer renderer, StaticShader shader) {
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numZ ; j++){
+				if(Game.isLoading)
+					return;
+				if(mapa[i][j]==null){
+					return;
+				}
 				mapa[i][j].draw(renderer, shader);
 			}
 		}
@@ -105,11 +130,68 @@ public class Map {
 		}
 	}
 	
+	public void updateTerrain(int i, int j){
+		terrain[i][j] = mapa[i][j].getTop();
+	}
+	
 	public String saveMap(){
-		return null;
+		/*#S = Sizes
+		 *#B = Blocks
+		 * S numX numZ
+		 * 
+		 * B x y z type surX surY surZ
+		 * B x y z type surX surY surZ
+		 */
+		String file="#S = Sizes \n#B = Blocks \n\n";
+		file +="S "+numX+" "+numZ+"\n\n";
+		for(int i=0 ; i<numX ; i++){
+			for(int k=0 ; k<numZ ; k++){
+				file += mapa[i][k].getSlpToSave();
+			}
+		}
+		return file;
 	}
 
-	public void loadMap(File file){}
+	public void loadMap(File file){
+		Game.isLoading = true;
+		BufferedReader reader=null;
+		try {
+			reader = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String line;
+		
+		try {
+			while((line = reader.readLine())!=null){
+				if(line.startsWith("S")){
+					numX = Integer.parseInt(line.split(" ")[1]);
+					numZ = Integer.parseInt(line.split(" ")[2]);
+					mapa = new Stlp[numX][numZ];
+				}
+				if(line.startsWith("B")){
+					String[] l = line.split(" ");
+					int x = Integer.parseInt(l[1]);
+					int y = Integer.parseInt(l[2]);
+					int z = Integer.parseInt(l[3]);
+					int t = Integer.parseInt(l[4]);
+					Block block = new Block(x,
+											y,
+											z,
+											t);
+					if(mapa[x][z] == null){
+						mapa[x][z] = new Stlp(x,z);
+					}
+					mapa[x][z].add(block);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		createTerrain();
+		Game.isLoading = false;
+	}
 
 	public Block[][] getTerrain() {
 		return terrain;
@@ -125,57 +207,3 @@ public class Map {
 		return result;
 	}
 }
-
-//	public String saveMap(){
-//		/*#S = Sizes
-//		 *#B = Blocks
-//		 * S numX numY numZ
-//		 * 
-//		 * B x y z type surX surY surZ
-//		 * B x y z type surX surY surZ
-//		 */
-//		String file="#S = Sizes \n#B = Blocks \n\n";
-//		file +="S "+numX+" "+numY+" "+numZ+"\n\n";
-//		
-//		for(int i=0 ; i<numX ; i++){
-//			for(int j=0 ; j<numY ; j++){
-//				for(int k=0 ; k<numZ ; k++){
-//					file += "B "+mapa[i][j][k].getSurX()+" "+mapa[i][j][k].getSurY()+" "+mapa[i][j][k].getSurZ()+" "+mapa[i][j][k].getType()+"\n";
-//				}
-//			}
-//		}
-//		return file;
-//	}
-//	
-//	public void loadMap(File file){
-//		Game.isLoading = true;
-//		BufferedReader reader=null;
-//		try {
-//			reader = new BufferedReader(new FileReader(file));
-//		} catch (FileNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		String line;
-//		
-//		try {
-//			while((line = reader.readLine())!=null){
-//				if(line.startsWith("S")){
-//					numX = Integer.parseInt(line.split(" ")[1]);
-//					numY = Integer.parseInt(line.split(" ")[2]);
-//					numZ = Integer.parseInt(line.split(" ")[3]);
-//					mapa = new Block[numX][numY][numZ];
-//				}
-//				if(line.startsWith("B")){
-//					String[] l = line.split(" "); 
-//					Block block = new Block(Integer.parseInt(l[1]),Integer.parseInt(l[2]),Integer.parseInt(l[3]),Integer.parseInt(l[4]));
-//					mapa[Integer.parseInt(l[1])][Integer.parseInt(l[2])][Integer.parseInt(l[3])] = block;
-//				}
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		createTerrain();
-//		Game.isLoading = false;
-//	}

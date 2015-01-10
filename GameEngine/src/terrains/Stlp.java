@@ -2,6 +2,8 @@ package terrains;
 
 import java.util.ArrayList;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
+
 import main.Game;
 import renderers.Renderer;
 import shaders.StaticShader;
@@ -61,4 +63,20 @@ public class Stlp {
 		return blocks.size();
 	}
 	
+	public void fix(){
+		for(int i=0 ; i<blocks.size() ; i++){
+			Block b = blocks.get(i);
+			if(b.getType()==3&&b.getY()>0&&b.getY()<blocks.size()-1){
+				System.out.println(i);
+			}
+		}
+	}
+	
+	public String getSlpToSave(){
+		String result = "";
+		for(Block b:blocks){
+			result += "B "+b.getSurX()+" "+b.getSurY()+" "+b.getSurZ()+" "+b.getType()+"\n";
+		}
+		return result;
+	}
 }

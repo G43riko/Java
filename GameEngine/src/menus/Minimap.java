@@ -51,8 +51,7 @@ public class Minimap extends JPanel {
 		int numY = canvas.getHeight()/minimap[0].length;
 		for(int i=0 ; i<minimap.length ; i++){
 			for(int j=0 ; j<minimap[i].length ; j++){
-				g2.setColor(Color.black);
-				g2.setColor((minimap[i][j].getY()==0)?Color.green:Color.red);
+				g2.setColor(minimap[i][j].getColor());
 				g2.fillRect(i*numX, j*numY, numX, numY);
 			}
 		}

@@ -1,4 +1,4 @@
-package game;
+package game.main;
 
 public class Index {
 	public static final int HEIGHT = 720;

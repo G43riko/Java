@@ -1,8 +1,10 @@
-package game;
+package game.components;
 
 
 import game.gui.Slider;
 import game.gui.TwoFields;
+import game.main.Game;
+import game.main.Index;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;

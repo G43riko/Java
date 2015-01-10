@@ -16,26 +16,89 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import terrains.Block;
 import entities.Camerka;
 
 public class BMenu extends JPanel{
 	private JPanel cameraWindow;
+	private JPanel blockWindow;
+	private JLabel[] blockData;
 	private JLabel[] cameraData;
 	private JButton cameraReset;
 	private Camerka camerka;
+	private Block actBlock;
+	private JComboBox selectedBlock;
 	
 	public void init(){	
-		//setBackground(Color.green);
 		setPreferredSize(new Dimension(100,100));
 		setBorder(BorderFactory.createLineBorder(Color.black));
-
-		add(initCameraWindow());
+		setLayout(new BorderLayout());
 		
-		String[] petStrings = { "Grass", "Dirt", "Water", "Rock" };
-		JComboBox petList = new JComboBox(petStrings);
-		petList.setSelectedIndex(3);
-		add(petList);
+		JPanel content = new JPanel();
+		content.setLayout(new FlowLayout());
+		
+		String[] selectedBlocks = { "Dirt", "Grass", "Water", "Rock" };
+		selectedBlock = new JComboBox(selectedBlocks);
+		selectedBlock.setSelectedIndex(0);
+		content.add(selectedBlock);
+		
+		content.add(initCameraWindow());
+		content.add(initBlockWindow());
+		
+		add(content,BorderLayout.EAST);
 
+	}
+	
+	private JPanel initBlockWindow(){
+		blockWindow = new JPanel();
+		blockWindow.setLayout(new GridBagLayout());
+		blockData = new JLabel[4];
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JPanel helper = new JPanel();
+		helper.setLayout(new FlowLayout());
+		helper.add(new JLabel("BlockType: "));
+		blockData[0] = new JLabel("typ");
+		helper.add(blockData[0]);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		blockWindow.add(helper, c);
+		
+		c.gridwidth = 1;
+		helper = new JPanel();
+		helper.setLayout(new FlowLayout());
+		helper.add(new JLabel("pos.X: "));
+		blockData[1] = new JLabel("surX");
+		helper.add(blockData[1]);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		blockWindow.add(helper, c);
+		
+		helper = new JPanel();
+		helper.setLayout(new FlowLayout());
+		helper.add(new JLabel("pos.Y: "));
+		blockData[2] = new JLabel("surY");
+		helper.add(blockData[2]);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		blockWindow.add(helper, c);
+		
+		helper = new JPanel();
+		helper.setLayout(new FlowLayout());
+		helper.add(new JLabel("pos.Z: "));
+		blockData[3] = new JLabel("surZ");
+		helper.add(blockData[3]);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 1;
+		blockWindow.add(helper, c);
+		
+		return blockWindow;
 	}
 	
 	private JPanel initCameraWindow(){
@@ -130,6 +193,17 @@ public class BMenu extends JPanel{
 		return cameraWindow;
 	}
 	
+	public void setActBlock(Block block){
+		actBlock = block;
+	}
+	
+	public void updateBlockWindow(){
+		blockData[0].setText(String.valueOf(actBlock.getType()));
+		blockData[1].setText(String.valueOf(actBlock.getX()/2/Block.WIDTH));
+		blockData[2].setText(String.valueOf(actBlock.getY()/2/Block.HEIGHT));
+		blockData[3].setText(String.valueOf(actBlock.getZ()/2/Block.DEPTH));
+	}
+	
 	public void updateCameraWindow(){
 		cameraData[0].setText(String.valueOf((int)camerka.getPosition().x));
 		cameraData[1].setText(String.valueOf((int)camerka.getPosition().y));
@@ -141,6 +215,14 @@ public class BMenu extends JPanel{
 	
 	public void setCamerka(Camerka camerka){
 		this.camerka = camerka;
+	}
+	
+	public int getSelectedType(){
+		return selectedBlock.getSelectedIndex()+1;
+	}
+	
+	public Block getActBlock() {
+		return actBlock;
 	}
 	
 }

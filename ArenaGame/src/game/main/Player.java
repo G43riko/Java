@@ -1,4 +1,7 @@
-package game;
+package game.main;
+
+import game.components.Keyboard;
+import game.maps.Block;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

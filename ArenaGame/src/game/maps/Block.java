@@ -1,4 +1,6 @@
-package game;
+package game.maps;
+
+import game.core.Vector2f;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

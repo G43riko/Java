@@ -1,4 +1,7 @@
-package game;
+package game.maps;
+
+import game.components.Window;
+import game.core.Vector2f;
 
 import java.awt.Graphics2D;
 

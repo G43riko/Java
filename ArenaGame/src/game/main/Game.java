@@ -1,5 +1,13 @@
-package game;
+package game.main;
 
+
+import game.components.Window;
+import game.core.PathFinder;
+import game.core.Vector2f;
+import game.maps.Map;
+import game.towers.Tower;
+import game.units.Unit;
+import game.units.UnitA;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,7 +18,6 @@ import java.util.ArrayList;
 
 public class Game {
 	private Window window = null;
-	
 	private Map mapa;
 	public boolean wantNewGame = false;
 	private Player player;
@@ -23,6 +30,11 @@ public class Game {
 			a.move(mapa.getMapa());
 			a.draw(g2);
 		}
+		for(int i=0 ; i<Tower.towers.size() ; i++){
+			Tower.towers.get(i).shot();
+			Tower.towers.get(i).move();
+			Tower.towers.get(i).draw(g2);
+		}
 		player.move();
 		player.draw(g2);
 		
@@ -33,6 +45,7 @@ public class Game {
 	
 	public void init() {
 		Unit.units.clear();
+		Tower.towers.clear();
 		if(window == null)
 			window = new Window(this);
 		player = new Player();

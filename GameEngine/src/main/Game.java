@@ -18,6 +18,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
@@ -90,9 +91,9 @@ public class Game extends JFrame{
 		mapa.initDefaultMap();
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);
-
 		camerka = new Camerka(shader);
 		bmenu.setCamerka(camerka);
+//		bmenu.setActBlock(mapa.getTop(selector.getSur()));
 		//logs = new Logs();
 		isLoading = false;
 	}
@@ -108,12 +109,18 @@ public class Game extends JFrame{
 			rmenu.getMinimap().update();
 			
 			camerka.update();
-			bmenu.updateCameraWindow();
+			
 //			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
 //			float rot =(float)Math.toRadians(camerka.getYaw());
 //			rot = (float)Math.PI/4;
 			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
-			selector.input(mapa);
+			selector.input(mapa,bmenu);
+			
+			bmenu.updateCameraWindow();
+			if(mapa.getTop(selector.getSur())!=bmenu.getActBlock()){
+				bmenu.setActBlock(mapa.getTop(selector.getSur()));
+			}
+			bmenu.updateBlockWindow();
 //			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
 			shader.start();
 			shader.loadTypeOfView(rmenu.getTypeOfView());

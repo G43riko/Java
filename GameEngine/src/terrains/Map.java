@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import main.Game;
 import main.Loader;
 import renderers.Renderer;
@@ -54,7 +56,7 @@ public class Map {
 				int dist = half+((int)(Math.random()*numY/2)-numY/2/2);
 				mapa[i][k] = new Stlp(i,k);
 				for(j=0 ; j<dist ; j++){
-					mapa[i][k].add(new Block(i,j, k,1));
+					mapa[i][k].add(new Block(i,j, k,(int)(Math.random()*2+1)));
 				}
 			}
 		}
@@ -74,6 +76,10 @@ public class Map {
 			return mapa[x][z].exist(y);
 		}
 		return false;
+	}
+	
+	public Block getTop(Vector2f v){
+		return mapa[(int)v.x][(int)v.y].getTop();
 	}
 	
 	private boolean isHide(int x, int y, int z){

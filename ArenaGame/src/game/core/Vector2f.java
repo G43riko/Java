@@ -1,4 +1,4 @@
-package game;
+package game.core;
 
 public class Vector2f {
 	
@@ -82,10 +82,18 @@ public class Vector2f {
 		this.y+=v.getY();
 	};
 	
-	public void sub(Vector2f v){
+	public void subThis(Vector2f v){
 		//odcitanie
 		this.x-=v.getX();
 		this.y-=v.getY();
+	};
+	
+	public Vector2f sub(Vector2f v){
+		//odcitanie
+		Vector2f o = new Vector2f(this);
+		o.x -= v.getX();
+		o.y -= v.getY();
+		return o;
 	};
 	
 	public void mul(float num){
@@ -150,6 +158,10 @@ public class Vector2f {
         store.setY(interpolateLinear(scale, startValue.getY(), endValue.getY()));
         return store;
     }
+	
+	public Vector2f getInstance(){
+		return new Vector2f(this.x,this.y);
+	}
 	
 	public static Vector2f interpolateLinear(float scale, Vector2f startValue, Vector2f endValue) {
         return interpolateLinear(scale, startValue, endValue, null);

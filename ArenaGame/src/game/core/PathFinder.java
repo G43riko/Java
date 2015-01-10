@@ -1,4 +1,7 @@
-package game;
+package game.core;
+
+import game.maps.Block;
+import game.maps.Map;
 
 import java.util.ArrayList;
 import java.util.List;

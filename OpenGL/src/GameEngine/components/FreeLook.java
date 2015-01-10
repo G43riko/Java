@@ -130,11 +130,9 @@ public class FreeLook extends GameComponent{
 			boolean rotX =deltaPos.GetY() !=0;
 
 			if(rotY){
-//				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(deltaPos.GetX() * sensitivity))).Normalized());
 				getTransform().Rotate(yAxis, (float) Math.toRadians(deltaPos.GetX() * sensitivity));
 			}
 			if(rotX){
-//				getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight().Normalized(),(float)Math.toRadians(-deltaPos.GetY() * sensitivity))).Normalized());
 				getTransform().Rotate(getTransform().getRotation().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * sensitivity));
 			}
 			

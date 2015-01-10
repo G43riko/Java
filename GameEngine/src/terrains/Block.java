@@ -14,10 +14,6 @@ import textures.ModelTexture;
 import utils.FileLoader;
 import utils.OBJLoader;
 
-/*
- * 
- */
-
 
 public class Block extends Entity{
 	public static float WIDTH = 3f;
@@ -44,11 +40,7 @@ public class Block extends Entity{
 		if(model!=null){
 			return;
 		}
-//		model = OBJLoader.loadObjModel("box", loader);
-//		model = Box.getBack(loader, WIDTH, HEIGHT, DEPTH);
 		model = Box.getModel(loader, WIDTH, HEIGHT, DEPTH);
-//		model = Box.getSelectedModel(loader, WIDTH, HEIGHT, DEPTH,new boolean[]{true,true,true,true,true,true});
-//		model = OBJLoader.loadObjModel("plane", loader);
 	}
 	
 	public Block(int x, int y, int z) {

@@ -105,8 +105,8 @@ public class Camerka {
 		
 		if(Mouse.isButtonDown(0)){
 			
-			double dist = 0.1*Math.sin(Math.toRadians(35))/Math.sin(Math.toRadians(55));
-			System.out.println("width: "+dist*Display.getWidth()+" height: "+dist*Display.getHeight());
+//			double dist = 0.1*Math.sin(Math.toRadians(35))/Math.sin(Math.toRadians(55));
+//			System.out.println("width: "+dist*Display.getWidth()+" height: "+dist*Display.getHeight());
 			
 		}
 	}

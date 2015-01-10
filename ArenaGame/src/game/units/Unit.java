@@ -1,4 +1,9 @@
-package game;
+package game.units;
+
+import game.components.Window;
+import game.core.Vector2f;
+import game.maps.Block;
+import game.maps.Map;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,6 +16,7 @@ public abstract class Unit {
 	protected float speed;
 	protected float radius;
 	protected Color color;
+	protected float life;
 	private static final float TARGET_DISTANCE = 20;
 	
 	private ArrayList<Vector2f> targets = new ArrayList<Vector2f>();
@@ -107,12 +113,6 @@ public abstract class Unit {
 		for(int i=0 ; i+1<targets.size() ; i++){
 			g2.drawLine((int)targets.get(i).getX(), (int)targets.get(i).getY(), (int)targets.get(i+1).getX(), (int)targets.get(i+1).getY());
 		}
-		
-		
-//		for(Vector2f bod:targets){
-//			g2.setColor(Color.red);
-//			g2.fillArc((int)bod.getX(), (int)bod.getY(), 4, 4, 0, 360);
-//		}
 	}
 	
 	private void setDirToTarget(Vector2f t){
@@ -132,6 +132,30 @@ public abstract class Unit {
 	
 	public void clear() {
 		targets.clear();
-		
+	}
+	
+
+	public Vector2f getPos() {
+		return pos;
+	}
+	
+	public boolean takeLife (float num){
+		life -= num;
+		if(life<=0){
+			return true;
+		}
+		return false;
+	}
+
+	public float getLife() {
+		return life;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public float getSpeed() {
+		return speed;
 	}
 }

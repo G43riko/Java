@@ -75,7 +75,7 @@ public class Game extends JFrame{
 		
 		//RawModel model = OBJLoader.loadObjModel("box", loader);
 		RawModel model = Box.getModel(loader, .1f, 1000, .1f);
-		ModelTexture texture = new ModelTexture(FileLoader.textureLoader("dirt.jpg"));
+		ModelTexture texture = new ModelTexture("dirt.jpg");
 		TexturedModel textureModel = null;
 		textureModel = new TexturedModel(model,texture);
 		Entity entity = new Entity(textureModel,-5,-1,0,0,0,0,0.5f);

@@ -26,17 +26,11 @@ public class Block extends Entity{
 	private boolean transparency;
 	private Color color;
 	private static RawModel model=null;
-	private static ModelTexture[] textures = new ModelTexture[]{
-		null,
-		new ModelTexture(FileLoader.textureLoader("dirt.jpg")),
-		new ModelTexture(FileLoader.textureLoader("grass.jpg")),
-		new ModelTexture(FileLoader.textureLoader("water.jpg")),
-		new ModelTexture(FileLoader.textureLoader("rock.jpg"))
-	};
+	private static TexturedModel[] models;
 	private static Color[] colors = new Color[]{null,Color.ORANGE,Color.GREEN,Color.BLUE,Color.LIGHT_GRAY};
 	
 	public Block(int x, int y, int z,int type){
-		super(new TexturedModel(model,textures[type]), x*Block.WIDTH*2,y*Block.HEIGHT*2, z*Block.DEPTH*2, 0, 0, 0, 1);
+		super(models[type], x*Block.WIDTH*2,y*Block.HEIGHT*2, z*Block.DEPTH*2, 0, 0, 0, 1);
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -49,6 +43,12 @@ public class Block extends Entity{
 			return;
 		}
 		model = Box.getModel(loader, WIDTH, HEIGHT, DEPTH);
+		models = new TexturedModel[]{null,
+			new TexturedModel(model,new ModelTexture("dirt.jpg")),
+			new TexturedModel(model,new ModelTexture("grass.jpg")),
+			new TexturedModel(model,new ModelTexture("water.jpg")),
+			new TexturedModel(model,new ModelTexture("rock.jpg"))
+		};
 	}
 	
 	public Block(int x, int y, int z) {
@@ -73,7 +73,7 @@ public class Block extends Entity{
 
 	public void setType(int type) {
 		this.type = type;
-		texturedModel = new TexturedModel(model,textures[type]);
+		texturedModel = models[type];
 	}
 
 	public Color getColor() {

@@ -37,31 +37,13 @@ public class Vector2f {
 		return Math.min(this.x,this.y);
 	};
 	
-	public Vector2f normalize(){
-		//vráti nový normálový vektor
-		float dlzka=this.getLength();
-		float bx=this.x/dlzka;
-		float by=this.y/dlzka;
-		return new Vector2f(bx,by);
-	};
-	
-	public void normalizeThis(){
-		//normalizuje vektor
+	public void normalize(){
 		float dlzka=this.getLength();
 		this.x/=dlzka;
 		this.y/=dlzka;
 	}
 	
-	public Vector2f rotate(float angle){
-		//vráti nový otoèený vektor
-		float rad=(float)Math.toRadians(angle);
-		
-		float cos=(float)Math.cos(rad);
-		float sin=(float)Math.sin(rad);
-		return new Vector2f((x*cos-y*sin),(x*sin+y*cos));
-	}
-	
-	public void rotateThis(float angle){
+	public void rotate(float angle){
 		float rad=(float)Math.toRadians(angle);
 		
 		float cos=(float)Math.cos(rad);
@@ -77,11 +59,7 @@ public class Vector2f {
 		return (float)Math.sqrt(dx * dx + dy * dy);
 	}
 	
-	public Vector2f negate() {
-        return new Vector2f(-x, -y);
-    }
-	
-	public void negateThis(){
+	public void negate(){
 		this.x *= -1;
 		this.y *= -1;
 	}
@@ -93,19 +71,16 @@ public class Vector2f {
 	}
 	
 	public void add(Vector2f v){
-		//sèítanie
 		this.x += v.getX();
 		this.y += v.getY();
 	};
 	
 	public void add(float num){
-		//sèítanie
 		this.x += num;
 		this.y += num;
 	};
 	
 	public void sub(Vector2f v){
-		//odcitanie
 		this.x -= v.getX();
 		this.y -= v.getY();
 	};
@@ -134,10 +109,6 @@ public class Vector2f {
 		this.x /= num;
 		this.y /= num;
 	};
-	
-	public Vector2f abs(){
-		return new Vector2f(Math.abs(this.x),Math.abs(this.y));
-	}
 	
 	public void absThis(){
 		this.x = Math.abs(this.x);
@@ -174,9 +145,8 @@ public class Vector2f {
 	}
 	
 	public static Vector2f interpolateLinear(float scale, Vector2f startValue, Vector2f endValue, Vector2f store) {
-        if (store == null) {
+        if (store == null)
             store = new Vector2f();
-        }
         store.setX(interpolateLinear(scale, startValue.getX(), endValue.getX()));
         store.setY(interpolateLinear(scale, startValue.getY(), endValue.getY()));
         return store;
@@ -187,23 +157,21 @@ public class Vector2f {
     }
 	
 	public static float interpolateLinear(float scale, float startValue, float endValue) {
-        if (startValue == endValue) {
+        if (startValue == endValue)
             return startValue;
-        }
-        if (scale <= 0f) {
+        
+        if (scale <= 0f)
             return startValue;
-        }
-        if (scale >= 1f) {
+        
+        if (scale >= 1f)
             return endValue;
-        }
+        
         return ((1f - scale) * startValue) + (scale * endValue);
     }
 	
 	public boolean isInRect(float x, float y, float w, float h){
-		//èi sa vektor so hodnotaby ako suradnicami nachádza v štvorci
-		if(this.x > x && this.x < x + w && this.y > y && this.y < y + h){
+		if(this.x > x && this.x < x + w && this.y > y && this.y < y + h)
 			return true;
-		}
 		return false;
 	};
 	
@@ -211,19 +179,16 @@ public class Vector2f {
 		double dist;
 		dist = (this.x - x) * (this.x - x) + (this.y - y) * (this.y - y);
 		dist = Math.sqrt(dist);
-		if(dist < r){
+		if(dist < r)
 			return true;
-		}
 		return false;
 	}
 	
-	public void move(double x, double y){
-		//asi zbytoèné
-		this.x += x;
-		this.y += y;
+	public Vector2f getInstatnce(){
+		return new Vector2f(this);
 	}
-
-	public boolean equals(Vector3f v){
+	
+	public boolean equals(Vector2f v){
 		return x == v.getX() && y == v.getY();
 	};
 }

@@ -13,8 +13,6 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
-
-
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.awt.Color;

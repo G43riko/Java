@@ -91,7 +91,6 @@ public abstract class ShaderProgram {
 		GL20.glBindAttribLocation(programID, attribute, variableName);
 	}
 	
-	
 	public void cleanUp(){
 		stop();
 		GL20.glDetachShader(programID, vertexShaderID);

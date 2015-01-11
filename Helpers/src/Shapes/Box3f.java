@@ -19,8 +19,6 @@ public class Box3f {
 	private float textureHeight = 1;
 	private float textureDepth = 1;
 	
-	private Color color=null;
-	//private Texture texture=null;
 	private boolean textureRepeat = true;
 
 	public Box3f(float x, float y,float z){
@@ -36,12 +34,7 @@ public class Box3f {
 	}
 	
 	public Box3f(Vector3f pos,float w,float h,float d, float rx, float ry, float rz){
-		this(pos,w,h,d,0,0,0,new Color(150,150,150));
-	}
-	
-	public Box3f(Vector3f pos,float w,float h,float d, float rx, float ry, float rz, Color color){
 		this.pos = pos;
-		this.color = color;
 		
 		this.w = w;
 		this.h = h;
@@ -82,13 +75,5 @@ public class Box3f {
 
 	public void setDepth(float d) {
 		this.d = d;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
 	}
 }

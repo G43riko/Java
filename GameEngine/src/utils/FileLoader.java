@@ -23,23 +23,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 public class FileLoader {
-	public static int textureLoader(String fileName){
-		try {
-			int id = -1;
-			String[] format = fileName.split("\\.");
-			Texture tex = TextureLoader.getTexture(format[1], new FileInputStream(new File("res/textures/"+fileName)));
-			id = tex.getTextureID();
-			if(Game.mipMapping){
-				GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
-			}
-			return id;
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-		return -1;
-	};
+	
 	
 	public static int shaderLoader(int type, String file){
 		int shader = glCreateShader(type);

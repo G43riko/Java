@@ -1,6 +1,8 @@
-package GameEngine.core;
+package prototypeGameEngine.core;
 
-import GameEngine.components.Camera;
+import Goniometry.Matrix4f;
+import Goniometry.Quaternion;
+import Goniometry.Vector3f;
 
 public class Transform {
 	private Transform parent;
@@ -22,17 +24,17 @@ public class Transform {
 	}
 
 	public Matrix4f getTransformation(){
-		Matrix4f translationMatrix = new Matrix4f().InitTranslation(pos.GetX(), pos.GetY(), pos.GetZ());
-		Matrix4f rotationMatrix = rot.ToRotationMatrix();//new Matrix4f().InitRotation(rot.GetX(), rot.GetY(), rot.GetZ());
-		Matrix4f scaleMatrix = new Matrix4f().InitScale(scale.GetX(), scale.GetY(), scale.GetZ());
+		Matrix4f translationMatrix = new Matrix4f().InitTranslation(pos.getX(), pos.getY(), pos.getZ());
+		Matrix4f rotationMatrix = rot.ToRotationMatrix();
+		Matrix4f scaleMatrix = new Matrix4f().InitScale(scale.getX(), scale.getY(), scale.getZ());
 		
 		if(parent != null&&parent.hasChange()){
 			parentMatrix = parent.getTransformation();
 		}
 		if(oldPos!=null){
-			oldPos.Set(pos);
-			oldRot.Set(rot);
-			oldScale.Set(scale);
+			oldPos.set(pos);
+			oldRot.set(rot);
+			oldScale.set(scale);
 		}
 		
 		return parentMatrix.Mul(translationMatrix.Mul(rotationMatrix.Mul(scaleMatrix)));
@@ -47,9 +49,9 @@ public class Transform {
 			return true;
 		}
 		if(oldPos == null){
-			oldPos = new Vector3f(0,0,0).Set(pos);
-			oldRot = new Quaternion(0,0,0,0).Set(rot);
-			oldScale = new Vector3f(0,0,0).Set(scale);
+			oldPos = new Vector3f(0,0,0).set(pos);
+			oldRot = new Quaternion(0,0,0,0).set(rot);
+			oldScale = new Vector3f(0,0,0).set(scale);
 			return true;
 		}
 		if(!pos.equals(oldPos)||!rot.equals(oldRot)||!scale.equals(oldScale))
@@ -58,12 +60,12 @@ public class Transform {
 	}
 	
 	public void Rotate(Vector3f axis, float angle){
-		rot = new Quaternion(axis, angle).Mul(rot).Normalized();
+		rot = new Quaternion(axis, angle).mul(rot).normalize();
 	}
 	
-	public Matrix4f getProjectedTransformation(Camera camera){
-		return camera.getViewProjection().Mul(getTransformation());
-	}
+//	public Matrix4f getProjectedTransformation(Camera camera){
+//		return camera.getViewProjection().Mul(getTransformation());
+//	}
 		
 	public Vector3f getPosition() {
 		return pos;

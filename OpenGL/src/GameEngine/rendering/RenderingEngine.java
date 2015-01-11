@@ -8,9 +8,6 @@ import java.util.HashMap;
 
 import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
-import GameEngine.components.DirectionalLight;
-import GameEngine.components.PointLight;
-import GameEngine.components.SpotLight;
 import GameEngine.core.GameObject;
 import GameEngine.core.Vector3f;
 import GameEngine.rendering.resourceManagement.MappedValues;
@@ -23,13 +20,14 @@ public class RenderingEngine extends MappedValues{
 	private BaseLight activeLight;
 	
 	private HashMap<String, Integer> samplerMap;
-	private HashMap<String, Float> floatHashMap;
+//	private HashMap<String, Float> floatHashMap;
 	
 	public RenderingEngine(){
 		super();
 		lights = new ArrayList<BaseLight>();
 		samplerMap = new HashMap<String, Integer>();
 		samplerMap.put("diffuse", 0);
+		samplerMap.put("normalMap", 1);
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		
 		forwardAmbient = new Shader("forward-ambient");
@@ -48,7 +46,7 @@ public class RenderingEngine extends MappedValues{
 	
 	public void render(GameObject object){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		object.render(forwardAmbient,this);
+		object.renderAll(forwardAmbient,this);
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE,GL_ONE);
@@ -57,7 +55,7 @@ public class RenderingEngine extends MappedValues{
 		
 		for(BaseLight light:lights){
 			activeLight = light;
-			object.render(light.getShader(),this);
+			object.renderAll(light.getShader(),this);
 		}
 		
 		glDepthFunc(GL_LESS);

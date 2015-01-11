@@ -1,26 +1,6 @@
 package GameEngine.core;
 
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-
-
-
-
-
-
-
-
-import GameEngine.components.BaseLight;
-import GameEngine.components.Camera;
-import GameEngine.components.DirectionalLight;
-import GameEngine.components.PointLight;
-import GameEngine.components.SpotLight;
-//import GameEngine.core.Options;
-import GameEngine.rendering.Material;
-import GameEngine.rendering.Mesh;
 import GameEngine.rendering.RenderingEngine;
-import GameEngine.rendering.Vertex;
 
  
 public abstract class Game {
@@ -30,11 +10,11 @@ public abstract class Game {
 	};
 	
 	public void input(float delta){
-		getRootObject().input(delta);
+		getRootObject().inputAll(delta);
 	};
 	
 	public void update(float delta){
-		getRootObject().update(delta);
+		getRootObject().updateAll(delta);
 	};
 	
 	public void addObject(GameObject object){

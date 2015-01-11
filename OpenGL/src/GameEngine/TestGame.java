@@ -1,11 +1,9 @@
 package GameEngine;
 
-import java.util.ArrayList;
-
-import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.FreeLook;
+import GameEngine.components.FreeMove;
 import GameEngine.components.MeshRenderer;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
@@ -13,9 +11,6 @@ import GameEngine.components.SpotLight;
 import GameEngine.core.Game;
 import GameEngine.core.GameObject;
 import GameEngine.core.Quaternion;
-import GameEngine.core.ResourceLoader;
-import GameEngine.core.Time;
-import GameEngine.core.Transform;
 import GameEngine.core.Vector2f;
 import GameEngine.core.Vector3f;
 import GameEngine.rendering.Material;
@@ -90,7 +85,7 @@ public class TestGame extends Game{
 		spotLightObject.getTransform().setRotation(new Quaternion(new Vector3f(0,1,0), (float)Math.toRadians(90)));
 		
 		//add camera
-		GameObject cam = new GameObject().addComponent(new FreeLook()).addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
+		GameObject cam = new GameObject().addComponent(new FreeMove(10)).addComponent(new FreeLook(0.3f)).addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
 		
 		addObject(planeObject);
 		addObject(testMesh1);

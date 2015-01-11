@@ -1,12 +1,5 @@
 package GameEngine.core;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
-import GameEngine.TestGame;
 import GameEngine.rendering.RenderingEngine;
 import GameEngine.rendering.Window;
 

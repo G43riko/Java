@@ -1,20 +1,13 @@
 package GameEngine.core;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import org.newdawn.slick.opengl.TextureLoader;
-
 import GameEngine.rendering.Mesh;
-import GameEngine.rendering.Texture;
 import GameEngine.rendering.Vertex;
 
 public class ResourceLoader {
-	
-	
 	public static Mesh loadMesh(String filename){
 		String[] splitArray = filename.split("\\.");
 		String ext = splitArray[splitArray.length-1];

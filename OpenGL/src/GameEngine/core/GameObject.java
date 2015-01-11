@@ -42,18 +42,48 @@ public class GameObject {
 		return transform;
 	}
 	
+	public ArrayList<GameObject> getAllAttached(){
+		ArrayList<GameObject> result = new ArrayList<GameObject>();
+		
+		for(GameObject child:children)
+			result.addAll(child.getAllAttached());
+		
+		result.add(this);
+		return result;
+	}
+	
 	public GameObject addComponent(GameComponent component){
 		component.setParent(this);
 		components.add(component);
 		return this;
 	}
 	
+	public void inputAll(float delta){
+		input(delta);
+		for(GameObject child:children){
+			child.inputAll(delta);
+		}
+	}
+	
+	public void updateAll(float delta){
+		update(delta);
+		for(GameObject child:children){
+			child.updateAll(delta);
+		}
+	}
+
+	public void renderAll(Shader shader, RenderingEngine renderingEngine){
+		render(shader,renderingEngine);
+		for(GameObject child:children){
+			child.renderAll(shader,renderingEngine);
+		}
+	}
+
 	public void input(float delta){
+		transform.update();
+		
 		for(GameComponent component:components){
 			component.input(delta);
-		}
-		for(GameObject child:children){
-			child.input(delta);
 		}
 	}
 	
@@ -61,17 +91,11 @@ public class GameObject {
 		for(GameComponent component:components){
 			component.update(delta);
 		}
-		for(GameObject child:children){
-			child.update(delta);
-		}
 	}
-
+	
 	public void render(Shader shader, RenderingEngine renderingEngine){
 		for(GameComponent component:components){
 			component.render(shader,renderingEngine);
-		}
-		for(GameObject child:children){
-			child.render(shader,renderingEngine);
 		}
 	}
 }

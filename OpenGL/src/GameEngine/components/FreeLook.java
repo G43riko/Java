@@ -71,17 +71,21 @@ public class FreeLook extends GameComponent{
 	public final static Vector3f yAxis = new Vector3f(0, 1, 0);
 	private Vector2f centerPosition = new Vector2f(Window.getWidth()/2,Window.getHeight()/2);
 	private boolean mouseLocked = false;
+	private int unlockMouseKey;
+	private float sensitivity;
 	
-	public void move(Vector3f dir, float amt){
-		getTransform().setPosition(getTransform().getPosition().Add(dir.Mul(amt)));
+	public FreeLook(float sensitivity){
+		this(sensitivity,Input.KEY_ESCAPE);
+	}
+	
+	public FreeLook(float sensitivity,int unlockMouseKey){
+		this.sensitivity = sensitivity;
+		this.unlockMouseKey = unlockMouseKey;
 	}
 	
 	public void input(float delta){
-		float sensitivity = 0.3f;
-		float movAmt = (float)(10 * delta);
-		float rotAmt = (float)(100 * delta);
 		
-		if(Input.getKey(Input.KEY_ESCAPE)){
+		if(Input.getKey(unlockMouseKey)){
 			Input.SetCursor(true);
 			mouseLocked = false;
 		}
@@ -92,19 +96,6 @@ public class FreeLook extends GameComponent{
 			mouseLocked = true;
 		}
 		
-		
-		if(Input.getKey(Input.KEY_W)){
-			move(getTransform().getRotation().GetForward(),movAmt);
-		}
-		if(Input.getKey(Input.KEY_S)){
-			move(getTransform().getRotation().GetForward(),-movAmt);
-		}
-		if(Input.getKey(Input.KEY_A)){
-			move(getTransform().getRotation().GetLeft(),movAmt);
-		}
-		if(Input.getKey(Input.KEY_D)){
-			move(getTransform().getRotation().GetRight(),movAmt);
-		}
 		if(Input.getKey(Input.KEY_UP)){
 			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight(),(float)Math.toRadians(-sensitivity))).Normalized());
 		}
@@ -117,12 +108,7 @@ public class FreeLook extends GameComponent{
 		if(Input.getKey(Input.KEY_RIGHT)){
 			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(sensitivity))).Normalized());
 		}
-		if(Input.getKey(Input.KEY_SPACE)){
-			move(new Vector3f(0,1,0),movAmt);
-		}
-		if(Input.getKey(Input.KEY_LSHIFT)){
-			move(new Vector3f(0,1,0),-movAmt);
-		}
+		
 		if(mouseLocked){
 			Vector2f deltaPos = Input.GetMousePosition().Sub(centerPosition);
 			

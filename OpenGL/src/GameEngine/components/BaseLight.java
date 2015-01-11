@@ -1,13 +1,10 @@
 package GameEngine.components;
 
 import GameEngine.core.CoreEngine;
-import GameEngine.core.Transform;
 import GameEngine.core.Vector3f;
-import GameEngine.rendering.RenderingEngine;
 import GameEngine.rendering.Shader;
 
 public class BaseLight extends GameComponent{
-	private Transform transform;
 	private Vector3f color;
 	private float intensity;
 	private Shader shader;

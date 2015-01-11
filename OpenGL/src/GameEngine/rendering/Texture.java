@@ -5,13 +5,10 @@ import static org.lwjgl.opengl.GL13.*;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-
-import org.newdawn.slick.opengl.TextureLoader;
 
 import GameEngine.core.Util;
 import GameEngine.rendering.resourceManagement.TextureResource;
@@ -56,9 +53,6 @@ public class Texture {
 	}
 	
 	private TextureResource loadTexture(String filename){
-		String[] splitArray = filename.split("\\.");
-		String ext = splitArray[splitArray.length-1];
-
 		try{
 			BufferedImage image = ImageIO.read(new File("res/textures/"+filename));
 			int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
@@ -81,7 +75,6 @@ public class Texture {
 			}
 			buffer.flip();
 			
-//			int id = glGenTextures();
 			TextureResource resource = new TextureResource();
 			glBindTexture(GL_TEXTURE_2D, resource.getId());
 			

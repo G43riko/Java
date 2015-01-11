@@ -2,7 +2,6 @@ package GameEngine.rendering.resourceManagement;
 
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 public class TextureResource {
 	private int id;

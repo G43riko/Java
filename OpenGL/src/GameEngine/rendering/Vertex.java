@@ -9,6 +9,7 @@ public class Vertex {
 	private Vector3f pos;
 	private Vector2f texCoord;
 	private Vector3f normal;
+	private Vector3f tangent;
 	
 	public Vertex(Vector3f pos){
 		this(pos,new Vector2f(0,0));
@@ -24,6 +25,13 @@ public class Vertex {
 		this.normal = normal;
 	}
 
+	public Vertex(Vector3f pos,Vector2f texCoord, Vector3f normal, Vector3f tangent){
+		this.pos = pos;
+		this.texCoord = texCoord;
+		this.normal = normal;
+		this.tangent = tangent;
+	}
+	
 	public Vector3f getPos(){
 		return pos;
 	}
@@ -46,5 +54,13 @@ public class Vertex {
 
 	public void setNormal(Vector3f normal) {
 		this.normal = normal;
+	}
+
+	public Vector3f getTangent() {
+		return tangent;
+	}
+
+	public void setTangent(Vector3f tangent) {
+		this.tangent = tangent;
 	}
 }

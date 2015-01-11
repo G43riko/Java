@@ -24,4 +24,28 @@ public class OBJIndex {
 		
 		return result;
 	}
+
+	public int getVertexIndex() {
+		return vertexIndex;
+	}
+
+	public int getTextCoordIndex() {
+		return textCoordIndex;
+	}
+
+	public int getNormalIndex() {
+		return normalIndex;
+	}
+
+	public void setVertexIndex(int vertexIndex) {
+		this.vertexIndex = vertexIndex;
+	}
+
+	public void setTextCoordIndex(int textCoordIndex) {
+		this.textCoordIndex = textCoordIndex;
+	}
+
+	public void setNormalIndex(int normalIndex) {
+		this.normalIndex = normalIndex;
+	}
 }

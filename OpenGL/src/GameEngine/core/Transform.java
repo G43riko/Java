@@ -26,14 +26,6 @@ public class Transform {
 		Matrix4f rotationMatrix = rot.ToRotationMatrix();//new Matrix4f().InitRotation(rot.GetX(), rot.GetY(), rot.GetZ());
 		Matrix4f scaleMatrix = new Matrix4f().InitScale(scale.GetX(), scale.GetY(), scale.GetZ());
 		
-		if(parent != null&&parent.hasChange()){
-			parentMatrix = parent.getTransformation();
-		}
-		if(oldPos!=null){
-			oldPos.Set(pos);
-			oldRot.Set(rot);
-			oldScale.Set(scale);
-		}
 		
 		return parentMatrix.Mul(translationMatrix.Mul(rotationMatrix.Mul(scaleMatrix)));
 	}
@@ -55,6 +47,19 @@ public class Transform {
 		if(!pos.equals(oldPos)||!rot.equals(oldRot)||!scale.equals(oldScale))
 			return true;
 		return false;
+	}
+	
+	public void update(){
+		if(oldPos != null){
+			oldPos.Set(pos);
+			oldRot.Set(rot);
+			oldScale.Set(scale);
+		}
+		else{
+			oldPos = new Vector3f(0,0,0).Set(pos).Add(1.0f);
+			oldRot = new Quaternion(0,0,0,0).Set(rot).Mul(0.5f);
+			oldScale = new Vector3f(0,0,0).Set(scale).Add(1.0f);
+		}
 	}
 	
 	public void Rotate(Vector3f axis, float angle){

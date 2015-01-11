@@ -1,6 +1,5 @@
 package GameEngine.components;
 
-import GameEngine.core.Transform;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
 import GameEngine.rendering.RenderingEngine;

@@ -2,33 +2,30 @@ package GameEngine.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL32.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.lwjgl.util.vector.Matrix3f;
+
 import GameEngine.components.BaseLight;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
+import GameEngine.core.Matrix3fg;
 import GameEngine.core.Matrix4f;
-import GameEngine.core.ResourceLoader;
 import GameEngine.core.Transform;
 import GameEngine.core.Util;
 import GameEngine.core.Vector3f;
 import GameEngine.rendering.resourceManagement.ShaderResource;
-import GameEngine.rendering.resourceManagement.TextureResource;
 
 public class Shader {
 	private ShaderResource resource;
 	private static HashMap<String,ShaderResource> loadedShaders = new HashMap<String,ShaderResource>();
-//	private int program;
-	private String fileName;
 	
 	public Shader(String fileName){
-		this.fileName = fileName;
 		
 		ShaderResource oldResource = loadedShaders.get(fileName);
 		if(oldResource != null){
@@ -137,9 +134,7 @@ public class Shader {
 			int nameBegin = structStartLocation + STRUCT_KEYWORD.length()+1;
 			int braceBegin = shaderText.indexOf("{",nameBegin);
 			int braceEnd = shaderText.indexOf("}",braceBegin+1);
-//			int end = shaderText.indexOf(";",begin);
 			
-//			String structLine = shaderText.substring(begin, end);
 			String structName = shaderText.substring(nameBegin, braceBegin).trim();
 			ArrayList<GLSLStruct> glslStructs= new ArrayList<GLSLStruct>();
 			
@@ -201,7 +196,6 @@ public class Shader {
 			
 			setAttribLocation(attributeName, attribNumber);
 			attribNumber++;
-//			addUniform(attributeName);
 			
 			attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD,attributeStartLocation + ATTRIBUTE_KEYWORD.length());
 		}
@@ -263,9 +257,9 @@ public class Shader {
 		addProgram(text, GL_VERTEX_SHADER);
 	}
 	
-	private void addGeometryShader(String text){
-		addProgram(text, GL_GEOMETRY_SHADER);
-	}
+//	private void addGeometryShader(String text){
+//		addProgram(text, GL_GEOMETRY_SHADER);
+//	}
 
 	private void addFragmentShader(String text){
 		addProgram(text, GL_FRAGMENT_SHADER);

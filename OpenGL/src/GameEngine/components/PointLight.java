@@ -1,12 +1,10 @@
 package GameEngine.components;
 
 import GameEngine.core.Vector3f;
-import GameEngine.rendering.RenderingEngine;
 import GameEngine.rendering.Shader;
 
 public class PointLight extends BaseLight{
 	private static final int COLOR_DEPTH = 256;
-	private float constant,linear, exponent;
 	private Vector3f attenuation;
 	private float range;
 	

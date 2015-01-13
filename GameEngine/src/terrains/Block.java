@@ -18,12 +18,19 @@ import utils.OBJLoader;
 
 
 public class Block extends Entity{
-	public static float WIDTH = 3f;
-	public static float HEIGHT = 1f;
-	public static float DEPTH = 3f;
+	public final static int DIRT = 1;
+	public final static int GRASS = 2;
+	public final static int WATER = 3;
+	public final static int STONE = 3;
+	
+	public final static float WIDTH = 3f;
+	public final static float HEIGHT = 1f;
+	public final static float DEPTH = 3f;
+	
 	public static int maxTypes = 4;
 	private int type,x,y,z;
 	private boolean transparency;
+	private boolean active = true;
 	private Color color;
 	private static RawModel model=null;
 	private static TexturedModel[] models;
@@ -73,10 +80,19 @@ public class Block extends Entity{
 
 	public void setType(int type) {
 		this.type = type;
+		this.color = colors[type];
 		texturedModel = models[type];
 	}
 
 	public Color getColor() {
 		return color;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

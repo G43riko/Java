@@ -18,8 +18,14 @@ import shaders.StaticShader;
 
 
 public class Stlp {
+	public final static int NORT = 0;
+	public final static int SOUTH = 2;
+	public final static int EAST = 1;
+	public final static int WEST = 3;
+	
 	private int numX;
 	private int numZ;
+	private Stlp[] susedia = new Stlp[4];
 	private ArrayList<Block> blocks;
 	
 	public Stlp(int x, int z){
@@ -31,6 +37,7 @@ public class Stlp {
 	public void add(Block b){
 		blocks.add(b);
 	}
+	
 	public void add(int type){
 		blocks.add(new Block(numX,blocks.size(),numZ,type));
 	}
@@ -41,8 +48,8 @@ public class Stlp {
 	
 	public void draw(Renderer renderer, StaticShader shader) {
 		for(Block b:blocks){
-			if(b.getType()!=0)
-			renderer.render(b, shader);
+			if(b.getType()!=0 && b.isActive())
+				renderer.render(b, shader);
 		}
 	}
 	
@@ -63,13 +70,42 @@ public class Stlp {
 		return blocks.size();
 	}
 	
+	public int getHeight(){
+		return blocks.size();
+	}
+	
 	public void fix(){
 		for(int i=0 ; i<blocks.size() ; i++){
 			Block b = blocks.get(i);
-			if(b.getType()==3&&b.getY()>0&&b.getY()<blocks.size()-1){
-				System.out.println(i);
+			if(b.getType()==Block.WATER && i>0 && i<blocks.size()-1){
+				b.setType(Block.WATER+Math.random()<0.5?-1:+1);
+			}
+			else if(b.getType()==Block.WATER){
+				boolean maze = false;
+				for(int j=0 ; j<4 ; j++){
+					if(susedia[j]!=null){
+						if(susedia[j].getHeight()<i+1){
+							maze = true;
+							break;
+						}
+					}
+					else{
+						maze = true;
+						break;
+					}
+				}
+				if(maze){
+					b.setType(Block.WATER+Math.random()<0.5?-1:+1);
+				}
+			}
+			if(i+1==blocks.size() && b.getType() != Block.GRASS && b.getType() != Block.WATER){
+				b.setType(Block.GRASS);
 			}
 		}
+	}
+	
+	public void addSuseda(int kde,Stlp kto){
+		susedia[kde] = kto;
 	}
 	
 	public String getSlpToSave(){
@@ -78,5 +114,30 @@ public class Stlp {
 			result += "B "+b.getSurX()+" "+b.getSurY()+" "+b.getSurZ()+" "+b.getType()+"\n";
 		}
 		return result;
+	}
+
+	public void setActivity() {
+		for(int i=0 ; i<blocks.size() ; i++){
+			Block b = blocks.get(i);
+			boolean active = false;
+			for(int j=0 ; j<4 ; j++){
+				if(susedia[j]!=null){
+					if(susedia[j].getHeight()<i+1){
+						active = true;
+						break;
+					}
+				}
+				else{
+					active = true;
+					break;
+				}
+			}
+			if(!active && i+1<blocks.size()){
+				b.setActive(false);
+			}
+			else{
+				b.setActive(true);
+			}
+		}
 	}
 }

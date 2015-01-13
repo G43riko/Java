@@ -9,6 +9,7 @@ public class DirectionalLight extends BaseLight{
 	public DirectionalLight(Vector3f color, float intensity, Vector3f direction){
 		super(color,intensity);
 		this.direction = direction.Normalized();
+		//setShader(new Shader("forward-directional-noNormals"));
 		setShader(new Shader("forward-directional"));
 	}
 

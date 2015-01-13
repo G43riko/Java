@@ -18,15 +18,16 @@ import GameEngine.rendering.Window;
 public class VoxelGame extends Game{
 	public void init(){
 		Material material = new Material();
-		material.addTexture("diffuse", new Texture("stallTexture.png"));
-		material.addTexture("normalMap", new Texture("dafault_normal_map.jpg"));
-		material.addFloat("specularIntensity", 1);
+		//material.addTexture("diffuse", new Texture("stallTexture.png"));
+		material.addTexture("diffuse", new Texture("bricks.jpg"));
+		material.addTexture("normalMap", new Texture("bricks_normal.jpg"));
+		material.addFloat("specularIntensity", 0.5f);
 		material.addFloat("specularPower", 8);
 		
 		Material material2 = new Material();
-		material2.addTexture("diffuse", new Texture("brick_diffuse.jpg"));
-		material.addTexture("normalMap", new Texture("brick_normal.jpg"));
-		material2.addFloat("specularIntensity",2);
+		material2.addTexture("diffuse", new Texture("bricks2.jpg"));
+		material.addTexture("normalMap", new Texture("bricks2_normal.jpg"));
+		material2.addFloat("specularIntensity",1);
 		material2.addFloat("specularPower", 8);
 		float size = 10;
 		Vertex[] vertices = new Vertex[]{new Vertex(new Vector3f(-size  ,-1.0f ,-size  ), new Vector2f(0.0f, 0.0f)),

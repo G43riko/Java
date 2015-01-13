@@ -1,5 +1,7 @@
 package terrains;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -26,9 +30,10 @@ import shaders.StaticShader;
  *  +void add(Block b,int x,int z)
  *  +void remove(int x,int z)
  *  +int getNumBlock()
- *  -void loadMap(File file)
- *  -String saveMap()
- *  
+ *  +void loadMap(File file)
+ *  +String saveMap()
+ *  +addSesedov()
+ *  +fixMap()
  */
 
 
@@ -52,6 +57,15 @@ public class Map {
 		for(int i=0 ; i<numX ; i++){
 			for(int k=0 ; k<numZ ; k++){
 				mapa[i][k].fix();
+				
+			}
+		}
+	}
+	
+	public void setActivity(){
+		for(int i=0 ; i<numX ; i++){
+			for(int k=0 ; k<numZ ; k++){
+				mapa[i][k].setActivity();
 			}
 		}
 	}
@@ -61,7 +75,7 @@ public class Map {
 		numZ = z;
 		mapa =  new Stlp[x][z];
 		terrain = new Block[x][z];
-		int numY = 8;
+		int numY = 16;
 		int half = numY/2;
 		int j;
 		for(int i=0 ; i<numX ; i++){
@@ -70,15 +84,68 @@ public class Map {
 				mapa[i][k] = new Stlp(i,k);
 				for(j=0 ; j<dist ; j++){
 					if(j==0){
-						mapa[i][k].add(new Block(i,j, k,1));
+						mapa[i][k].add(new Block(i,j, k,Block.DIRT));
 						continue;
 					}
 					mapa[i][k].add(new Block(i,j, k,(int)(Math.random()*Block.maxTypes+1)));
 				}
 			}
 		}
+		addSesedov();
 		fixMap();
 		createTerrain();
+	}
+	
+	public void initMapFromHeighMap(String fileName){
+		mapa =  new Stlp[numX][numZ];
+		terrain = new Block[numX][numZ];
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("res/" +fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		int size = image.getHeight();
+		size /=numX;
+		for(int i=0;i<numX;i++){
+			for(int k=0;k<numZ;k++){
+				int height = new Color(image.getRGB(i*size, k*size)).getRed();
+				height /=4;
+				mapa[i][k] = new Stlp(i,k);
+				for(int j=0 ; j<height ; j++){
+					if(j==0){
+						mapa[i][k].add(new Block(i,j, k,Block.DIRT));
+						continue;
+					}
+					mapa[i][k].add(new Block(i,j, k,(int)(Math.random()*Block.maxTypes+1)));
+				}
+			}
+		}
+		addSesedov();
+		fixMap();
+		setActivity();
+		createTerrain();
+		System.out.println("Mapa obsahuje "+getNumBlock()+" kociek");
+	}
+	
+	public void addSesedov(){
+		for(int i=0 ; i<numX ; i++){
+			for(int k=0 ; k<numZ ; k++){
+				if(i>0){
+					mapa[i][k].addSuseda(Stlp.WEST, mapa[i-1][k]);
+				}
+				if(k>0){
+					mapa[i][k].addSuseda(Stlp.SOUTH, mapa[i][k-1]);
+				}
+				if(i<numX-1){
+					mapa[i][k].addSuseda(Stlp.EAST, mapa[i+1][k]);
+				}
+				if(k<numZ-1){
+					mapa[i][k].addSuseda(Stlp.NORT, mapa[i][k+1]);
+				}
+			}
+		}
 	}
 	
 	public void add(int x,int z,int type){

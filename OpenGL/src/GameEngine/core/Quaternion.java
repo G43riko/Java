@@ -81,16 +81,6 @@ public class Quaternion
 		return new Quaternion(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ(), m_w + r.GetW());
 	}
 
-//	public Quaternion InitRotation(Vector3f axis, float angle){
-//		float sinHalfAngle = (float)Math.sin(angle/2);
-//		float cosHalfAngle = (float)Math.cos(angle/2);
-//		
-//		this.m_x = axis.GetX() * sinHalfAngle;
-//		this.m_y = axis.GetY() * sinHalfAngle;
-//		this.m_z = axis.GetZ() * sinHalfAngle;
-//		this.m_w = cosHalfAngle;
-//		return this;
-//	}
 	
 	public Matrix4f ToRotationMatrix()
 	{

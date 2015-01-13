@@ -85,10 +85,10 @@ public class Game extends JFrame{
 		
 		//camera = new Camera();
 		
-//		mapa = new Map(8,4,8);
-		mapa = new Map(32,32,loader);
-//		mapa = new Map(2,4,2);
-		mapa.initDefaultMap();
+		mapa = new Map(64,64,loader);
+//		mapa.initDefaultMap();
+		mapa.initMapFromHeighMap("heightMap.png");
+		
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);
 		camerka = new Camerka(shader);

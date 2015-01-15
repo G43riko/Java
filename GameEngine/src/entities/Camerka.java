@@ -21,17 +21,22 @@ public class Camerka {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	
+	private final float maxAngle = (float)Math.toRadians(40);
+	
 	public static final float ROTATION_SPEED = 0.6f;
 	public static final float MOVE_SPEED = 0.3f;
 	
 	private final int DISTANCE = 60;
 	private Matrix4f projectionMatrix;
+	private boolean move = false;
+	private boolean rotate = false;
 	
 	//private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
 	private Vector3f position = new Vector3f();
 	private float pitch;
 	private float yaw;
 	private float roll;
+	private Vector3f forward;
 	
 	public Camerka(StaticShader shader){
 		createProjectionMatrix();
@@ -39,6 +44,7 @@ public class Camerka {
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
 		reset();
+		updateForward();
 	}
 	
 	private void createProjectionMatrix(){
@@ -59,23 +65,24 @@ public class Camerka {
 	public void update(){
 //		System.out.println(getForward());
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			//position.z-=MOVE_SPEED;
+			move = true;
 			goForward();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			//position.z+=MOVE_SPEED;
+			move = true;
 			goBack();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			//position.x+=MOVE_SPEED;
+			move = true;
 			goRight();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			//position.x-=MOVE_SPEED;
+			move = true;
 			goLeft();
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+			rotate = true;
 			Vector2f t = getTargetPosition();
 			yaw-=ROTATION_SPEED;
 			this.position.x = t.x+DISTANCE*(float)Math.sin(Math.toRadians(-yaw));
@@ -83,6 +90,7 @@ public class Camerka {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+			rotate = true;
 			Vector2f t = getTargetPosition();
 			yaw+=ROTATION_SPEED;
 			this.position.x = t.x+DISTANCE*(float)Math.sin(Math.toRadians(-yaw));
@@ -90,26 +98,33 @@ public class Camerka {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			move = true;
 			goUp();
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			move = true;
 			goDown();
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_ADD)){
+			rotate = true;
 			pitch-=ROTATION_SPEED;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)){
+			rotate = true;
 			pitch+=ROTATION_SPEED;
 		}
 		
 		if(Mouse.isButtonDown(0)){
-			
 //			double dist = 0.1*Math.sin(Math.toRadians(35))/Math.sin(Math.toRadians(55));
 //			System.out.println("width: "+dist*Display.getWidth()+" height: "+dist*Display.getHeight());
-			
+		}
+		
+		if(move || rotate){
+			move = rotate = false;
+			updateForward();
 		}
 	}
 	
@@ -165,10 +180,14 @@ public class Camerka {
 	}
 	
 	public Vector3f getForward(){
+		return forward;
+	}
+	
+	private void updateForward(){
 		double x = Math.cos(Math.toRadians(360-yaw))*Math.cos(Math.toRadians(pitch));
 		double y = Math.sin(Math.toRadians(360-yaw))*Math.cos(Math.toRadians(pitch));
 		double z = Math.sin(Math.toRadians(pitch));
-		return new Vector3f((float)y,(float)z,(float)x);
+		forward = new Vector3f((float)y,(float)z,(float)x);
 	}
 	
 	public Vector3f getPosition() {
@@ -185,5 +204,9 @@ public class Camerka {
 
 	public float getRoll() {
 		return roll;
+	}
+
+	public float getMaxangle() {
+		return maxAngle;
 	}
 }

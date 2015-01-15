@@ -156,7 +156,8 @@ public class Game extends JFrame{
 			shader.loadColor(new Vector3f(1,0,1));
 			selector.draw(renderer, shader);
 			shader.loadChangeColor(false);
-			System.out.println("nakreslilo sa "+mapa.draw(renderer, shader)+"/"+pocetBlokov+" blokov");
+			double time = System.currentTimeMillis();
+			System.out.println(mapa.draw(renderer, shader)+"/"+pocetBlokov+" - "+(System.currentTimeMillis()-time));
 			terrain.draw(renderer, shader);
 			shader.stop();
 			

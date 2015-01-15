@@ -185,8 +185,11 @@ public class Map {
 				if(Game.isLoading)
 					return res;
 				if(mapa[i][j]==null){
-					return res;
+					continue;
 				}
+				//double ang = Math.abs(Math.atan2(j*Block.DEPTH-camera.getPosition().z,i*Block.WIDTH-camera.getPosition().x)-Math.cos(Math.toRadians(camera.getYaw())));
+				//System.out.println(ang>camera.getMaxangle());
+				//if(ang<camera.getMaxangle())
 				res += mapa[i][j].draw(renderer, shader);
 			}
 		}

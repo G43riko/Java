@@ -50,19 +50,17 @@ public class Stlp {
 	
 	public int draw(Renderer renderer, StaticShader shader) {
 		int res = 0;
+		Vector3f forward = Map.camera.getForward();
 		for(Block b:blocks){
-			Vector3f pos = new Vector3f(Map.camera.getPosition().x-b.getX(),
-										Map.camera.getPosition().y-b.getY(),
-										Map.camera.getPosition().z-b.getZ());
-			pos.normalise();
-			Vector3f forward = new Vector3f();
-			Map.camera.getForward().normalise(forward);
-			double angle = Math.toDegrees(Vector3f.angle(pos,forward ));
-			if(angle<30)
-				if(b.getType()!=0 && b.isActive()){
+			if(b.getType()!=0 && b.isActive()){
+				Vector3f pos = new Vector3f(Map.camera.getPosition().x-b.getX(),
+											Map.camera.getPosition().y-b.getY(),
+											Map.camera.getPosition().z-b.getZ());
+				if(Vector3f.angle(pos,forward )<Map.camera.getMaxangle()){
 					renderer.render(b, shader);
 					res++;
-				}
+				}		
+			}
 		}
 		return res;
 	}

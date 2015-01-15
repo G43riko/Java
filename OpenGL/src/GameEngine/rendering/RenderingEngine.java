@@ -20,7 +20,6 @@ public class RenderingEngine extends MappedValues{
 	private BaseLight activeLight;
 	
 	private HashMap<String, Integer> samplerMap;
-//	private HashMap<String, Float> floatHashMap;
 	
 	public RenderingEngine(){
 		super();
@@ -84,7 +83,6 @@ public class RenderingEngine extends MappedValues{
 	}
 
 	public void addCamera(Camera camera) {
-//		System.out.println("prindala sa kamera");
 		mainCamera = camera;
 	}
 

@@ -57,6 +57,7 @@ public class Camerka {
 	}
 
 	public void update(){
+//		System.out.println(getForward());
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			//position.z-=MOVE_SPEED;
 			goForward();
@@ -127,6 +128,11 @@ public class Camerka {
 		//move(-(float)Math.sin(Math.toRadians((yaw))), 0, (float)Math.cos(Math.toRadians((yaw))));
 		position.x += Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
 		position.z += -Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
+//		Vector3f pred = getForward();
+//		position.x += pred.x;
+////		position.y += pred.y;
+//		position.z += pred.z;
+		
 	}
 	
 	public void goBack(){
@@ -156,6 +162,13 @@ public class Camerka {
 		this.position.x += x;
 		this.position.y += y;
 		this.position.z += z;
+	}
+	
+	public Vector3f getForward(){
+		double x = Math.cos(Math.toRadians(360-yaw))*Math.cos(Math.toRadians(pitch));
+		double y = Math.sin(Math.toRadians(360-yaw))*Math.cos(Math.toRadians(pitch));
+		double z = Math.sin(Math.toRadians(pitch));
+		return new Vector3f((float)y,(float)z,(float)x);
 	}
 	
 	public Vector3f getPosition() {

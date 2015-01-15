@@ -24,7 +24,7 @@ public class Camera extends BasicEntity {
 		init3DProjection();
 	}
 	
-	public void init3DProjection(){
+	public static void init3DProjection(){
 		//GL11.glEnable(GL11.GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
@@ -36,7 +36,7 @@ public class Camera extends BasicEntity {
 		glLoadIdentity();
 	}
 	
-	public void init2DProjection(){
+	public static void init2DProjection(){
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_SMOOTH);        

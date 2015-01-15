@@ -1,6 +1,5 @@
 package GameEngine.core;
 
-import GameEngine.components.Camera;
 import GameEngine.core.util.Matrix4f;
 import GameEngine.core.util.Quaternion;
 import GameEngine.core.util.Vector3f;

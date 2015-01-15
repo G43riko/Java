@@ -61,7 +61,9 @@ public class Game extends JFrame{
 	private StaticShader shader = null;
 	private Light light = null;
 	private Terrain terrain = null;
+	private Entity entity2 = null;
 	private Selector selector = null;
+	private int pocetBlokov = 0;
 	
 	public void init(){
 		isLoading = true;
@@ -83,18 +85,25 @@ public class Game extends JFrame{
 		light = new Light(new Vector3f(20,200,20),new Vector3f(1,1,1));
 		terrain = new Terrain("HeightMap", loader);
 		
+		RawModel mieridlo = Box.getModel(loader, 5, 5, 5);
+		ModelTexture texture2 = new ModelTexture("dirt.jpg");
+		TexturedModel textureModel2 = new TexturedModel(mieridlo,texture2);
+		this.entity2 = new Entity(textureModel2,-5,-1,0,0,0,0,0.5f);
+		
 		//camera = new Camera();
 		
-		mapa = new Map(64,64,loader);
-//		mapa.initDefaultMap();
+		mapa = new Map(32,32,loader);
+		//mapa.initDefaultMap();
 		mapa.initMapFromHeighMap("heightMap.png");
+		pocetBlokov = mapa.getNumBlock();
 		
 		rmenu.setMinimap(mapa.getTerrain());
 		tmenu.setMap(mapa);
 		camerka = new Camerka(shader);
+		mapa.camera = camerka;
 		bmenu.setCamerka(camerka);
 //		bmenu.setActBlock(mapa.getTop(selector.getSur()));
-		//logs = new Logs();
+		logs = new Logs();
 		isLoading = false;
 	}
 	
@@ -107,7 +116,6 @@ public class Game extends JFrame{
 			Renderer.clearScreen(rmenu);
 			rmenu.useOptions();
 			rmenu.getMinimap().update();
-			
 			camerka.update();
 			
 //			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
@@ -117,10 +125,10 @@ public class Game extends JFrame{
 			selector.input(mapa,bmenu);
 			
 			bmenu.updateCameraWindow();
-			if(mapa.getTop(selector.getSur())!=bmenu.getActBlock()){
-				bmenu.setActBlock(mapa.getTop(selector.getSur()));
-			}
-			bmenu.updateBlockWindow();
+//			if(mapa.getTop(selector.getSur())!=bmenu.getActBlock()){
+//				bmenu.setActBlock(mapa.getTop(selector.getSur()));
+//			}
+//			bmenu.updateBlockWindow();
 //			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
 			shader.start();
 			shader.loadTypeOfView(rmenu.getTypeOfView());
@@ -136,12 +144,19 @@ public class Game extends JFrame{
 //				glVertex3f(x,20, y);
 //			glEnd();
 //			shader.loadChangeColor(false);
+//			Vector3f vpred = camerka.getForward();
+//			vpred.negate(vpred);
+//			entity2.setLocation(camerka.getPosition().x+vpred.x*30, 
+//								camerka.getPosition().y+vpred.y*30, 
+//								camerka.getPosition().z+vpred.z*30);
+//			System.out.println(entity2.getX()+" "+entity2.getY()+" "+entity2.getZ());
+//			renderer.render(entity2, shader);
 			
 			shader.loadChangeColor(true);
 			shader.loadColor(new Vector3f(1,0,1));
 			selector.draw(renderer, shader);
 			shader.loadChangeColor(false);
-			mapa.draw(renderer, shader);
+			System.out.println("nakreslilo sa "+mapa.draw(renderer, shader)+"/"+pocetBlokov+" blokov");
 			terrain.draw(renderer, shader);
 			shader.stop();
 			
@@ -154,7 +169,10 @@ public class Game extends JFrame{
 			
 			
 			//tu sa až kreslí;
-			//logs.update();
+//			Logs.initGL(Display.getWidth(), Display.getHeight());
+//			Camera.init2DProjection();
+//			logs.update();
+//			Camera.init3DProjection();
 			
 			window.update();
 			

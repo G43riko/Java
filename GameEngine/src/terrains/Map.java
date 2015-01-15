@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import entities.Camerka;
 import main.Game;
 import main.Loader;
 import renderers.Renderer;
@@ -41,6 +42,7 @@ public class Map {
 	private Stlp[][] mapa;
 	private int numX,numZ;
 	private Block[][] terrain;
+	public static Camerka camera;
 	
 	public Map(int x, int z,Loader loader){
 		Block.init(loader);
@@ -75,7 +77,7 @@ public class Map {
 		numZ = z;
 		mapa =  new Stlp[x][z];
 		terrain = new Block[x][z];
-		int numY = 16;
+		int numY = 2;
 		int half = numY/2;
 		int j;
 		for(int i=0 ; i<numX ; i++){
@@ -176,17 +178,19 @@ public class Map {
 		return false;
 	}
 	
-	public void draw(Renderer renderer, StaticShader shader) {
+	public int draw(Renderer renderer, StaticShader shader) {
+		int res = 0;
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numZ ; j++){
 				if(Game.isLoading)
-					return;
+					return res;
 				if(mapa[i][j]==null){
-					return;
+					return res;
 				}
-				mapa[i][j].draw(renderer, shader);
+				res += mapa[i][j].draw(renderer, shader);
 			}
 		}
+		return res;
 	}
 	
 	public void createTerrain(){

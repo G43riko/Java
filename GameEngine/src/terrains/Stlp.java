@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import main.Game;
 import renderers.Renderer;
 import shaders.StaticShader;
@@ -46,11 +48,23 @@ public class Stlp {
 		blocks.set(y, b);
 	}
 	
-	public void draw(Renderer renderer, StaticShader shader) {
+	public int draw(Renderer renderer, StaticShader shader) {
+		int res = 0;
 		for(Block b:blocks){
-			if(b.getType()!=0 && b.isActive())
-				renderer.render(b, shader);
+			Vector3f pos = new Vector3f(Map.camera.getPosition().x-b.getX(),
+										Map.camera.getPosition().y-b.getY(),
+										Map.camera.getPosition().z-b.getZ());
+			pos.normalise();
+			Vector3f forward = new Vector3f();
+			Map.camera.getForward().normalise(forward);
+			double angle = Math.toDegrees(Vector3f.angle(pos,forward ));
+			if(angle<30)
+				if(b.getType()!=0 && b.isActive()){
+					renderer.render(b, shader);
+					res++;
+				}
 		}
+		return res;
 	}
 	
 	public Block getTop(){

@@ -20,7 +20,7 @@ public class Tester extends Game{
 	};
 	
 	public void update(float delta){
-		getRenderEngine().getCamera().input();
+		getRenderEngine().getCamera().input(1);
 	};
 	
 	public void switchView(){

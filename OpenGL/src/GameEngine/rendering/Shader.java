@@ -1,6 +1,6 @@
 package GameEngine.rendering;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 
 import java.io.BufferedReader;
@@ -8,22 +8,23 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.util.vector.Matrix3f;
-
 import GameEngine.components.BaseLight;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.PointLight;
 import GameEngine.components.SpotLight;
-import GameEngine.core.Matrix3fg;
-import GameEngine.core.Matrix4f;
 import GameEngine.core.Transform;
 import GameEngine.core.Util;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Matrix4f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.resourceManagement.ShaderResource;
 
 public class Shader {
-	private ShaderResource resource;
+	private static final String ATTRIBUTE_KEYWORD = "attribute";
+	private static final String UNIFORM_KEYWORD = "uniform";
+	private static final String STRUCT_KEYWORD = "struct";
 	private static HashMap<String,ShaderResource> loadedShaders = new HashMap<String,ShaderResource>();
+	
+	private ShaderResource resource;
 	
 	public Shader(String fileName){
 		
@@ -38,8 +39,8 @@ public class Shader {
 			String vertexShaderText = loadShader(fileName+".vs");
 			String fragmentShaderText = loadShader(fileName+".fs");
 			
-			addVertexShader(vertexShaderText);
-			addFragmentShader(fragmentShaderText);
+			addProgram(vertexShaderText, GL_VERTEX_SHADER);
+			addProgram(fragmentShaderText, GL_FRAGMENT_SHADER);
 			addAllAttributes(vertexShaderText);
 			
 			compileShader();
@@ -60,6 +61,7 @@ public class Shader {
 		for(int i=0 ; i<resource.getUniformNames().size() ; i++){
 			String uniformName = resource.getUniformNames().get(i);
 			String uniformType = resource.getUniformTypes().get(i);
+			
 			if(uniformType.equals("sampler2D")){
 				int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
 				material.getTexture(uniformName).bind(samplerSlot);
@@ -101,7 +103,6 @@ public class Shader {
 					System.out.println(uniformName+" je neplatn˝ uniform pre kameru");
 			}
 			else{
-//				System.out.println(uniformName+" je");
 				if (uniformType.equals("float")){
 					setUniformf(uniformName, material.getFloat(uniformName));
 				}
@@ -125,7 +126,7 @@ public class Shader {
 	
 	private HashMap<String, ArrayList<GLSLStruct>> findUniformStruct(String shaderText){
 		HashMap<String, ArrayList<GLSLStruct>> result = new HashMap<String, ArrayList<GLSLStruct>>();
-		final String STRUCT_KEYWORD = "struct";
+		
 		int structStartLocation = shaderText.indexOf(STRUCT_KEYWORD);
 		while(structStartLocation != -1) {
 			if(!(structStartLocation!=0&&(Character.isWhitespace(shaderText.charAt(structStartLocation-1 ))||shaderText.charAt(structStartLocation-1) == ';')
@@ -140,7 +141,6 @@ public class Shader {
 			
 			int componentSemicolomPos = shaderText.indexOf(";",braceBegin);
 			while(componentSemicolomPos != -1 && componentSemicolomPos<braceEnd){
-				
 				
 				int componentNameEnd = componentSemicolomPos + 1;
 				while(Character.isWhitespace(shaderText.charAt(componentNameEnd - 1)) ||shaderText.charAt(componentNameEnd - 1) == ';')
@@ -160,8 +160,6 @@ public class Shader {
 				
 				String componentName = shaderText.substring(componentNameStart, componentSemicolomPos);
 				String componentType = shaderText.substring(componentTypeStart, componentTypeEnd);
-//				System.out.println(componentType+" "+componentName);
-//				structComponents.add(shaderText.substring(componentNameStart, componentSemicolomPos));
 			
 				componentSemicolomPos = shaderText.indexOf(";",componentSemicolomPos+1);
 				
@@ -173,15 +171,12 @@ public class Shader {
 			
 			result.put(structName, glslStructs);
 			
-//			addUniform(structName);
-			
 			structStartLocation = shaderText.indexOf(STRUCT_KEYWORD,structStartLocation + STRUCT_KEYWORD.length());
 		}
 		return result;
 	}
 	
 	private void addAllAttributes(String shaderText){
-		final String ATTRIBUTE_KEYWORD = "attribute";
 		int attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD);
 		int attribNumber = 0;
 		while(attributeStartLocation != -1) {
@@ -204,7 +199,6 @@ public class Shader {
 	private void addAllUniforms(String shaderText){
 		HashMap<String, ArrayList<GLSLStruct>> structs = findUniformStruct(shaderText);
 		
-		final String UNIFORM_KEYWORD = "uniform";
 		int uniformStartLocation = shaderText.indexOf(UNIFORM_KEYWORD);
 		while(uniformStartLocation != -1) {
 			if(!(uniformStartLocation!=0&&(Character.isWhitespace(shaderText.charAt(uniformStartLocation-1 ))||shaderText.charAt(uniformStartLocation-1) == ';')
@@ -249,24 +243,11 @@ public class Shader {
 			System.exit(1);
 		}
 		resource.getUniforms().put(uniformName, uniformLocation);
-//		uniformNames.add(uniformName);
-//		uniformTypes.add(uniformType);
-	}
-	
-	private void addVertexShader(String text){
-		addProgram(text, GL_VERTEX_SHADER);
-	}
-	
-//	private void addGeometryShader(String text){
-//		addProgram(text, GL_GEOMETRY_SHADER);
-//	}
-
-	private void addFragmentShader(String text){
-		addProgram(text, GL_FRAGMENT_SHADER);
 	}
 	
 	private void compileShader(){
 		glLinkProgram(resource.getProgram());
+		
 		if(glGetProgrami(resource.getProgram(),GL_LINK_STATUS)==GL_FALSE){
 			System.err.println("TU TO BLBNE"+glGetProgramInfoLog(resource.getProgram(),1024));
 			System.exit(1);
@@ -296,6 +277,31 @@ public class Shader {
 		glUniformMatrix4(resource.getUniforms().get(uniformName), true,Util.createFlippedBuffer(value));
 	}
 	
+	public void setUniformBaseLight(String uniformName, BaseLight baseLight){
+		setUniform(uniformName +".color",baseLight.getColor());
+		setUniformf(uniformName +".intensity",baseLight.getIntensity());
+	}
+	
+	public void setUniformDirectionalLight(String uniformName, DirectionalLight directionalLight){
+		setUniformBaseLight(uniformName +".base",directionalLight);
+		setUniform(uniformName +".direction", directionalLight.getDirection());
+	}
+	
+	public void setUniformPointLight(String uniformName, PointLight pointLight){
+		setUniformBaseLight(uniformName +".baseLight", pointLight);
+		setUniformf(uniformName +".atten.constant", pointLight.getConstant());
+		setUniformf(uniformName +".atten.linear", pointLight.getLinear());
+		setUniformf(uniformName +".atten.exponent", pointLight.getExponent());
+		setUniform(uniformName +".position", pointLight.getTransform().getPosition());
+		setUniformf(uniformName +".range", pointLight.getRange());
+	}
+	
+	public void setUniformSpotLight(String uniformName, SpotLight spotLight){
+		setUniformPointLight(uniformName +".pointLight", spotLight);
+		setUniform(uniformName +".direction", spotLight.getDirection());
+		setUniformf(uniformName +".cutoff", spotLight.getCutoff());
+	}
+
 	public static String loadShader(String filename){
 		StringBuilder shaderSource = new StringBuilder();
 		BufferedReader shaderReader = null;
@@ -315,21 +321,9 @@ public class Shader {
 		}
 		catch(Exception e){
 			System.out.println(e);
-			System.out.println("tuto to je");
-			System.exit(1);
-			System.out.println("aj tu");
+			System.out.println("shader "+filename+" sa nebodarilo naËÌtaù");
 		}
 		return shaderSource.toString();
-	}
-	
-	public void setUniformBaseLight(String uniformName, BaseLight baseLight){
-		setUniform(uniformName +".color",baseLight.getColor());
-		setUniformf(uniformName +".intensity",baseLight.getIntensity());
-	}
-	
-	public void setUniformDirectionalLight(String uniformName, DirectionalLight directionalLight){
-		setUniformBaseLight(uniformName +".base",directionalLight);
-		setUniform(uniformName +".direction", directionalLight.getDirection());
 	}
 	
 	private void addProgram(String text, int type){
@@ -345,23 +339,6 @@ public class Shader {
 			System.err.println("BLBNE TO"+glGetShaderInfoLog(shader,1024));
 			System.exit(1);
 		}
-		
-		//glAttachShader(shader,this.program);
 		glAttachShader(resource.getProgram(),shader);
-	}
-	
-	public void setUniformPointLight(String uniformName, PointLight pointLight){
-		setUniformBaseLight(uniformName +".baseLight", pointLight);
-		setUniformf(uniformName +".atten.constant", pointLight.getConstant());
-		setUniformf(uniformName +".atten.linear", pointLight.getLinear());
-		setUniformf(uniformName +".atten.exponent", pointLight.getExponent());
-		setUniform(uniformName +".position", pointLight.getTransform().getPosition());
-		setUniformf(uniformName +".range", pointLight.getRange());
-	}
-	
-	public void setUniformSpotLight(String uniformName, SpotLight spotLight){
-		setUniformPointLight(uniformName +".pointLight", spotLight);
-		setUniform(uniformName +".direction", spotLight.getDirection());
-		setUniformf(uniformName +".cutoff", spotLight.getCutoff());
 	}
 }

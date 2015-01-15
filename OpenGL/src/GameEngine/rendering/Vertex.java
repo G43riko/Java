@@ -1,7 +1,7 @@
 package GameEngine.rendering;
 
-import GameEngine.core.Vector2f;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector2f;
+import GameEngine.core.util.Vector3f;
 
 
 public class Vertex {

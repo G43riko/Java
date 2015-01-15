@@ -1,7 +1,7 @@
 package GameEngine.components;
 
 import GameEngine.core.Input;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector3f;
 
 public class FreeMove extends GameComponent{
 	private float speed;

@@ -1,7 +1,7 @@
 package GameEngine.components;
 
 import GameEngine.core.CoreEngine;
-import GameEngine.core.Matrix4f;
+import GameEngine.core.util.Matrix4f;
 
 public class Camera extends GameComponent{
 	private Matrix4f projection;

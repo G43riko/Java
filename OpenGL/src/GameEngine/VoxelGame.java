@@ -4,11 +4,13 @@ import GameEngine.components.Camera;
 import GameEngine.components.DirectionalLight;
 import GameEngine.components.FreeLook;
 import GameEngine.components.FreeMove;
+import GameEngine.components.LookAt;
 import GameEngine.components.MeshRenderer;
 import GameEngine.core.Game;
 import GameEngine.core.GameObject;
-import GameEngine.core.Vector2f;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Quaternion;
+import GameEngine.core.util.Vector2f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
 import GameEngine.rendering.Texture;
@@ -40,17 +42,25 @@ public class VoxelGame extends Game{
 		
 		addObject(new GameObject().addComponent(new MeshRenderer(mesh,material2)));
 		
-		mesh = new Mesh("box.obj");
 		
 		//add mesh1
+		mesh = new Mesh("box.obj");
 		addObject(new GameObject().addComponent(new MeshRenderer(mesh,material)));
+		
+		
+		//add monkey
+		mesh = new Mesh("monkey3.obj");
+		GameObject monkey = new GameObject().addComponent(new FreeMove(10)).addComponent(new FreeLook(0.3f)).addComponent(new MeshRenderer(mesh,material));
+		monkey.getTransform().setPosition(new Vector3f(3,3,3));
+		addObject(monkey);
+		
 		
 		//add directional Light
 		GameObject dirLight = new GameObject().addComponent(new DirectionalLight(new Vector3f(1,1,1),0.4f,new Vector3f(1,1,1)));
 		addObject(dirLight);
 		
 		//add camera
-		GameObject cam = new GameObject().addComponent(new FreeMove(10)).addComponent(new FreeLook(0.3f)).addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
+		GameObject cam = new GameObject().addComponent(new Camera((float)Math.toRadians(70),(float)Window.getWidth()/(float)Window.getHeight(),0.1f,1000f));
 		addObject(cam);
 	}
 }

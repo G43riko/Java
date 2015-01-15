@@ -3,6 +3,8 @@ package GameEngine.core;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import GameEngine.core.util.Vector2f;
+
 public class Input	 {
 	//All these constants come from LWJGL's Keyboard class
 	public static final int KEY_NONE            = 0x00;

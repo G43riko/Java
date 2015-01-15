@@ -2,7 +2,7 @@ package GameEngine.rendering.resourceManagement;
 
 import java.util.HashMap;
 
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector3f;
 
 public abstract class MappedValues {
 	private HashMap<String, Vector3f> vector3fHashMap;

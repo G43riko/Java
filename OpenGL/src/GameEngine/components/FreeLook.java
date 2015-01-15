@@ -62,9 +62,9 @@
 package GameEngine.components;
 
 import GameEngine.core.Input;
-import GameEngine.core.Quaternion;
-import GameEngine.core.Vector2f;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Quaternion;
+import GameEngine.core.util.Vector2f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.Window;
 
 public class FreeLook extends GameComponent{
@@ -95,18 +95,22 @@ public class FreeLook extends GameComponent{
 			Input.SetCursor(false);
 			mouseLocked = true;
 		}
-		
-		if(Input.getKey(Input.KEY_UP)){
-			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight(),(float)Math.toRadians(-sensitivity))).Normalized());
-		}
-		if(Input.getKey(Input.KEY_DOWN)){
-			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight(),(float)Math.toRadians(sensitivity))).Normalized());
-		}
+		float strong = 3;
 		if(Input.getKey(Input.KEY_LEFT)){
-			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(-sensitivity))).Normalized());
+			//getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight(),(float)Math.toRadians(-sensitivity))).Normalized());
+			getTransform().rotate(yAxis, (float) Math.toRadians(-sensitivity * strong));
 		}
 		if(Input.getKey(Input.KEY_RIGHT)){
-			getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(sensitivity))).Normalized());
+			//getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(getTransform().getRotation().GetRight(),(float)Math.toRadians(sensitivity))).Normalized());
+			getTransform().rotate(yAxis, (float) Math.toRadians(sensitivity * strong));
+		}
+		if(Input.getKey(Input.KEY_UP)){
+			//getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(-sensitivity))).Normalized());
+			getTransform().rotate(getTransform().getRotation().GetRight(), (float) Math.toRadians(-sensitivity * strong));
+		}
+		if(Input.getKey(Input.KEY_DOWN)){
+			//getTransform().setRotation(getTransform().getRotation().Mul(new Quaternion(yAxis,(float)Math.toRadians(sensitivity))).Normalized());
+			getTransform().rotate(getTransform().getRotation().GetRight(), (float) Math.toRadians(sensitivity * strong));
 		}
 		
 		if(mouseLocked){
@@ -116,10 +120,10 @@ public class FreeLook extends GameComponent{
 			boolean rotX =deltaPos.GetY() !=0;
 
 			if(rotY){
-				getTransform().Rotate(yAxis, (float) Math.toRadians(deltaPos.GetX() * sensitivity));
+				getTransform().rotate(yAxis, (float) Math.toRadians(deltaPos.GetX() * sensitivity));
 			}
 			if(rotX){
-				getTransform().Rotate(getTransform().getRotation().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * sensitivity));
+				getTransform().rotate(getTransform().getRotation().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * sensitivity));
 			}
 			
 			if(rotY || rotX){

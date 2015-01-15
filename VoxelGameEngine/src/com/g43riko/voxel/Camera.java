@@ -1,11 +1,7 @@
 package com.g43riko.voxel;
 
-import static org.lwjgl.opengl.GL11.GL_DEPTH;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glRotatef;
@@ -14,7 +10,9 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import org.lwjgl.input.Keyboard;
 
-public class Camera{
+import com.g43riko.components.GameComponent;
+
+public class Camera extends GameComponent{
 	private float x;
 	private float y;
 	private float z;
@@ -49,7 +47,7 @@ public class Camera{
 		glMatrixMode(GL_MODELVIEW);
 	}
 	
-	public void input(){
+	public void input(float delta){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			move(-(float)Math.sin(Math.toRadians((ry))), 0, (float)Math.cos(Math.toRadians((ry))));
 		}
@@ -73,60 +71,16 @@ public class Camera{
 			move(0,-1,0);
 	}
 	
+	public void update(float delta){
+		useView();
+	}
+	
 	public void useView(){
 		glRotatef(this.rx,1,0,0);
 		glRotatef(this.ry,0,1,0);
 		glRotatef(this.rz,0,0,1);
 		glTranslatef(this.x,this.y,this.z);
 	}
-
-//	public float getX() {
-//		return x;
-//	}
-//
-//	public void setX(float x) {
-//		this.x = x;
-//	}
-//
-//	public float getY() {
-//		return y;
-//	}
-//
-//	public void setY(float y) {
-//		this.y = y;
-//	}
-//
-//	public float getZ() {
-//		return z;
-//	}
-//
-//	public void setZ(float z) {
-//		this.z = z;
-//	}
-//
-//	public float getRx() {
-//		return rx;
-//	}
-//
-//	public void setRx(float rx) {
-//		this.rx = rx;
-//	}
-//
-//	public float getRy() {
-//		return ry;
-//	}
-//
-//	public void setRy(float ry) {
-//		this.ry = ry;
-//	}
-//
-//	public float getRz() {
-//		return rz;
-//	}
-//
-//	public void setRz(float rz) {
-//		this.rz = rz;
-//	}
 	
 	public void move(float x, float y, float z){
 		this.x += x;

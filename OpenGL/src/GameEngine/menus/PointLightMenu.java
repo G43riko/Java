@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import GameEngine.components.PointLight;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector3f;
 
 public class PointLightMenu extends Component {
 	public JLabel position = new JLabel();

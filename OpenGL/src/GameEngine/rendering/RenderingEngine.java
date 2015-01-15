@@ -9,7 +9,7 @@ import java.util.HashMap;
 import GameEngine.components.BaseLight;
 import GameEngine.components.Camera;
 import GameEngine.core.GameObject;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.resourceManagement.MappedValues;
 
 public class RenderingEngine extends MappedValues{

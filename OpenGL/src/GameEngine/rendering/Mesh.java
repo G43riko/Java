@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import GameEngine.core.Util;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.meshLoading.IndexedModel;
 import GameEngine.rendering.meshLoading.OBJModel;
 import GameEngine.rendering.resourceManagement.MeshResource;

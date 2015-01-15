@@ -18,12 +18,9 @@ public class Camera {
 	private static final float SENSITIVITY = 0.2f;
 	private Vector2f centerPosition = new Vector2f(Display.getWidth()/2,Display.getHeight()/2);
 	
-	
-	public Camera(){
-	}
+	public Camera(){}
 
 	public void  move(){
-		
 		if(Input.getKey(Input.KEY_ESCAPE)){
 			Input.SetCursor(true);
 			mouseLocked = false;

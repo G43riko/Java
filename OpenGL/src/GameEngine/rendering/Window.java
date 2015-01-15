@@ -6,7 +6,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import GameEngine.core.Vector2f;
+import GameEngine.core.util.Vector2f;
 
 public class Window {
 	public static void createWindow(int width, int height, String title){

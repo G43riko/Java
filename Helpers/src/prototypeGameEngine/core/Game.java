@@ -2,17 +2,14 @@ package prototypeGameEngine.core;
 
 import prototypeGameEngine.RenderEngine;
 
-public class Game {
+public abstract class Game {
 private RenderEngine renderer = null;
 	
-	public void init(){
-	};
+	public void init(){};
 	
-	public void input(float delta){
-	};
+	public void input(float delta){};
 	
-	public void update(float delta){
-	};
+	public void update(float delta){};
 	
 	public void render(){
 		getRenderEngine().render();

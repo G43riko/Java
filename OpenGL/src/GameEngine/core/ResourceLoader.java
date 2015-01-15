@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.Mesh;
 import GameEngine.rendering.Vertex;
 

@@ -1,4 +1,4 @@
-package GameEngine.core;
+package GameEngine.core.util;
 
 public class Quaternion
 {
@@ -22,11 +22,12 @@ public class Quaternion
 	public Quaternion(Vector3f axis, float angle)
 	{
 		float sinHalfAngle = (float)Math.sin(angle / 2);
+		float cosHalfAngle = (float)Math.cos(angle / 2);
 
 		this.m_x = axis.GetX() * sinHalfAngle;
 		this.m_y = axis.GetY() * sinHalfAngle;
 		this.m_z = axis.GetZ() * sinHalfAngle;
-		this.m_w = (float)Math.cos(angle / 2);
+		this.m_w = cosHalfAngle;
 	}
 
 	public float Length()
@@ -81,7 +82,6 @@ public class Quaternion
 		return new Quaternion(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ(), m_w + r.GetW());
 	}
 
-	
 	public Matrix4f ToRotationMatrix()
 	{
 //		Vector3f forward =  new Vector3f(2.0f * (m_x * m_z - m_w * m_y), 2.0f * (m_y * m_z + m_w * m_x), 1.0f - 2.0f * (m_x * m_x + m_y * m_y));
@@ -240,5 +240,10 @@ public class Quaternion
 	public boolean equals(Quaternion r)
 	{
 		return m_x == r.GetX() && m_y == r.GetY() && m_z == r.GetZ() && m_w == r.GetW();
+	}
+	
+	public String toString()
+	{
+		return "(" + m_x + " " + m_y + " " + m_z + " " + m_w + ")";
 	}
 }

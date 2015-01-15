@@ -1,4 +1,4 @@
-package GameEngine.core;
+package com.g43riko.core.util;
 
 public class Vector3f 
 {

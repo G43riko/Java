@@ -31,8 +31,16 @@ public class RenderEngine {
 	public void render(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		camera.useView();
+		getCamera().useView();
 		world.draw();
+	}
+	
+	private void render3d(){
+		
+	}
+	
+	private void render2d(){
+		
 	}
 	
 	public void init(){
@@ -44,7 +52,10 @@ public class RenderEngine {
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	
-
+	public void addCamera(Camera camera){
+		this.camera = camera;
+	}
+	
 	public Camera getCamera() {
 		if(camera == null){
 			camera = new Camera(70,Display.getWidth()/Display.getHeight(),0.3f,1000);

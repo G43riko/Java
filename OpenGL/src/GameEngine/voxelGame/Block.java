@@ -1,8 +1,8 @@
 package GameEngine.voxelGame;
 
 import GameEngine.components.MeshRenderer;
-import GameEngine.core.Vector2f;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector2f;
+import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.Material;
 import GameEngine.rendering.Mesh;
 import GameEngine.rendering.Vertex;

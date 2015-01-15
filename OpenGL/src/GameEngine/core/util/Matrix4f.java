@@ -1,4 +1,4 @@
-package GameEngine.core;
+package GameEngine.core.util;
 
 public class Matrix4f
 {

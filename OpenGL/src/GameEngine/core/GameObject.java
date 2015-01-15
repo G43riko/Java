@@ -26,7 +26,6 @@ public class GameObject {
 	}
 	
 	public void setEngine(CoreEngine engine) {
-		
 		if(this.engine != engine){
 			this.engine = engine;
 			for(GameComponent component:components){
@@ -81,7 +80,6 @@ public class GameObject {
 
 	public void input(float delta){
 		transform.update();
-		
 		for(GameComponent component:components){
 			component.input(delta);
 		}

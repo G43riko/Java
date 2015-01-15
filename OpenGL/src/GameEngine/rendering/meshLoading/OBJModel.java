@@ -2,13 +2,12 @@ package GameEngine.rendering.meshLoading;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import GameEngine.core.Util;
-import GameEngine.core.Vector2f;
-import GameEngine.core.Vector3f;
+import GameEngine.core.util.Vector2f;
+import GameEngine.core.util.Vector3f;
 
 public class OBJModel {
 	private ArrayList<Vector3f> m_positions;

@@ -57,47 +57,77 @@ public class Vector3f {
 		z /= length;
 	}
 	
-	public void Rotate(Vector3f axis, float angle){
-		//komplikované 
+	public Vector3f Lerp(Vector3f dest, float lerpFactor){
+		return dest.sub(this).mul(lerpFactor).add(this);
 	}
 	
-	public void add(Vector3f v){
+	public Vector3f add(Vector3f v){
 		x += v.getX();
 		y += v.getY();
 		z += v.getZ();
+		return this;
 	}
 	
-	public void add(float num){
+	public Vector3f add(float num){
 		x += num;
 		y += num;
 		z += num;
+		return this;
 	}
 	
-	public void sub(Vector3f v){
+	public Vector3f sub(Vector3f v){
 		x -= v.getX();
 		y -= v.getY();
 		z -= v.getZ();
+		return this;
 	}
 	
-	public void sub(float num){
+	public Vector3f sub(float num){
 		x -= num;
 		y -= num;
 		z -= num;
+		return this;
 	}
 	
-	public void mul(Vector3f v){
+	public Vector3f mul(Vector3f v){
 		x *= v.getX();
 		y *= v.getY();
 		z *= v.getZ();
+		return this;
 	}
 	
-	public void mul(float num){
+	public Vector3f mul(float num){
 		x *= num;
 		y *= num;
 		z *= num;
+		return this;
+	}
+	
+	public Vector3f div(Vector3f v){
+		x /= v.getX();
+		y /= v.getY();
+		z /= v.getZ();
+		return this;
+	}
+	
+	public Vector3f div(float num){
+		x /= num;
+		y /= num;
+		z /= num;
+		return this;
+	}
+	
+	public Vector3f Rotate(Vector3f axis, float angle){
+		float sinAngle = (float)Math.sin(-angle);
+		float cosAngle = (float)Math.cos(-angle);
+
+		return this.Cross(axis.mul(sinAngle)).add(           //Rotation on local X
+				(this.mul(cosAngle)).add(                     //Rotation on local Z
+						axis.mul(this.Dot(axis.mul(1 - cosAngle))))); //Rotation on local Y
 	}
 	
 	public Vector3f Rotate(Quaternion rotation){
+		//rotation = new Quaternion(axis, angle);
 		Quaternion conjugate = rotation.conjugate();
 
 		Quaternion w = rotation.mul(this).mul(conjugate);
@@ -105,22 +135,11 @@ public class Vector3f {
 		return new Vector3f(w.getX(), w.getY(), w.getZ());
 	}
 	
-	public void div(Vector3f v){
-		x /= v.getX();
-		y /= v.getY();
-		z /= v.getZ();
-	}
-	
-	public void div(float num){
-		x /= num;
-		y /= num;
-		z /= num;
-	}
-	
-	public void abs(){
+	public Vector3f abs(){
 		x = Math.abs(x);
 		y = Math.abs(y);
 		z = Math.abs(z);
+		return this;
 	}
 	
 	public String toString(){

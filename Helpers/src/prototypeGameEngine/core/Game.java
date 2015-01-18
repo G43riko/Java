@@ -3,7 +3,7 @@ package prototypeGameEngine.core;
 import prototypeGameEngine.RenderEngine;
 
 public abstract class Game {
-private RenderEngine renderer = null;
+	private RenderEngine renderer = null;
 	
 	public void init(){};
 	

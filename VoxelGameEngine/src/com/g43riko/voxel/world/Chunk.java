@@ -45,7 +45,8 @@ public class Chunk {
 		}
 	}
 	
-	public void draw() {
+	public int draw() {
+		int res = 0;
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
 				for(int k=0 ; k<NUM_Z ; k++){
@@ -56,10 +57,12 @@ public class Chunk {
 					if(b.getFaces()==null){
 						setFace(b, i,j,k);
 					}
+					res++;
 					blocks[i][j][k].draw(position);
 				}
 			}
 		}
+		return res;
 	}
 	
 	private void setFace(Block b, int i, int j, int k) {

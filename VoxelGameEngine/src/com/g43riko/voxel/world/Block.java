@@ -19,6 +19,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.g43riko.voxel.Camera;
+
 public class Block {
 	public static final int WIDTH = 1;
 	public static final int HEIGHT = 1;
@@ -40,11 +42,18 @@ public class Block {
 	};
 	
 	public void draw(Vector2f pos){
+		float x = pos.x+position.x;
+		float z = pos.y+position.z;
+		Vector3f posit = new Vector3f(Camera.pos.x-x,Camera.pos.y-position.y,Camera.pos.z-z);
+		if(Vector3f.angle(posit,Camera.forward )>Camera.getMaxangle()){
+			return;
+		}
+		
 		glPushMatrix();
 		{
 			glColor3f(color.x,color.y,color.z);
 			
-			glTranslatef(pos.x+position.x,position.y,pos.y+position.z);
+			glTranslatef(x,position.y,z);
 			glRotatef(0,1,0,0);
 			glRotatef(0,0,1,0);
 			glRotatef(0,0,0,1);

@@ -1,4 +1,4 @@
-package Goniometry;
+package main.both.core.utils;
 
 public class Vector2f {
 	private float x,y;

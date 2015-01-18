@@ -9,28 +9,29 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector3f;
 
 import com.g43riko.components.GameComponent;
 
 public class Camera extends GameComponent{
-	private float x;
-	private float y;
-	private float z;
+	public static Vector3f pos = new Vector3f();
+	public static Vector3f forward = new Vector3f();
 	
-	private float rx;
-	private float ry;
-	private float rz;
-	
+	private float yaw;
+	private float pitch;
+	private static float maxAngle = (float)Math.toRadians(40);
 	private float fov,aspect,near,far;
 	
+	private boolean moved = false;
+	private boolean rotate = false;
+	
 	public Camera(float fov, float aspect, float near, float far) {
-		this.x=0;
-		this.y=-10;
-		this.z=-10;
+		pos.x=0;
+		pos.y=-10;
+		pos.z=-10;
 		
-		this.rx=45;
-		this.ry=0;
-		this.rz=0;
+		yaw = 0;
+		pitch = 45;
 		
 		this.fov = fov;
 		this.aspect = aspect;
@@ -49,26 +50,45 @@ public class Camera extends GameComponent{
 	
 	public void input(float delta){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			move(-(float)Math.sin(Math.toRadians((ry))), 0, (float)Math.cos(Math.toRadians((ry))));
+			moved = true;
+			move(-(float)Math.sin(Math.toRadians((yaw))), 0, (float)Math.cos(Math.toRadians((yaw))));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			move(+(float)Math.sin(Math.toRadians((ry))), 0, -(float)Math.cos(Math.toRadians((ry))));
+			moved = true;
+			move(+(float)Math.sin(Math.toRadians((yaw))), 0, -(float)Math.cos(Math.toRadians((yaw))));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			move(-(float)Math.cos(Math.toRadians((ry))), 0, -(float)Math.sin(Math.toRadians((ry))));
+			moved = true;
+			move(-(float)Math.cos(Math.toRadians((yaw))), 0, -(float)Math.sin(Math.toRadians((yaw))));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			move((float)Math.cos(Math.toRadians((ry))), 0, (float)Math.sin(Math.toRadians((ry))));
+			moved = true;
+			move((float)Math.cos(Math.toRadians((yaw))), 0, (float)Math.sin(Math.toRadians((yaw))));
 		}
 		int rotationSpeed = 2;
-		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
-			ry=(ry-rotationSpeed);
-		if(Keyboard.isKeyDown(Keyboard.KEY_E))
-			ry=(ry+rotationSpeed);
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+			rotate = true;
+			yaw -=  rotationSpeed;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+			rotate = true;
+			yaw +=  rotationSpeed;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			move(0,1,0);
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
+			moved = true;
+		}
+			
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			moved = true;
 			move(0,-1,0);
+		}
+		
+		if(moved||rotate){
+			updateForward();
+			moved = false;
+			rotate = false;
+		}
 	}
 	
 	public void update(float delta){
@@ -76,22 +96,26 @@ public class Camera extends GameComponent{
 	}
 	
 	public void useView(){
-		glRotatef(this.rx,1,0,0);
-		glRotatef(this.ry,0,1,0);
-		glRotatef(this.rz,0,0,1);
-		glTranslatef(this.x,this.y,this.z);
+		glRotatef(pitch,1,0,0);
+		glRotatef(yaw,0,1,0);
+		glTranslatef(pos.x,pos.y,pos.z);
 	}
 	
 	public void move(float x, float y, float z){
-		this.x += x;
-		this.y += y;
-		this.z += z;
+		pos.x += x;
+		pos.y += y;
+		pos.z += z;
 	}
 	
-	public void rotate(float x, float y, float z){
-		this.rx += x;
-		this.ry += y;
-		this.rz += z;
+	private void updateForward(){
+		double x = Math.cos(Math.toRadians(yaw))*Math.cos(Math.toRadians(pitch));
+		double y = Math.sin(Math.toRadians(yaw))*Math.cos(Math.toRadians(pitch));
+		double z = Math.sin(Math.toRadians(pitch));
+		forward  = new Vector3f((float)y,(float)z,(float)x);
+	}
+
+	public static float getMaxangle() {
+		return maxAngle;
 	}
 }
 

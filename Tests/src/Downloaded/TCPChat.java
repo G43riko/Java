@@ -57,7 +57,7 @@ public class TCPChat implements Runnable {
 
    private static JPanel initOptionsPane() {
       JPanel pane = null;
-      ActionAdapter buttonListener = null;
+      ActionAdapter buttondListener = null;
 
       // Create an options pane
       JPanel optionsPane = new JPanel(new GridLayout(4, 1));
@@ -110,7 +110,7 @@ public class TCPChat implements Runnable {
       optionsPane.add(pane);
 
       // Host/guest option
-      buttonListener = new ActionAdapter() {
+      buttondListener = new ActionAdapter() {
             public void actionPerformed(ActionEvent e) {
                if (connectionStatus != DISCONNECTED) {
                   changeStatusNTS(NULL, true);
@@ -134,11 +134,11 @@ public class TCPChat implements Runnable {
       hostOption = new JRadioButton("Host", true);
       hostOption.setMnemonic(KeyEvent.VK_H);
       hostOption.setActionCommand("host");
-      hostOption.addActionListener(buttonListener);
+      hostOption.addActionListener(buttondListener);
       guestOption = new JRadioButton("Guest", false);
       guestOption.setMnemonic(KeyEvent.VK_G);
       guestOption.setActionCommand("guest");
-      guestOption.addActionListener(buttonListener);
+      guestOption.addActionListener(buttondListener);
       bg.add(hostOption);
       bg.add(guestOption);
       pane = new JPanel(new GridLayout(1, 2));
@@ -148,7 +148,7 @@ public class TCPChat implements Runnable {
 
       // Connect/disconnect buttons
       JPanel buttonPane = new JPanel(new GridLayout(1, 2));
-      buttonListener = new ActionAdapter() {
+      buttondListener = new ActionAdapter() {
             public void actionPerformed(ActionEvent e) {
                // Request a connection initiation
                if (e.getActionCommand().equals("connect")) {
@@ -163,12 +163,12 @@ public class TCPChat implements Runnable {
       connectButton = new JButton("Connect");
       connectButton.setMnemonic(KeyEvent.VK_C);
       connectButton.setActionCommand("connect");
-      connectButton.addActionListener(buttonListener);
+      connectButton.addActionListener(buttondListener);
       connectButton.setEnabled(true);
       disconnectButton = new JButton("Disconnect");
       disconnectButton.setMnemonic(KeyEvent.VK_D);
       disconnectButton.setActionCommand("disconnect");
-      disconnectButton.addActionListener(buttonListener);
+      disconnectButton.addActionListener(buttondListener);
       disconnectButton.setEnabled(false);
       buttonPane.add(connectButton);
       buttonPane.add(disconnectButton);

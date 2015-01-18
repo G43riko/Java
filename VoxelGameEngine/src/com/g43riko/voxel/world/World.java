@@ -15,11 +15,14 @@ public class World {
 		}
 	}
 	
-	public void draw() {
+	public int draw() {
+		int res = 0;
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
-				chunks[i][j].draw();;
+				res += chunks[i][j].draw();;
 			}
 		}
+		System.out.println("nakreslilo sa "+res+" kociek");
+		return res;
 	}
 }

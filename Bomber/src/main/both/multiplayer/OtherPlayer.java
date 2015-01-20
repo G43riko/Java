@@ -1,5 +1,6 @@
 package main.both.multiplayer;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,8 +10,11 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import main.both.components.GameComponent;
+import main.both.components.Player;
+import main.both.core.utils.Logs;
+import main.both.core.utils.Vector2f;
 
-public class OtherPlayer extends GameComponent{
+public class OtherPlayer extends Player{
 	private Socket socket;
 	private BufferedReader reader;
 	private BufferedWriter writer;
@@ -20,14 +24,8 @@ public class OtherPlayer extends GameComponent{
 		try {
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			String line = reader.readLine();
-			if(line.startsWith(Server.START_CODE)){
-				nick = line.split(" ")[1];
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			nick = reader.readLine().split(" ")[1];
+		} catch (IOException e) {e.printStackTrace(); }
 	}
 
 	public String getNick() {
@@ -59,11 +57,9 @@ public class OtherPlayer extends GameComponent{
 
 	public void write(String msg){
 		try {
+			//Logs.write("správa pre "+nick+": "+msg);
 			writer.write(msg+"\n");
 			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace(); }
 	}
 }

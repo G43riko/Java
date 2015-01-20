@@ -1,21 +1,31 @@
-package main.engine.core;
+package main.game.core;
 
-import javax.swing.JFrame;
-
-import main.engine.Bomberman;
+import main.game.Bomberman;
+import main.both.core.Game;
+import main.both.core.utils.Logs;
 import main.both.core.utils.Time;
+import main.both.core.utils.Window;
+import main.both.rendering.RenderEngine;
 
 public class CoreEngine {
 	private double frameTime;
 	private boolean isRunning;
 	private Game game;
+	private RenderEngine renderer;;
+	private Window window;
 	
 	public CoreEngine(int framerate, Bomberman bomberman) {
 		isRunning=false;
 		this.game = bomberman;
 		frameTime = 1/(double)framerate;
+		renderer = new RenderEngine(game.getRoot());
+		createWindow();
 	}
 
+	public void createWindow() {
+		window = new Window();
+	}
+	
 	public void start() {
 		if(!isRunning)
 			run();
@@ -46,14 +56,17 @@ public class CoreEngine {
 
 				game.input((float) frameTime);
 				game.update((float) frameTime);
+				if(game.player.moved)
+					((Bomberman)game).updateClient();
 
 				if(frameCounter >= 1.0){
-					System.out.println(frames);
+//					Logs.write(String.valueOf(frames));
 					frames = 0;
 					frameCounter = 0;
 				}
 			}
 			if(render){
+				window.update(renderer);
 				frames++;
 			}
 			else{

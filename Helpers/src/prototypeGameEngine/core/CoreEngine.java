@@ -2,7 +2,6 @@ package prototypeGameEngine.core;
 
 import org.lwjgl.opengl.Display;
 
-
 public class CoreEngine {
 	private double frameTime;
 	private boolean isRunning;
@@ -12,6 +11,10 @@ public class CoreEngine {
 		isRunning=false;
 		this.game =  game;
 		this.frameTime = 1/framerate;
+	}
+	
+	public void createWindow(int width, int height, String title ){
+		Window.createWindow(width, height, title);
 	}
 	
 	public void start(){		

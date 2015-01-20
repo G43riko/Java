@@ -23,6 +23,6 @@ public class Log extends GameComponent{
 		g2.fillRect(0, 0, 60, 20);
 		
 		g2.setColor(Color.WHITE);
-		g2.drawString("hr·Ëov: "+((Bomberman)game).pocetHracov, 0, 10);
+		//g2.drawString("hr·Ëov: "+((Bomberman)game).pocetHracov, 0, 10);
 	};
 }

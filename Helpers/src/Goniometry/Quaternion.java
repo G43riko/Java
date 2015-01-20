@@ -28,6 +28,47 @@ public class Quaternion{
 		this.w = (float)Math.cos(angle / 2);
 	}
 
+	public Quaternion(Matrix4f rot){
+		float trace = rot.Get(0, 0) + rot.Get(1, 1) + rot.Get(2, 2);
+
+		if(trace > 0){
+			float s = 0.5f / (float)Math.sqrt(trace+ 1.0f);
+			w = 0.25f / s;
+			x = (rot.Get(1, 2) - rot.Get(2, 1)) * s;
+			y = (rot.Get(2, 0) - rot.Get(0, 2)) * s;
+			z = (rot.Get(0, 1) - rot.Get(1, 0)) * s;
+		}
+		else{
+			if(rot.Get(0, 0) > rot.Get(1, 1) && rot.Get(0, 0) > rot.Get(2, 2)){
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(0, 0) - rot.Get(1, 1) - rot.Get(2, 2));
+				w = (rot.Get(1, 2) - rot.Get(2, 1)) / s;
+				x = 0.25f * s;
+				y = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
+				z = (rot.Get(2, 0) + rot.Get(0, 2)) / s;
+			}
+			else if(rot.Get(1, 1) > rot.Get(2, 2)){
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(1, 1) - rot.Get(0, 0) - rot.Get(2, 2));
+				w = (rot.Get(2, 0) - rot.Get(0, 2)) / s;
+				x = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
+				y = 0.25f * s;
+				z = (rot.Get(2, 1) + rot.Get(1, 2)) / s;
+			}
+			else{
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(2, 2) - rot.Get(0, 0) - rot.Get(1, 1));
+				w = (rot.Get(0, 1) - rot.Get(1, 0) ) / s;
+				x = (rot.Get(2, 0) + rot.Get(0, 2) ) / s;
+				y = (rot.Get(1, 2) + rot.Get(2, 1) ) / s;
+				z = 0.25f * s;
+			}
+		}
+
+		float length = (float)Math.sqrt(x * x + y * y + z * z + w * w);
+		x /= length;
+		y /= length;
+		z /= length;
+		w /= length;
+	}
+	
 	public float getLength(){
 		return (float)Math.sqrt(x * x + y * y + z * z + w * w);
 	}
@@ -71,6 +112,10 @@ public class Quaternion{
 		return new Quaternion(x + r.getX(), y + r.getY(), z + r.getZ(), w + r.getW());
 	}
 	
+	public Quaternion add(float r){
+		return new Quaternion(x + r, y + r, z + r, w + r);
+	}
+	
 	public Matrix4f ToRotationMatrix(){
 		return new Matrix4f().InitRotation(getForward(), getUp(), getRight());
 	}
@@ -111,47 +156,6 @@ public class Quaternion{
 
 		return this.mul(srcFactor).add(correctedDest.mul(destFactor));
 	}
-	
-	public Quaternion(Matrix4f rot){
-		float trace = rot.Get(0, 0) + rot.Get(1, 1) + rot.Get(2, 2);
-
-		if(trace > 0){
-			float s = 0.5f / (float)Math.sqrt(trace+ 1.0f);
-			w = 0.25f / s;
-			x = (rot.Get(1, 2) - rot.Get(2, 1)) * s;
-			y = (rot.Get(2, 0) - rot.Get(0, 2)) * s;
-			z = (rot.Get(0, 1) - rot.Get(1, 0)) * s;
-		}
-		else{
-			if(rot.Get(0, 0) > rot.Get(1, 1) && rot.Get(0, 0) > rot.Get(2, 2)){
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(0, 0) - rot.Get(1, 1) - rot.Get(2, 2));
-				w = (rot.Get(1, 2) - rot.Get(2, 1)) / s;
-				x = 0.25f * s;
-				y = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
-				z = (rot.Get(2, 0) + rot.Get(0, 2)) / s;
-			}
-			else if(rot.Get(1, 1) > rot.Get(2, 2)){
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(1, 1) - rot.Get(0, 0) - rot.Get(2, 2));
-				w = (rot.Get(2, 0) - rot.Get(0, 2)) / s;
-				x = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
-				y = 0.25f * s;
-				z = (rot.Get(2, 1) + rot.Get(1, 2)) / s;
-			}
-			else{
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(2, 2) - rot.Get(0, 0) - rot.Get(1, 1));
-				w = (rot.Get(0, 1) - rot.Get(1, 0) ) / s;
-				x = (rot.Get(2, 0) + rot.Get(0, 2) ) / s;
-				y = (rot.Get(1, 2) + rot.Get(2, 1) ) / s;
-				z = 0.25f * s;
-			}
-		}
-
-		float length = (float)Math.sqrt(x * x + y * y + z * z + w * w);
-		x /= length;
-		y /= length;
-		z /= length;
-		w /= length;
-	}
 
 	public Vector3f getForward(){return new Vector3f(0,0,1).Rotate(this);}
 
@@ -171,13 +175,11 @@ public class Quaternion{
 	public float getX(){return x;}
 	public float getY(){return y;}
 	public float getZ(){return z;}
+	public float getW(){return w;}
 	
 	public void setX(float x){this.x = x;}
 	public void setY(float y){this.y = y;}
 	public void setZ(float z){this.z = z;}
-
-	public float getW(){return w;}
-
 	public void setW(float w){this.w = w;}
 
 	public boolean equals(Quaternion r){

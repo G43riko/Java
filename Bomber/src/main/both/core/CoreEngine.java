@@ -1,6 +1,7 @@
 package main.both.core;
 
 import main.both.Bomberman;
+import main.both.core.utils.Logs;
 import main.both.core.utils.Time;
 import main.both.core.utils.Window;
 import main.both.rendering.RenderEngine;
@@ -17,6 +18,7 @@ public class CoreEngine {
 		this.game = bomberman;
 		frameTime = 1/(double)framerate;
 		renderer = new RenderEngine(game.getRoot());
+		createWindow();
 	}
 
 	public void createWindow() {
@@ -53,9 +55,11 @@ public class CoreEngine {
 
 				game.input((float) frameTime);
 				game.update((float) frameTime);
+				if(game.player.moved)
+					((Bomberman)game).updateClients();
 
 				if(frameCounter >= 1.0){
-					System.out.println(frames);
+//					Logs.write(String.valueOf(frames));
 					frames = 0;
 					frameCounter = 0;
 				}

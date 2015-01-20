@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import main.both.core.utils.Logs;
+
 
 public class Map extends GameComponent{
 	public static int block = 40; //velkosù jednÈcho bloku
@@ -14,8 +16,10 @@ public class Map extends GameComponent{
 	private static int numY; // poËet blokov na v˝öku
 	private int[][] mapa;
 	private MyPlayer player;
+	public String fileName; 
 	
 	public Map(int numX, int numY, MyPlayer player){
+		Logs.write("vytvorila sa nov· mapa o velkosti "+numX+" a "+numY+" polÌËok");
 		this.player = player;
 		this.numX = numX;
 		this.numY = numY;
@@ -28,8 +32,10 @@ public class Map extends GameComponent{
 	}
 	
 	public Map(String fileName, MyPlayer player){
+		fileName = fileName;
 		this.player = player;
 		loadMap(fileName);
+		Logs.write("vytvorila sa nov· zo s˙boru "+fileName);
 	}
 	
 	private void loadMap(String fileName) {

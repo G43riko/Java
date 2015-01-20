@@ -23,13 +23,18 @@ public class Camerka {
 	
 	private final float maxAngle = (float)Math.toRadians(40);
 	
+	private Vector2f centerPosition = new Vector2f(Display.getWidth()/2,Display.getHeight()/2);
+	
 	public static final float ROTATION_SPEED = 0.6f;
 	public static final float MOVE_SPEED = 0.3f;
 	
+	private int unlockMouseKey = Keyboard.KEY_N;
 	private final int DISTANCE = 60;
 	private Matrix4f projectionMatrix;
+	
 	private boolean move = false;
 	private boolean rotate = false;
+	private boolean mouseLocked = false;
 	
 	//private Vector3f position = new Vector3f(Block.WIDTH*10,15,Block.DEPTH*20);
 	private Vector3f position = new Vector3f();
@@ -63,6 +68,40 @@ public class Camerka {
 	}
 
 	public void update(){
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_M)){
+			Mouse.setCursorPosition((int)centerPosition.x,(int)centerPosition.y);
+			Mouse.setGrabbed(true);
+			mouseLocked = true;
+		}
+		
+		if(Keyboard.isKeyDown(unlockMouseKey)){
+			Mouse.setGrabbed(false);
+			mouseLocked = false;
+		}
+		
+		
+		if(mouseLocked){
+			Vector2f deltaPos = new Vector2f();
+			Vector2f.sub(new Vector2f(Mouse.getX(),Mouse.getY()), centerPosition, deltaPos);
+			
+			
+			boolean rotY =deltaPos.x !=0;
+			boolean rotX =deltaPos.y !=0;
+
+			if(rotX){
+				pitch -= (deltaPos.y * ROTATION_SPEED/2);
+			}
+			if(rotY){
+				yaw += (deltaPos.x * ROTATION_SPEED/2);
+			}
+			
+			if(rotY || rotX){
+				rotate = true;
+				Mouse.setCursorPosition((int)centerPosition.x, (int)centerPosition.y);
+			}
+		}
+		
 //		System.out.println(getForward());
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			move = true;
@@ -140,13 +179,8 @@ public class Camerka {
 	}
 	
 	public void goForward(){
-		//move(-(float)Math.sin(Math.toRadians((yaw))), 0, (float)Math.cos(Math.toRadians((yaw))));
 		position.x += Math.cos(Math.toRadians(pitch)) * Math.sin(Math.toRadians(yaw)) * MOVE_SPEED;
 		position.z += -Math.cos(Math.toRadians(pitch)) * Math.cos(Math.toRadians(yaw)) * MOVE_SPEED;
-//		Vector3f pred = getForward();
-//		position.x += pred.x;
-////		position.y += pred.y;
-//		position.z += pred.z;
 		
 	}
 	

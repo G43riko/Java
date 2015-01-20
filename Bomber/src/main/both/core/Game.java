@@ -2,9 +2,14 @@ package main.both.core;
 
 import java.awt.Graphics2D;
 
+import main.both.components.Map;
+import main.both.components.MyPlayer;
 import main.both.rendering.RenderEngine;
 
 public class Game {
+	public MyPlayer player;
+	public Map mapa;
+	
 	private GameObject root = null;
 	
 	public void init(){};

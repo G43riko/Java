@@ -48,7 +48,7 @@ public class Input	 {
 		return new Vector2f(Mouse.getX(), Mouse.getY());
 	}
 	
-	public static void getMousePosition(Vector2f pos){
+	public static void setMousePosition(Vector2f pos){
 		Mouse.setCursorPosition((int)pos.getX(), (int)pos.getY());
 	}
 	

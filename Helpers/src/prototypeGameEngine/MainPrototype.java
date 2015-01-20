@@ -11,6 +11,7 @@ public class MainPrototype {
 	
 	public static void main(String[] args){
 		CoreEngine game = new CoreEngine(FPS,new Tester());
+		game.createWindow(WIDTH, HEIGHT, TITLE);
 		game.start();
 		game.cleanUp();
 	}

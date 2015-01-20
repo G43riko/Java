@@ -1,7 +1,9 @@
 package main;
 
-import main.both.Bomberman;
-import main.both.core.CoreEngine;
+import main.game.Bomberman;
+import main.game.core.CoreEngine;
+//import main.both.Bomberman;
+//import main.both.core.CoreEngine;
 
 public class MainBomber {
 	public static final int WIDTH = 600;
@@ -12,7 +14,6 @@ public class MainBomber {
 	
 	public static void main(String[] args) {
 		CoreEngine game = new CoreEngine(FPS, new Bomberman());
-		game.createWindow();
 		game.start();
 	}
 

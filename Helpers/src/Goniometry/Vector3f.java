@@ -6,7 +6,7 @@ public class Vector3f {
 	public Vector3f(){
 		this(0,0,0);
 	}
-	////
+	
 	public Vector3f(float x, float y, float z){
 		this.x=x;
 		this.y=y;
@@ -20,7 +20,6 @@ public class Vector3f {
 	}
 	
 	public float getLength(){
-		//vráti dåžku vektora;
 		return (float)Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
 	};
 	

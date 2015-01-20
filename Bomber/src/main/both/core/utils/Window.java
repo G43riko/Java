@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -21,7 +23,7 @@ public class Window extends JFrame{
 	private static int height;
 	private Canvas canvas;
 	
-	public Window(){
+	public Window(Game game){
 		setTitle(MainBomber.TITLE);
 		Dimension screenSize;
 		if(MainBomber.FULLSCREEN){
@@ -34,6 +36,13 @@ public class Window extends JFrame{
 			screenSize = new Dimension(MainBomber.WIDTH,MainBomber.HEIGHT);
 			setResizable(true);
 		}
+		
+		addWindowListener(new WindowAdapter(){
+		    public void windowClosing(WindowEvent e){
+		    	game.close();
+		    }
+		});
+		
 		width = (int)screenSize.getWidth();
 		height = (int)screenSize.getHeight();
 		canvas = new Canvas();

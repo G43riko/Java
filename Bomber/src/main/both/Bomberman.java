@@ -43,4 +43,8 @@ public class Bomberman extends Game{
 		server.write(Server.PLAYER_POSITION+" "+player.getName()+" "+player.getPosition().getX()+" "+player.getPosition().getY());
 		player.moved = false;
 	}
+	
+	public void close(){
+		server.close();
+	}
 }

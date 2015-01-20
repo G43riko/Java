@@ -36,4 +36,8 @@ public class Game {
 		}
 		return root;
 	}
+
+	public void close() {
+		
+	}
 }

@@ -45,7 +45,8 @@ public class OtherPlayer extends Player{
 		try {
 			reader.close();
 			writer.close();
-			socket.close();
+			if(socket!=null)
+				socket.close();
 		} catch (IOException e) {e.printStackTrace();}
 		
 	}

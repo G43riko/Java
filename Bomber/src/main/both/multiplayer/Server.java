@@ -23,6 +23,8 @@ public class Server {
 	private final static int PORT = 8888;
 	private ServerSocket serverSocket;
 	private Game game;
+	private boolean readerIsRunning = true;
+	private boolean accepterIsRunning = true;
 	
 	public Server(Game game){
 		this.game = game;
@@ -36,7 +38,7 @@ public class Server {
 	private void listen(){
 		Thread acceptThread = new Thread(new Runnable(){
 			public void run(){
-				while(true){
+				while(accepterIsRunning){
 					try {
 						//toto  èaká kým sa nepripojí nový hráè
 						Socket client = serverSocket.accept();
@@ -67,7 +69,7 @@ public class Server {
 						}
 						//pridá hráèa k ostatným hráèom
 						((Bomberman)game).players.add(player);
-					} catch (IOException e) { e.printStackTrace(); }
+					} catch (IOException e) { Logs.write("okonèilo sa server.accept() pretože sa socket ukonèil")/*e.printStackTrace()*/; }
 				}
 			}
 		});
@@ -75,11 +77,11 @@ public class Server {
 		
 		Thread readThread = new Thread(new Runnable(){
 			public void run(){
-				while(true){
+				while(readerIsRunning){
 					ArrayList<OtherPlayer> tempPlayers = new ArrayList<OtherPlayer>(((Bomberman)game).players);
 					for(OtherPlayer p : tempPlayers){
 						try {
-							Thread.sleep(1000/MainBomber.FPS/tempPlayers.size());
+							Thread.sleep(1000 / MainBomber.FPS / Math.max(1, tempPlayers.size()));
 						} catch (InterruptedException e) {e.printStackTrace(); }
 						if(p!=null && p.isWritting()){
 							String line = p.readLine();
@@ -88,7 +90,7 @@ public class Server {
 								System.out.println(p.getName()+" sa odpojil");
 								p.close();
 								((Bomberman)game).players.remove(p);
-								System.exit(1);
+//								System.exit(1);
 								continue;
 							}
 							else if(line.startsWith(PLAYER_POSITION)){
@@ -104,7 +106,9 @@ public class Server {
 		
 	}
 	
-	private void close(){
+	public void close(){
+		accepterIsRunning = false;
+		readerIsRunning = false;
 		for(OtherPlayer p: ((Bomberman)game).players){
 			p.close();
 		}

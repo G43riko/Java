@@ -46,4 +46,8 @@ public class Bomberman extends Game{
 		players.add(p);
 		addObject(new GameObject().addComponent(p));
 	}
+	
+	public void close(){
+		client.close();
+	}
 }

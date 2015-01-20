@@ -23,7 +23,7 @@ public class CoreEngine {
 	}
 
 	public void createWindow() {
-		window = new Window();
+		window = new Window(game);
 	}
 	
 	public void start() {

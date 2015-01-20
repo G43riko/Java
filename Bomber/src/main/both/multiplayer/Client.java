@@ -20,12 +20,13 @@ import main.game.Bomberman;
 
 public class Client {
 	private static final int PORT = 8888;
-//	private static final String HOST = "localhost";
-	private static final String HOST = "192.168.0.110";
+	private static final String HOST = "localhost";
+//	private static final String HOST = "192.168.0.110";
 	BufferedWriter writer;
 	BufferedReader reader;
 	private Socket socket;
 	private Game game;
+	private boolean readerIsRunning = true;
 	
 	public Client(Game game){
 		this.game = game;
@@ -35,7 +36,6 @@ public class Client {
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			listen();
 			write(Server.START_CODE+" "+game.player.getName());
-			
 		} catch (UnknownHostException e) {e.printStackTrace();
 		} catch (IOException e) {e.printStackTrace(); }
 	}
@@ -43,16 +43,12 @@ public class Client {
 	private void listen() {
 		Thread listenThread = new Thread(new Runnable(){
 			public void run() {
-				while(true){
+				while(readerIsRunning){
 					try {
 						try {
-							int n = 1;
-							if(((Bomberman)game).players.size() > 1){
-								n = ((Bomberman)game).players.size();
-							}
-							Thread.sleep(1000/MainBomber.FPS/n);
+							Thread.sleep(1000/MainBomber.FPS/Math.max(((Bomberman)game).players.size(), 1));
 						} catch (InterruptedException e) {e.printStackTrace(); }
-						if(reader.ready()){
+						if(readerIsRunning && reader.ready()){
 							String line = reader.readLine();
 							String[] data = line.split(" ");
 							if(line.startsWith(Server.START_CODE)){
@@ -61,7 +57,7 @@ public class Client {
 								Logs.write("pozicia: "+game.player.getPosition()+" color: "+game.player.getColor());
 							}
 							
-							if(line.startsWith(Server.ADD_NEW_PLAYER)){
+							else if(line.startsWith(Server.ADD_NEW_PLAYER)){
 								Logs.write("v hre sa nachadza hráè "+data[1]);
 								PlayerForDraw p = new PlayerForDraw();
 								p.setName(data[1]);
@@ -70,17 +66,16 @@ public class Client {
 								((Bomberman)game).createPlayer(p);
 							}
 							
-							if(line.startsWith(Server.PLAYER_POSITION)){
+							else if(line.startsWith(Server.PLAYER_POSITION)){
 								for(PlayerForDraw p:((Bomberman)game).players){
-									if(p.getName().equals(data[1]) ){
+									if(p.getName().equals(data[1])){
 										p.setPosition(new Vector2f(Float.valueOf(data[2]),Float.valueOf(data[3])));
-//										Logs.write("mení to hráèovu pozíciu "+p.getPosition());
 										break;
 									}
 								}
 							}
 							
-							if(line.startsWith(Server.MAP_NAME)){
+							else if(line.startsWith(Server.MAP_NAME)){
 								Logs.write("prišiel nazov mapy: "+data[1]);
 								game.mapa = new Map(data[1],game.player);
 							}
@@ -93,6 +88,7 @@ public class Client {
 	}
 
 	public void close(){
+		readerIsRunning = false;
 		write(Server.END_CODE);
 		try {
 			writer.close();

@@ -31,10 +31,11 @@ public class Bomberman extends Game{
 	public void init(){
 		player = new MyPlayer("Marko");
 		client = new Client(this);
-		
+		if(mapa == null)
+			mapa = new Map("mapa1",player);
 		Window.keyboard.addPlayer(player);
-		//GameObject mapa = new GameObject().addComponent(new Map(30,30,p));
-		GameObject mapa = new GameObject().addComponent(new Map("mapa1",player));
+
+		GameObject mapa = new GameObject().addComponent(this.mapa);
 		addObject(mapa);
 		addObject(new GameObject().addComponent(player));
 		

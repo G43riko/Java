@@ -18,18 +18,13 @@ public class OtherPlayer extends Player{
 	private Socket socket;
 	private BufferedReader reader;
 	private BufferedWriter writer;
-	private String nick;
 	
 	public OtherPlayer(Socket socket){
 		try {
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			nick = reader.readLine().split(" ")[1];
+			this.name = reader.readLine().split(" ")[1]; 
 		} catch (IOException e) {e.printStackTrace(); }
-	}
-
-	public String getNick() {
-		return nick;
 	}
 
 	public boolean isWritting() {
@@ -57,7 +52,6 @@ public class OtherPlayer extends Player{
 
 	public void write(String msg){
 		try {
-			//Logs.write("správa pre "+nick+": "+msg);
 			writer.write(msg+"\n");
 			writer.flush();
 		} catch (IOException e) {e.printStackTrace(); }

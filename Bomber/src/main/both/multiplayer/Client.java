@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import main.both.components.Map;
 import main.both.components.Player;
 import main.both.components.PlayerForDraw;
 import main.both.core.Game;
@@ -67,6 +68,11 @@ public class Client {
 										break;
 									}
 								}
+							}
+							
+							if(line.startsWith(Server.MAP_NAME)){
+								Logs.write("prišiel nazov mapy: "+data[1]);
+								game.mapa = new Map(data[1],game.player);
 							}
 						}
 					} catch (IOException e) {e.printStackTrace(); }

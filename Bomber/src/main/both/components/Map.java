@@ -32,7 +32,7 @@ public class Map extends GameComponent{
 	}
 	
 	public Map(String fileName, MyPlayer player){
-		fileName = fileName;
+		this.fileName = fileName;
 		this.player = player;
 		loadMap(fileName);
 		Logs.write("vytvorila sa nová zo súboru "+fileName);

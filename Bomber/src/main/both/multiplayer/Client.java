@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import main.MainBomber;
 import main.both.components.Map;
 import main.both.components.Player;
 import main.both.components.PlayerForDraw;
@@ -19,7 +20,8 @@ import main.game.Bomberman;
 
 public class Client {
 	private static final int PORT = 8888;
-	private static final String HOST = "localhost";
+//	private static final String HOST = "localhost";
+	private static final String HOST = "192.168.0.110";
 	BufferedWriter writer;
 	BufferedReader reader;
 	private Socket socket;
@@ -43,6 +45,13 @@ public class Client {
 			public void run() {
 				while(true){
 					try {
+						try {
+							int n = 1;
+							if(((Bomberman)game).players.size() > 1){
+								n = ((Bomberman)game).players.size();
+							}
+							Thread.sleep(1000/MainBomber.FPS/n);
+						} catch (InterruptedException e) {e.printStackTrace(); }
 						if(reader.ready()){
 							String line = reader.readLine();
 							String[] data = line.split(" ");
@@ -65,6 +74,7 @@ public class Client {
 								for(PlayerForDraw p:((Bomberman)game).players){
 									if(p.getName().equals(data[1]) ){
 										p.setPosition(new Vector2f(Float.valueOf(data[2]),Float.valueOf(data[3])));
+//										Logs.write("mení to hráèovu pozíciu "+p.getPosition());
 										break;
 									}
 								}

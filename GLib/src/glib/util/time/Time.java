@@ -1,4 +1,4 @@
-package java.org.glib.util.time;
+package glib.util.time;
 
 public class Time {
 	private static final long SECOND = 1000000000L;

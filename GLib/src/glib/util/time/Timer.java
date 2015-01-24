@@ -1,4 +1,4 @@
-package java.org.glib.util.time;
+package glib.util.time;
 
 public class Timer {
 	private boolean paused;

@@ -1,4 +1,4 @@
-package java.org.glib.util.vector;
+package glib.util.vector;
 
 public class GVector2f {
 	private float x,y;

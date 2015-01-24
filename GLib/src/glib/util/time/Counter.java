@@ -1,4 +1,4 @@
-package java.org.glib.util.time;
+package glib.util.time;
 
 import java.util.HashMap;
 

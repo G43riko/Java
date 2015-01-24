@@ -1,4 +1,4 @@
-package java.org.glib.util.noise;
+package glib.util.noise;
 
 public class PerlinNoise {
 	public static float[][] GeneratePerlinNoise(float[][] baseNoise, int octaveCount,float persistance,boolean normalize){

@@ -3,6 +3,10 @@ package prototypeGameEngine;
 import prototypeGameEngine.core.Game;
 
 public class Tester extends Game{
+	public void init(){
+		
+	}
+	
 	public void render(){
 		
 	}

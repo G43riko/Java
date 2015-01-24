@@ -7,21 +7,22 @@ public class Mathematics {
 		return argc[(int)Math.floor(Math.random()*argc.length)];
 	};
 	
-	public static double choose(double... argc){
+	public static float choose(float... argc){
 		return argc[(int)Math.floor(Math.random()*argc.length)];
 	};
 	
-	public static double average(double... argc){
-		double sum=0;
-		for(double co : argc){
+	
+	public static int average(int... argc){
+		int sum=0;
+		for(int co : argc){
 			sum+=co;
 		}
 		return sum/argc.length;
 	};
 	
-	public static int average(int... argc){
-		int sum=0;
-		for(int co : argc){
+	public static float average(float... argc){
+		float sum=0;
+		for(float co : argc){
 			sum+=co;
 		}
 		return sum/argc.length;

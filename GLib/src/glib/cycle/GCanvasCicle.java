@@ -11,7 +11,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-public class GCanvas extends JFrame{
+public class GCanvasCicle extends JFrame{
 	private Canvas canvas;
 	private int fps = 60;
 	private boolean isRunning = false;
@@ -21,15 +21,19 @@ public class GCanvas extends JFrame{
 	private int color = 0;
 	private GColor bgcolor = new GColor(255,255,255);
 	
-	public GCanvas(){
+	public GCanvasCicle(){
 		this(800,600);
 	}
 	
-	public GCanvas(int width, int height){
-		canvas = new Canvas();
-		canvas.setSize(new Dimension(width,height));
+	public GCanvasCicle(int width, int height){
 		this.width = width;
 		this.height = height;
+		init();
+	}
+	
+	private void init(){
+		canvas = new Canvas();
+		canvas.setSize(new Dimension(width,height));
 		add(canvas);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

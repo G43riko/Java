@@ -35,20 +35,20 @@ public class GMatrix4f
 		y = (float)Math.toRadians(y);
 		z = (float)Math.toRadians(z);
 		
-		rz.m[0][0] = (float)Math.cos(z);rz.m[0][1] = -(float)Math.sin(z);rz.m[0][2] = 0;				rz.m[0][3] = 0;
-		rz.m[1][0] = (float)Math.sin(z);rz.m[1][1] = (float)Math.cos(z);rz.m[1][2] = 0;					rz.m[1][3] = 0;
-		rz.m[2][0] = 0;					rz.m[2][1] = 0;					rz.m[2][2] = 1;					rz.m[2][3] = 0;
-		rz.m[3][0] = 0;					rz.m[3][1] = 0;					rz.m[3][2] = 0;					rz.m[3][3] = 1;
+		rz.m[0][0] = (float)Math.cos(z);rz.m[0][1] = -(float)Math.sin(z);rz.m[0][2] = 0;				 rz.m[0][3] = 0;
+		rz.m[1][0] = (float)Math.sin(z);rz.m[1][1] = (float)Math.cos(z);rz.m[1][2] = 0;				 	 rz.m[1][3] = 0;
+		rz.m[2][0] = 0;					rz.m[2][1] = 0;					rz.m[2][2] = 1;					 rz.m[2][3] = 0;
+		rz.m[3][0] = 0;					rz.m[3][1] = 0;					rz.m[3][2] = 0;					 rz.m[3][3] = 1;
 		
-		rx.m[0][0] = 1;					rx.m[0][1] = 0;					rx.m[0][2] = 0;					rx.m[0][3] = 0;
+		rx.m[0][0] = 1;					rx.m[0][1] = 0;					rx.m[0][2] = 0;					 rx.m[0][3] = 0;
 		rx.m[1][0] = 0;					rx.m[1][1] = (float)Math.cos(x);rx.m[1][2] = -(float)Math.sin(x);rx.m[1][3] = 0;
-		rx.m[2][0] = 0;					rx.m[2][1] = (float)Math.sin(x);rx.m[2][2] = (float)Math.cos(x);rx.m[2][3] = 0;
-		rx.m[3][0] = 0;					rx.m[3][1] = 0;					rx.m[3][2] = 0;					rx.m[3][3] = 1;
+		rx.m[2][0] = 0;					rx.m[2][1] = (float)Math.sin(x);rx.m[2][2] = (float)Math.cos(x); rx.m[2][3] = 0;
+		rx.m[3][0] = 0;					rx.m[3][1] = 0;					rx.m[3][2] = 0;					 rx.m[3][3] = 1;
 		
 		ry.m[0][0] = (float)Math.cos(y);ry.m[0][1] = 0;					ry.m[0][2] = -(float)Math.sin(y);ry.m[0][3] = 0;
-		ry.m[1][0] = 0;					ry.m[1][1] = 1;					ry.m[1][2] = 0;					ry.m[1][3] = 0;
-		ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y);ry.m[2][3] = 0;
-		ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					ry.m[3][3] = 1;
+		ry.m[1][0] = 0;					ry.m[1][1] = 1;					ry.m[1][2] = 0;					 ry.m[1][3] = 0;
+		ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y); ry.m[2][3] = 0;
+		ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					 ry.m[3][3] = 1;
 		
 		m = rz.Mul(ry.Mul(rx)).GetM();
 		
@@ -116,8 +116,8 @@ public class GMatrix4f
 
 	public GVector3f Transform(GVector3f r){
 		return new GVector3f(m[0][0] * r.getX() + m[0][1] * r.getY() + m[0][2] * r.getZ() + m[0][3],
-		                    m[1][0] * r.getX() + m[1][1] * r.getY() + m[1][2] * r.getZ() + m[1][3],
-		                    m[2][0] * r.getX() + m[2][1] * r.getY() + m[2][2] * r.getZ() + m[2][3]);
+		                     m[1][0] * r.getX() + m[1][1] * r.getY() + m[1][2] * r.getZ() + m[1][3],
+		                     m[2][0] * r.getX() + m[2][1] * r.getY() + m[2][2] * r.getZ() + m[2][3]);
 	}
 	
 	public GMatrix4f Mul(GMatrix4f r){
@@ -126,9 +126,9 @@ public class GMatrix4f
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 4; j++){
 				res.Set(i, j, m[i][0] * r.Get(0, j) +
-						m[i][1] * r.Get(1, j) +
-						m[i][2] * r.Get(2, j) +
-						m[i][3] * r.Get(3, j));
+							  m[i][1] * r.Get(1, j) +
+							  m[i][2] * r.Get(2, j) +
+							  m[i][3] * r.Get(3, j));
 			}
 		}
 		

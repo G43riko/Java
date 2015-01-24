@@ -1,5 +1,7 @@
 package glib.util.vector;
 
+import glib.math.GMath;
+
 public class GVector2f {
 	private float x,y;
 	
@@ -112,82 +114,29 @@ public class GVector2f {
 		this.y = Math.abs(this.y);
 	}
 
-	public float getX() {
-		return x;
-	}
+	public float getX() {return x;}
+	public float getY() {return y;}
 
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	};
+	public void setX(float x) {this.x = x;}
+	public void setY(float y) {this.y = y;}
 	
-	public void addToY(float y){
-		this.y += y;
-	};
+	public void addToY(float y){this.y += y;}
+	public void addToX(float x){this.x += x;}
 	
-	public void addToX(float x){
-		this.x += x;
-	};
+	public void set(float x, float y){this.x = x;this.y = y;}
 	
-	public void set(float x, float y){
-		this.x = x;
-		this.y = y;
-	};
-	
-	public void set(GVector2f a){
-		set(a.getX(), a.getY());
-	};
+	public void set(GVector2f a){set(a.getX(), a.getY());}
 	
 	public String toString(){
 		return "["+this.x+"x"+this.y+"]";
 	}
 	
-	public static GVector2f interpolateLinear(float scale, GVector2f startValue, GVector2f endValue, GVector2f store) {
-        if (store == null)
-            store = new GVector2f();
-        store.setX(interpolateLinear(scale, startValue.getX(), endValue.getX()));
-        store.setY(interpolateLinear(scale, startValue.getY(), endValue.getY()));
-        return store;
-    }
-	
 	public static GVector2f interpolateLinear(float scale, GVector2f startValue, GVector2f endValue) {
-        return interpolateLinear(scale, startValue, endValue, null);
+		GVector2f result = new GVector2f();
+	    result.setX(GMath.interpolateLinear(scale, startValue.getX(), endValue.getX()));
+	    result.setY(GMath.interpolateLinear(scale, startValue.getY(), endValue.getY()));
+        return result;
     }
-	
-	public static float interpolateLinear(float scale, float startValue, float endValue) {
-        if (startValue == endValue)
-            return startValue;
-        
-        if (scale <= 0f)
-            return startValue;
-        
-        if (scale >= 1f)
-            return endValue;
-        
-        return ((1f - scale) * startValue) + (scale * endValue);
-    }
-	
-	public boolean isInRect(float x, float y, float w, float h){
-		if(this.x > x && this.x < x + w && this.y > y && this.y < y + h)
-			return true;
-		return false;
-	};
-	
-	public boolean isInCircle(float x, float y, float r){
-		double dist;
-		dist = (this.x - x) * (this.x - x) + (this.y - y) * (this.y - y);
-		dist = Math.sqrt(dist);
-		if(dist < r)
-			return true;
-		return false;
-	}
 	
 	public GVector2f getInstatnce(){
 		return new GVector2f(this);

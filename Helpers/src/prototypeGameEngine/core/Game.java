@@ -1,6 +1,6 @@
 package prototypeGameEngine.core;
 
-import prototypeGameEngine.RenderEngine;
+import prototypeGameEngine.render.RenderEngine;
 
 public abstract class Game {
 	private RenderEngine renderer = null;

@@ -1,4 +1,4 @@
-package prototypeGameEngine;
+package prototypeGameEngine.render;
 
 import java.io.File;
 import java.io.FileInputStream;

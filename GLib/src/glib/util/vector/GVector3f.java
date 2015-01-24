@@ -1,5 +1,7 @@
 package glib.util.vector;
 
+import glib.math.GMath;
+
 public class GVector3f {
 	private float x,y,z;
 	
@@ -23,6 +25,10 @@ public class GVector3f {
 		return (float)Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
 	};
 	
+	public float dist(GVector3f vec){
+		return (float)Math.sqrt(Math.pow((x-vec.getX()), 2) + Math.pow((y-vec.getY()), 2) + Math.pow((z-vec.getZ()), 2));
+	}
+	
 	public float max(){
 		return Math.max(x, Math.max(y,z));
 	}
@@ -45,15 +51,10 @@ public class GVector3f {
 	
 	public GVector3f normalize(){
 		float length = getLength();
-		
-		return new GVector3f(x / length, y / length, z / length);
-	}
-	
-	public void normalizeThis(){
-		float length = getLength();
 		x /= length;
 		y /= length;
 		z /= length;
+		return this;
 	}
 	
 	public GVector3f Lerp(GVector3f dest, float lerpFactor){
@@ -145,6 +146,14 @@ public class GVector3f {
 		return "(" + x + " " + y + " " + z + ")";
 	}
 	
+	public static GVector3f interpolateLinear(float scale, GVector3f startValue, GVector3f endValue) {
+		GVector3f result = new GVector3f();
+	    result.setX(GMath.interpolateLinear(scale, startValue.getX(), endValue.getX()));
+	    result.setY(GMath.interpolateLinear(scale, startValue.getY(), endValue.getY()));
+	    result.setZ(GMath.interpolateLinear(scale, startValue.getZ(), endValue.getZ()));
+        return result;
+    }
+	
 	public GVector3f getInstance(){return new GVector3f(x,y,z); }
 	
 	public GVector2f getXY() { return new GVector2f(x, y); }
@@ -154,8 +163,12 @@ public class GVector3f {
 	public GVector2f getZY() { return new GVector2f(z, y); }
 	public GVector2f getXZ() { return new GVector2f(x, z); }
 
-	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this;}
-	public GVector3f set(GVector3f r) { set(r.getX(), r.getY(), r.getZ()); return this;}
+	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this; }
+	public GVector3f set(GVector3f r) { set(r.getX(), r.getY(), r.getZ()); return this; }
+	
+	public void addToY(float y){this.y += y;}
+	public void addToX(float x){this.x += x;}
+	public void addToZ(float z){this.z += z;}
 	
 	public float getX() {return x;}
 	public float getY() {return y;}

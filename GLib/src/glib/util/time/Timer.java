@@ -3,9 +3,15 @@ package glib.util.time;
 public class Timer {
 	private boolean paused;
 	private double time = 0;
+	private double startTime;
 	
 	public Timer(){
 		
+	}
+	
+	public void start(){
+		startTime = System.currentTimeMillis();
+		paused = false;
 	}
 	
 	public double getTime(){
@@ -17,6 +23,7 @@ public class Timer {
 	}
 	
 	public void pause() {
+		time += System.currentTimeMillis()-startTime; 
 		paused = true;
 	}
 	

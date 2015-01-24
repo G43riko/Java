@@ -6,8 +6,14 @@ public class GLog {
 	private static HashMap<String,Boolean> data = new HashMap<String,Boolean>();
 	private static boolean showAll = false;
 	private static boolean hideAll = false;
+	private boolean show = true;
 	static{
 		data.put("mainLoop",true);
+	}
+	public void log(String msg){
+		if(show){
+			System.out.println(msg);
+		}
 	}
 	
 	public static void write(String msg){
@@ -34,5 +40,9 @@ public class GLog {
 			data.put(name, false);
 		else
 			data.put(name, true);
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
 	}
 }

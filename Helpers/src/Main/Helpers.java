@@ -6,7 +6,6 @@ public class Helpers {
 	
 	public static double addRandomness2(double co, int percent){
 		return co+Math.random()*(co/100*percent)*2-(co/100*percent);
-		
 	};
 	
 	public static double addRandomness(double hodnota,int percent){     

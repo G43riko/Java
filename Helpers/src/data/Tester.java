@@ -6,8 +6,8 @@ import data.oneDirList.ListO;
 public class Tester {
 
 	public static void main(String[] args) {
-		//testujList();
-		testujStrom();
+		testujList();
+//		testujStrom();
 	}
 
 	private static void testujStrom() {

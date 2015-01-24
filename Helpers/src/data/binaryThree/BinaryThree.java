@@ -3,6 +3,7 @@ package data.binaryThree;
 public class BinaryThree {
 	private Node root;
 	private int num;
+	private boolean vypis;
 	public BinaryThree(){
 		root = null;
 		num = 0;
@@ -46,5 +47,9 @@ public class BinaryThree {
 	
 	public void vypis(){
 		root.vypis();
+	}
+
+	public void setVypis(boolean vypis) {
+		this.vypis = vypis;
 	}
 }

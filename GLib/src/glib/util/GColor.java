@@ -11,12 +11,12 @@ public class GColor extends Color{
 		this(color.getRed(),color.getGreen(), color.getBlue(), color.getAlpha());
 	}
 	
-	public GColor(float r, float g, float b, float a) {
-		super(normalize(r), normalize(g), normalize(b), normalize(a));
-	}
-	
 	public GColor(float r, float g, float b) {
 		this(r,g,b,255);
+	}
+	
+	public GColor(float r, float g, float b, float a) {
+		super(normalize(r), normalize(g), normalize(b), normalize(a));
 	}
 	
 	public GColor(GVector3f vec) {

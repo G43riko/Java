@@ -120,6 +120,13 @@ public class GQuaternion{
 		return new GMatrix4f().InitRotation(getForward(), getUp(), getRight());
 	}
 
+	public GVector3f getEuler (){
+		float roll  = (float)Math.atan2(2*y*w - 2*x*z, 1 - 2*y*y - 2*z*z);
+		float pitch = (float)Math.atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
+		float yaw   = (float)Math.asin(2*x*y + 2*z*w);
+		return new GVector3f(yaw,pitch,roll);
+	}
+	
 	public float dot(GQuaternion r){
 		return x * r.getX() + y * r.getY() + z * r.getZ() + w * r.getW();
 	}
@@ -158,15 +165,10 @@ public class GQuaternion{
 	}
 
 	public GVector3f getForward(){return new GVector3f(0,0,1).Rotate(this);}
-
 	public GVector3f getBack(){return new GVector3f(0,0,-1).Rotate(this);}
-
 	public GVector3f getUp(){return new GVector3f(0,1,0).Rotate(this);}
-
 	public GVector3f getDown(){return new GVector3f(0,-1,0).Rotate(this);}
-
 	public GVector3f getRight(){return new GVector3f(1,0,0).Rotate(this);}
-
 	public GVector3f getLeft(){return new GVector3f(-1,0,0).Rotate(this);}
 
 	public GQuaternion set(float x, float y, float z, float w) { this.x = x; this.y = y; this.z = z; this.w = w; return this; }

@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.glPolygonMode;
 import org.lwjgl.input.Keyboard;
 
 import com.g43riko.core.Game;
-import com.g43riko.core.Window;
+import com.voxel.core.Window;
 
 public class Tester extends Game{
 	private int view = 0;

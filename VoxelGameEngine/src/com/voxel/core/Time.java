@@ -1,4 +1,4 @@
-package com.g43riko.core;
+package com.voxel.core;
 
 public class Time {
 	private static final long SECOND = 1000000000L;

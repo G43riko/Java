@@ -1,21 +1,22 @@
-package GameEngine.core;
+package com.voxel.core;
 
-import GameEngine.rendering.RenderingEngine;
+import javax.swing.JFrame;
 
- 
-public abstract class Game {
-	private GameObject root; 
+import com.voxel.render.RenderingEngine;
+
+public class Game extends JFrame{
+	private GameObject root;
+	private static final long serialVersionUID = 1L;
 	
-	public void init(){
-	};
+	public void init(){}
 	
-	public void input(float delta){
-		getRootObject().inputAll(delta);
-	};
-	
+	public void input(){
+		getRootObject().inputAll();
+	}
+
 	public void update(float delta){
 		getRootObject().updateAll(delta);
-	};
+	}
 	
 	public void addObject(GameObject object){
 		getRootObject().addChild(object);
@@ -31,9 +32,4 @@ public abstract class Game {
 		}
 		return root;
 	}
-
-	public void setEngine(CoreEngine engine) {
-		getRootObject().setEngine(engine);
-	}
 }
-

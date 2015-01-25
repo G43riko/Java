@@ -1,4 +1,4 @@
-package com.g43riko.core;
+package com.voxel.core;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;

@@ -1,31 +1,27 @@
-package com.g43riko.core;
+package com.voxel.core;
+
+import glib.util.GLog;
 
 import org.lwjgl.opengl.Display;
 
-import com.voxel.core.Time;
-import com.voxel.core.Window;
-
+import com.voxel.main.MainVoxel2;
+import com.voxel.render.RenderingEngine;
 
 public class CoreEngine {
-	private int width;
-	private int height;
 	private double frameTime;
 	private boolean isRunning;
+	private RenderingEngine renderingEngine;
 	private Game game;
 	
-	public CoreEngine(int width, int height, double framerate,Game game){
+	public CoreEngine(float frameRate,Game game){
 		isRunning=false;
 		this.game =  game;
-		this.width = width;
-		this.height = height;
-		this.frameTime = 1/framerate;
+		this.frameTime = 1/frameRate;
 	}
 	
-	public void createWindow(String title,boolean fullScreen){
-		if(fullScreen)
-			Window.createWindow(width, height, title,true);
-		else
-			Window.createWindow(width, height, title);
+	public void createWindow(){
+		Window.createWindow(MainVoxel2.WIDTH, MainVoxel2.HEIGHT, MainVoxel2.TITLE);
+		this.renderingEngine = new RenderingEngine();
 	}
 	
 	public void start(){		
@@ -66,17 +62,17 @@ public class CoreEngine {
 				if(Display.isCloseRequested())
 					stop();
 
-				game.input((float) frameTime);
+				game.input();
 				game.update((float) frameTime);
 				
 				if(frameCounter >= 1.0){
-					System.out.println(frames);
+					GLog.write("FPS: "+frames,"mainLoop");
 					frames = 0;
 					frameCounter = 0;
 				}
 			}
 			if(render){
-				game.getRenderEngine().render();
+				game.render(renderingEngine);
 				Window.render();
 				frames++;
 			}

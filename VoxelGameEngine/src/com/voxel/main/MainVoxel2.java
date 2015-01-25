@@ -1,21 +1,23 @@
 package com.voxel.main;
 
+import com.voxel.core.CoreEngine;
+
 public class MainVoxel2 {
-	
-	private static float[][][] mapa = new float[16][64][16];
+	public final static boolean MIP_MAPPING = true;
+	public final static boolean FULLSCREEN = false;
+	public final static boolean ALLERTS = true;
+	public final static boolean OSLOOK = false;
+	public final static boolean VSYNC = true;
+	public final static String TITLE = "VoxelGame2";
+	private final static int FPS = 60;
+	public static int WIDTH = 1280;
+	public static int HEIGHT = 720;
 	
 	public static void main(String[] args) {
-		double start = System.currentTimeMillis();
-		
-		System.out.println("mapa sa vytvorila za "+(System.currentTimeMillis() - start)+" milisekúnd");
-		for(int i=0 ; i<mapa.length ; i++){
-			for(int j=0 ; j<mapa[i].length ; j++){
-				for(int k=0 ; k<mapa[i][j].length ; k++){
-					mapa[i][j][k] = (float)Math.random();
-				}
-			}
-		}
-		System.out.println(System.currentTimeMillis() - start);
+		CoreEngine voxel = new CoreEngine(FPS,new VoxelGame());
+		voxel.createWindow();
+		voxel.start();
+		voxel.cleanUp();
 	}
 
 }

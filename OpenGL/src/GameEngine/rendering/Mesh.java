@@ -132,7 +132,6 @@ public class Mesh {
 		glVertexAttribPointer(1, 2, GL_FLOAT, false,Vertex.SIZE * 4, 12);
 		glVertexAttribPointer(2, 3, GL_FLOAT, false,Vertex.SIZE * 4, 20);
 		glVertexAttribPointer(3, 3, GL_FLOAT, false,Vertex.SIZE * 4, 32);
-		//glDrawArrays(GL_TRIANGLES, 0, size);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,resource.getIbo());
 		glDrawElements(GL_TRIANGLES, resource.getSize(), GL_UNSIGNED_INT, 0);

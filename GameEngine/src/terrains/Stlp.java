@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Vector3f;
 
+import entities.Camerka;
 import main.Game;
 import renderers.Renderer;
 import shaders.StaticShader;
@@ -57,6 +59,13 @@ public class Stlp {
 											Map.camera.getPosition().y-b.getY(),
 											Map.camera.getPosition().z-b.getZ());
 				if(Vector3f.angle(pos,forward )<Map.camera.getMaxangle()){
+					float dist = Camerka.sqDist(new Vector3f(b.getX(),b.getY(),b.getZ()));
+					if(dist<1){
+						if(Map.selected.distanceFromVec > dist||Map.selected.distanceFromVec<0){
+							Map.selected.distanceFromVec = dist;
+							Map.selected.selected = b;
+						}
+					}
 					renderer.render(b, shader);
 					res++;
 				}		
@@ -152,4 +161,5 @@ public class Stlp {
 			}
 		}
 	}
+
 }

@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex3f;
+import menus.BMenu;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -15,8 +16,10 @@ import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
 import terrains.Block;
+import terrains.Map;
 
 public class Camerka {
+	private static Camerka tatoCamera;
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
@@ -44,6 +47,7 @@ public class Camerka {
 	private Vector3f forward;
 	
 	public Camerka(StaticShader shader){
+		tatoCamera = this;
 		createProjectionMatrix();
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -67,7 +71,7 @@ public class Camerka {
 		projectionMatrix.m33 = 0;
 	}
 
-	public void update(){
+	public void update(BMenu bmenu){
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_M)){
 			Mouse.setCursorPosition((int)centerPosition.x,(int)centerPosition.y);
@@ -80,6 +84,10 @@ public class Camerka {
 			mouseLocked = false;
 		}
 		
+
+		if(Mouse.isButtonDown(0)){
+			Map.select.selected.setType(bmenu.getSelectedType());
+		}
 		
 		if(mouseLocked){
 			Vector2f deltaPos = new Vector2f();
@@ -176,6 +184,43 @@ public class Camerka {
 	public Vector2f getTargetPosition(){
 		return new Vector2f((float)(position.x + Math.sin(Math.toRadians(yaw)) * DISTANCE),
 					 		(float)(position.z - Math.cos(Math.toRadians(yaw)) * DISTANCE));
+	}
+	
+	public static float sqDist(Vector3f aabb) {
+		if(tatoCamera == null){
+			return 20000;
+		}
+		float distX = (float)Math.pow(aabb.x-tatoCamera.getPosition().getX(),2);
+		float distY = (float)Math.pow(aabb.y-tatoCamera.getPosition().getY(),2);
+		float distZ = (float)Math.pow(aabb.z-tatoCamera.getPosition().getZ(),2);
+		float dist = (float)Math.sqrt(distX+distY+distZ);
+		Vector3f point= new Vector3f(tatoCamera.getForward().getX()*dist,tatoCamera.getForward().getY()*dist,tatoCamera.getForward().getZ()*dist);
+		Vector3f.sub(tatoCamera.getPosition(), point, point);
+		float sqDist = 0.0f;
+	      
+	   	float minX = aabb.getX() - Block.WIDTH;
+		float maxX = aabb.getX() + Block.WIDTH;
+		   
+		float minY = aabb.getY() - Block.HEIGHT;
+		float maxY = aabb.getY() + Block.HEIGHT;
+		      
+		float minZ = aabb.getZ() - Block.DEPTH;
+		float maxZ = aabb.getZ() + Block.DEPTH;
+
+		float v = point.getX();
+		if (v < minX) sqDist += (minX - v) * (minX - v);
+		if (v > maxX) sqDist += (v - maxX) * (v - maxX);
+		      
+		v = point.getY();
+		      
+		if (v < minY) sqDist += (minY - v) * (minY - v);
+		if (v > maxY) sqDist += (v - maxY) * (v - maxY);
+		      
+		v = point.getZ();
+		      
+		if (v < minZ) sqDist += (minZ - v) * (minZ - v);
+		if (v > maxZ) sqDist += (v - maxZ) * (v - maxZ);
+		return sqDist;
 	}
 	
 	public void goForward(){

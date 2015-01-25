@@ -251,6 +251,7 @@ public class Box {
 			    0.0000f,  1.0000f,  0.0000f,
 			    0.0000f, -1.0000f,  0.0000f,
 			    0.0000f, -1.0000f,  0.0000f,
+			    0.0000f, -1.0000f,  0.0000f,
 			    0.0000f, -1.0000f,  0.0000f
 		};
 		return normals;
@@ -306,6 +307,114 @@ public class Box {
 				0.0000f,  0.0000f,  -1.0000f,
 				0.0000f,  0.0000f,  -1.0000f,
 				0.0000f,  0.0000f,  -1.0000f
+		};
+		return loader.loadToVAO(vertices, textures, normals, indices);
+	}
+	
+	public static RawModel getTop(Loader loader, float w,float h,float d){
+		float[] vertices = {
+				//top
+				-w,h,d,
+				-w,h,-d,
+				w,h,-d,
+				w,h,d,
+		};
+		int[] indices = {
+				3,1,0,
+				2,1,3
+		};
+		float[] textures = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		float[] normals = {
+				 0.0000f,  1.0000f,  0.0000f,
+				 0.0000f,  1.0000f,  0.0000f,
+				 0.0000f,  1.0000f,  0.0000f,
+				 0.0000f,  1.0000f,  0.0000f
+		};
+		return loader.loadToVAO(vertices, textures, normals, indices);
+	}
+	
+	public static RawModel getBottom(Loader loader, float w,float h,float d){
+		float[] vertices = {
+				//bottom
+				-w,-h,d,
+				-w,-h,-d,
+				w,-h,-d,
+				w,-h,d
+		};
+		int[] indices = {
+				0,1,3,
+				3,1,2
+		};
+		float[] textures = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		float[] normals = {
+				0.0000f, -1.0000f,  0.0000f,
+			    0.0000f, -1.0000f,  0.0000f,
+			    0.0000f, -1.0000f,  0.0000f,
+			    0.0000f, -1.0000f,  0.0000f
+		};
+		return loader.loadToVAO(vertices, textures, normals, indices);
+	}
+	
+	public static RawModel getLeft(Loader loader, float w,float h,float d){
+		float[] vertices = {
+				//left
+				-w,h,-d,
+				-w,-h,-d,
+				-w,-h,d,
+				-w,h,d,
+		};
+		int[] indices = {
+				0,1,3,
+				3,1,2,
+		};
+		float[] textures = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		float[] normals = {
+				-1.0000f,  0.0000f,  0.0000f,
+				-1.0000f,  0.0000f,  0.0000f,
+				-1.0000f,  0.0000f,  0.0000f,
+				-1.0000f,  0.0000f,  0.0000f
+		};
+		return loader.loadToVAO(vertices, textures, normals, indices);
+	}
+	
+	public static RawModel getRight(Loader loader, float w,float h,float d){
+		float[] vertices = {
+				//right
+				w,h,-d,
+				w,-h,-d,
+				w,-h,d,
+				w,h,d
+		};
+		int[] indices = {
+				3,1,0,
+				2,1,3
+		};
+		float[] textures = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		float[] normals = {
+				1.0000f,  0.0000f,  0.0000f,
+			    1.0000f,  0.0000f,  0.0000f,
+			    1.0000f,  0.0000f,  0.0000f,
+			    1.0000f,  0.0000f,  0.0000f
 		};
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}

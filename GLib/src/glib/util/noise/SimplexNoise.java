@@ -72,6 +72,27 @@ public class SimplexNoise {
 		return totalNoise;
 	}
 	
+	public static float[][][] generateOctavedSimplexNoise(int width, int height, int depth, int octaves, float roughness, float scale){
+		float[][][] totalNoise = new float[width][height][depth];
+		float layerFrequency = scale;
+		float layerWeight = 1;
+		float weightSum = 0;
+	
+		for (int octave = 0; octave < octaves; octave++) {
+			for(int x = 0; x < width; x++){
+				for(int y = 0; y < height; y++){
+					for(int z = 0; z < depth; z++){
+						totalNoise[x][y][z] += (float) noise(x * layerFrequency,y * layerFrequency,z * layerFrequency) * layerWeight;
+					}
+				}
+			}
+			layerFrequency *= 2;
+			weightSum += layerWeight;
+			layerWeight *= roughness;	       
+		}
+		return totalNoise;
+	}
+	
 	public static float[][] generateSimplexNoise(int width, int height){
 	      float[][] simplexnoise = new float[width][height];
 	      float frequency = 5.0f / (float) width;

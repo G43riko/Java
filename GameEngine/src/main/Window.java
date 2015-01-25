@@ -27,8 +27,8 @@ public class Window {
 	}
 	
 	public void update(){
-		Display.sync(Main.FPS);
 		Display.update();
+		Display.sync(Main.FPS);
 	}
 	
 	public void cleanUp(){

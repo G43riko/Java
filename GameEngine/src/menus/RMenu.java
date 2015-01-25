@@ -189,6 +189,14 @@ public class RMenu extends JPanel{
 		return novy;
 	}
 
+	public boolean getWireframe(){
+		return b.isSelected();
+	}
+	
+	public boolean getTextures(){
+		return c.isSelected();
+	}
+	
 	public void useOptions() {
 		//a - VSYNC
 		//Display.setVSyncEnabled(a.isSelected());

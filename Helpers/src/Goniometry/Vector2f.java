@@ -56,6 +56,12 @@ public class Vector2f {
 		return (float)Math.sqrt(dx * dx + dy * dy);
 	}
 	
+	public float distSQ(Vector2f v) {
+		float distX = x - v.x;
+		float distY = y - v.y;
+		return distX * distX + distY * distY;
+	}
+	
 	public void negate(){
 		this.x *= -1;
 		this.y *= -1;

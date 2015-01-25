@@ -57,6 +57,18 @@ public class PerlinNoise {
 		return result;
 	}
 	
+	public static float[][][] generateWhiteNoise(int x, int y,int z){
+		float[][][] result = new float[x][y][z];
+		for(int i=0 ; i<x ; i++){
+			for(int j=0 ; j<y ; j++){
+				for(int k=0 ; k<z ; k++){
+					result[i][j][z] = (float)Math.random();
+				}
+			}
+		}
+		return result;
+	}
+	
 	public static float Interpolate(float x0, float x1, float alpha){
 		return x0 * (1 - alpha) + alpha * x1;
 	}

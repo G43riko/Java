@@ -11,9 +11,12 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
+import terrains.Map;
 import textures.ModelTexture;
 import utils.Maths;
 import entities.BasicEntity;
+import entities.Camera;
+import entities.Camerka;
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
@@ -53,6 +56,7 @@ public class Renderer {
 	public void render(BasicEntity entity,StaticShader shader){
 		if(entity==null)
 			return;
+		
 		TexturedModel texturedModel = ((Entity)entity).getModel();
 		RawModel model = texturedModel.getRawModel();
 		
@@ -72,15 +76,17 @@ public class Renderer {
 		//shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		
 		//bind texture
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());//pripojí textúru
-		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);//vykreslí model
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());//pripojí textúru
+			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);//vykreslí model
+//		}
 		
-		//unbind cube
+		//unbind cube	
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
+		
 	}
 	
 	public static String getOpenGLVersion(){

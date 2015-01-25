@@ -26,7 +26,17 @@ public class GVector3f {
 	};
 	
 	public float dist(GVector3f vec){
-		return (float)Math.sqrt(Math.pow((x-vec.getX()), 2) + Math.pow((y-vec.getY()), 2) + Math.pow((z-vec.getZ()), 2));
+		float distX = x-vec.getX();
+		float distY = y-vec.getY();
+		float distZ = z-vec.getZ();
+		return (float)Math.sqrt(Math.pow((distX), 2) + Math.pow((distY), 2) + Math.pow((distZ), 2));
+	}
+	
+	public float distSQ(GVector3f v) {
+		float distX = x - v.x;
+		float distY = y - v.y;
+		float distZ = z - v.z;
+		return distX * distX + distY * distY + distZ * distZ;
 	}
 	
 	public float max(){
@@ -153,6 +163,12 @@ public class GVector3f {
 	    result.setZ(GMath.interpolateLinear(scale, startValue.getZ(), endValue.getZ()));
         return result;
     }
+	
+	public static float distanceVectorPoint(GVector3f a, GVector3f b, GVector3f point){
+		GVector3f temp1 = a.sub(b);
+		GVector3f temp2 = b.sub(point);
+		return temp1.Cross(temp2).getLength()/temp1.getLength();
+	}
 	
 	public GVector3f getInstance(){return new GVector3f(x,y,z); }
 	

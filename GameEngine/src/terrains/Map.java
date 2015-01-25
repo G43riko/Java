@@ -64,6 +64,16 @@ public class Map {
 		}
 	}
 	
+	public static class selected{
+		public static Block selected = null;
+		public static float distanceFromVec = -1;
+	}
+	
+	public static class select{
+		public static Block selected = null;
+		public static float distanceFromVec = -1;
+	}
+	
 	public void setActivity(){
 		for(int i=0 ; i<numX ; i++){
 			for(int k=0 ; k<numZ ; k++){
@@ -180,6 +190,8 @@ public class Map {
 	
 	public int draw(Renderer renderer, StaticShader shader) {
 		int res = 0;
+		selected.distanceFromVec = -1;
+		selected.selected = null;
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numZ ; j++){
 				if(Game.isLoading)
@@ -193,6 +205,8 @@ public class Map {
 				res += mapa[i][j].draw(renderer, shader);
 			}
 		}
+		select.distanceFromVec = selected.distanceFromVec;
+		select.selected = selected.selected;
 		return res;
 	}
 	

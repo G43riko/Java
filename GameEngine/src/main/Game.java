@@ -112,16 +112,17 @@ public class Game extends JFrame{
 			if(isLoading){
 				continue;
 			}
-			//Input.update(camera, null);	
+			double time = System.currentTimeMillis();
+			//Input.update(camera, null);
 			Renderer.clearScreen(rmenu);
 			rmenu.useOptions();
 			rmenu.getMinimap().update();
-			camerka.update();
+			camerka.update(bmenu);
 			
 //			float x = (float)Math.tan(Math.toRadians(90-camerka.getPitch()))*camerka.getPosition().y;
 //			float rot =(float)Math.toRadians(camerka.getYaw());
 //			rot = (float)Math.PI/4;
-			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
+//			selector.getEntity().setLocation(camerka.getTargetPosition().x, camerka.getPosition().y-20, camerka.getTargetPosition().y);
 			selector.input(mapa,bmenu);
 			
 			bmenu.updateCameraWindow();
@@ -130,10 +131,12 @@ public class Game extends JFrame{
 //			}
 //			bmenu.updateBlockWindow();
 //			selector.getEntity().setLocation((float)Math.sin(rot)*x, camerka.getPosition().y-20,(float)Math.cos(rot)*x);
+			
 			shader.start();
 			shader.loadTypeOfView(rmenu.getTypeOfView());
 			shader.loadLight(light);
 			shader.loadViewMatrix(camerka);
+			
 //			System.out.println(mapa.getNumBlock());
 //			shader.loadChangeColor(true);
 //			shader.loadColor(new Vector3f(1,0,1));
@@ -152,15 +155,26 @@ public class Game extends JFrame{
 //			System.out.println(entity2.getX()+" "+entity2.getY()+" "+entity2.getZ());
 //			renderer.render(entity2, shader);
 			
-			shader.loadChangeColor(true);
-			shader.loadColor(new Vector3f(1,0,1));
-			selector.draw(renderer, shader);
-			shader.loadChangeColor(false);
-			double time = System.currentTimeMillis();
-			System.out.println(mapa.draw(renderer, shader)+"/"+pocetBlokov+" - "+(System.currentTimeMillis()-time));
-			terrain.draw(renderer, shader);
-			shader.stop();
+			if(Map.select.selected != null){
+				glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+				if(rmenu.getWireframe())
+					glPolygonMode(GL_FRONT,GL_LINE);
+				shader.loadChangeColor(true);
+				shader.loadColor(new Vector3f(1,1,1));
+				Map.select.selected.setScale(Map.select.selected.getScale()+.1f);
+				renderer.render(Map.select.selected, shader);
+				Map.select.selected.setScale(Map.select.selected.getScale()-.1f);
+				shader.loadChangeColor(false);
+				if(!rmenu.getWireframe())
+					glPolygonMode(GL_FRONT,GL_FILL);
+			}
 			
+//			shader.loadChangeColor(true);
+//			shader.loadColor(new Vector3f(1,0,1));
+//			selector.draw(renderer, shader);
+//			shader.loadChangeColor(false);
+//			double time = System.currentTimeMillis();
+			String txt = mapa.draw(renderer, shader)+"/"+pocetBlokov+" - "+(System.currentTimeMillis()-time);
 			//toto by sa dalu urèite upravi nejako
 			
 			
@@ -174,9 +188,10 @@ public class Game extends JFrame{
 //			Camera.init2DProjection();
 //			logs.update();
 //			Camera.init3DProjection();
-			
 			window.update();
-			
+			if(System.currentTimeMillis() - time > 200){
+				System.out.println("celé kolo trvalo " +(System.currentTimeMillis() - time)+" milisekúnd" );
+			}
 		}
 	}
 	

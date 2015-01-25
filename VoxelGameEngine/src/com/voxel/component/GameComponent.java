@@ -2,6 +2,7 @@ package com.voxel.component;
 
 import com.voxel.core.CoreEngine;
 import com.voxel.core.GameObject;
+import com.voxel.core.Transform;
 import com.voxel.render.RenderingEngine;
 
 public abstract class GameComponent {
@@ -18,4 +19,8 @@ public abstract class GameComponent {
 	public void addToRenderingEngine(RenderingEngine rengeringEngine){}
 
 	public void addToEngine(CoreEngine engine) {};
+	
+	public Transform getTransform(){
+		return parent.getTransform();
+	}
 }

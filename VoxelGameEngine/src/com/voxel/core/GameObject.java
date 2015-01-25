@@ -7,6 +7,7 @@ import com.voxel.component.GameComponent;
 public class GameObject {
 	private ArrayList<GameObject> children;
 	private ArrayList<GameComponent> components;
+	private Transform transform;
 	
 	public GameObject(){
 		children = new ArrayList<GameObject>();
@@ -73,6 +74,11 @@ public class GameObject {
 		for(GameComponent component:components){
 			component.update(delta);
 		}
+	}
+
+	public Transform getTransform() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

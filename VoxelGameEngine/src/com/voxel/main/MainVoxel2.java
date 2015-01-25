@@ -5,6 +5,7 @@ import com.voxel.core.CoreEngine;
 public class MainVoxel2 {
 	public final static boolean MIP_MAPPING = true;
 	public final static boolean FULLSCREEN = false;
+	public final static boolean SHOW_GUI = true;
 	public final static boolean ALLERTS = true;
 	public final static boolean OSLOOK = false;
 	public final static boolean VSYNC = true;

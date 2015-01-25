@@ -15,7 +15,7 @@ public class Window {
 		//ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		try {
 			Display.setParent(canvas);
-			Display.setVSyncEnabled(Main.VSYNC);
+//			Display.setVSyncEnabled(Main.VSYNC);
 	        //Display.create(new PixelFormat(), attribs);
 	        Display.create();
 	        Keyboard.create();
@@ -28,7 +28,7 @@ public class Window {
 	
 	public void update(){
 		Display.update();
-		Display.sync(Main.FPS);
+//		Display.sync(Main.FPS);
 	}
 	
 	public void cleanUp(){

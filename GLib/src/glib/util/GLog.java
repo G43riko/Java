@@ -9,6 +9,7 @@ public class GLog {
 	private boolean show = true;
 	static{
 		data.put("mainLoop",true);
+		data.put("menu",true);
 	}
 	public void log(String msg){
 		if(show){

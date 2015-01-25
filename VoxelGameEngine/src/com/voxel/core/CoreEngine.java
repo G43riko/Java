@@ -4,6 +4,7 @@ import glib.util.GLog;
 
 import org.lwjgl.opengl.Display;
 
+import com.voxel.gui.Gui;
 import com.voxel.main.MainVoxel2;
 import com.voxel.render.RenderingEngine;
 
@@ -12,6 +13,7 @@ public class CoreEngine {
 	private boolean isRunning;
 	private RenderingEngine renderingEngine;
 	private Game game;
+	private Gui gui;
 	
 	public CoreEngine(float frameRate,Game game){
 		isRunning=false;
@@ -20,7 +22,11 @@ public class CoreEngine {
 	}
 	
 	public void createWindow(){
-		Window.createWindow(MainVoxel2.WIDTH, MainVoxel2.HEIGHT, MainVoxel2.TITLE);
+		//Window.createWindow(MainVoxel2.WIDTH, MainVoxel2.HEIGHT, MainVoxel2.TITLE);
+		if(MainVoxel2.SHOW_GUI)
+			gui = Window.createWindow(game);
+		else
+			gui = Window.createWindow(null);
 		this.renderingEngine = new RenderingEngine();
 	}
 	

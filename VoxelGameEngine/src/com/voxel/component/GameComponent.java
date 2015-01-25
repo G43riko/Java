@@ -4,17 +4,20 @@ import com.voxel.core.CoreEngine;
 import com.voxel.core.GameObject;
 import com.voxel.core.Transform;
 import com.voxel.render.RenderingEngine;
+import com.voxel.render.shader.Shader;
 
 public abstract class GameComponent {
 	private GameObject parent;
 	
-	public void render() {}
+	public void render(Shader shader, RenderingEngine renderingEngine) {}
 
 	public void update(float delta) {}
 
 	public void input() {}
 
-	public void setParent(GameObject gameObject) {}
+	public void setParent(GameObject parent) {
+		this.parent = parent;
+	}
 
 	public void addToRenderingEngine(RenderingEngine rengeringEngine){}
 

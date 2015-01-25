@@ -19,6 +19,7 @@ public class CoreEngine {
 		isRunning=false;
 		this.game =  game;
 		this.frameTime = 1/frameRate;
+		game.setEngine(this);
 	}
 	
 	public void createWindow(){
@@ -96,5 +97,9 @@ public class CoreEngine {
 	
 	public void cleanUp(){
 		Window.dispose();
+	}
+
+	public RenderingEngine getRenderingEngine() {
+		return renderingEngine;
 	}
 }

@@ -3,21 +3,38 @@ package com.voxel.core;
 import java.util.ArrayList;
 
 import com.voxel.component.GameComponent;
+import com.voxel.render.RenderingEngine;
+import com.voxel.render.shader.Shader;
 
 public class GameObject {
 	private ArrayList<GameObject> children;
 	private ArrayList<GameComponent> components;
 	private Transform transform;
+	private CoreEngine engine;
 	
 	public GameObject(){
 		children = new ArrayList<GameObject>();
 		components = new ArrayList<GameComponent>();
-//		transform = new Transform();
-//		engine = null;
+		transform = new Transform();
+		engine = null;
 	}
 	
-	public void addChild(GameObject object) {
-		children.add(object);
+	public void addChild(GameObject child) {
+		children.add(child);
+		child.setEngine(engine);
+		child.getTransform().setParent(transform);
+	}
+	
+	public void setEngine(CoreEngine engine) {
+		if(this.engine != engine){
+			this.engine = engine;
+			for(GameComponent component:components){
+				component.addToEngine(engine);;
+			}
+			for(GameObject child:children){
+				child.setEngine(engine);;
+			}
+		}
 	}
 	
 	public ArrayList<GameObject> getAllAttached(){
@@ -50,21 +67,21 @@ public class GameObject {
 		}
 	}
 
-	public void renderAll(/*Shader shader, RenderingEngine renderingEngine*/){
-		render(/*shader,renderingEngine*/);
+	public void renderAll(Shader shader, RenderingEngine renderingEngine){
+		render(shader,renderingEngine);
 		for(GameObject child:children){
-			child.renderAll(/*shader,renderingEngine*/);
+			child.renderAll(shader,renderingEngine);
 		}
 	}
 	
-	public void render(/*Shader shader, RenderingEngine renderingEngine*/){
+	public void render(Shader shader, RenderingEngine renderingEngine){
 		for(GameComponent component:components){
-			component.render(/*shader,renderingEngine*/);
+			component.render(shader,renderingEngine);
 		}
 	}
 
 	public void input(){
-//		transform.update();
+		transform.update();
 		for(GameComponent component:components){
 			component.input();
 		}
@@ -77,8 +94,7 @@ public class GameObject {
 	}
 
 	public Transform getTransform() {
-		// TODO Auto-generated method stub
-		return null;
+		return transform;
 	}
 
 }

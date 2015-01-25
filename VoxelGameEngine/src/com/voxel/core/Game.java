@@ -23,6 +23,7 @@ public class Game extends JFrame{
 	}
 	
 	public void render(RenderingEngine renderingEngine){
+		double time = System.currentTimeMillis();
 		renderingEngine.render(root);
 	}
 	
@@ -31,5 +32,9 @@ public class Game extends JFrame{
 			root = new GameObject();
 		}
 		return root;
+	}
+	
+	public void setEngine(CoreEngine engine) {
+		getRootObject().setEngine(engine);
 	}
 }

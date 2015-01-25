@@ -1,9 +1,9 @@
 package com.voxel.component;
 
-import com.voxel.render.Material;
-import com.voxel.render.Mesh;
 import com.voxel.render.RenderingEngine;
-import com.voxel.render.Shader;
+import com.voxel.render.material.Material;
+import com.voxel.render.mesh.Mesh;
+import com.voxel.render.shader.Shader;
 
 public class MeshRenderer extends GameComponent{
 	private Mesh mesh; 

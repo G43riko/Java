@@ -50,7 +50,7 @@ public class GMatrix4f
 		ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y); ry.m[2][3] = 0;
 		ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					 ry.m[3][3] = 1;
 		
-		m = rz.Mul(ry.Mul(rx)).GetM();
+		m = rz.mul(ry.mul(rx)).GetM();
 		
 		return this;
 	}
@@ -120,7 +120,7 @@ public class GMatrix4f
 		                     m[2][0] * r.getX() + m[2][1] * r.getY() + m[2][2] * r.getZ() + m[2][3]);
 	}
 	
-	public GMatrix4f Mul(GMatrix4f r){
+	public GMatrix4f mul(GMatrix4f r){
 		GMatrix4f res = new GMatrix4f();
 		
 		for(int i = 0; i < 4; i++){

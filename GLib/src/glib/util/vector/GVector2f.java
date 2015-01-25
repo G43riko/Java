@@ -85,9 +85,10 @@ public class GVector2f {
 		this.y += num;
 	};
 	
-	public void sub(GVector2f v){
+	public GVector2f sub(GVector2f v){
 		this.x -= v.getX();
 		this.y -= v.getY();
+		return this;
 	};
 	
 	public void sub(float num){

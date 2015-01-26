@@ -1,4 +1,4 @@
-package com.voxel.render.mesh.meshLoading;
+package com.voxel.rendering.mesh.meshLoading;
 
 public class OBJIndex {
 	public int vertexIndex;

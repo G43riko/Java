@@ -1,9 +1,10 @@
 package com.voxel.core;
 
-import glib.util.vector.GVector2f;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import com.voxel.core.util.*;
 
 public class Input	 {
 	//All these constants come from LWJGL's Keyboard class

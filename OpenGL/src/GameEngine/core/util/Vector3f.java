@@ -1,7 +1,6 @@
 package GameEngine.core.util;
 
-public class Vector3f 
-{
+public class Vector3f {
 	private float m_x;
 	private float m_y;
 	private float m_z;

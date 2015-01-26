@@ -1,8 +1,8 @@
-package com.voxel.render.material;
+package com.voxel.rendering.material;
 
 import java.util.HashMap;
 
-import com.voxel.render.MappedValues;
+import com.voxel.rendering.MappedValues;
 
 public class Material extends MappedValues{
 
@@ -13,6 +13,11 @@ public class Material extends MappedValues{
 		textureHashMap = new HashMap<String,Texture>();
 	}
 	
+	public Material(String name,Texture texture){
+		textureHashMap = new HashMap<String,Texture>();
+		textureHashMap.put(name, texture);
+	}
+	
 	public void addTexture(String name,Texture texture){
 		textureHashMap.put(name, texture);
 	}
@@ -21,7 +26,7 @@ public class Material extends MappedValues{
 		Texture result = textureHashMap.get(name);
 		if(result != null)
 			return result;
-		return new Texture("brick_diffuse.jpg");
+		return new Texture("unknown.jpg");
 	}
 	
 	public void addNormal(String name,Texture texture){
@@ -32,7 +37,7 @@ public class Material extends MappedValues{
 		Texture result = textureHashMap.get(name);
 		if(result != null)
 			return result;
-		return new Texture("brick_normall.jpg");
+		return new Texture("unknown.jpg");
 	}
 
 }

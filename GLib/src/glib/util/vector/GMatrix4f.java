@@ -1,7 +1,6 @@
 package glib.util.vector;
 
-public class GMatrix4f
-{
+public class GMatrix4f{
 	private float[][] m;
 	
 	public GMatrix4f(){
@@ -91,9 +90,9 @@ public class GMatrix4f
 	}
 
 	public GMatrix4f InitRotation(GVector3f forward, GVector3f up){
-		GVector3f f = forward.normalize();
+		GVector3f f = forward.Normalized();
 		
-		GVector3f r = up.normalize();
+		GVector3f r = up.Normalized();
 		r = r.Cross(f);
 		
 		GVector3f u = f.Cross(r);

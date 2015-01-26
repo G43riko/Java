@@ -2,9 +2,8 @@ package com.voxel.component.light;
 
 import com.voxel.component.GameComponent;
 import com.voxel.core.CoreEngine;
-import com.voxel.render.shader.Shader;
-
-import glib.util.vector.GVector3f;
+import com.voxel.rendering.shader.Shader;
+import com.voxel.core.util.GVector3f;
 
 public class BaseLight extends GameComponent{
 	private GVector3f color;

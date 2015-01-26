@@ -1,4 +1,4 @@
-package com.voxel.render.shader;
+package com.voxel.rendering.shader;
 
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL20.glCreateProgram;

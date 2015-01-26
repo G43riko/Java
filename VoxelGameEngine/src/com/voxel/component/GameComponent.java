@@ -3,8 +3,8 @@ package com.voxel.component;
 import com.voxel.core.CoreEngine;
 import com.voxel.core.GameObject;
 import com.voxel.core.Transform;
-import com.voxel.render.RenderingEngine;
-import com.voxel.render.shader.Shader;
+import com.voxel.rendering.RenderingEngine;
+import com.voxel.rendering.shader.Shader;
 
 public abstract class GameComponent {
 	private GameObject parent;

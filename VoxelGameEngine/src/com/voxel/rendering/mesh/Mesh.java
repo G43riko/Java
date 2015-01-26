@@ -1,4 +1,4 @@
-package com.voxel.render.mesh;
+package com.voxel.rendering.mesh;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
@@ -12,15 +12,15 @@ import static org.lwjgl.opengl.GL15.glBufferData;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import glib.util.vector.GVector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.voxel.core.Util;
-import com.voxel.render.Vertex;
-import com.voxel.render.mesh.meshLoading.IndexedModel;
-import com.voxel.render.mesh.meshLoading.OBJModel;
+import com.voxel.core.util.GVector3f;
+import com.voxel.rendering.Vertex;
+import com.voxel.rendering.mesh.meshLoading.IndexedModel;
+import com.voxel.rendering.mesh.meshLoading.OBJModel;
 
 public class Mesh {
 	private static HashMap<String,MeshResource> loadedModels = new HashMap<String,MeshResource>();
@@ -45,7 +45,6 @@ public class Mesh {
 	}
 	
 	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormal){
-//		resource = new MeshResource();
 		fileName = "";
 		addVertices(vertices, indices, calcNormal);
 	}
@@ -54,7 +53,7 @@ public class Mesh {
 		addVertices(vertices, indices, false);
 	}
 	
-	private Mesh loadMesh(String fileName){
+	private void loadMesh(String fileName){
 		String[] splitArray = fileName.split("\\.");
 		String ext = splitArray[splitArray.length-1];
 		
@@ -82,8 +81,6 @@ public class Mesh {
 		model.getIndices().toArray(IndexData);
 		
 		addVertices(vertexData, Util.toIntArray(IndexData),false);
-		
-		return null;
 	}
 	
 	@Override
@@ -115,7 +112,7 @@ public class Mesh {
 			GVector3f v1 = vertices[i1].getPos().sub(vertices[i0].getPos());
 			GVector3f v2 = vertices[i2].getPos().sub(vertices[i0].getPos());
 			
-			GVector3f normal  = v1.Cross(v2).normalize();
+			GVector3f normal  = v1.cross(v2).normalize();
 			
 			vertices[i0].setNormal(vertices[i0].getNormal().add(normal));
 			vertices[i1].setNormal(vertices[i1].getNormal().add(normal));
@@ -131,13 +128,13 @@ public class Mesh {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glEnableVertexAttribArray(3);
+//		glEnableVertexAttribArray(3);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo());
 		glVertexAttribPointer(0, 3, GL_FLOAT, false,Vertex.SIZE * 4, 0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, false,Vertex.SIZE * 4, 12);
 		glVertexAttribPointer(2, 3, GL_FLOAT, false,Vertex.SIZE * 4, 20);
-		glVertexAttribPointer(3, 3, GL_FLOAT, false,Vertex.SIZE * 4, 32);
+//		glVertexAttribPointer(3, 3, GL_FLOAT, false,Vertex.SIZE * 4, 32);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,resource.getIbo());
 		glDrawElements(GL_TRIANGLES, resource.getSize(), GL_UNSIGNED_INT, 0);
@@ -145,6 +142,6 @@ public class Mesh {
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(3);
+//		glDisableVertexAttribArray(3);
 	}
 }

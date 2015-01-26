@@ -1,14 +1,15 @@
-package GameEngine.core.util;
+package com.voxel.core.util;
 
-public class Matrix4f{
+public class GMatrix4f
+{
 	private float[][] m;
 	
-	public Matrix4f()
+	public GMatrix4f()
 	{
 		m = new float[4][4];
 	}
 
-	public Matrix4f InitIdentity()
+	public GMatrix4f initIdentity()
 	{
 		m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
 		m[1][0] = 0;	m[1][1] = 1;	m[1][2] = 0;	m[1][3] = 0;
@@ -18,7 +19,7 @@ public class Matrix4f{
 		return this;
 	}
 	
-	public Matrix4f InitTranslation(float x, float y, float z)
+	public GMatrix4f initTranslation(float x, float y, float z)
 	{
 		m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = x;
 		m[1][0] = 0;	m[1][1] = 1;	m[1][2] = 0;	m[1][3] = y;
@@ -28,11 +29,11 @@ public class Matrix4f{
 		return this;
 	}
 	
-	public Matrix4f InitRotation(float x, float y, float z)
+	public GMatrix4f initRotation(float x, float y, float z)
 	{
-		Matrix4f rx = new Matrix4f();
-		Matrix4f ry = new Matrix4f();
-		Matrix4f rz = new Matrix4f();
+		GMatrix4f rx = new GMatrix4f();
+		GMatrix4f ry = new GMatrix4f();
+		GMatrix4f rz = new GMatrix4f();
 		
 		x = (float)Math.toRadians(x);
 		y = (float)Math.toRadians(y);
@@ -53,12 +54,12 @@ public class Matrix4f{
 		ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y);ry.m[2][3] = 0;
 		ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					ry.m[3][3] = 1;
 		
-		m = rz.Mul(ry.Mul(rx)).GetM();
+		m = rz.mul(ry.mul(rx)).GetM();
 		
 		return this;
 	}
 	
-	public Matrix4f InitScale(float x, float y, float z)
+	public GMatrix4f initScale(float x, float y, float z)
 	{
 		m[0][0] = x;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
 		m[1][0] = 0;	m[1][1] = y;	m[1][2] = 0;	m[1][3] = 0;
@@ -68,7 +69,7 @@ public class Matrix4f{
 		return this;
 	}
 	
-	public Matrix4f initPerspective(float fov, float aspectRatio, float zNear, float zFar)
+	public GMatrix4f initPerspective(float fov, float aspectRatio, float zNear, float zFar)
 	{
 		float tanHalfFOV = (float)Math.tan(fov / 2);
 		float zRange = zNear - zFar;
@@ -82,7 +83,7 @@ public class Matrix4f{
 		return this;
 	}
 
-	public Matrix4f InitOrthographic(float left, float right, float bottom, float top, float near, float far)
+	public GMatrix4f initOrthographic(float left, float right, float bottom, float top, float near, float far)
 	{
 		float width = right - left;
 		float height = top - bottom;
@@ -96,42 +97,42 @@ public class Matrix4f{
 		return this;
 	}
 
-	public Matrix4f InitRotation(Vector3f forward, Vector3f up)
+	public GMatrix4f initRotation(GVector3f forward, GVector3f up)
 	{
-		Vector3f f = forward.Normalized();
+		GVector3f f = forward.normalize();
 		
-		Vector3f r = up.Normalized();
-		r = r.Cross(f);
+		GVector3f r = up.normalize();
+		r = r.cross(f);
 		
-		Vector3f u = f.Cross(r);
+		GVector3f u = f.cross(r);
 
-		return InitRotation(f, u, r);
+		return initRotation(f, u, r);
 	}
 
-	public Matrix4f InitRotation(Vector3f forward, Vector3f up, Vector3f right)
+	public GMatrix4f initRotation(GVector3f forward, GVector3f up, GVector3f right)
 	{
-		Vector3f f = forward;
-		Vector3f r = right;
-		Vector3f u = up;
+		GVector3f f = forward;
+		GVector3f r = right;
+		GVector3f u = up;
 
-		m[0][0] = r.GetX();	m[0][1] = r.GetY();	m[0][2] = r.GetZ();	m[0][3] = 0;
-		m[1][0] = u.GetX();	m[1][1] = u.GetY();	m[1][2] = u.GetZ();	m[1][3] = 0;
-		m[2][0] = f.GetX();	m[2][1] = f.GetY();	m[2][2] = f.GetZ();	m[2][3] = 0;
+		m[0][0] = r.getX();	m[0][1] = r.getY();	m[0][2] = r.getZ();	m[0][3] = 0;
+		m[1][0] = u.getX();	m[1][1] = u.getY();	m[1][2] = u.getZ();	m[1][3] = 0;
+		m[2][0] = f.getX();	m[2][1] = f.getY();	m[2][2] = f.getZ();	m[2][3] = 0;
 		m[3][0] = 0;		m[3][1] = 0;		m[3][2] = 0;		m[3][3] = 1;
 
 		return this;
 	}
 
-	public Vector3f Transform(Vector3f r)
+	public GVector3f transform(GVector3f r)
 	{
-		return new Vector3f(m[0][0] * r.GetX() + m[0][1] * r.GetY() + m[0][2] * r.GetZ() + m[0][3],
-		                    m[1][0] * r.GetX() + m[1][1] * r.GetY() + m[1][2] * r.GetZ() + m[1][3],
-		                    m[2][0] * r.GetX() + m[2][1] * r.GetY() + m[2][2] * r.GetZ() + m[2][3]);
+		return new GVector3f(m[0][0] * r.getX() + m[0][1] * r.getY() + m[0][2] * r.getZ() + m[0][3],
+		                    m[1][0] * r.getX() + m[1][1] * r.getY() + m[1][2] * r.getZ() + m[1][3],
+		                    m[2][0] * r.getX() + m[2][1] * r.getY() + m[2][2] * r.getZ() + m[2][3]);
 	}
 	
-	public Matrix4f Mul(Matrix4f r)
+	public GMatrix4f mul(GMatrix4f r)
 	{
-		Matrix4f res = new Matrix4f();
+		GMatrix4f res = new GMatrix4f();
 		
 		for(int i = 0; i < 4; i++)
 		{

@@ -61,13 +61,11 @@
 
 package com.voxel.component.viewAndMovement;
 
-import java.rmi.server.LogStream;
-
 import org.lwjgl.opengl.Display;
 
 import glib.util.GLog;
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
+import com.voxel.core.util.GVector2f;
+import com.voxel.core.util.GVector3f;
 
 import com.voxel.component.GameComponent;
 import com.voxel.core.Input;

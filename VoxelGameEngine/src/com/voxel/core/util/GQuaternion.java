@@ -1,16 +1,17 @@
-package GameEngine.core.util;
+package com.voxel.core.util;
 
-public class Quaternion{
+public class GQuaternion
+{
 	private float m_x;
 	private float m_y;
 	private float m_z;
 	private float m_w;
 
-	public Quaternion(){
+	public GQuaternion(){
 		this(0,0,0,1);
 	}
 	
-	public Quaternion(float x, float y, float z, float w)
+	public GQuaternion(float x, float y, float z, float w)
 	{
 		this.m_x = x;
 		this.m_y = y;
@@ -18,70 +19,70 @@ public class Quaternion{
 		this.m_w = w;
 	}
 
-	public Quaternion(Vector3f axis, float angle)
+	public GQuaternion(GVector3f axis, float angle)
 	{
 		float sinHalfAngle = (float)Math.sin(angle / 2);
 		float cosHalfAngle = (float)Math.cos(angle / 2);
 
-		this.m_x = axis.GetX() * sinHalfAngle;
-		this.m_y = axis.GetY() * sinHalfAngle;
-		this.m_z = axis.GetZ() * sinHalfAngle;
+		this.m_x = axis.getX() * sinHalfAngle;
+		this.m_y = axis.getY() * sinHalfAngle;
+		this.m_z = axis.getZ() * sinHalfAngle;
 		this.m_w = cosHalfAngle;
 	}
 
-	public float Length()
+	public float getLength()
 	{
 		return (float)Math.sqrt(m_x * m_x + m_y * m_y + m_z * m_z + m_w * m_w);
 	}
 	
-	public Quaternion Normalized()
+	public GQuaternion normalize()
 	{
-		float length = Length();
+		float length = getLength();
 		
-		return new Quaternion(m_x / length, m_y / length, m_z / length, m_w / length);
+		return new GQuaternion(m_x / length, m_y / length, m_z / length, m_w / length);
 	}
 	
-	public Quaternion Conjugate()
+	public GQuaternion conjugate()
 	{
-		return new Quaternion(-m_x, -m_y, -m_z, m_w);
+		return new GQuaternion(-m_x, -m_y, -m_z, m_w);
 	}
 
-	public Quaternion Mul(float r)
+	public GQuaternion mul(float r)
 	{
-		return new Quaternion(m_x * r, m_y * r, m_z * r, m_w * r);
+		return new GQuaternion(m_x * r, m_y * r, m_z * r, m_w * r);
 	}
 
-	public Quaternion Mul(Quaternion r)
+	public GQuaternion mul(GQuaternion r)
 	{
-		float w_ = m_w * r.GetW() - m_x * r.GetX() - m_y * r.GetY() - m_z * r.GetZ();
-		float x_ = m_x * r.GetW() + m_w * r.GetX() + m_y * r.GetZ() - m_z * r.GetY();
-		float y_ = m_y * r.GetW() + m_w * r.GetY() + m_z * r.GetX() - m_x * r.GetZ();
-		float z_ = m_z * r.GetW() + m_w * r.GetZ() + m_x * r.GetY() - m_y * r.GetX();
+		float w_ = m_w * r.getW() - m_x * r.getX() - m_y * r.getY() - m_z * r.getZ();
+		float x_ = m_x * r.getW() + m_w * r.getX() + m_y * r.getZ() - m_z * r.getY();
+		float y_ = m_y * r.getW() + m_w * r.getY() + m_z * r.getX() - m_x * r.getZ();
+		float z_ = m_z * r.getW() + m_w * r.getZ() + m_x * r.getY() - m_y * r.getX();
 		
-		return new Quaternion(x_, y_, z_, w_);
+		return new GQuaternion(x_, y_, z_, w_);
 	}
 	
-	public Quaternion Mul(Vector3f r)
+	public GQuaternion mul(GVector3f r)
 	{
-		float w_ = -m_x * r.GetX() - m_y * r.GetY() - m_z * r.GetZ();
-		float x_ =  m_w * r.GetX() + m_y * r.GetZ() - m_z * r.GetY();
-		float y_ =  m_w * r.GetY() + m_z * r.GetX() - m_x * r.GetZ();
-		float z_ =  m_w * r.GetZ() + m_x * r.GetY() - m_y * r.GetX();
+		float w_ = -m_x * r.getX() - m_y * r.getY() - m_z * r.getZ();
+		float x_ =  m_w * r.getX() + m_y * r.getZ() - m_z * r.getY();
+		float y_ =  m_w * r.getY() + m_z * r.getX() - m_x * r.getZ();
+		float z_ =  m_w * r.getZ() + m_x * r.getY() - m_y * r.getX();
 		
-		return new Quaternion(x_, y_, z_, w_);
+		return new GQuaternion(x_, y_, z_, w_);
 	}
 
-	public Quaternion Sub(Quaternion r)
+	public GQuaternion sub(GQuaternion r)
 	{
-		return new Quaternion(m_x - r.GetX(), m_y - r.GetY(), m_z - r.GetZ(), m_w - r.GetW());
+		return new GQuaternion(m_x - r.getX(), m_y - r.getY(), m_z - r.getZ(), m_w - r.getW());
 	}
 
-	public Quaternion Add(Quaternion r)
+	public GQuaternion add(GQuaternion r)
 	{
-		return new Quaternion(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ(), m_w + r.GetW());
+		return new GQuaternion(m_x + r.getX(), m_y + r.getY(), m_z + r.getZ(), m_w + r.getW());
 	}
 
-	public Matrix4f ToRotationMatrix()
+	public GMatrix4f toRotationMatrix()
 	{
 //		Vector3f forward =  new Vector3f(2.0f * (m_x * m_z - m_w * m_y), 2.0f * (m_y * m_z + m_w * m_x), 1.0f - 2.0f * (m_x * m_x + m_y * m_y));
 //		Vector3f up = new Vector3f(2.0f * (m_x * m_y + m_w * m_z), 1.0f - 2.0f * (m_x * m_x + m_z * m_z), 2.0f * (m_y * m_z - m_w * m_x));
@@ -89,35 +90,35 @@ public class Quaternion{
 //
 //		return new Matrix4f().InitRotation(forward, up, right);
 		
-		return new Matrix4f().InitRotation(GetForward(), GetUp(), GetRight());
+		return new GMatrix4f().initRotation(getForward(), getUp(), getRight());
 	}
 
-	public float Dot(Quaternion r)
+	public float Dot(GQuaternion r)
 	{
-		return m_x * r.GetX() + m_y * r.GetY() + m_z * r.GetZ() + m_w * r.GetW();
+		return m_x * r.getX() + m_y * r.getY() + m_z * r.getZ() + m_w * r.getW();
 	}
 
-	public Quaternion NLerp(Quaternion dest, float lerpFactor, boolean shortest)
+	public GQuaternion NLerp(GQuaternion dest, float lerpFactor, boolean shortest)
 	{
-		Quaternion correctedDest = dest;
+		GQuaternion correctedDest = dest;
 
 		if(shortest && this.Dot(dest) < 0)
-			correctedDest = new Quaternion(-dest.GetX(), -dest.GetY(), -dest.GetZ(), -dest.GetW());
+			correctedDest = new GQuaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
 
-		return correctedDest.Sub(this).Mul(lerpFactor).Add(this).Normalized();
+		return correctedDest.sub(this).mul(lerpFactor).add(this).normalize();
 	}
 
-	public Quaternion SLerp(Quaternion dest, float lerpFactor, boolean shortest)
+	public GQuaternion SLerp(GQuaternion dest, float lerpFactor, boolean shortest)
 	{
 		final float EPSILON = 1e3f;
 
 		float cos = this.Dot(dest);
-		Quaternion correctedDest = dest;
+		GQuaternion correctedDest = dest;
 
 		if(shortest && cos < 0)
 		{
 			cos = -cos;
-			correctedDest = new Quaternion(-dest.GetX(), -dest.GetY(), -dest.GetZ(), -dest.GetW());
+			correctedDest = new GQuaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
 		}
 
 		if(Math.abs(cos) >= 1 - EPSILON)
@@ -130,11 +131,11 @@ public class Quaternion{
 		float srcFactor = (float)Math.sin((1.0f - lerpFactor) * angle) * invSin;
 		float destFactor = (float)Math.sin((lerpFactor) * angle) * invSin;
 
-		return this.Mul(srcFactor).Add(correctedDest.Mul(destFactor));
+		return this.mul(srcFactor).add(correctedDest.mul(destFactor));
 	}
 
 	//From Ken Shoemake's "Quaternion Calculus and Fast Animation" article
-	public Quaternion(Matrix4f rot)
+	public GQuaternion(GMatrix4f rot)
 	{
 		float trace = rot.Get(0, 0) + rot.Get(1, 1) + rot.Get(2, 2);
 
@@ -181,22 +182,22 @@ public class Quaternion{
 		m_w /= length;
 	}
 
-	public Vector3f GetForward(){return new Vector3f(0,0,1).Rotate(this);}
+	public GVector3f getForward(){return new GVector3f(0,0,1).rotate(this);}
 
-	public Vector3f GetBack(){return new Vector3f(0,0,-1).Rotate(this);}
+	public GVector3f getBack(){return new GVector3f(0,0,-1).rotate(this);}
 
-	public Vector3f GetUp(){return new Vector3f(0,1,0).Rotate(this);}
+	public GVector3f getUp(){return new GVector3f(0,1,0).rotate(this);}
 
-	public Vector3f GetDown(){return new Vector3f(0,-1,0).Rotate(this);}
+	public GVector3f getDown(){return new GVector3f(0,-1,0).rotate(this);}
 
-	public Vector3f GetRight(){return new Vector3f(1,0,0).Rotate(this);}
+	public GVector3f getRight(){return new GVector3f(1,0,0).rotate(this);}
 
-	public Vector3f GetLeft(){return new Vector3f(-1,0,0).Rotate(this);}
+	public GVector3f getLeft(){return new GVector3f(-1,0,0).rotate(this);}
 
-	public Quaternion Set(float x, float y, float z, float w) { this.m_x = x; this.m_y = y; this.m_z = z; this.m_w = w; return this; }
-	public Quaternion Set(Quaternion r) { Set(r.GetX(), r.GetY(), r.GetZ(), r.GetW()); return this; }
+	public GQuaternion set(float x, float y, float z, float w) { this.m_x = x; this.m_y = y; this.m_z = z; this.m_w = w; return this; }
+	public GQuaternion set(GQuaternion r) { set(r.getX(), r.getY(), r.getZ(), r.getW()); return this; }
 
-	public float GetX()
+	public float getX()
 	{
 		return m_x;
 	}
@@ -206,7 +207,7 @@ public class Quaternion{
 		this.m_x = x;
 	}
 
-	public float GetY()
+	public float getY()
 	{
 		return m_y;
 	}
@@ -216,7 +217,7 @@ public class Quaternion{
 		this.m_y = m_y;
 	}
 
-	public float GetZ()
+	public float getZ()
 	{
 		return m_z;
 	}
@@ -226,7 +227,7 @@ public class Quaternion{
 		this.m_z = z;
 	}
 
-	public float GetW()
+	public float getW()
 	{
 		return m_w;
 	}
@@ -236,9 +237,9 @@ public class Quaternion{
 		this.m_w = w;
 	}
 
-	public boolean equals(Quaternion r)
+	public boolean equals(GQuaternion r)
 	{
-		return m_x == r.GetX() && m_y == r.GetY() && m_z == r.GetZ() && m_w == r.GetW();
+		return m_x == r.getX() && m_y == r.getY() && m_z == r.getZ() && m_w == r.getW();
 	}
 	
 	public String toString()

@@ -1,9 +1,8 @@
 package com.voxel.component.viewAndMovement;
 
-import glib.util.vector.GVector3f;
-
 import com.voxel.component.GameComponent;
 import com.voxel.core.Input;
+import com.voxel.core.util.GVector3f;
 
 public class FreeMove extends GameComponent{
 	private float speed;

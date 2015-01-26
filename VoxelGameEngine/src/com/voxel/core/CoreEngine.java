@@ -6,7 +6,7 @@ import org.lwjgl.opengl.Display;
 
 import com.voxel.gui.Gui;
 import com.voxel.main.MainVoxel2;
-import com.voxel.render.RenderingEngine;
+import com.voxel.rendering.RenderingEngine;
 
 public class CoreEngine {
 	private double frameTime;

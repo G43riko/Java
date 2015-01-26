@@ -3,8 +3,8 @@ package com.voxel.core;
 import java.util.ArrayList;
 
 import com.voxel.component.GameComponent;
-import com.voxel.render.RenderingEngine;
-import com.voxel.render.shader.Shader;
+import com.voxel.rendering.RenderingEngine;
+import com.voxel.rendering.shader.Shader;
 
 public class GameObject {
 	private ArrayList<GameObject> children;

@@ -10,6 +10,8 @@ public class GLog {
 	static{
 		data.put("mainLoop",true);
 		data.put("menu",true);
+		data.put("updateUniforms",true);
+		
 	}
 	public void log(String msg){
 		if(show){

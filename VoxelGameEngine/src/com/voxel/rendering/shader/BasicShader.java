@@ -1,4 +1,4 @@
-package com.voxel.render.shader;
+package com.voxel.rendering.shader;
 
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
@@ -21,8 +21,6 @@ import static org.lwjgl.opengl.GL20.glUniform3f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GVector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,6 +32,8 @@ import com.voxel.component.light.DirectionalLight;
 import com.voxel.component.light.PointLight;
 import com.voxel.component.light.SpotLight;
 import com.voxel.core.Util;
+import com.voxel.core.util.GMatrix4f;
+import com.voxel.core.util.GVector3f;
 
 public abstract class BasicShader {
 	protected ShaderResource resource;

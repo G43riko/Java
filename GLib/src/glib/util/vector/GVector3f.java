@@ -67,6 +67,11 @@ public class GVector3f {
 		return this;
 	}
 	
+	public GVector3f Normalized(){
+		float length = getLength();
+		return new GVector3f(x / length, y / length, z / length);
+	}
+	
 	public GVector3f Lerp(GVector3f dest, float lerpFactor){
 		return dest.sub(this).mul(lerpFactor).add(this);
 	}

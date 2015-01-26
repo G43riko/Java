@@ -1,4 +1,4 @@
-package com.voxel.render.material;
+package com.voxel.rendering.material;
 
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL11.GL_REPEAT;
@@ -29,6 +29,7 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 
 import com.voxel.core.Util;
+import com.voxel.main.MainVoxel2;
 
 public class Texture {
 	private static HashMap<String,TextureResource> loadedTextures = new HashMap<String,TextureResource>();
@@ -103,9 +104,11 @@ public class Texture {
 			
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 			
-			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
+			if(MainVoxel2.MIP_MAPPING){
+				GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
+			}
 			
 			return resource;
 		}

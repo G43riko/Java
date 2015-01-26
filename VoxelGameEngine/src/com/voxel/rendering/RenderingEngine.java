@@ -1,9 +1,8 @@
-package com.voxel.render;
+package com.voxel.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 import glib.util.GLog;
-import glib.util.vector.GVector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,8 @@ import com.voxel.component.light.BaseLight;
 import com.voxel.component.light.PointLight;
 import com.voxel.component.viewAndMovement.Camera;
 import com.voxel.core.GameObject;
-import com.voxel.render.shader.Shader;
+import com.voxel.core.util.GVector3f;
+import com.voxel.rendering.shader.Shader;
 
 public class RenderingEngine extends MappedValues{
 	private Camera mainCamera;
@@ -30,12 +30,12 @@ public class RenderingEngine extends MappedValues{
 		samplerMap = new HashMap<String, Integer>();
 		samplerMap.put("diffuse", 0);
 		
-		glClearColor(0.0f,0.0f,1.0f,0.0f);
+		glClearColor(1.0f,1.0f,1.0f,0.0f);
 		init3D();
 		
 		forwardAmbient = new Shader("forward-ambient");
 		
-		addGVector3f("ambient", new GVector3f(0.2f,0.2f,0.2f));
+		addGVector3f("ambient", new GVector3f(1f,1f,1f));
 	}
 	
 	public void init2D(){

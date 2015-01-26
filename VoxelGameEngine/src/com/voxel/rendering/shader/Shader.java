@@ -1,8 +1,11 @@
-package com.voxel.render.shader;
+package com.voxel.rendering.shader;
 
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
-import glib.util.vector.GMatrix4f;
+import glib.util.GLog;
+
+import com.voxel.core.util.GMatrix4f;
+import com.voxel.core.util.GVector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +14,8 @@ import com.voxel.component.light.DirectionalLight;
 import com.voxel.component.light.PointLight;
 import com.voxel.component.light.SpotLight;
 import com.voxel.core.Transform;
-import com.voxel.render.RenderingEngine;
-import com.voxel.render.material.Material;
+import com.voxel.rendering.RenderingEngine;
+import com.voxel.rendering.material.Material;
 
 public class Shader extends BasicShader{
 	private static final String ATTRIBUTE_KEYWORD = "attribute";
@@ -50,7 +53,6 @@ public class Shader extends BasicShader{
 		for(int i=0 ; i<resource.getUniformNames().size() ; i++){
 			String uniformName = resource.getUniformNames().get(i);
 			String uniformType = resource.getUniformTypes().get(i);
-			
 			if(uniformType.equals("sampler2D")){
 				int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
 				material.getTexture(uniformName).bind(samplerSlot);

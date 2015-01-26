@@ -1,4 +1,4 @@
-package com.voxel.render.material;
+package com.voxel.rendering.material;
 
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;

@@ -1,7 +1,6 @@
 package GameEngine.core.util;
 
-public class Vector2f 
-{
+public class Vector2f {
 	private float m_x;
 	private float m_y;
 	

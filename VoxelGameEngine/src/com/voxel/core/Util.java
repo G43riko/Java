@@ -1,7 +1,5 @@
 package com.voxel.core;
 
-import glib.util.vector.GMatrix4f;
-
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -9,7 +7,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 
-import com.voxel.render.Vertex;
+import com.voxel.core.util.GMatrix4f;
+import com.voxel.rendering.Vertex;
 
 public class Util {
 	public static FloatBuffer createFloatBuffer(int size){

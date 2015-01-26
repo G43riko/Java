@@ -2,7 +2,7 @@ package com.voxel.core;
 
 import javax.swing.JFrame;
 
-import com.voxel.render.RenderingEngine;
+import com.voxel.rendering.RenderingEngine;
 
 public class Game extends JFrame{
 	private GameObject root;

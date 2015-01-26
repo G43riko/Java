@@ -1,4 +1,4 @@
-package com.voxel.render.mesh;
+package com.voxel.rendering.mesh;
 
 import static org.lwjgl.opengl.GL15.*;
 
@@ -41,8 +41,4 @@ public class MeshResource {
 	public int getSize() {
 		return size;
 	}
-
-//	public void setSize(int size) {
-//		this.size = size;
-//	}
 }

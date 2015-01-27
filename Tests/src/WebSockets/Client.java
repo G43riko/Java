@@ -1,6 +1,5 @@
 package WebSockets;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -12,19 +11,13 @@ public class Client {
 	
 	public static void main(String[] args) {
 		Client client = new Client();
-
 	}
 	
 	public Client(){
 		try {
 			this.clientSocket = new Socket("localhost",8888);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (UnknownHostException e) {e.printStackTrace();
+		} catch (IOException e) {e.printStackTrace(); }
 		
 		try {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(this.clientSocket.getOutputStream()));
@@ -42,10 +35,7 @@ public class Client {
 					e.printStackTrace();
 				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace(); }
 	}
 	
 	

@@ -22,13 +22,13 @@ public class Server {
 			System.out.println("Klient sa pripojil. ("+clientSocket.getInetAddress().getHostAddress()+")");
 			
 			while(true){
-				String temp = in.readLine();
-				System.out.println(temp);
+				if(in.ready()){
+					String temp = in.readLine();
+					System.out.println(temp);
+				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		} catch (IOException e) {}
 	};
 
 }

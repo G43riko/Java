@@ -16,7 +16,7 @@ public class Main extends JFrame{
 	public static Display display;
 	public static int WIDTH,HEIGHT,gameIs,maxUnits=400;
 	public static boolean isRunning;
-	public static boolean fullScreen=true;
+	public static boolean fullScreen=false;
 	
 	public static void main(String[] args) {
 		

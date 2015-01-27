@@ -8,7 +8,7 @@ import java.awt.Graphics;
 public class G2D {
 	private float[][] mapa;
 	G2D(){
-		mapa = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(1600, 900), 8, 0.7f, true);
+//		mapa = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(1600, 900), 8, 0.7f, true);
 		mapa = SimplexNoise.generateOctavedSimplexNoise(1600, 900, 6, 0.8f, 0.008f);
 	};
 	
@@ -35,9 +35,9 @@ public class G2D {
 					else if(color < 204)
 						g.setColor(new GColor(204,0,0,255));
 					else
-						g.setColor(new GColor(255,0,0,255));
+						g.setColor(new GColor(255,0,255,255));
 					
-					g.setColor(new GColor((int)color,(int)color,(int)color,255));
+//					g.setColor(new GColor((int)color,(int)color,(int)color,255));
 					g.fillRect(i, j, 1, 1);		
 				}
 			}

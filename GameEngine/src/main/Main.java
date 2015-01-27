@@ -17,5 +17,4 @@ public class Main {
 		game.cleanUp();
 		System.exit(0);
 	}
-	
 }

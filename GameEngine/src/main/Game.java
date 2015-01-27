@@ -92,7 +92,7 @@ public class Game extends JFrame{
 		
 		//camera = new Camera();
 		
-		mapa = new Map(64,64,loader);
+		mapa = new Map(32,32,loader);
 		//mapa.initDefaultMap();
 		mapa.initMapFromHeighMap("heightMap.png");
 		pocetBlokov = mapa.getNumBlock();

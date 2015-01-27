@@ -5,7 +5,7 @@ import com.voxel.core.util.GVector3f;
 public class Block extends BasicBlock{
 	public static int WIDTH = 1;
 	public static int HEIGHT = 1;
-	public static  int DEPTH = 1;
+	public static int DEPTH = 1;
 	
 	public static int VOID = 0;
 	public static int GRASS = 1;
@@ -24,9 +24,8 @@ public class Block extends BasicBlock{
 		this.z = z;
 		this.getTransform().setPosition(new GVector3f(x*2,y*2,z*2));
 		this.type = type;
-		isActive = true;
-		if(type==0)
-			isActive = false;
+		
+		isActive = type!=0;
 		addWalls();
 	}
 

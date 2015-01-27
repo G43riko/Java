@@ -29,35 +29,35 @@ public class GQuaternion{
 	}
 
 	public GQuaternion(GMatrix4f rot){
-		float trace = rot.Get(0, 0) + rot.Get(1, 1) + rot.Get(2, 2);
+		float trace = rot.get(0, 0) + rot.get(1, 1) + rot.get(2, 2);
 
 		if(trace > 0){
 			float s = 0.5f / (float)Math.sqrt(trace+ 1.0f);
 			w = 0.25f / s;
-			x = (rot.Get(1, 2) - rot.Get(2, 1)) * s;
-			y = (rot.Get(2, 0) - rot.Get(0, 2)) * s;
-			z = (rot.Get(0, 1) - rot.Get(1, 0)) * s;
+			x = (rot.get(1, 2) - rot.get(2, 1)) * s;
+			y = (rot.get(2, 0) - rot.get(0, 2)) * s;
+			z = (rot.get(0, 1) - rot.get(1, 0)) * s;
 		}
 		else{
-			if(rot.Get(0, 0) > rot.Get(1, 1) && rot.Get(0, 0) > rot.Get(2, 2)){
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(0, 0) - rot.Get(1, 1) - rot.Get(2, 2));
-				w = (rot.Get(1, 2) - rot.Get(2, 1)) / s;
+			if(rot.get(0, 0) > rot.get(1, 1) && rot.get(0, 0) > rot.get(2, 2)){
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.get(0, 0) - rot.get(1, 1) - rot.get(2, 2));
+				w = (rot.get(1, 2) - rot.get(2, 1)) / s;
 				x = 0.25f * s;
-				y = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
-				z = (rot.Get(2, 0) + rot.Get(0, 2)) / s;
+				y = (rot.get(1, 0) + rot.get(0, 1)) / s;
+				z = (rot.get(2, 0) + rot.get(0, 2)) / s;
 			}
-			else if(rot.Get(1, 1) > rot.Get(2, 2)){
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(1, 1) - rot.Get(0, 0) - rot.Get(2, 2));
-				w = (rot.Get(2, 0) - rot.Get(0, 2)) / s;
-				x = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
+			else if(rot.get(1, 1) > rot.get(2, 2)){
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.get(1, 1) - rot.get(0, 0) - rot.get(2, 2));
+				w = (rot.get(2, 0) - rot.get(0, 2)) / s;
+				x = (rot.get(1, 0) + rot.get(0, 1)) / s;
 				y = 0.25f * s;
-				z = (rot.Get(2, 1) + rot.Get(1, 2)) / s;
+				z = (rot.get(2, 1) + rot.get(1, 2)) / s;
 			}
 			else{
-				float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(2, 2) - rot.Get(0, 0) - rot.Get(1, 1));
-				w = (rot.Get(0, 1) - rot.Get(1, 0) ) / s;
-				x = (rot.Get(2, 0) + rot.Get(0, 2) ) / s;
-				y = (rot.Get(1, 2) + rot.Get(2, 1) ) / s;
+				float s = 2.0f * (float)Math.sqrt(1.0f + rot.get(2, 2) - rot.get(0, 0) - rot.get(1, 1));
+				w = (rot.get(0, 1) - rot.get(1, 0) ) / s;
+				x = (rot.get(2, 0) + rot.get(0, 2) ) / s;
+				y = (rot.get(1, 2) + rot.get(2, 1) ) / s;
 				z = 0.25f * s;
 			}
 		}
@@ -116,8 +116,8 @@ public class GQuaternion{
 		return new GQuaternion(x + r, y + r, z + r, w + r);
 	}
 	
-	public GMatrix4f ToRotationMatrix(){
-		return new GMatrix4f().InitRotation(getForward(), getUp(), getRight());
+	public GMatrix4f toRotationMatrix(){
+		return new GMatrix4f().initRotation(getForward(), getUp(), getRight());
 	}
 
 	public GVector3f getEuler (){

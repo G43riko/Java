@@ -23,8 +23,12 @@ public class Game extends JFrame{
 	}
 	
 	public void render(RenderingEngine renderingEngine){
-		double time = System.currentTimeMillis();
+//		double time = System.currentTimeMillis();
+		RenderingEngine.numOfTriangels = 0;
+		RenderingEngine.numOfRenderedBoxSides = 0;
 		renderingEngine.render(root);
+//		System.out.println("vyrenderovalo sa "+RenderingEngine.numOfTriangels+" polygonov");
+//		System.out.println("vyrenderovalo sa "+RenderingEngine.numOfRenderedBoxSides+" strán kociek");
 	}
 	
 	private GameObject getRootObject(){

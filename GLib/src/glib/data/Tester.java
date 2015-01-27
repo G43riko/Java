@@ -1,13 +1,16 @@
 package glib.data;
 
 import glib.data.oneDirList.ListO;
+import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 
 public class Tester {
 
 	public static void main(String[] args) {
-		testujList();
+//		testujList();
 //		testujStrom();
+		testujColisiu();
 	}
 
 	private static void testujStrom() {
@@ -46,4 +49,13 @@ public class Tester {
 		System.out.println(list);
 	}
 
+	private static void testujColisiu(){
+		GVector3f a = new GVector3f(0,0,0);
+		GVector3f b = new GVector3f(0,2,0);
+		GVector3f c = new GVector3f(2,0,0);
+		
+		GVector3f d = new GVector3f(1,3,1);
+		GVector3f f = new GVector3f(1,2,-1);
+		GLog.write(GVector3f.intersectRayWithSquare(d, f, a, b, c)+"");
+	}
 }

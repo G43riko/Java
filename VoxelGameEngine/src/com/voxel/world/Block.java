@@ -1,11 +1,16 @@
 package com.voxel.world;
 
-import com.voxel.core.util.GVector3f;
+import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 public class Block extends BasicBlock{
 	public static int WIDTH = 1;
 	public static int HEIGHT = 1;
 	public static int DEPTH = 1;
+	
+	private int sizeX;
+	private int sizeY;
+	private int sizeZ;	
 	
 	public static int VOID = 0;
 	public static int GRASS = 1;
@@ -15,25 +20,36 @@ public class Block extends BasicBlock{
 	
 	public static int MAX_NUM_TYPES = 5;
 	
+	private boolean isTransparent;
 	private boolean isActive;
-	private int x, y, z;
 	
 	public Block(int x, int y, int z,int type){
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.getTransform().setPosition(new GVector3f(x*2,y*2,z*2));
 		this.type = type;
-		
-		isActive = type!=0;
+		sizeX = WIDTH;
+		sizeY = HEIGHT;
+		sizeZ = DEPTH;
+		init();
+	}
+	
+	public void init(){
+		neighboards = new Block[]{null, null, null, null, null, null};
+		isActive = (type != 0);
+		isTransparent = false;
 		addWalls();
 	}
-
+	
 	public boolean isActive() {
 		return isActive;
 	}
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	
+	public void addNeighboard(int dir, Block neighboard){
+		neighboards[dir] = neighboard;
 	}
 }

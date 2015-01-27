@@ -11,7 +11,7 @@ public class Main extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private final String TITLE = "ArenaGame";
-	private Keyboard keyboard = new Keyboard();
+	public static Keyboard keyboard = new Keyboard();
 	private Mouse mouse = new Mouse();
 	public static Display display;
 	public static int WIDTH,HEIGHT,gameIs,maxUnits=400;

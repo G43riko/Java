@@ -10,6 +10,7 @@ public class GLog {
 	static{
 		data.put("mainLoop",true);
 		data.put("menu",true);
+		data.put("mapa", true);
 		data.put("updateUniforms",true);
 		
 	}
@@ -22,8 +23,7 @@ public class GLog {
 	public static void write(String msg){
 		if(hideAll)
 			return;
-		if(showAll)
-			System.out.println(msg);
+		System.out.println(msg);
 	}
 	
 	public static void write(String msg, String name){

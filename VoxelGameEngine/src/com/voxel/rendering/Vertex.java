@@ -1,9 +1,7 @@
 package com.voxel.rendering;
 
-import com.voxel.core.util.GVector2f;
-import com.voxel.core.util.GVector3f;
-
-
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
 
 public class Vertex {
 	public static final int SIZE=8;

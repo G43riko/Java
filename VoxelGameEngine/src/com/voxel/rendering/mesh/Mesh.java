@@ -12,12 +12,13 @@ import static org.lwjgl.opengl.GL15.glBufferData;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import glib.util.vector.GVector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.voxel.core.Util;
-import com.voxel.core.util.GVector3f;
+import com.voxel.rendering.RenderingEngine;
 import com.voxel.rendering.Vertex;
 import com.voxel.rendering.mesh.meshLoading.IndexedModel;
 import com.voxel.rendering.mesh.meshLoading.OBJModel;
@@ -131,6 +132,7 @@ public class Mesh {
 //		glEnableVertexAttribArray(3);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo());
+		
 		glVertexAttribPointer(0, 3, GL_FLOAT, false,Vertex.SIZE * 4, 0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, false,Vertex.SIZE * 4, 12);
 		glVertexAttribPointer(2, 3, GL_FLOAT, false,Vertex.SIZE * 4, 20);
@@ -138,6 +140,8 @@ public class Mesh {
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,resource.getIbo());
 		glDrawElements(GL_TRIANGLES, resource.getSize(), GL_UNSIGNED_INT, 0);
+		
+		RenderingEngine.numOfTriangels += resource.getSize()/3;
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

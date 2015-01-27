@@ -52,14 +52,9 @@ public class OtherPlayer extends Player{
 	}
 
 	public void write(String msg){
-		Thread writeThread = new Thread(new Runnable(){
-			public void run() {
-				try {
-					writer.write(msg+"\n");
-					writer.flush();
-				} catch (IOException e) {e.printStackTrace(); }
-			}
-		});
-		writeThread.start();
+		try {
+			writer.write(msg+"\n");
+			writer.flush();
+		} catch (IOException e) {e.printStackTrace(); }
 	}
 }

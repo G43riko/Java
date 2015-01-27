@@ -1,12 +1,14 @@
 package com.voxel.world;
 
+import glib.util.GLog;
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import com.voxel.component.MeshRenderer;
 import com.voxel.component.viewAndMovement.Camera;
 import com.voxel.core.GameObject;
-import com.voxel.core.util.GVector2f;
-import com.voxel.core.util.GVector3f;
 import com.voxel.rendering.RenderingEngine;
 import com.voxel.rendering.Vertex;
 import com.voxel.rendering.material.Material;
@@ -21,7 +23,9 @@ public abstract class BasicBlock extends GameObject{
 															   new Material("diffuse", new Texture("rock.jpg")),
 															   new Material("diffuse", new Texture("water.jpg"))};
 	private boolean topB, bottomB, leftB, rightB, backB, forwardB,begin;
+	protected static Block[] neighboards;
 	protected int type;
+	protected int x, y, z;
 	
 	protected void addWalls(){
 		begin = true;
@@ -48,24 +52,36 @@ public abstract class BasicBlock extends GameObject{
 	
 	public void render(Shader shader, RenderingEngine renderingEngine){
 		GVector3f f = renderingEngine.getMainCamera().getTransform().getRotation().getForward().normalize();
-		GVector3f b = getTransform().getPosition().sub(renderingEngine.getMainCamera().getTransform().getPosition()).normalize();
+		GVector3f b = new GVector3f(x*2,y*2,z*2).sub(renderingEngine.getMainCamera().getTransform().getPosition()).normalize();
 		float angle = Vector3f.angle(new Vector3f(f.getX(),f.getY(),f.getZ()), new Vector3f(b.getX(),b.getY(),b.getZ()));
 		if(angle > Camera.MAX_ANGLE)
 			return;
 		if(type==0)
 			return;
-		if(topB && to!=null)
+		if(topB && to!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			to.render(shader, renderingEngine);
-		if(bottomB && bo!=null)
+		}
+		if(bottomB && bo!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			bo.render(shader, renderingEngine);
-		if(leftB && le!=null)
+		}
+		if(leftB && le!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			le.render(shader, renderingEngine);
-		if(rightB && ri!=null)
+		}
+		if(rightB && ri!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			ri.render(shader, renderingEngine);
-		if(backB && ba!=null)
+		}
+		if(backB && ba!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			ba.render(shader, renderingEngine);
-		if(forwardB && fo!=null)
+		}
+		if(forwardB && fo!=null){
+			RenderingEngine.numOfRenderedBoxSides++;
 			fo.render(shader, renderingEngine);
+		}
 	}
 	
 	public Mesh addTop(){

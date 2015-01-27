@@ -1,13 +1,14 @@
 package com.voxel.rendering.mesh.meshLoading;
 
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.voxel.core.Util;
-import com.voxel.core.util.GVector2f;
-import com.voxel.core.util.GVector3f;
 
 public class OBJModel {
 	private ArrayList<GVector3f> positions;

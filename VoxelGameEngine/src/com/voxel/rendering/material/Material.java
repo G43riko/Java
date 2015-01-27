@@ -11,11 +11,15 @@ public class Material extends MappedValues{
 	public Material(){
 		super();
 		textureHashMap = new HashMap<String,Texture>();
+		addFloat("specularIntensity", 1);
+		addFloat("specularPower", 8);
 	}
 	
 	public Material(String name,Texture texture){
 		textureHashMap = new HashMap<String,Texture>();
 		textureHashMap.put(name, texture);
+		addFloat("specularIntensity", 1);
+		addFloat("specularPower", 8);
 	}
 	
 	public void addTexture(String name,Texture texture){

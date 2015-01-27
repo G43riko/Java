@@ -1,5 +1,7 @@
 package com.voxel.core;
 
+import glib.util.vector.GMatrix4f;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -7,7 +9,6 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 
-import com.voxel.core.util.GMatrix4f;
 import com.voxel.rendering.Vertex;
 
 public class Util {
@@ -53,7 +54,7 @@ public class Util {
 		
 		for(int i=0 ; i<4 ; i++){
 			for(int j=0 ; j<4 ; j++){
-				buffer.put(value.Get(i,j));
+				buffer.put(value.get(i,j));
 			}
 		}
 		buffer.flip();

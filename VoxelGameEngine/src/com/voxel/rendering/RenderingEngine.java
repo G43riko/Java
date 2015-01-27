@@ -3,6 +3,7 @@ package com.voxel.rendering;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +14,12 @@ import com.voxel.component.light.BaseLight;
 import com.voxel.component.light.PointLight;
 import com.voxel.component.viewAndMovement.Camera;
 import com.voxel.core.GameObject;
-import com.voxel.core.util.GVector3f;
 import com.voxel.rendering.shader.Shader;
 
 public class RenderingEngine extends MappedValues{
+	
+	public static int numOfTriangels;
+	public static int numOfRenderedBoxSides;
 	private Camera mainCamera;
 	private Shader forwardAmbient;
 	
@@ -30,12 +33,12 @@ public class RenderingEngine extends MappedValues{
 		samplerMap = new HashMap<String, Integer>();
 		samplerMap.put("diffuse", 0);
 		
-		glClearColor(1.0f,1.0f,1.0f,0.0f);
+		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		init3D();
 		
 		forwardAmbient = new Shader("forward-ambient");
 		
-		addGVector3f("ambient", new GVector3f(1f,1f,1f));
+		addGVector3f("ambient", new GVector3f(0.4f,0.4f,0.4f));
 	}
 	
 	public void init2D(){
@@ -74,6 +77,20 @@ public class RenderingEngine extends MappedValues{
 	public void render(GameObject object) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		object.renderAll(forwardAmbient,this);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE,GL_ONE);
+		glDepthMask(false);
+		glDepthFunc(GL_EQUAL);
+		
+		for(BaseLight light:lights){
+			activeLight = light;
+			object.renderAll(light.getShader(),this);
+		}
+		
+		glDepthFunc(GL_LESS);
+		glDepthMask(true);
+		glDisable(GL_BLEND);
 	}
 
 	public void addCamera(Camera camera) {
@@ -86,7 +103,7 @@ public class RenderingEngine extends MappedValues{
 	}
 
 	public int getSamplerSlot(String samplerName) {
-		return samplerMap.get(samplerName );
+		return samplerMap.get(samplerName);
 	}
 
 	public void addLight(BaseLight light){

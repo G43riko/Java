@@ -47,11 +47,11 @@ public class GVector3f {
 		return Math.min(x, Math.min(y,z));
 	}
 	
-	public float Dot(GVector3f v){
+	public float dot(GVector3f v){
 		return x * v.getX() + y * v.getY() + z * v.getZ();
 	}
 	
-	public GVector3f Cross(GVector3f v){
+	public GVector3f cross(GVector3f v){
 		float x_ = y * v.getZ() - z * v.getY();
 		float y_ = z * v.getX() - x * v.getZ();
 		float z_ = x * v.getY() - y * v.getX();
@@ -77,68 +77,44 @@ public class GVector3f {
 	}
 	
 	public GVector3f add(GVector3f v){
-		x += v.getX();
-		y += v.getY();
-		z += v.getZ();
-		return this;
+		return new GVector3f(x + v.getX(), y + v.getY(), z + v.getZ());
 	}
 	
 	public GVector3f add(float num){
-		x += num;
-		y += num;
-		z += num;
-		return this;
+		return new GVector3f(x + num, y + num, z + num);
 	}
 	
 	public GVector3f sub(GVector3f v){
-		x -= v.getX();
-		y -= v.getY();
-		z -= v.getZ();
-		return this;
+		return new GVector3f(x - v.getX(), y - v.getY(), z - v.getZ());
 	}
 	
 	public GVector3f sub(float num){
-		x -= num;
-		y -= num;
-		z -= num;
-		return this;
+		return new GVector3f(x - num, y - num, z - num);
 	}
 	
 	public GVector3f mul(GVector3f v){
-		x *= v.getX();
-		y *= v.getY();
-		z *= v.getZ();
-		return this;
+		return new GVector3f(x * v.getX(), y * v.getY(), z * v.getZ());
 	}
 	
 	public GVector3f mul(float num){
-		x *= num;
-		y *= num;
-		z *= num;
-		return this;
+		return new GVector3f(x * num, y * num, z * num);
 	}
 	
 	public GVector3f div(GVector3f v){
-		x /= v.getX();
-		y /= v.getY();
-		z /= v.getZ();
-		return this;
+		return new GVector3f(x / v.getX(), y / v.getY(), z / v.getZ());
 	}
 	
 	public GVector3f div(float num){
-		x /= num;
-		y /= num;
-		z /= num;
-		return this;
+		return new GVector3f(x / num, y / num, z / num);
 	}
 	
 	public GVector3f Rotate(GVector3f axis, float angle){
 		float sinAngle = (float)Math.sin(-angle);
 		float cosAngle = (float)Math.cos(-angle);
 
-		return this.Cross(axis.mul(sinAngle)).add(           //Rotation on local X
+		return this.cross(axis.mul(sinAngle)).add(           //Rotation on local X
 				(this.mul(cosAngle)).add(                     //Rotation on local Z
-						axis.mul(this.Dot(axis.mul(1 - cosAngle))))); //Rotation on local Y
+						axis.mul(this.dot(axis.mul(1 - cosAngle))))); //Rotation on local Y
 	}
 	
 	public GVector3f Rotate(GQuaternion rotation){
@@ -151,14 +127,35 @@ public class GVector3f {
 	}
 	
 	public GVector3f abs(){
-		x = Math.abs(x);
-		y = Math.abs(y);
-		z = Math.abs(z);
-		return this;
+		return new GVector3f(Math.abs(x), Math.abs(y), Math.abs(z));
 	}
 	
 	public String toString(){
 		return "(" + x + " " + y + " " + z + ")";
+	}
+	
+	 public static boolean intersectRayWithSquare(GVector3f R1, GVector3f R2, GVector3f S1, GVector3f S2, GVector3f S3) {
+		 GVector3f dS21 = S2.sub(S1);
+		 GVector3f dS31 = S3.sub(S1);
+		 GVector3f n = dS21.cross(dS31);
+
+		 GVector3f dR = R1.sub(R2);
+
+		 float ndotdR = n.dot(dR);
+
+		 if (Math.abs(ndotdR) < 1e-6f) { // Choose your tolerance
+			 return false;
+		 }
+
+		 float t = -n.dot(R1.sub(S1)) / ndotdR;
+		 GVector3f M = R1.add(dR.mul(t));
+
+		 GVector3f dMS1 = M.sub(S1);
+		 float u = dMS1.dot(dS21);
+		 float v = dMS1.dot(dS31);
+
+
+		 return (u >= 0.0f && u <= dS21.dot(dS21)&& v >= 0.0f && v <= dS31.dot(dS31));
 	}
 	
 	public static GVector3f interpolateLinear(float scale, GVector3f startValue, GVector3f endValue) {
@@ -172,7 +169,7 @@ public class GVector3f {
 	public static float distanceVectorPoint(GVector3f a, GVector3f b, GVector3f point){
 		GVector3f temp1 = a.sub(b);
 		GVector3f temp2 = b.sub(point);
-		return temp1.Cross(temp2).getLength()/temp1.getLength();
+		return temp1.cross(temp2).getLength()/temp1.getLength();
 	}
 	
 	public GVector3f getInstance(){return new GVector3f(x,y,z); }

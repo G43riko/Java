@@ -10,6 +10,7 @@ import main.both.core.utils.Vector2f;
 import main.both.multiplayer.Client;
 
 public class MyPlayer extends Player{
+	//defaultné klávesy 
 	private static int keyUp = Constants.DEFAULT_UP_KEY;
 	private static int keyDown= Constants.DEFAULT_DOWN_KEY;
 	private static int keyRight = Constants.DEFAULT_RIGHT_KEY;

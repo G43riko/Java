@@ -1,8 +1,9 @@
 package com.voxel.core;
 
-import com.voxel.core.util.GMatrix4f;
-import com.voxel.core.util.GQuaternion;
-import com.voxel.core.util.GVector3f;
+import glib.util.vector.GMatrix4f;
+import glib.util.vector.GQuaternion;
+import glib.util.vector.GVector3f;
+
 
 public class Transform {
 	private Transform  parent;

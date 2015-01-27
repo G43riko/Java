@@ -19,10 +19,11 @@ public class GameObject {
 		engine = null;
 	}
 	
-	public void addChild(GameObject child) {
+	public GameObject addChild(GameObject child) {
 		children.add(child);
 		child.setEngine(engine);
 		child.getTransform().setParent(transform);
+		return child;
 	}
 	
 	public void setEngine(CoreEngine engine) {

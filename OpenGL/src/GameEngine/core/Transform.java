@@ -43,7 +43,7 @@ public class Transform {
 
 	public void rotate(Vector3f axis, float angle){
 		rot = new Quaternion(axis, angle).Mul(rot).Normalized();
-		System.out.println(rot.GetForward());
+//		System.out.println(rot.GetForward());
 	}
 
 	public void lookAt(Vector3f point, Vector3f up)

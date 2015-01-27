@@ -7,7 +7,7 @@ public class GMatrix4f{
 		m = new float[4][4];
 	}
 
-	public GMatrix4f InitIdentity(){
+	public GMatrix4f initIdentity(){
 		m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
 		m[1][0] = 0;	m[1][1] = 1;	m[1][2] = 0;	m[1][3] = 0;
 		m[2][0] = 0;	m[2][1] = 0;	m[2][2] = 1;	m[2][3] = 0;
@@ -16,7 +16,7 @@ public class GMatrix4f{
 		return this;
 	}
 	
-	public GMatrix4f InitTranslation(float x, float y, float z){
+	public GMatrix4f initTranslation(float x, float y, float z){
 		m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = x;
 		m[1][0] = 0;	m[1][1] = 1;	m[1][2] = 0;	m[1][3] = y;
 		m[2][0] = 0;	m[2][1] = 0;	m[2][2] = 1;	m[2][3] = z;
@@ -25,7 +25,7 @@ public class GMatrix4f{
 		return this;
 	}
 	
-	public GMatrix4f InitRotation(float x, float y, float z){
+	public GMatrix4f initRotation(float x, float y, float z){
 		GMatrix4f rx = new GMatrix4f();
 		GMatrix4f ry = new GMatrix4f();
 		GMatrix4f rz = new GMatrix4f();
@@ -49,12 +49,12 @@ public class GMatrix4f{
 		ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y); ry.m[2][3] = 0;
 		ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					 ry.m[3][3] = 1;
 		
-		m = rz.mul(ry.mul(rx)).GetM();
+		m = rz.mul(ry.mul(rx)).getM();
 		
 		return this;
 	}
 	
-	public GMatrix4f InitScale(float x, float y, float z){
+	public GMatrix4f initScale(float x, float y, float z){
 		m[0][0] = x;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
 		m[1][0] = 0;	m[1][1] = y;	m[1][2] = 0;	m[1][3] = 0;
 		m[2][0] = 0;	m[2][1] = 0;	m[2][2] = z;	m[2][3] = 0;
@@ -76,7 +76,7 @@ public class GMatrix4f{
 		return this;
 	}
 
-	public GMatrix4f InitOrthographic(float left, float right, float bottom, float top, float near, float far){
+	public GMatrix4f initOrthographic(float left, float right, float bottom, float top, float near, float far){
 		float width = right - left;
 		float height = top - bottom;
 		float depth = far - near;
@@ -89,18 +89,18 @@ public class GMatrix4f{
 		return this;
 	}
 
-	public GMatrix4f InitRotation(GVector3f forward, GVector3f up){
+	public GMatrix4f initRotation(GVector3f forward, GVector3f up){
 		GVector3f f = forward.Normalized();
 		
 		GVector3f r = up.Normalized();
-		r = r.Cross(f);
+		r = r.cross(f);
 		
-		GVector3f u = f.Cross(r);
+		GVector3f u = f.cross(r);
 
-		return InitRotation(f, u, r);
+		return initRotation(f, u, r);
 	}
 
-	public GMatrix4f InitRotation(GVector3f forward, GVector3f up, GVector3f right){
+	public GMatrix4f initRotation(GVector3f forward, GVector3f up, GVector3f right){
 		GVector3f f = forward;
 		GVector3f r = right;
 		GVector3f u = up;
@@ -113,7 +113,7 @@ public class GMatrix4f{
 		return this;
 	}
 
-	public GVector3f Transform(GVector3f r){
+	public GVector3f transform(GVector3f r){
 		return new GVector3f(m[0][0] * r.getX() + m[0][1] * r.getY() + m[0][2] * r.getZ() + m[0][3],
 		                     m[1][0] * r.getX() + m[1][1] * r.getY() + m[1][2] * r.getZ() + m[1][3],
 		                     m[2][0] * r.getX() + m[2][1] * r.getY() + m[2][2] * r.getZ() + m[2][3]);
@@ -124,17 +124,17 @@ public class GMatrix4f{
 		
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 4; j++){
-				res.Set(i, j, m[i][0] * r.Get(0, j) +
-							  m[i][1] * r.Get(1, j) +
-							  m[i][2] * r.Get(2, j) +
-							  m[i][3] * r.Get(3, j));
+				res.set(i, j, m[i][0] * r.get(0, j) +
+							  m[i][1] * r.get(1, j) +
+							  m[i][2] * r.get(2, j) +
+							  m[i][3] * r.get(3, j));
 			}
 		}
 		
 		return res;
 	}
 	
-	public float[][] GetM(){
+	public float[][] getM(){
 		float[][] res = new float[4][4];
 		
 		for(int i = 0; i < 4; i++)
@@ -144,9 +144,9 @@ public class GMatrix4f{
 		return res;
 	}
 	
-	public float Get(int x, int y){return m[x][y];}
+	public float get(int x, int y){return m[x][y];}
 
-	public void SetM(float[][] m){this.m = m;}
+	public void setM(float[][] m){this.m = m;}
 	
-	public void Set(int x, int y, float value){m[x][y] = value;}
+	public void set(int x, int y, float value){m[x][y] = value;}
 }

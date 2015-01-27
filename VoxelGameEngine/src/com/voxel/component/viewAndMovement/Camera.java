@@ -1,13 +1,13 @@
 package com.voxel.component.viewAndMovement;
 
+import glib.util.vector.GMatrix4f;
+
 import com.voxel.component.GameComponent;
 import com.voxel.core.CoreEngine;
 
-import com.voxel.core.util.*;
-
 public class Camera extends GameComponent{
 	private GMatrix4f projection;
-	public final static float MAX_ANGLE = (float)Math.toRadians(180);
+	public final static float MAX_ANGLE = (float)Math.toRadians(100);
 	
 	public Camera(float fov, float aspect, float zNear, float zFar){
 		this.projection = new GMatrix4f().initPerspective(fov,aspect,zNear,zFar);

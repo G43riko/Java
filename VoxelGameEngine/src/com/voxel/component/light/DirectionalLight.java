@@ -1,7 +1,8 @@
 package com.voxel.component.light;
 
+import glib.util.vector.GVector3f;
+
 import com.voxel.rendering.shader.Shader;
-import com.voxel.core.util.GVector3f;
 
 
 public class DirectionalLight extends BaseLight{

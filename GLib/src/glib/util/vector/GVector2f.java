@@ -20,7 +20,6 @@ public class GVector2f {
 	};
 	
 	public float dot(GVector2f v){
-		//create dot product
         return x * v.getX() + y * v.getY();
     };
     
@@ -37,9 +36,18 @@ public class GVector2f {
 	};
 	
 	public void normalize(){
-		float dlzka=this.getLength();
-		this.x/=dlzka;
-		this.y/=dlzka;
+		float dlzka = this.getLength();
+		this.x /= dlzka;
+		this.y /= dlzka;
+	}
+	
+	public GVector2f Normalized(){
+		float dlzka = this.getLength();
+		return new GVector2f(x/dlzka, y/dlzka);
+	}
+	
+	public float cross(GVector2f r){
+		return x * r.getY() - y * r.getX();
 	}
 	
 	public void rotate(float angle){
@@ -56,6 +64,11 @@ public class GVector2f {
 		float dx = x - v.x;
 		float dy = y - v.y;
 		return (float)Math.sqrt(dx * dx + dy * dy);
+	}
+	
+	public GVector2f Lerp(GVector2f dest, float lerpFactor)
+	{
+		return dest.sub(this).mul(lerpFactor).add(this);
 	}
 	
 	public float distSQ(GVector2f v) {
@@ -75,50 +88,40 @@ public class GVector2f {
 		return angle;
 	}
 	
-	public void add(GVector2f v){
-		this.x += v.getX();
-		this.y += v.getY();
+	public GVector2f add(GVector2f v){
+		return new GVector2f(x + v.getX(), y + v.getY());
 	};
 	
-	public void add(float num){
-		this.x += num;
-		this.y += num;
+	public GVector2f add(float num){
+		return new GVector2f(x + num, y + num);
 	};
 	
 	public GVector2f sub(GVector2f v){
-		this.x -= v.getX();
-		this.y -= v.getY();
-		return this;
+		return new GVector2f(x - v.getX(), y - v.getY());
 	};
 	
-	public void sub(float num){
-		this.x -= num;
-		this.y -= num;
+	public GVector2f sub(float num){
+		return new GVector2f(x - num, y - num);
 	}
 	
-	public void mul(GVector2f v){
-		this.x *= v.getX();
-		this.y *= v.getY();
+	public GVector2f mul(GVector2f v){
+		return new GVector2f(x * v.getX(), y * v.getY());
 	};
 	
-	public void mul(float num){
-		this.x *= num;
-		this.y *= num;
+	public GVector2f mul(float num){
+		return new GVector2f(x * num, y * num);
 	}
 	
-	public void div (GVector2f v){
-		this.x /= v.getX();
-		this.y /= v.getY();
+	public GVector2f div (GVector2f v){
+		return new GVector2f(x / v.getX(), y / v.getY());
 	};
 	
-	public void div (float num){
-		this.x /= num;
-		this.y /= num;
+	public GVector2f div (float num){
+		return new GVector2f(x / num, y / num);
 	};
 	
-	public void abs(){
-		this.x = Math.abs(this.x);
-		this.y = Math.abs(this.y);
+	public GVector2f abs(){
+		return new GVector2f(Math.abs(x), Math.abs(y));
 	}
 
 	public float getX() {return x;}

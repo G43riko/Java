@@ -1,8 +1,9 @@
 package com.voxel.rendering;
 
+import glib.util.vector.GVector3f;
+
 import java.util.HashMap;
 
-import com.voxel.core.util.GVector3f;
 
 public class MappedValues {
 	private HashMap<String, GVector3f> vector3fHashMap;

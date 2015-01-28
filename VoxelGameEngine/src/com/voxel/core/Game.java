@@ -2,6 +2,7 @@ package com.voxel.core;
 
 import javax.swing.JFrame;
 
+import com.voxel.main.MainVoxel2;
 import com.voxel.rendering.RenderingEngine;
 
 public class Game extends JFrame{
@@ -31,9 +32,9 @@ public class Game extends JFrame{
 //		System.out.println("vyrenderovalo sa "+RenderingEngine.numOfRenderedBoxSides+" strán kociek");
 	}
 	
-	private GameObject getRootObject(){
+	public GameObject getRootObject(){
 		if(root == null){
-			root = new GameObject();
+			root = new GameObject(MainVoxel2.TITLE);
 		}
 		return root;
 	}

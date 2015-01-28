@@ -1,10 +1,12 @@
-package com.voxel.gui;
+package com.voxel.gui.menu;
 
 import glib.util.GLog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,13 +14,22 @@ import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.voxel.gui.window.MaterialEditor;
 import com.voxel.main.MainVoxel2;
 
 public class TMenu extends JMenuBar{
 	private static final long serialVersionUID = 1L;
 	private JMenu menuA;
+	private JMenu menuB;
+	private MouseListener onClick = new MouseListener(){
+		public void mouseClicked(MouseEvent e) {updateUI();}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+	};
 	
-	public TMenu(){
+ 	public TMenu(){
 		if(MainVoxel2.OSLOOK){
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -29,10 +40,20 @@ public class TMenu extends JMenuBar{
 		}
 		
 		initMenuA();
+		initMenuB();
 	}
 
+	private void initMenuB() {
+		menuB = new JMenu("View");
+		menuB.addMouseListener(onClick);
+		add(menuB);
+		
+		initME();
+	}
+	
 	private void initMenuA() {
 		menuA = new JMenu("Files");
+		menuA.addMouseListener(onClick);
 		add(menuA);
 		
 		initNM();
@@ -40,6 +61,17 @@ public class TMenu extends JMenuBar{
 		initSM();
 		initE();
 		
+	}
+	
+	private void initME(){
+		JMenuItem menuItem = new JMenuItem("Material editor", KeyEvent.VK_T);
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				GLog.write("klikol si na zobrazenie editora materiálov","menu");
+				new MaterialEditor();
+			}
+		});
+		menuB.add(menuItem);
 	}
 	
 	private void initE() {

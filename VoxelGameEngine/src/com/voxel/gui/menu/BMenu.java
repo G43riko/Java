@@ -1,4 +1,4 @@
-package com.voxel.gui;
+package com.voxel.gui.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

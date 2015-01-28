@@ -44,6 +44,7 @@ public class Window {
 		        Keyboard.create();
 				Mouse.create();
 			} catch (LWJGLException e) {e.printStackTrace(); }
+//			gui.ini
 			return gui;
 		}
 	}

@@ -7,12 +7,14 @@ import com.voxel.rendering.RenderingEngine;
 import com.voxel.rendering.shader.Shader;
 
 public class GameObject {
-	private ArrayList<GameObject> children;
+	public ArrayList<GameObject> children;
 	private ArrayList<GameComponent> components;
 	private Transform transform;
 	private CoreEngine engine;
+	private String name;
 	
-	public GameObject(){
+	public GameObject(String name){
+		this.name = name+" "+toString().split("@")[1];
 		children = new ArrayList<GameObject>();
 		components = new ArrayList<GameComponent>();
 		transform = new Transform();
@@ -96,6 +98,10 @@ public class GameObject {
 
 	public Transform getTransform() {
 		return transform;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

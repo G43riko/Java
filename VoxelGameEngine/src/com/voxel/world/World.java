@@ -1,6 +1,7 @@
 package com.voxel.world;
 
 import glib.util.GLog;
+import glib.util.noise.PerlinNoise;
 import glib.util.noise.SimplexNoise;
 import glib.util.vector.GVector3f;
 
@@ -9,11 +10,13 @@ import com.voxel.core.GameObject;
 public class World extends GameObject{
 	private final static int NUM_X = 3;
 	private final static int NUM_Y = 3;
-	public static float[][][] data = SimplexNoise.generateOctavedSimplexNoise(Chunk.NUM_X *NUM_X , Chunk.NUM_Y, Chunk.NUM_Z*NUM_Y,  6, 0.8f, 0.008f);
+	public static float[][][] data3d = SimplexNoise.generateOctavedSimplexNoise(Chunk.NUM_X *NUM_X , Chunk.NUM_Y, Chunk.NUM_Z*NUM_Y,  6, 0.8f, 0.008f);
+	public static float[][] data2d = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk.NUM_X *NUM_X, Chunk.NUM_Z*NUM_Y), 6, 0.7f, true);
 	
 	private Chunk[][] map;
 	
 	public World(){
+		super("World");
 		init();
 	}
 	

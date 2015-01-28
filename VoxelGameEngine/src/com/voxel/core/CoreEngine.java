@@ -23,7 +23,6 @@ public class CoreEngine {
 	}
 	
 	public void createWindow(){
-		//Window.createWindow(MainVoxel2.WIDTH, MainVoxel2.HEIGHT, MainVoxel2.TITLE);
 		if(MainVoxel2.SHOW_GUI)
 			gui = Window.createWindow(game);
 		else
@@ -48,10 +47,12 @@ public class CoreEngine {
 		double frameCounter = 0;
 
 		game.init();
-
+		if(MainVoxel2.SHOW_GUI)
+			gui.getRmenu().init(game.getRootObject());
+		
 		double lastTime = Time.GetTime();
 		double unprocessedTime = 0;
-		
+		gui.updateUI();
 		while(isRunning){
 			boolean render = false;
 
@@ -79,8 +80,10 @@ public class CoreEngine {
 				}
 			}
 			if(render){
-				game.render(renderingEngine);
+
 				Window.render();
+				game.render(renderingEngine);
+				
 				frames++;
 			}
 			else{

@@ -17,6 +17,7 @@ public class Chunk extends GameObject{
 	private Chunk[] neighboards;
 	
 	public Chunk(int x, int y){
+		super("Chunk ");
 		init(x,y);
 		this.x = x;
 		this.y = y;
@@ -106,7 +107,7 @@ public class Chunk extends GameObject{
 	}
 	
 	private int getVal(int x, int y, int z){
-		float val = World.data[x][y][z];
+		float val = World.data3d[x][y][z];
 		val = (float)Math.max(0,Math.min(1, val));
 		val *= (Block.MAX_NUM_TYPES-1);
 		return (int)val;
@@ -114,15 +115,15 @@ public class Chunk extends GameObject{
 	
 	public void create(int x, int y){
 		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
+			for(int k=0 ; k<NUM_Z ; k++){
+				boolean addNull = false;
+				for(int j=0 ; j<NUM_Y ; j++){
 					int surX = x*NUM_X+i;
 					int surY = j;
 					int surZ = y*NUM_Z+k;
 					
 					int val = getVal(surX, surY, surZ);
-					
-					if(j>NUM_Y/8)
+					if(World.data2d[i][k]<(float)j/NUM_Y*2)
 						val = 0;
 					if(val!=0)
 						numOfBlock++;

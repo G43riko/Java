@@ -27,6 +27,10 @@ public abstract class BasicBlock extends GameObject{
 	protected int type;
 	protected int x, y, z;
 	
+	public BasicBlock(){
+		super("Block");
+	}
+	
 	protected void addWalls(){
 		begin = true;
 		

@@ -1,14 +1,8 @@
 package com.voxel.rendering.material;
 
-import java.util.HashMap;
-
-import com.voxel.rendering.MappedValues;
-
 public class Material{
 
 	private Texture texture;
-	private Texture normal;
-	private Texture bumb;
 	private float specularIntensity;
 	private float specularPower;
 	

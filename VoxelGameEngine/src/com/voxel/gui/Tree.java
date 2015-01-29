@@ -47,13 +47,12 @@ public class Tree extends JPanel{
 
 	public JScrollPane createScrollPane(int width,int offset, JTree tree){
 		scroll = new JScrollPane(tree);
-		scroll.setPreferredSize(new Dimension(width-offset*2,200));
+		scroll.setPreferredSize(new Dimension(width-offset*2,400));
 		scroll.setLocation(offset, 0);
 		scroll.setBackground(GColor.CYAN);
 		scroll.setLayout(new ScrollPaneLayout());
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
 		return scroll;
 	}
 }

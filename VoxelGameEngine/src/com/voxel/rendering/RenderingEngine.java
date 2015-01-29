@@ -11,7 +11,6 @@ import java.util.HashMap;
 import org.lwjgl.opengl.Display;
 
 import com.voxel.component.light.BaseLight;
-import com.voxel.component.light.PointLight;
 import com.voxel.component.viewAndMovement.Camera;
 import com.voxel.core.GameObject;
 import com.voxel.rendering.shader.Shader;

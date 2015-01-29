@@ -2,7 +2,6 @@ package com.voxel.rendering.shader;
 
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
-import glib.util.GLog;
 import glib.util.vector.GMatrix4f;
 
 import java.util.ArrayList;

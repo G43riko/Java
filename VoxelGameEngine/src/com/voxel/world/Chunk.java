@@ -1,7 +1,7 @@
 package com.voxel.world;
+
 import org.json.JSONObject;
 
-import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
 import com.voxel.core.GameObject;
@@ -118,7 +118,6 @@ public class Chunk extends GameObject{
 	public void create(int x, int y){
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int k=0 ; k<NUM_Z ; k++){
-				boolean addNull = false;
 				for(int j=0 ; j<NUM_Y ; j++){
 					int surX = x*NUM_X+i;
 					int surY = j;
@@ -129,7 +128,7 @@ public class Chunk extends GameObject{
 						val = 0;
 					if(val!=0)
 						numOfBlock++;
-					Block b = new Block(x*NUM_X+i,j,y*NUM_Z+k,val);
+					Block b = new Block(x*NUM_X+i,j,y*NUM_Z+k,BlockInfo.BLOCKS[val]);
 					
 					b.getTransform().setPosition(new GVector3f(surX*2, surY*2, surZ*2));
 					

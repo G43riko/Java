@@ -1,5 +1,7 @@
 package com.voxel.world;
 
+import glib.util.vector.GVector3f;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +11,9 @@ import java.io.PrintStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.voxel.rendering.material.Material;
+import com.voxel.rendering.material.Texture;
 
 public interface BlockInfo {
 	public final static int WIDTH = 1;
@@ -22,40 +27,33 @@ public interface BlockInfo {
 	public final static int WATER = 4;
 	
 	public static JSONObject DATA = loadData();
+	public final static BlockType[] BLOCKS = new BlockType[]{new BlockType(0,null,null,null,false),
+															 makeBlockType(1,"Grass"),
+															 makeBlockType(2,"Dirt"),
+															 makeBlockType(3,"Rock"),
+															 makeBlockType(4,"Water")};
 	
-	public static String getName(int type){
-		switch(type){
-			case 1:
-				return "Grass";
-			case 2:
-				return "Dirt";
-			case 3:
-				return "Rock";
-			case 4:
-				return "Water";
-			default:
-				return null;
-		}
-	};
-	
-//	public static void saveData(){
-//		String basePath = (new File(".")).getAbsolutePath();
-//		File fileToSave = new File(basePath+basePath.substring(0, basePath.length()-1));
-//		try {
-//			PrintStream file = new PrintStream(fileToSave);
-//			file.println(DATA.toString());
-//			file.close();
-//		} catch (FileNotFoundException e1) {e1.printStackTrace(); }
-//	}
+	public static void saveData(){
+		String basePath = (new File(".")).getAbsolutePath();
+		File fileToSave = new File(basePath+basePath.substring(0, basePath.length()-1));
+		try {
+			PrintStream file = new PrintStream(fileToSave);
+			file.println(DATA.toString());
+			file.close();
+		} catch (FileNotFoundException e1) {e1.printStackTrace(); }
+	}
 	
 	public static JSONObject loadData(){
 		String basePath = (new File(".")).getAbsolutePath();
-		File fileToSave = new File(basePath.substring(0, basePath.length()-1)+"/res/datas/blockInfo.txt");
-		System.out.println(basePath.substring(0, basePath.length()-1)+"/res/datas/blockInfo.txt");
+		File fileToSave = new File(basePath.substring(0, basePath.length()-1)+"res\\datas\\blockInfos.txt");
 		try {
-			return new JSONObject(new BufferedReader(new FileReader(fileToSave)).readLine());
+			FileReader reader = new FileReader(fileToSave);
+			JSONObject result = new JSONObject(new BufferedReader(reader).readLine());
+			reader.close();
+			return result;
 		} catch (JSONException e) {e.printStackTrace();
 		} catch (IOException e) {e.printStackTrace();}
+		System.out.println(basePath.substring(0, basePath.length()-1)+"res\\datas\\blockInfo.txt");
 		return null;
 	}
 	
@@ -65,6 +63,13 @@ public interface BlockInfo {
 	
 	public static JSONObject getBlockInfo(int type){
 		return DATA.getJSONObject(String.valueOf(type));
+	}
+	
+	public static BlockType makeBlockType(int id, String name){
+		JSONObject things =  DATA.getJSONObject(String.valueOf(1));
+		GVector3f color = new GVector3f(things.getDouble("colorX"),things.getDouble("colorY"),things.getDouble("colorZ"));
+		Material material = new Material("diffuse", new Texture(name.toLowerCase()+".jpg"));
+		return new BlockType(1,name,color, material,things.getInt("transparent")==1);
 	}
 	
 //	public static JSONObject loadAllBlockData(){

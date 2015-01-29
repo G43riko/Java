@@ -17,7 +17,6 @@ import javax.swing.event.ChangeListener;
 
 import org.json.JSONObject;
 
-import com.g43riko.voxel.Data;
 import com.voxel.core.Window;
 import com.voxel.gui.component.GFloatEditor;
 import com.voxel.gui.component.TextureViewer;
@@ -55,7 +54,6 @@ public class MaterialEditor extends JDialog{
         }
 	};
 	
-	
 	public MaterialEditor(){
 		initFrame();
 		init();
@@ -88,7 +86,7 @@ public class MaterialEditor extends JDialog{
 		c.gridy = 2;
 		c.gridwidth = 3;
 		c.gridheight = 3;
-		textureViewer = new TextureViewer(BlockInfo.getName(selected+1).toLowerCase()+".jpg",256,256);
+		textureViewer = new TextureViewer(BlockInfo.BLOCKS[selected+1].getName().toLowerCase()+".jpg",256,256);
 		getContentPane().add(textureViewer, c);
 		
 		

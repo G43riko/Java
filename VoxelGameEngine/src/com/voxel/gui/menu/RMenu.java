@@ -24,8 +24,6 @@ public class RMenu extends JPanel{
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(200,200));
 		setBorder(BorderFactory.createLineBorder(Color.black,1,true));
-		
-//		init();
 	}
 
 	public void init(GameObject root){
@@ -35,7 +33,6 @@ public class RMenu extends JPanel{
 		tree = new Tree((int)getPreferredSize().getWidth(),root);
 		add(tree);
 		
-		updateUI();
 	}
 	
 	public GColor getBgColor() {

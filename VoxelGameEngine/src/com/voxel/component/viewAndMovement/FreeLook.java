@@ -63,7 +63,6 @@ package com.voxel.component.viewAndMovement;
 
 import org.lwjgl.opengl.Display;
 
-import glib.util.GLog;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 

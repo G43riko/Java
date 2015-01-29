@@ -1,22 +1,15 @@
 package com.voxel.world;
 
+import org.json.JSONObject;
+
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
-public class Block extends BasicBlock{
-	public static int WIDTH = 1;
-	public static int HEIGHT = 1;
-	public static int DEPTH = 1;
-	
+public class Block extends BasicBlock implements BlockInfo{
 	private int sizeX;
 	private int sizeY;
 	private int sizeZ;	
-	
-	public static int VOID = 0;
-	public static int GRASS = 1;
-	public static int DIRT = 2;
-	public static int ROCK = 3;
-	public static int WATER = 4;
+	private GVector3f color;
 	
 	public static int MAX_NUM_TYPES = 5;
 	
@@ -47,6 +40,25 @@ public class Block extends BasicBlock{
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	
+	public JSONObject toJSON(){
+		JSONObject obj = new JSONObject();
+		obj.put("sizeX", sizeX);
+		obj.put("sizeY", sizeY);
+		obj.put("sizeZ", sizeZ);
+		
+		obj.put("type", type);
+		
+		obj.put("x", x);
+		obj.put("y", y);
+		obj.put("z", z);
+		
+		obj.put("mapR", color.getX());
+		obj.put("mapG", color.getY());
+		obj.put("mapB", color.getZ());
+		obj.put("transparent", transparent);
+		return obj;
 	}
 	
 	public void addNeighboard(int dir, Block neighboard){

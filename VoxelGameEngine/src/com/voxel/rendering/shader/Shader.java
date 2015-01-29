@@ -53,7 +53,8 @@ public class Shader extends BasicShader{
 			String uniformType = resource.getUniformTypes().get(i);
 			if(uniformType.equals("sampler2D")){
 				int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
-				material.getTexture(uniformName).bind(samplerSlot);
+				if(uniformName.equals("diffuse"))
+					material.getTexture().bind(samplerSlot);
 				setUniformi(uniformName,samplerSlot);
 			}
 			else if(uniformName.startsWith("T_")){
@@ -93,10 +94,14 @@ public class Shader extends BasicShader{
 			}
 			else{
 				if (uniformType.equals("float")){
-					setUniformf(uniformName, material.getFloat(uniformName));
+					if(uniformName.equals("specularIntensity"))
+						setUniformf(uniformName, material.getSpecularIntensity());
+					if(uniformName.equals("specularPower"))
+						setUniformf(uniformName, material.getSpecularPower());
+					
 				}
 				else if (uniformType.equals("vec3")){
-					setUniform(uniformName, material.getGVector3f(uniformName));
+					System.out.println("chýba: "+uniformName);
 				}
 				else
 					System.out.println(uniformType+" je neplatný typ uniformu pre material");

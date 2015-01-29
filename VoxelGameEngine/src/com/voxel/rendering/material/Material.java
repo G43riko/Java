@@ -4,44 +4,49 @@ import java.util.HashMap;
 
 import com.voxel.rendering.MappedValues;
 
-public class Material extends MappedValues{
+public class Material{
 
-	private HashMap<String, Texture> textureHashMap;
-
+	private Texture texture;
+	private Texture normal;
+	private Texture bumb;
+	private float specularIntensity;
+	private float specularPower;
+	
 	public Material(){
-		super();
-		textureHashMap = new HashMap<String,Texture>();
-		addFloat("specularIntensity", 1);
-		addFloat("specularPower", 8);
+		this("diffuse", new Texture("unknown.jpg"),1,8);
 	}
 	
 	public Material(String name,Texture texture){
-		textureHashMap = new HashMap<String,Texture>();
-		textureHashMap.put(name, texture);
-		addFloat("specularIntensity", 1);
-		addFloat("specularPower", 8);
+		this(name,texture,8,1);
 	}
 	
-	public void addTexture(String name,Texture texture){
-		textureHashMap.put(name, texture);
-	}
-	
-	public Texture getTexture(String name){
-		Texture result = textureHashMap.get(name);
-		if(result != null)
-			return result;
-		return new Texture("unknown.jpg");
-	}
-	
-	public void addNormal(String name,Texture texture){
-		textureHashMap.put(name, texture);
-	}
-	
-	public Texture getNormal(String name){
-		Texture result = textureHashMap.get(name);
-		if(result != null)
-			return result;
-		return new Texture("unknown.jpg");
+	public Material(String name, Texture texture, float specularIntensity,float specularPower){
+		this.texture = texture;
+		this.specularIntensity = specularIntensity;
+		this.specularPower = specularPower;
 	}
 
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+
+	public float getSpecularIntensity() {
+		return specularIntensity;
+	}
+
+	public void setSpecularIntensity(float specularIntensity) {
+		this.specularIntensity = specularIntensity;
+	}
+
+	public float getSpecularPower() {
+		return specularPower;
+	}
+
+	public void setSpecularPower(float specularPower) {
+		this.specularPower = specularPower;
+	}
 }

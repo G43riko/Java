@@ -48,7 +48,7 @@ public class VoxelGame extends Game{
 		GameObject pointLightObject = new GameObject("Point Light").addComponent(new PointLight(new GVector3f(0,0,1),5f,new GVector3f(0.0f, 0.0f, 1.0f)));
 		addObject(pointLightObject);
 		
-		GameObject directionalLightObject = new GameObject("Dir. Light").addComponent(new DirectionalLight(new GVector3f(0.1f,0f,1f),0.4f,new GVector3f(1,20,1)));
+		GameObject directionalLightObject = new GameObject("Dir. Light").addComponent(new DirectionalLight(new GVector3f(0.1f,0.1f,0.1f),0.4f,new GVector3f(1,20,1)));
 		addObject(directionalLightObject);
 		
 		//addObject(new Block(2,5,2,1));

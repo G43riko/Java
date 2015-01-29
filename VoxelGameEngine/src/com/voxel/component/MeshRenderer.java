@@ -19,4 +19,12 @@ public class MeshRenderer extends GameComponent{
 		shader.updateUniforms(getTransform(),material,renderingEngine);
 		mesh.draw();
 	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
 }

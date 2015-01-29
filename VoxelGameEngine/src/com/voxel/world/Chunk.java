@@ -1,4 +1,6 @@
 package com.voxel.world;
+import org.json.JSONObject;
+
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
@@ -142,6 +144,16 @@ public class Chunk extends GameObject{
 		neighboards[dir] = neighboard;
 	}
 
+	public JSONObject toJSON(){
+		JSONObject obj = new JSONObject();
+		
+		obj.put("x", x);
+		obj.put("y", y);
+//		obj.put("blocks", blocks);
+		
+		return obj;
+	}
+	
 	public int getNumOfBlock() {
 		return numOfBlock;
 	}

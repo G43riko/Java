@@ -75,22 +75,23 @@ public class RenderingEngine extends MappedValues{
 	}
 	
 	public void render(GameObject object) {
+//		init3D();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		object.renderAll(forwardAmbient,this);
 		
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE,GL_ONE);
-		glDepthMask(false);
-		glDepthFunc(GL_EQUAL);
-		
-		for(BaseLight light:lights){
-			activeLight = light;
-			object.renderAll(light.getShader(),this);
-		}
-		
-		glDepthFunc(GL_LESS);
-		glDepthMask(true);
-		glDisable(GL_BLEND);
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_ONE,GL_ONE);
+//		glDepthMask(false);
+//		glDepthFunc(GL_EQUAL);
+//		
+//		for(BaseLight light:lights){
+//			activeLight = light;
+//			object.renderAll(light.getShader(),this);
+//		}
+//		
+//		glDepthFunc(GL_LESS);
+//		glDepthMask(true);
+//		glDisable(GL_BLEND);
 	}
 
 	public void addCamera(Camera camera) {

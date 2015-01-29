@@ -1,6 +1,5 @@
 package com.voxel.world;
 
-import glib.util.GLog;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
@@ -18,17 +17,21 @@ import com.voxel.rendering.shader.Shader;
 
 public abstract class BasicBlock extends GameObject{
 	private MeshRenderer to, bo, le, ri, ba, fo;
+	private int repX;
+	private int repY;
 	private static Material[] materials = new Material[]{null, new Material("diffuse", new Texture("grass.jpg")),
 															   new Material("diffuse", new Texture("dirt.jpg")),
 															   new Material("diffuse", new Texture("rock.jpg")),
 															   new Material("diffuse", new Texture("water.jpg"))};
 	private boolean topB, bottomB, leftB, rightB, backB, forwardB,begin;
+	protected boolean transparent;
 	protected static Block[] neighboards;
 	protected int type;
 	protected int x, y, z;
 	
 	public BasicBlock(){
 		super("Block");
+		repX = repY = 1;
 	}
 	
 	protected void addWalls(){
@@ -71,6 +74,10 @@ public abstract class BasicBlock extends GameObject{
 			bo.render(shader, renderingEngine);
 		}
 		if(leftB && le!=null){
+//			le.getMaterial().setSpecularIntensity((float)BlockInfo.getBlockInfo(type).getDouble("specular"));
+//			le.getMaterial().setSpecularPower((float)BlockInfo.getBlockInfo(type).getDouble("exponent"));
+//			
+//			System.out.println(le.getMaterial().getSpecularIntensity());
 			RenderingEngine.numOfRenderedBoxSides++;
 			le.render(shader, renderingEngine);
 		}
@@ -91,9 +98,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addTop(){
 		topB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(-Block.WIDTH ,Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH ,Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH, 0.0f)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,Block.HEIGHT , Block.DEPTH), new GVector2f(Block.WIDTH,Block.DEPTH))};
+									 	 new Vertex(new GVector3f(-Block.WIDTH ,Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH*repY)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH*repX, 0.0f)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,Block.HEIGHT , Block.DEPTH), new GVector2f(Block.WIDTH*repX,Block.DEPTH*repY))};
 		int[] indices = new int[]{0,1,2,
 								  2,1,3};
 		return new Mesh(vertices, indices, true);
@@ -102,9 +109,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addBottom(){
 		bottomB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH, 0.0f)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(Block.WIDTH,Block.DEPTH))};
+									 	 new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH*repY)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH*repX, 0.0f)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(Block.WIDTH*repX,Block.DEPTH*repY))};
 		int[] indices = new int[]{2,1,0,
 				  				  3,1,2};
 		return new Mesh(vertices, indices, true);
@@ -113,9 +120,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addForward(){
 		forwardB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, Block.HEIGHT)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH, 0.0f)),
-									 	 new Vertex(new GVector3f( Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH,Block.HEIGHT))};
+									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, Block.HEIGHT*repY)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH*repX, 0.0f)),
+									 	 new Vertex(new GVector3f( Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.WIDTH*repX,Block.HEIGHT*repY))};
 		int[] indices = new int[]{0,1,2,
 				  				  2,1,3};
 		return new Mesh(vertices, indices, true);
@@ -124,9 +131,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addBack(){
 		backB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT ,Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,Block.DEPTH), new GVector2f(0.0f, Block.HEIGHT)),
-									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,Block.DEPTH), new GVector2f(Block.WIDTH, 0.0f)),
-									 	 new Vertex(new GVector3f( Block.WIDTH , Block.HEIGHT ,Block.DEPTH), new GVector2f(Block.WIDTH,Block.HEIGHT))};
+									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,Block.DEPTH), new GVector2f(0.0f, Block.HEIGHT*repY)),
+									 	 new Vertex(new GVector3f( Block.WIDTH ,-Block.HEIGHT ,Block.DEPTH), new GVector2f(Block.WIDTH*repX, 0.0f)),
+									 	 new Vertex(new GVector3f( Block.WIDTH , Block.HEIGHT ,Block.DEPTH), new GVector2f(Block.WIDTH*repX,Block.HEIGHT*repY))};
 		int[] indices = new int[]{2,1,0,
 				  				  3,1,2};
 		return new Mesh(vertices, indices, true);
@@ -135,9 +142,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addRight(){
 		rightB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH)),
-									 	 new Vertex(new GVector3f(Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.HEIGHT, 0.0f)),
-									 	 new Vertex(new GVector3f(Block.WIDTH , Block.HEIGHT , Block.DEPTH), new GVector2f(Block.HEIGHT,Block.DEPTH))};
+									 	 new Vertex(new GVector3f(Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH*repY)),
+									 	 new Vertex(new GVector3f(Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.HEIGHT*repX, 0.0f)),
+									 	 new Vertex(new GVector3f(Block.WIDTH , Block.HEIGHT , Block.DEPTH), new GVector2f(Block.HEIGHT*repX,Block.DEPTH*repY))};
 		int[] indices = new int[]{2,1,0,
 				  				  3,1,2};
 		return new Mesh(vertices, indices, true);
@@ -146,9 +153,9 @@ public abstract class BasicBlock extends GameObject{
 	public Mesh addLeft(){
 		leftB = begin;
 		Vertex[] vertices = new Vertex[]{new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT ,-Block.DEPTH), new GVector2f(0.0f, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.HEIGHT, 0.0f)),
-									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT , Block.DEPTH), new GVector2f(Block.HEIGHT,Block.DEPTH))};
+									 	 new Vertex(new GVector3f(-Block.WIDTH ,-Block.HEIGHT , Block.DEPTH), new GVector2f(0.0f, Block.DEPTH*repY)),
+									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT ,-Block.DEPTH), new GVector2f(Block.HEIGHT*repX, 0.0f)),
+									 	 new Vertex(new GVector3f(-Block.WIDTH , Block.HEIGHT , Block.DEPTH), new GVector2f(Block.HEIGHT*repX,Block.DEPTH*repY))};
 		int[] indices = new int[]{0,1,2,
 				  				  2,1,3};
 		return new Mesh(vertices, indices, true);

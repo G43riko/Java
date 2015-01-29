@@ -22,8 +22,9 @@ public class Player {
 		this.attack=1;
 		this.lastFire=System.currentTimeMillis();
 		this.isShooting=false;
-		this.image=new ImageIcon("c:\\Player.png").getImage();
-		this.image=new ImageIcon(ClassLoader.getSystemResource("\\Images\\Player.png")).getImage();
+//		this.image=new ImageIcon("c:\\Player.png").getImage();
+		this.image=new ImageIcon(getClass().getResource("/images/Player.png")).getImage();
+		
 		this.isFlashing=0;
 	};
 	

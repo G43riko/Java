@@ -14,10 +14,12 @@ public class TextureViewer extends JPanel{
 	private int width;
 	private int height;
 	private BufferedImage image;
+	private String fileName;
 	
 	public TextureViewer(String fileName,int width, int height){
 		this.width = width;
 		this.height = height;
+		this.fileName = fileName;
 		try {                
 			image = ImageIO.read(new File("res/textures/"+fileName));
 		} catch (IOException e) { e.printStackTrace(); }
@@ -27,6 +29,9 @@ public class TextureViewer extends JPanel{
 	protected void paintComponent(Graphics g) {
 		 super.paintComponent(g);
 		 g.drawImage(image, 0, 0, width,height,null);
-//		 g.drawImage(image, 0, 0, null);
+	}
+	
+	public String toString(){
+		return fileName+" ["+width+"x"+height+"]";
 	}
 }

@@ -5,6 +5,8 @@ import glib.util.noise.PerlinNoise;
 import glib.util.noise.SimplexNoise;
 import glib.util.vector.GVector3f;
 
+import org.json.*;
+
 import com.voxel.core.GameObject;
 
 public class World extends GameObject{
@@ -18,6 +20,7 @@ public class World extends GameObject{
 	public World(){
 		super("World");
 		init();
+		save("wuaaa");
 	}
 	
 	public void init(){
@@ -70,5 +73,11 @@ public class World extends GameObject{
 			}
 		}
 		GLog.write("vytvorilo sa "+sum+" kociek", "mapa");
+	}
+	
+	private void save(String name){
+		JSONObject obj = new JSONObject();		
+
+		System.out.print(obj+"\n");
 	}
 }

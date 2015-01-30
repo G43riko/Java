@@ -1,10 +1,13 @@
 package com.voxel.rendering.material;
 
+import glib.util.vector.GVector3f;
+
 public class Material{
 
 	private Texture texture;
 	private float specularIntensity;
 	private float specularPower;
+	private GVector3f color;
 	
 	public Material(){
 		this("diffuse", new Texture("unknown.jpg"),1,8);
@@ -42,5 +45,13 @@ public class Material{
 
 	public void setSpecularPower(float specularPower) {
 		this.specularPower = specularPower;
+	}
+
+	public GVector3f getColor() {
+		return color;
+	}
+
+	public void setColor(GVector3f color) {
+		this.color = color;
 	}
 }

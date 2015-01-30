@@ -57,7 +57,7 @@ public class SimplexNoise {
 		float[][] totalNoise = new float[width][height];
 		float layerFrequency = scale;
 		float layerWeight = 1;
-		float weightSum = 0;
+//		float weightSum = 0;
 	
 		for (int octave = 0; octave < octaves; octave++) {
 			for(int x = 0; x < width; x++){
@@ -66,7 +66,7 @@ public class SimplexNoise {
 				}
 			}
 			layerFrequency *= 2;
-			weightSum += layerWeight;
+//			weightSum += layerWeight;
 			layerWeight *= roughness;	       
 		}
 		return totalNoise;
@@ -76,7 +76,7 @@ public class SimplexNoise {
 		float[][][] totalNoise = new float[width][height][depth];
 		float layerFrequency = scale;
 		float layerWeight = 1;
-		float weightSum = 0;
+//		float weightSum = 0;
 	
 		for (int octave = 0; octave < octaves; octave++) {
 			for(int x = 0; x < width; x++){
@@ -87,7 +87,7 @@ public class SimplexNoise {
 				}
 			}
 			layerFrequency *= 2;
-			weightSum += layerWeight;
+//			weightSum += layerWeight;
 			layerWeight *= roughness;	       
 		}
 		return totalNoise;

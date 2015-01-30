@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.voxel.main.MainVoxel2;
 import com.voxel.rendering.material.Material;
 import com.voxel.rendering.material.Texture;
 
@@ -66,9 +67,11 @@ public interface BlockInfo {
 	}
 	
 	public static BlockType makeBlockType(int id, String name){
-		JSONObject things =  DATA.getJSONObject(String.valueOf(1));
+		JSONObject things =  DATA.getJSONObject(String.valueOf(id));
 		GVector3f color = new GVector3f(things.getDouble("colorX"),things.getDouble("colorY"),things.getDouble("colorZ"));
-		Material material = new Material("diffuse", new Texture(name.toLowerCase()+".jpg"));
+		Material material = new Material("diffuse", new Texture(name.toLowerCase()+"_"+MainVoxel2.RESOLUTION+".jpg"));
+		System.out.println(color);
+		material.setColor(color);
 		return new BlockType(1,name,color, material,things.getInt("transparent")==1);
 	}
 	

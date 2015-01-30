@@ -1,4 +1,4 @@
-package com.voxel.gui.component;
+package glib.swing;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;

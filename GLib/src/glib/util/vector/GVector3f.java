@@ -140,7 +140,7 @@ public class GVector3f {
 		return "(" + x + " " + y + " " + z + ")";
 	}
 	
-	 public static boolean intersectRayWithSquare(GVector3f R1, GVector3f R2, GVector3f S1, GVector3f S2, GVector3f S3) {
+	public static boolean intersectRayWithSquare(GVector3f R1, GVector3f R2, GVector3f S1, GVector3f S2, GVector3f S3) {
 		 GVector3f dS21 = S2.sub(S1);
 		 GVector3f dS31 = S3.sub(S1);
 		 GVector3f n = dS21.cross(dS31);
@@ -197,6 +197,9 @@ public class GVector3f {
 	public float getX() {return x;}
 	public float getY() {return y;}
 	public float getZ() {return z;}
+	public int getXi() {return (int)x;}
+	public int getYi() {return (int)y;}
+	public int getZi() {return (int)z;}
 	
 	public void setX(float x) {this.x = x;}
 	public void setY(float y) {this.y = y;}

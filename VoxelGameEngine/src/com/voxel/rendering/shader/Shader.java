@@ -41,12 +41,12 @@ public class Shader extends BasicShader{
 			addAllUniforms(vertexShaderText);
 			addAllUniforms(fragmentShaderText);
 		}
+
 	}
 	
 	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine){
 		GMatrix4f worldMatrix = transform.getTransformation();
 		GMatrix4f MVPMatrix = renderingEngine.getMainCamera().getViewProjection().mul(worldMatrix);
-		
 		for(int i=0 ; i<resource.getUniformNames().size() ; i++){
 			String uniformName = resource.getUniformNames().get(i);
 			String uniformType = resource.getUniformTypes().get(i);
@@ -70,7 +70,11 @@ public class Shader extends BasicShader{
 						setUniformf(uniformName, renderingEngine.getFloat(unprefixedUniformName));
 				}
 				else if (uniformType.equals("vec3")){
-					setUniform(uniformName, renderingEngine.getGVector3f(unprefixedUniformName));
+					if(unprefixedUniformName.equals("color")){
+						setUniform(uniformName,material.getColor());
+					}
+					else
+						setUniform(uniformName, renderingEngine.getGVector3f(unprefixedUniformName));
 				}
 				else if(uniformType.equals("DirectionalLight")){
 					setUniformDirectionalLight(uniformName, (DirectionalLight)renderingEngine.getActiveLight());
@@ -90,6 +94,9 @@ public class Shader extends BasicShader{
 				}
 				else
 					System.out.println(uniformName+" je neplatný uniform pre kameru");
+			}
+			else if(uniformName.startsWith("O_")){
+				setUniformb(uniformName,true);
 			}
 			else{
 				if (uniformType.equals("float")){

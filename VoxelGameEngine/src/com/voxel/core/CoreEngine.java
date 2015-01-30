@@ -75,6 +75,7 @@ public class CoreEngine {
 				
 				if(frameCounter >= 1.0){
 					GLog.write("FPS: "+frames,"mainLoop");
+//					game.setTitle(MainVoxel2.TITLE+" "+frames);
 					frames = 0;
 					frameCounter = 0;
 				}

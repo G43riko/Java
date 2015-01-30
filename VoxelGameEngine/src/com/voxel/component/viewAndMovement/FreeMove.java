@@ -13,6 +13,7 @@ public class FreeMove extends GameComponent{
 	private int RightKey;
 	private int upKey;
 	private int downKey;
+	private boolean vertical;
 	
 	public FreeMove(float speed){
 		this(speed,Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D);
@@ -29,6 +30,7 @@ public class FreeMove extends GameComponent{
 		this.RightKey = RightKey;
 		this.upKey = upKey;
 		this.downKey = downKey;
+		this.vertical = false;
 	}
 	
 	public void move(GVector3f dir, float amt){
@@ -40,10 +42,16 @@ public class FreeMove extends GameComponent{
 		float movAmt = (float)(speed * delta);
 		
 		if(Input.getKey(forwardKey)){
-			move(getTransform().getRotation().getForward(),movAmt);
+			if(vertical)
+				move(getTransform().getRotation().getForward(),movAmt);
+			else
+				move(getTransform().getRotation().getRight().cross(new GVector3f(0,1,0)),movAmt);
 		}
 		if(Input.getKey(backKey)){
-			move(getTransform().getRotation().getForward(),-movAmt);
+			if(vertical)
+				move(getTransform().getRotation().getForward(),-movAmt);
+			else
+				move(getTransform().getRotation().getLeft().cross(new GVector3f(0,1,0)),movAmt);
 		}
 		if(Input.getKey(leftKey)){
 			move(getTransform().getRotation().getLeft(),movAmt);

@@ -1,5 +1,9 @@
 package com.voxel.gui.window;
 
+import glib.swing.GFloatEditor;
+import glib.swing.GVector3Editor;
+import glib.swing.TextureViewer;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -18,14 +22,13 @@ import javax.swing.event.ChangeListener;
 import org.json.JSONObject;
 
 import com.voxel.core.Window;
-import com.voxel.gui.component.GFloatEditor;
-import com.voxel.gui.component.TextureViewer;
-import com.voxel.gui.component.GVector3Editor;
+import com.voxel.main.MainVoxel2;
 import com.voxel.world.BlockInfo;
 
 
 public class MaterialEditor extends JDialog{
 	private static final long serialVersionUID = 1L;
+	
 	private JComboBox<String> selectedBlock;
 	private GVector3Editor mapColor;
 	private TextureViewer textureViewer;
@@ -35,11 +38,11 @@ public class MaterialEditor extends JDialog{
 	private GFloatEditor exponent;
 	private GFloatEditor repX;
 	private GFloatEditor repY;
-	private int selected = 2;
+	private int selected = 0;
 	
 	private ChangeListener changer = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
-        	System.out.println("teraz sa nieèo zmenilo");
+        	System.out.println("teraz sa nieèo zmenilo "+System.currentTimeMillis());
         	JSONObject act = BlockInfo.getBlockInfo(selected+1);
         	act.put("repX", repX.getValue());
     		act.put("repY", repY.getValue());
@@ -63,12 +66,18 @@ public class MaterialEditor extends JDialog{
 		getContentPane().removeAll();
 		GridBagConstraints c;
 		
+		/*
+		 * add Block Selector
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		getContentPane().add(createBlockSelector());
 		
+		/*
+		 * add Color Selector
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -80,16 +89,21 @@ public class MaterialEditor extends JDialog{
 		mapColor.addChangeListener(changer);
 		getContentPane().add(mapColor, c);
 		
+		/*
+		 * add Texture Viewer
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 3;
 		c.gridheight = 3;
-		textureViewer = new TextureViewer(BlockInfo.BLOCKS[selected+1].getName().toLowerCase()+".jpg",256,256);
+		textureViewer = new TextureViewer(BlockInfo.BLOCKS[selected+1].getName().toLowerCase()+"_"+MainVoxel2.RESOLUTION+".jpg",256,256);
 		getContentPane().add(textureViewer, c);
 		
-		
+		/*
+		 * add Transparency Selector;
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -98,6 +112,9 @@ public class MaterialEditor extends JDialog{
 		transparent.addChangeListener(changer);
 		getContentPane().add(transparent, c);
 		
+		/*
+		 * add Repeat Selector
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
@@ -106,6 +123,9 @@ public class MaterialEditor extends JDialog{
 		repeat.addChangeListener(changer);
 		getContentPane().add(repeat, c);
 
+		/*
+		 * add Repeater
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
@@ -113,6 +133,9 @@ public class MaterialEditor extends JDialog{
 		c.gridwidth = 2;
 		getContentPane().add(createRepeater(), c);
 		
+		/*
+		 * add Specular Selector
+		 */
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;

@@ -67,7 +67,7 @@ public abstract class BasicShader {
 		}
 	}
 		
-	protected void addUniform(String uniformName, String uniformType,HashMap<String, ArrayList<GLSLStruct>> structs){
+	protected void addUniform(String uniformName, String uniformType, HashMap<String, ArrayList<GLSLStruct>> structs){
 		boolean addThis = true;
 		ArrayList<GLSLStruct> structComponents = structs.get(uniformType);
 		if(structComponents != null){
@@ -82,10 +82,10 @@ public abstract class BasicShader {
 		}
 		
 		int uniformLocation = glGetUniformLocation(resource.getProgram(), uniformName);
-		if(uniformLocation == 0xFFFFFFFF){
-			System.out.println("Error neviem najst uniform: "+uniformName);
-			System.exit(1);
-		}
+//		if(uniformLocation == 0xFFFFFFFF){
+//			System.out.println("Error neviem najst uniform: "+uniformName);
+//			System.exit(1);
+//		}
 		resource.getUniforms().put(uniformName, uniformLocation);
 	}
 	
@@ -95,6 +95,13 @@ public abstract class BasicShader {
 	
 	public void setUniformi(String uniformName, int value){
 		glUniform1i(resource.getUniforms().get(uniformName), value);
+	}
+	
+	public void setUniformb(String uniformName, boolean value){
+		int res = 0;
+		if(value)
+			res++;
+		glUniform1i(resource.getUniforms().get(uniformName), res);
 	}
 	
 	public void setUniform(String uniformName, GVector3f value){

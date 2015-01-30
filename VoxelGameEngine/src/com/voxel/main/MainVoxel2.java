@@ -11,6 +11,8 @@ public class MainVoxel2 {
 	public final static boolean VSYNC = true;
 	public final static String TITLE = "VoxelGame2";
 	private final static int FPS = 60;
+	public final static int  RESOLUTION = 64;
+	public final static float  GRAVITY = 1.8f;
 	public static int WIDTH = 1280;
 	public static int HEIGHT = 720;
 	

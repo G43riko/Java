@@ -47,7 +47,6 @@ public abstract class BasicBlock extends GameObject{
 		
 		le = new MeshRenderer(addLeft(),block.getMaterial());
 		addComponent(le);
-		
 	}
 	
 	public void render(Shader shader, RenderingEngine renderingEngine){

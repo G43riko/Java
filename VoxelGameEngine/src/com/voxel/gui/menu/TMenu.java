@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.voxel.gui.window.MaterialEditor;
+import com.voxel.gui.window.NewMapEditor;
 import com.voxel.main.MainVoxel2;
 
 public class TMenu extends JMenuBar{
@@ -110,6 +111,7 @@ public class TMenu extends JMenuBar{
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				GLog.write("klikol si na New Map","menu");
+				new NewMapEditor();
 			}
 		});
 		menuA.add(menuItem);

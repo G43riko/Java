@@ -12,6 +12,8 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 public class GCanvasCicle extends JFrame{
+	private static final long serialVersionUID = 1L;
+	
 	private Canvas canvas;
 	private int fps = 60;
 	private boolean isRunning = false;

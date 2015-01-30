@@ -31,8 +31,9 @@ public class VoxelGame extends Game{
 //		Mesh mesh = new Mesh(vertices, indices, true);
 //		Mesh mesh = new Mesh("monkey3.obj");
 		
-		GameObject cam = new GameObject("camera").addComponent(new FreeMove(0.1f)).addComponent(new FreeLook(0.3f)).addComponent(new Camera((float)Math.toRadians(70),(float)Display.getWidth()/(float)Display.getHeight(),0.1f,1000f));
 		
+		GameObject cam = new GameObject("camera").addComponent(new FreeMove(0.1f)).addComponent(new FreeLook(0.3f)).addComponent(new Camera((float)Math.toRadians(70),(float)Display.getWidth()/(float)Display.getHeight(),0.1f,1000f));
+		cam.getTransform().setPosition(new GVector3f(-2,1.8f,-2));
 //		Material material = new Material();
 //		material.addTexture("diffuse", new Texture("dirt.jpg"));
 //		
@@ -40,8 +41,9 @@ public class VoxelGame extends Game{
 //		testMesh.getTransform().setPosition(new GVector3f(5,0,5));
 //		testMesh.getTransform().setRotation(new GQuaternion(new GVector3f(0,1,0),(float)Math.toRadians(-70f)));
 		
-		GameObject pointLightObject = new GameObject("Point Light").addComponent(new PointLight(new GVector3f(0,0,1),5f,new GVector3f(0.0f, 0.0f, 1.0f)));
-		addObject(pointLightObject);
+//		GameObject pointLightObject = new GameObject("Point Light").addComponent(new PointLight(new GVector3f(0.5,0,1.1),5f,new GVector3f(0.0f, 0.0f, 1.0f)));
+//		pointLightObject.getTransform().setPosition(new GVector3f(5,5,5));
+//		addObject(pointLightObject);
 		
 		GameObject directionalLightObject = new GameObject("Dir. Light").addComponent(new DirectionalLight(new GVector3f(0.1f,0.1f,0.1f),0.4f,new GVector3f(1,20,1)));
 		addObject(directionalLightObject);

@@ -7,7 +7,6 @@ public class GColision {
 	 * 2D COLLISIONS 
 	 */
 	
-	
 	public static boolean rectRect(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh){
 		if((bx+bw>ax) && (by+bh>ay) && (bx<ax+aw) && (by<ay+ah))
 			return true;
@@ -22,7 +21,6 @@ public class GColision {
 	};
 	
 	public static boolean circleCircle(GVector2f a, float asize, GVector2f b, float bsize){
-		
 		double dist =a.dist(b);
 		if(dist <=(bsize+bsize))
 			return false;
@@ -52,7 +50,7 @@ public class GColision {
 	};
 	
 	/*
-	 * 2D COLLISIONS 
+	 * 3D COLLISIONS 
 	 */
 	
 }

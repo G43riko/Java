@@ -1,4 +1,4 @@
-package com.voxel.gui.component;
+package glib.swing;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,6 +15,7 @@ public class GFloatEditor extends JPanel{
 	private JSpinner value;
 	private float maxVal;
 	private float minVal;
+	
 	public GFloatEditor(String name,float maxVal,float step,float normal){
 		this.maxVal = maxVal;
 		this.minVal = 0;

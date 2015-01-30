@@ -109,4 +109,8 @@ public class ListO {
 	public void setVypis(boolean vypis) {
 		this.vypis.setShow(vypis);
 	}
+
+	public int getNum() {
+		return num;
+	}
 }

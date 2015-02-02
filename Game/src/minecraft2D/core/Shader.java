@@ -18,7 +18,7 @@ public class Shader extends GBasicShader{
 	}
 
 	protected void getAllUniformsLocations() {
-//		uniforms.put("ambient", super.getUniformLocation("R_ambient"));
+//		uniforms.put("view", super.getUniformLocation("view"));
 	}
 	
 	public void updateUniform(String name, float value) {

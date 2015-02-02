@@ -14,18 +14,33 @@ uniform vec3 color;
 uniform int typeOfView;
 
 void main(void){
-	if(typeOfView==0){
+	if(typeOfView==0 || typeOfView==4 || typeOfView==5 ||typeOfView==6 ){
 		vec3 unitNormal = normalize(surfaceNormal);
 		vec3 unitLightVector = normalize(toLightVector);
 		
 		float nDot1 = dot(unitNormal,unitLightVector);
 		float brightness = max(nDot1,0.2);
+		
 		vec3 diffuse  = brightness * lightColor;
-	
-		out_Color = vec4(diffuse,1.0) * texture(textureSampler, pass_textureCoords);
+		out_Color = vec4(diffuse,1.0);
+		
+		if(typeOfView != 6){
+			out_Color *= texture(textureSampler, pass_textureCoords);
+		}
+		
 		if(changeColor==1){
 			out_Color = vec4(color,1.0);
-		};
+		}
+		
+		if(typeOfView==4){
+			float priemer = (out_Color.x+out_Color.y+out_Color.z)/3;
+			out_Color = vec4(priemer,priemer,priemer,1);
+		}
+		
+		if(typeOfView==5){
+			out_Color = vec4(1-out_Color.xyz,1);
+		}
+		
 	}
 	else if(typeOfView==1||typeOfView==3){
 		out_Color = vec4(distance,distance,distance,1);

@@ -79,7 +79,6 @@ public class Renderer {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());//pripojí textúru
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);//vykreslí model
-//		}
 		
 		//unbind cube	
 		GL20.glDisableVertexAttribArray(0);

@@ -1,6 +1,8 @@
 package com.voxel.rendering.material;
 
+import static org.lwjgl.opengl.GL11.GL_CLAMP;
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_REPEAT;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
 import static org.lwjgl.opengl.GL11.GL_RGBA8;
@@ -14,6 +16,7 @@ import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glTexParameterf;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
@@ -32,11 +35,25 @@ import com.voxel.core.Util;
 import com.voxel.main.MainVoxel2;
 
 public class Texture {
+	public static final int LINEAR = GL_LINEAR;
+    public static final int NEAREST = GL_NEAREST;
+
+    public static final int CLAMP = GL_CLAMP;
+    public static final int CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE;
+    public static final int REPEAT = GL_REPEAT;
+    
 	private static HashMap<String,TextureResource> loadedTextures = new HashMap<String,TextureResource>();
+	
 	private TextureResource resource;
 	private String fileName;
 	
+	private int filtering;
+    private int wrapMode;
+	
 	public Texture(String fileName){
+		filtering = NEAREST;
+		wrapMode = REPEAT;
+		
 		this.fileName = fileName;
 		TextureResource oldResource = loadedTextures.get(fileName);
 		if(oldResource != null){
@@ -76,7 +93,6 @@ public class Texture {
 			ByteBuffer buffer = Util.createByteBuffer(image.getWidth() * image.getHeight() * 4);
 			
 			boolean hasAlpha = image.getColorModel().hasAlpha();
-			 
 			for(int y=0 ; y<image.getHeight() ; y++){
 				for(int x=0 ; x<image.getHeight() ; x++){
 					int pixel = pixels[y*image.getWidth()+x];
@@ -95,11 +111,11 @@ public class Texture {
 			TextureResource resource = new TextureResource();
 			glBindTexture(GL_TEXTURE_2D, resource.getId());
 			
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 			
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
 			
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 			

@@ -10,7 +10,6 @@ import minecraft2D.main.MainMinecraft2D;
 public class GameCore {
 	private boolean running = false;
 	public GameCore(){
-		 
 		try {
 			Display.setTitle(MainMinecraft2D.TITLE);
 			Display.setResizable(true); 
@@ -21,6 +20,7 @@ public class GameCore {
 			
 		} catch (LWJGLException e) {e.printStackTrace();}
 		initDisplay();
+		init2D();
 	}
 	
 	protected void start(){
@@ -41,11 +41,19 @@ public class GameCore {
 		
 	}
 	
+	private void init2D(){
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0,Display.getWidth(),Display.getHeight(),0,1,-1);
+		glMatrixMode(GL_MODELVIEW);
+	}
+	
 	private void initDisplay(){
 		glViewport(0, 0, Display.getWidth(), Display.getHeight());
 		
 		glDisable(GL_DEPTH_TEST);
-			
+		
+		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		

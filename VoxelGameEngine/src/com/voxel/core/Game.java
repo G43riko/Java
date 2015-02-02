@@ -2,6 +2,7 @@ package com.voxel.core;
 
 import javax.swing.JFrame;
 
+import com.voxel.gui.Timing;
 import com.voxel.main.MainVoxel2;
 import com.voxel.rendering.RenderingEngine;
 
@@ -27,7 +28,10 @@ public class Game extends JFrame{
 //		double time = System.currentTimeMillis();
 		RenderingEngine.numOfTriangels = 0;
 		RenderingEngine.numOfRenderedBoxSides = 0;
+		RenderingEngine.renderTime = System.currentTimeMillis();
 		renderingEngine.render(root);
+		RenderingEngine.renderTime = System.currentTimeMillis() - RenderingEngine.renderTime;
+		Timing.update();
 //		System.out.println("vyrenderovalo sa "+RenderingEngine.numOfTriangels+" polygonov");
 //		System.out.println("vyrenderovalo sa "+RenderingEngine.numOfRenderedBoxSides+" strán kociek");
 	}

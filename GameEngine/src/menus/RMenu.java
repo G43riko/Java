@@ -58,7 +58,7 @@ public class RMenu extends JPanel{
 		minimap = new Minimap(this.getPreferredSize().width-8);
 		add(minimap);
 		
-		String[] views = { "Clasic view", "Depth", "Normals", "HeightMap"};
+		String[] views = { "Clasic view", "Depth", "Normals", "HeightMap", "GreyScale", "inverse", "untextured"};
 		typeOfView = new JComboBox(views);
 		typeOfView.setSelectedIndex(0);
 		add(typeOfView);

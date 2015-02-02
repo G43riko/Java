@@ -75,6 +75,7 @@ public class TMenu extends JMenuBar{
 		menuB.add(menuItem);
 	}
 	
+	
 	private void initE() {
 		JMenuItem menuItem = new JMenuItem("Exit", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){

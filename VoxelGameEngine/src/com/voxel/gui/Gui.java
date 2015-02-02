@@ -3,6 +3,10 @@ package com.voxel.gui;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -39,6 +43,7 @@ public class Gui extends JPanel{
 		add(rmenu,BorderLayout.EAST);
 		
 		canvas = new Canvas();
+		canvas.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor"));
 		add(canvas,BorderLayout.CENTER);
 		
 	}

@@ -79,7 +79,6 @@ public class Mesh {
 		return null;
 	}
 	
-	@Override
 	protected void finalize(){
 		if(resource.removeReference()&&!fileName.isEmpty()){
 			loadedModels.remove(fileName);

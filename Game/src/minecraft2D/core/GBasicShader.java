@@ -1,4 +1,4 @@
-package com.voxel.rendering.shader;
+package minecraft2D.core;
 
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
@@ -10,27 +10,26 @@ import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glCreateShader;
 import static org.lwjgl.opengl.GL20.glDeleteProgram;
 import static org.lwjgl.opengl.GL20.glDeleteShader;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 import static org.lwjgl.opengl.GL20.glGetShaderi;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL20;
 
-import com.voxel.component.light.BaseLight;
-import com.voxel.component.light.DirectionalLight;
-import com.voxel.component.light.PointLight;
-import com.voxel.component.light.SpotLight;
-import com.voxel.core.Util;
 
 public abstract class GBasicShader {
 	private static HashMap<String,Integer> loadedShader = new HashMap<String,Integer>();
@@ -39,6 +38,7 @@ public abstract class GBasicShader {
 	
 	public GBasicShader(String fileName){
 		this.fileName = fileName;
+		
 		uniforms = new HashMap<String,Integer>();
 		if(loadedShader.containsKey(fileName)){
 			loadedShader.put(fileName+"_n", loadedShader.get(fileName+"_n")+1);
@@ -92,7 +92,7 @@ public abstract class GBasicShader {
 			BufferedReader reader = new BufferedReader(new FileReader("res/shaders/"+file));
 			String line;
 			while((line = reader.readLine())!=null){
-				source.append(line);
+				source.append(line+"\n");
 			}
 			reader.close();
 		}catch(IOException e){
@@ -105,6 +105,7 @@ public abstract class GBasicShader {
 		glCompileShader(shader);
 		if(glGetShaderi(shader,GL_COMPILE_STATUS)==GL_FALSE){
 			System.out.println("shader "+file+" nebol skompilovany");
+			System.err.println("BLBNE TO"+glGetShaderInfoLog(shader,1024));
 			Display.destroy();
 			System.exit(1);
 		}
@@ -128,8 +129,23 @@ public abstract class GBasicShader {
 		GL20.glUniform1i(uniforms.get(name),value);
 	}
 	
-	protected void loadVector(String name, GVector3f vector){
+	protected void loadVector3(String name, GVector3f vector){
 		GL20.glUniform3f(uniforms.get(name), vector.getX(), vector.getY(), vector.getZ());
+	}
+	
+	protected void loadMatrix(String uniformName, GMatrix4f value){
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(4*4);
+		for(int i=0 ; i<4 ; i++){
+			for(int j=0 ; j<4 ; j++){
+				buffer.put(value.get(i,j));
+			}
+		}
+		buffer.flip();
+		glUniformMatrix4(uniforms.get(uniformName), true,buffer);
+	}
+	
+	protected void loadVector2(String name, GVector2f vector){
+		GL20.glUniform2f(uniforms.get(name), vector.getX(), vector.getY());
 	}
 	
 	protected void loadBoolean(String name, boolean value){
@@ -139,33 +155,8 @@ public abstract class GBasicShader {
 		}	
 		GL20.glUniform1f(uniforms.get(name), toLoad);
 	}
-	
-	protected void loadMatrix(String name, GMatrix4f matrix){
-		glUniformMatrix4(uniforms.get(name), true,Util.createFlippedBuffer(matrix));
-	}
 
-	public void loadBaseLight(String uniformName, BaseLight baseLight){
-		loadVector(uniformName +".color",baseLight.getColor());
-		loadFloat(uniformName +".intensity",baseLight.getIntensity());
-	}
-	
-	public void loadDirectionalLight(String uniformName, DirectionalLight directionalLight){
-		loadBaseLight(uniformName +".base",directionalLight);
-		loadVector(uniformName +".direction", directionalLight.getDirection());
-	}
-	
-	public void loadPointLight(String uniformName, PointLight pointLight){
-		loadBaseLight(uniformName +".baseLight", pointLight);
-		loadFloat(uniformName +".atten.constant", pointLight.getConstant());
-		loadFloat(uniformName +".atten.linear", pointLight.getLinear());
-		loadFloat(uniformName +".atten.exponent", pointLight.getExponent());
-		loadVector(uniformName +".position", pointLight.getTransform().getPosition());
-		loadFloat(uniformName +".range", pointLight.getRange());
-	}
-	
-	public void loadSpotLight(String uniformName, SpotLight spotLight){
-		loadPointLight(uniformName +".pointLight", spotLight);
-		loadVector(uniformName +".direction", spotLight.getDirection());
-		loadFloat(uniformName +".cutoff", spotLight.getCutoff());
+	public int getId(){
+		return loadedShader.get(fileName);
 	}
 }

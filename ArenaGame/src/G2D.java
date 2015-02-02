@@ -18,7 +18,7 @@ public class G2D {
 		public int y;
 		public int w;
 		public int h;
-		private Color c;
+		public Color c;
 		boolean draw;
 		boolean same(Block b){
 			return c.equals(b.c);
@@ -100,24 +100,74 @@ public class G2D {
 //		}
 //	}
 	
+//	public void simplification(){
+//		for(int i=0 ; i<mapa.length ; i++){
+//			for(int j=0 ; j<mapa[i].length ; j++){
+//				Block b = blocks[i][j];
+//				boolean lavo = true;
+//				for(int x=0 ; x<b.h ; x++){
+//					if(exist(i+b.w, j+x) && !(blocks[i+b.w][j+x].w==0) || !b.same(blocks[i+b.w][j+x])){
+//						lavo = false;
+//						break;
+//					}
+//				}
+//				if(lavo){
+//					for(int x=0 ; x<b.h ; x++){
+//						blocks[b.x+b.w][b.y+x]=b;
+//					}
+//					b.w++;
+//				}
+//			}
+//		}
+//	}
+	
+//	public void simplification(){
+//		for(int i=0 ; i<mapa.length ; i++){
+//			for(int j=0 ; j<mapa[i].length ; j++){
+//				Block b = blocks[i][j];
+//				for(int k=1 ; ; k++){
+//					if(exist(i+k,j) && blocks[i+k][j].same(b) && blocks[i+k][j]!=b){
+//						b.w += blocks[i+k][j].w;
+//						blocks[i+k][j] = b;
+//						continue;
+//					}
+//					break;
+//				}
+//			}
+//		}
+//		
+//		for(int i=0 ; i<mapa.length ; i++){
+//			for(int j=0 ; j<mapa[i].length ; j++){
+//				Block b = blocks[i][j];
+//				if(exist(i,j+b.h) &&blocks[i][j+b.h].same(b) && blocks[i][j+b.h].w == b.w && blocks[i][j+b.h]!=b && blocks[i][j+b.h].x == b.x && blocks[i][j+b.h].h == b.h){
+//					for(int k=0 ; k<b.w ; k++){
+//						if(exist(i+k,j+b.h))
+//						blocks[i+k][j+b.h] = b;
+//						uspi(10);
+//					}
+//					b.h += b.h;
+//				}
+//			}
+//		}
+//	}
+	
 	public void simplification(){
 		for(int i=0 ; i<mapa.length ; i++){
 			for(int j=0 ; j<mapa[i].length ; j++){
 				Block b = blocks[i][j];
-				boolean lavo = true;
-				for(int x=0 ; x<b.h ; x++){
-					if(exist(i+b.w, j+x) && !(blocks[i+b.w][j+x].w==0) || !b.same(blocks[i+b.w][j+x])){
-						lavo = false;
-						break;
-					}
-				}
-				if(lavo){
-					for(int x=0 ; x<b.h ; x++){
-						blocks[b.x+b.w][b.y+x]=b;
-					}
-					b.w++;
-				}
+				
+				
 			}
+		}
+	}
+		
+	
+	private void uspi(int time){
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

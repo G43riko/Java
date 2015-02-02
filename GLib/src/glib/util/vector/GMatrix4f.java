@@ -149,4 +149,12 @@ public class GMatrix4f{
 	public void setM(float[][] m){this.m = m;}
 	
 	public void set(int x, int y, float value){m[x][y] = value;}
+	
+	public String toString(){
+		String res = get(0,0)+" "+get(1,0)+" "+get(2,0)+" "+get(3,0)+"\n";
+		res += get(0,1)+" "+get(1,1)+" "+get(2,1)+" "+get(3,1)+"\n";
+		res += get(0,2)+" "+get(1,2)+" "+get(2,2)+" "+get(3,2)+"\n";
+		res += get(0,3)+" "+get(1,3)+" "+get(2,3)+" "+get(3,3)+"\n";
+		return res;
+	}
 }

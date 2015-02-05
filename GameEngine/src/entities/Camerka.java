@@ -32,6 +32,7 @@ public class Camerka {
 	public static final float MOVE_SPEED = 0.3f;
 	
 	private int unlockMouseKey = Keyboard.KEY_N;
+	private int lockMouseKey = Keyboard.KEY_N;
 	private final int DISTANCE = 60;
 	private Matrix4f projectionMatrix;
 	
@@ -73,7 +74,7 @@ public class Camerka {
 
 	public void update(BMenu bmenu){
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_M)){
+		if(Keyboard.isKeyDown(lockMouseKey)){
 			Mouse.setCursorPosition((int)centerPosition.x,(int)centerPosition.y);
 			Mouse.setGrabbed(true);
 			mouseLocked = true;

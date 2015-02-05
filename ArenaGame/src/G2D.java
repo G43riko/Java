@@ -67,6 +67,7 @@ public class G2D {
 	};
 	
 //	public void simplification(){
+//		//funguje ale blbne
 //		for(int i=0 ; i<mapa.length ; i++){
 //			for(int j=0 ; j<mapa[i].length ; j++){
 //				
@@ -101,6 +102,7 @@ public class G2D {
 //	}
 	
 //	public void simplification(){
+//		//nefunguje
 //		for(int i=0 ; i<mapa.length ; i++){
 //			for(int j=0 ; j<mapa[i].length ; j++){
 //				Block b = blocks[i][j];
@@ -122,6 +124,7 @@ public class G2D {
 //	}
 	
 //	public void simplification(){
+//		//funguje
 //		for(int i=0 ; i<mapa.length ; i++){
 //			for(int j=0 ; j<mapa[i].length ; j++){
 //				Block b = blocks[i][j];
@@ -151,16 +154,136 @@ public class G2D {
 //		}
 //	}
 	
+//	public void simplification(){
+//		//funguje
+//		for(int a=1 ; a <= 8 ; a *= 2){
+//			for(int i=0 ; i<mapa.length ; i++){
+//				for(int j=0 ; j<mapa[i].length ; j++){
+//					Block b = blocks[i][j];
+//					int k = a;
+//					if(exist(i, j+k) && blocks[i][j+k].same(b) && blocks[i][j+k].w == b.w && blocks[i][j+k].h == b.h && blocks[i][j+k]!=b &&
+//					   exist(i+k, j) && blocks[i+k][j].same(b) && blocks[i+k][j].w == b.w && blocks[i+k][j].h == b.h && blocks[i+k][j]!=b &&
+//					   exist(i+k, j+k) && blocks[i+k][j+k].same(b) && blocks[i+k][j+k].w == b.w && blocks[i+k][j+k].h == b.h && blocks[i+k][j+k]!=b &&
+//					   b.x ==i && b.y == j &&
+//					   blocks[i+k][j+k].x == i+k && blocks[i+k][j+k].y == j+k && blocks[i+k][j].x == i+k && blocks[i+k][j].y == j && blocks[i][j+k].x == i && blocks[i][j+k].y == j+k){
+//						boolean change = true;
+//						for(int l=0 ;l<k*2 ; l++)
+//							for(int m=0 ;m<k*2 ; m++)
+//								if(!exist(i+l, j+m) || !blocks[i+l][j+m].same(b) || blocks[i+l][j+m].w != b.w || blocks[i+l][j+m].h != b.h &&
+//									blocks[i+l][j+m].x < b.x || blocks[i+l][j+m].y < b.y)
+//									change = false;
+//						if(change){
+//							nahrad(blocks[i+b.w][j], blocks[i][j]);
+//							nahrad(blocks[i][j+b.h], blocks[i][j]);
+//							nahrad(blocks[i+b.w][j+b.h], blocks[i][j]);
+//							b.h *= 2;
+//							b.w *= 2;
+//						}
+//					}
+//				}
+//			}
+//		}
+//		for(int a=1 ; a <= 8 ; a *= 2){
+//			for(int i=0 ; i<mapa.length ; i++){
+//				for(int j=0 ; j<mapa[i].length ; j++){
+//					Block b = blocks[i][j];
+//					if(b.x == i && b.y == j && exist(i+b.w, j) && blocks[i+b.w][j].x == i+b.w && blocks[i+b.w][j].y == j && blocks[i+b.w][j].same(b) &&
+//					   blocks[i+b.w][j].w == b.w && blocks[i+b.w][j].h == b.h && blocks[i+b.w][j].y == b.y ){
+//						nahrad(blocks[i+b.w][j], blocks[i][j]);
+//						b.w *= 2;
+//					}
+//					if(b.x == i && b.y == j && exist(i, j+b.h) && blocks[i][j+b.h].x == i && blocks[i][j+b.h].y == j+b.h && blocks[i][j+b.h].same(b) &&
+//						blocks[i][j+b.h].w == b.w && blocks[i][j+b.h].h == b.h && blocks[i][j+b.h].x == b.x ){
+//						nahrad(blocks[i][j+b.h], blocks[i][j]);
+//						b.h *= 2;
+//					}
+//				}
+//			}
+//		}
+//	}
 	public void simplification(){
 		for(int i=0 ; i<mapa.length ; i++){
 			for(int j=0 ; j<mapa[i].length ; j++){
 				Block b = blocks[i][j];
-				
-				
+				if(b.x == i && b.y == j){
+					boolean Cright = true;
+					boolean Cdown = true;
+					while(Cright || Cdown){
+						kukni(b,1);
+						int canRight = 0;
+						int canDown = 0;
+						if(index % 2 == 0){
+							if(Cright && exist(i+b.w, j) && blocks[i+b.w][j].same(b) && blocks[i+b.w][j].x == i+b.w && blocks[i+b.w][j].y == j && blocks[i+b.w][j].h == b.h){
+								int len = blocks[i+b.w][j].w;
+								nahrad(blocks[i+b.w][j], blocks[i][j]);
+								b.w += len;
+								Cdown = true;
+								Cright = false;
+							}
+							else
+								Cright = false;
+							
+							if(Cdown && exist(i, j+b.h) && blocks[i][j+b.h].same(b) && blocks[i][j+b.h].x == i && blocks[i][j+b.h].y == j+b.h && blocks[i][j+b.h].w == b.w){
+								int len = blocks[i][j+b.h].h;
+								nahrad(blocks[i][j+b.h], blocks[i][j]);
+								b.h += len;
+	
+								Cdown = false;
+								Cright = true;
+							}
+							else
+								Cdown = false;
+						}
+						else{
+							if(Cdown && exist(i, j+b.h) && blocks[i][j+b.h].same(b) && blocks[i][j+b.h].x == i && blocks[i][j+b.h].y == j+b.h && blocks[i][j+b.h].w == b.w){
+								int len = blocks[i][j+b.h].h;
+								nahrad(blocks[i][j+b.h], blocks[i][j]);
+								b.h += len;
+
+								Cdown = false;
+								Cright = true;
+							}
+							else
+								Cdown = false;
+							
+						
+							if(Cright && exist(i+b.w, j) && blocks[i+b.w][j].same(b) && blocks[i+b.w][j].x == i+b.w && blocks[i+b.w][j].y == j && blocks[i+b.w][j].h == b.h){
+								int len = blocks[i+b.w][j].w;
+								nahrad(blocks[i+b.w][j], blocks[i][j]);
+								b.w += len;
+								Cdown = true;
+								Cright = false;
+							}
+							else
+								Cright = false;
+							
+						}
+					}
+				}
 			}
 		}
+		index++;
+	}
+	private void nahrad(Block a, Block b){
+		int XS = a.w;
+		int YS = a.h;
+		int X = a.x;
+		int Y = a.y;
+		for(int l=0 ;l<XS ; l++){
+			for(int m=0 ;m<YS ; m++){
+				if(exist(X+l, Y+m))
+					blocks[X+l][Y+m] = b;
+			}
+		}
+		
 	}
 		
+	private void kukni(Block b,int t){
+		Color oldC = b.c;
+		b.c = Color.WHITE;
+		uspi(t);
+		b.c = oldC;
+	}
 	
 	private void uspi(int time){
 		try {

@@ -1,10 +1,12 @@
 package glib.util.time;
 
+import java.util.HashMap;
+
 public class Timer {
 	private boolean paused;
 	private double time = 0;
 	private double startTime;
-	
+	private static HashMap<String,Long> datas = new HashMap<String,Long>();
 	public Timer(){
 		
 	}
@@ -33,5 +35,18 @@ public class Timer {
 	
 	public String toString() {
 		return "Timer[Time=" + getTime() + ", Paused=" + paused + "]";
+	}
+	
+	public static void set(String name){
+		datas.put(name, System.currentTimeMillis());
+	}
+	public static Long get(String name){
+		return System.currentTimeMillis() - datas.get(name);
+	}
+	public static void reset(String name){
+		datas.put(name, System.currentTimeMillis());
+	}
+	public static void remove(String name){
+		datas.remove(name);
 	}
 }

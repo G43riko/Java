@@ -20,6 +20,7 @@ public class Shadow {
 	private static MatrixHandler depthMatrix;
 	private static int sto;
 	private static int sbo;
+	private static int res = 1024/4;
 
 	public Shadow() {
 
@@ -35,7 +36,7 @@ public class Shadow {
 		sto = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, sto);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, (ByteBuffer) null);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res, res, 0, GL_DEPTH_COMPONENT, GL_FLOAT, (ByteBuffer) null);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -74,7 +75,7 @@ public class Shadow {
 
 	public static void updateShadowBuffer(int shadowShaderProgram, int depthMatrixID, Vector3f lightPosition) {
 		glBindFramebuffer(GL_FRAMEBUFFER, sbo);
-		glViewport(0, 0, 1024, 1024);
+		glViewport(0, 0, res, res);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		MatrixHandler depthProjectionMatrix = new MatrixHandler();

@@ -48,4 +48,12 @@ public class GLog {
 	public void setShow(boolean show) {
 		this.show = show;
 	}
+	
+	public static void sleep(int mili){
+		try {
+			Thread.sleep(mili);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

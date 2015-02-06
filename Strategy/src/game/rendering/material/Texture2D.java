@@ -50,7 +50,7 @@ public class Texture2D {
 	
     private static boolean mipMapping = true;
     
-    private int filtering = FILTER_LINEAR;
+    private int filtering = GL_NEAREST;
     private int wrapMode = WRAP_REPEAT;
     
     private int id;
@@ -59,6 +59,7 @@ public class Texture2D {
 	private int height;
 	
 	private String fileName;
+	
 	
 	public Texture2D(String fileName){
 		this.fileName = fileName;
@@ -93,8 +94,6 @@ public class Texture2D {
 			this.width = tex.getImageWidth();
 			this.height = tex.getImageHeight();
 			this.averageColor = new GVector3f();
-			System.out.println(width+" "+height);
-			System.out.println(tex.getTextureWidth()+" "+tex.getTextureHeight());
 			bind();
 			
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -104,6 +103,7 @@ public class Texture2D {
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+			
 			loadedTextures.put(fileName, new Data(this));
 		}
 	}
@@ -164,7 +164,7 @@ public class Texture2D {
 			buffer.flip();
 			return buffer;
 		}
-		catch(Exception e){ System.exit(1); }
+		catch(Exception e){ System.err.println(e); System.out.println("obr·zok "+fileName+" sa nepodarilo naËÌtaù"); }
 		return null;
 	}
 	
@@ -214,8 +214,22 @@ public class Texture2D {
 	}
 
 	public static void setMipMapping(boolean mipMapping) {Texture2D.mipMapping = mipMapping;}
-	public void setFiltering(int filtering) {this.filtering = filtering;}
-	public void setWrapMode(int wrapMode) {this.wrapMode = wrapMode;}
+	
+	public void setFiltering(int filtering) {
+		this.filtering = filtering;
+		bind();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
+		unbind();
+	}
+	
+	public void setWrapMode(int wrapMode) {
+		this.wrapMode = wrapMode;
+		bind();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+		unbind();
+	}
 
 	public GVector3f getAverageColor() {return averageColor; }
 	public int getId(){return id; }

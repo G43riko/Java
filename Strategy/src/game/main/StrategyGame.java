@@ -1,12 +1,14 @@
 package game.main;
 
 import game.core.CoreGame;
+import game.object.Box;
 import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
 public class StrategyGame extends CoreGame{
@@ -20,10 +22,15 @@ public class StrategyGame extends CoreGame{
 		setLoader(new Loader());
 		setSkyBox(new SkyBox(camera));
 		
-		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
-		box.setPosition(new GVector3f(0,1,0));
+		GLog.sleep(100);
+		
+//		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
+//		box.setPosition(new GVector3f(0,1,0));
+//		addToScene(box);
+		Box box = new Box(new GVector3f(0,1,0),1);
+		box.setPosition(new GVector3f(0,0,0));
 		addToScene(box);
-		addToScene(new Entity(getPlane(), new Texture2D("texture.png")));
+//		addToScene(new Entity(getPlane(), new Texture2D("texture.png")));
 		
 		
 	}
@@ -40,9 +47,9 @@ public class StrategyGame extends CoreGame{
 								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
-									  0,1,
-									  1,1,
-									  1,0};
+									  0,height,
+									  width,height,
+									  width,0};
 		
 		return getLoader().loadToVAO(vertices, texture, indices);
 		

@@ -4,15 +4,17 @@ in vec2 pass_textureCoords;
 
 out vec4 out_Color;
 
+struct DirectionalLight{
+    vec3 color;
+    float intensity;
+    vec3 direction;
+};
+
+uniform DirectionalLight directionalLight;
 uniform sampler2D textureSampler;
-
-
 uniform int view;
-uniform int select;
 uniform vec3 color;
 uniform vec3 ambient;
-uniform int blur;
-uniform vec2 mouseDir;
 
 void main(){
 	

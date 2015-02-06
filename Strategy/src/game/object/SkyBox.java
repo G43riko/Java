@@ -1,26 +1,31 @@
 package game.object;
 
-import javax.swing.text.Position;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import game.main.Loader;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.util.Maths;
+import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
-public class SkyBox extends Entity{
+public class SkyBox extends GameObject{
 	private static int size = (int)(Math.sqrt(1000*1000/4));
-	private static Texture2D texture = new Texture2D("skyHD.jpg");
-	private static Model model = getBox(1,1,1);
+	private Texture2D texture = new Texture2D("skyHD2.jpg");
+	private Model model = getBox(1,1,1);
 	private Camera camera;
+	private float rotationSpeed = 0.001f;
 	
 	public SkyBox(Camera camera) {
-		super(new GVector3f(), new GVector3f(), new GVector3f(size,size,size),model,texture);
+		super(new GVector3f(), new GVector3f(), new GVector3f(size,size,size),3);
+		texture.setFiltering(Texture2D.FILTER_NEAREST);
 		this.camera = camera;
 	}
 	
 	public void update(){
-		rotate(new GVector3f(0,0.1,0));
+		rotate(new GVector3f(0,rotationSpeed,0));
 		if(camera.move)
 			setPosition(camera.getPosition());
 	}
@@ -106,5 +111,19 @@ public class SkyBox extends Entity{
 						23,21,22};
 		
 		return new Loader().loadToVAO(vertices, texture, indices);
+	}
+
+	public Texture2D getTexture() {
+		return texture;
+	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public GMatrix4f getTransformationMatrix(){
+		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
+				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
+		return Maths.MatrixToGMatrix(trans);
 	}
 }

@@ -3,7 +3,7 @@ package game.main;
 import game.core.CoreGame;
 
 public class MainStrategy {
-	public final static boolean MIP_MAPPING = false;
+	public final static boolean MIP_MAPPING = true;
 	public final static boolean FULLSCREEN = false;
 	public final static boolean SHOW_GUI = true;
 	public final static boolean ALLERTS = true;

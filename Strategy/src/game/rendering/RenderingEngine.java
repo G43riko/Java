@@ -30,8 +30,12 @@ import org.lwjgl.util.vector.Vector3f;
 //import utils.Maths;
 
 
+
+
+import game.object.Box;
 import game.object.Camera;
 import game.object.Entity;
+import game.object.SkyBox;
 import game.rendering.shader.Shader;
 import game.util.Maths;
 import glib.util.GColor;
@@ -48,6 +52,7 @@ public class RenderingEngine {
 	private boolean blur;
 	private GVector3f ambient;
 	private GVector2f mousePos;
+	private GVector2f mouseDir;
 	
 	public RenderingEngine(){ 
 		glEnable(GL_TEXTURE_2D);
@@ -77,13 +82,10 @@ public class RenderingEngine {
 			shader.updateUniform("color", entity.getTexture().getAverageColor());
 		}
 		if(blur){
-			GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
-			shader.updateUniform("mouseDir", actPos.sub(mousePos).div(5));
-			mousePos = actPos;
+			shader.updateUniform("mouseDir", mouseDir);
 		}
 		
 		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
-		
 		
 		shader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
 		
@@ -94,32 +96,66 @@ public class RenderingEngine {
 		cleanUp();
 	}
 	
-	public void renderSky(Entity entity, Shader shader){
+	public void renderSky(SkyBox sky, Shader shader){
 		if(mainCamera == null){
 			return;
 		}
 		shader.bind();
-		GL30.glBindVertexArray(entity.getModel().getVaoID());
+		GL30.glBindVertexArray(sky.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		
 		if(view == 3){
-			shader.updateUniform("color", entity.getTexture().getAverageColor());
-		}
-		if(blur){
-			shader.updateUniform("mouseDir", new GVector2f(Mouse.getDX(),Mouse.getDY()).div(5));
+			shader.updateUniform("color", sky.getTexture().getAverageColor());
 		}
 		
 		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
 		
 		
-		shader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
+		shader.updateUniform("transformationMatrix", sky.getTransformationMatrix());
 		
-		entity.getTexture().bind();
+		sky.getTexture().bind();
 		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, sky.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
 		cleanUp();
+	}
+	
+	public void renderBox(Box box, Shader shader) {
+		if(mainCamera == null || !box.active){
+			return;
+		}
+		shader.bind();
+		
+		GL30.glBindVertexArray(box.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		
+		if(view == 3){
+			shader.updateUniform("color", box.getTexture().getAverageColor());
+		}
+		if(blur){
+			shader.updateUniform("mouseDir", mouseDir);
+		}
+		
+		box.getTexture().bind();
+		
+		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
+		
+		for(int i=0 ; i<6 ; i++){
+			if(box.sides[i]){
+				shader.updateUniform("transformationMatrix", box.getTransformationMatrix(i));
+				GL11.glDrawElements(GL11.GL_TRIANGLES, box.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+			}
+		}
+		
+		cleanUp();
+	}
+	
+	public void calcMouseDir(){
+		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
+		mouseDir =  actPos.sub(mousePos).div(5);
+		mousePos = actPos;
 	}
 	
 	public void cleanUp(){
@@ -133,11 +169,9 @@ public class RenderingEngine {
 
 		entityShader.bind();
 		entityShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
-		entityShader.unbind();
 		
 		skyShader.bind();
 		skyShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
-		skyShader.unbind();
 	}
 
 	public void setView(int view) {
@@ -148,11 +182,9 @@ public class RenderingEngine {
 			
 			entityShader.bind();
 			entityShader.updateUniform("view", view);
-			entityShader.unbind();
 			
 			skyShader.bind();
 			skyShader.updateUniform("view", view);
-			skyShader.unbind();
 			
 		}
 	}
@@ -163,11 +195,9 @@ public class RenderingEngine {
 		this.blur = blur;
 		entityShader.bind();
 		entityShader.updateUniform("blur", blur);
-		entityShader.unbind();
 		
 		skyShader.bind();
 		skyShader.updateUniform("blur", blur);
-		skyShader.unbind();
 		
 	}
 
@@ -178,10 +208,9 @@ public class RenderingEngine {
 		this.ambient = ambient;
 		entityShader.bind();
 		entityShader.updateUniform("ambient", ambient);
-		entityShader.unbind();
 		
 		skyShader.bind();
 		skyShader.updateUniform("ambient",ambient);
-		skyShader.unbind();
 	}
+
 }

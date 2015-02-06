@@ -8,6 +8,7 @@ public abstract class GameObject {
 	private GVector3f rotation;
 	private GVector3f scale;
 	private int type;
+	
 	/*
 	 * 1 - Camera
 	 * 2 - Entity
@@ -16,7 +17,9 @@ public abstract class GameObject {
 	 * 5 - PointLight
 	 * 6 - SpotLight
 	 * 7 - Particle
+	 * 8 - Box
 	 */
+	
 	public GameObject(GVector3f position, GVector3f rotation, GVector3f scale, int type) {
 		this.position = position;
 		this.rotation = rotation;

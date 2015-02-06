@@ -99,6 +99,7 @@ public abstract class CoreGame extends JFrame{
 			GLog.write("nieje nastavený render engine");
 			return;
 		}
+		renderingEngine.calcMouseDir();
 		if(skyBox != null)
 			skyBox.render(renderingEngine);
 		for(GameObject g: scene){

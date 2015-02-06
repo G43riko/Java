@@ -64,14 +64,22 @@ public abstract class GBasicShader {
 			int shaderProgram = glCreateProgram();
 			int vertexShader = addShader(GL_VERTEX_SHADER, fileName+".vert");
 			int fragmentShader = addShader(GL_FRAGMENT_SHADER, fileName+".frag");
-			System.out.println(fileName+": "+shaderProgram);
+			
 			glAttachShader(shaderProgram,vertexShader );
 			glAttachShader(shaderProgram,fragmentShader );
 			glLinkProgram(shaderProgram);
 			glValidateProgram(shaderProgram);
+			
 			loadedShaders.put(fileName, new Data(shaderProgram, fragmentShader, vertexShader));
 		}
+		
+
+		getAllUniformsLocations();
 	}
+	
+	protected abstract void bindAttributes();
+	
+	public abstract void getAllUniformsLocations();
 	
 	public void finalize(){
 		if(loadedShaders.get(fileName).count>1){
@@ -131,19 +139,19 @@ public abstract class GBasicShader {
 		return GL20.glGetUniformLocation(loadedShaders.get(fileName).s, uniformName);
 	}
 	
-	protected void loadFloat(String name, float value){
+	public void updateUniform(String name, float value){
 		GL20.glUniform1f(uniforms.get(name),value);
 	}
 	
-	protected void loadInt(String name, int value){
+	public void updateUniform(String name, int value){
 		GL20.glUniform1i(uniforms.get(name),value);
 	}
 	
-	protected void loadVector3(String name, GVector3f vector){
+	public void updateUniform(String name, GVector3f vector){
 		GL20.glUniform3f(uniforms.get(name), vector.getX(), vector.getY(), vector.getZ());
 	}
 	
-	protected void loadGMatrix(String name, GMatrix4f value){
+	public void updateUniform(String name, GMatrix4f value){
 		for(int i=0 ; i<4 ; i++){
 			for(int j=0 ; j<4 ; j++){
 				matrixBuffer.put(value.get(i,j));
@@ -153,11 +161,11 @@ public abstract class GBasicShader {
 		glUniformMatrix4(uniforms.get(name), false,matrixBuffer);
 	}
 	
-	protected void loadVector2(String name, GVector2f vector){
+	public void updateUniform(String name, GVector2f vector){
 		GL20.glUniform2f(uniforms.get(name), vector.getX(), vector.getY());
 	}
 	
-	protected void loadBoolean(String name, boolean value){
+	public void updateUniform(String name, boolean value){
 		int toLoad = 0;
 		if(value){
 			toLoad = 1;

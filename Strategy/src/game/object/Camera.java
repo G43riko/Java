@@ -104,8 +104,10 @@ public class Camera extends GameObject{
 			}
 		}
 		
-		if(move || rotate)
+		if(move || rotate){
 			updateForward();
+			move = rotate = false;
+		}
 	}
 	
 	private void createProjectionMatrix(){
@@ -142,5 +144,12 @@ public class Camera extends GameObject{
 		double y = Math.sin(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
 		double z = Math.sin(Math.toRadians(getPitch()));
 		forward = new GVector3f((float)y,(float)z,(float)x);
+//		System.out.println(forward);
+//		forward = getRotation().toRadians().eulerToDirectional();
+//		System.out.println(forward);
+	}
+
+	public GVector3f getForward() {
+		return forward;
 	}
 }

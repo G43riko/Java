@@ -4,41 +4,16 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-
-
-
-import org.lwjgl.util.vector.Matrix4f;
-
-
-import org.lwjgl.util.vector.Vector3f;
-
-
-
-
-
-
-
-
-
-
-
-
-//import utils.Maths;
-
-
-
-
-import game.object.Box;
 import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
+import game.particle.Particle;
 import game.rendering.shader.Shader;
 import game.util.Maths;
-import glib.util.GColor;
+import game.world.Block;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -47,16 +22,27 @@ public class RenderingEngine {
 	public static final Shader defaultShader = new Shader("shader");
 	public static final Shader entityShader = new Shader("entityShader");
 	public static final Shader skyShader = new Shader("skyShader");
+	public static final Shader particleShader = new Shader("particleShader");
 	private Camera mainCamera;
 	private int view = 0;
 	private boolean blur;
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
+	private Block select;
 	
 	public RenderingEngine(){ 
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
+		
+		glEnable(GL_BLEND);
+		//for transparent background
+		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+//		//for black background
+//		glBlendFunc(GL_SRC_ALPHA,GL_SRC_COLOR);
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_FRONT);
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
@@ -65,102 +51,126 @@ public class RenderingEngine {
 		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
 	
-	public void clearScreen(){
+	public void prepare() {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	};
+		calcMouseDir();
+		setViewMatrix();
+		setEyePos();
+	}
 	
-	public void renderEntity(Entity entity, Shader shader){
+	public void renderEntity(Entity entity){
 		if(mainCamera == null){
 			return;
 		}
-		shader.bind();
+		entityShader.bind();
 		GL30.glBindVertexArray(entity.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		
 		if(view == 3){
-			shader.updateUniform("color", entity.getTexture().getAverageColor());
+			entityShader.updateUniform("color", entity.getTexture().getAverageColor());
 		}
 		if(blur){
-			shader.updateUniform("mouseDir", mouseDir);
+			entityShader.updateUniform("mouseDir", mouseDir);
 		}
 		
-		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
-		
-		shader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
+		entityShader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
 		
 		entity.getTexture().bind();
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
-		cleanUp();
+		cleanUp(2);
 	}
 	
-	public void renderSky(SkyBox sky, Shader shader){
+	public void renderSky(SkyBox sky){
 		if(mainCamera == null){
 			return;
 		}
-		shader.bind();
+		skyShader.bind();
+		
 		GL30.glBindVertexArray(sky.getModel().getVaoID());
+		
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		
 		if(view == 3){
-			shader.updateUniform("color", sky.getTexture().getAverageColor());
+			skyShader.updateUniform("color", sky.getTexture().getAverageColor());
 		}
 		
-		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
-		
-		
-		shader.updateUniform("transformationMatrix", sky.getTransformationMatrix());
+		skyShader.updateUniform("transformationMatrix", sky.getTransformationMatrix());
 		
 		sky.getTexture().bind();
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, sky.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
-		cleanUp();
+		cleanUp(2);
 	}
 	
-	public void renderBox(Box box, Shader shader) {
-		if(mainCamera == null || !box.active){
+	public void renderBlock(Block block){
+		if(mainCamera == null || !block.isActive()){
 			return;
 		}
-		shader.bind();
+		entityShader.bind();
 		
-		GL30.glBindVertexArray(box.getModel().getVaoID());
+		GL30.glBindVertexArray(block.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
+
+		if(view == 3 || select == block){
+			entityShader.updateUniform("color", block.getDiffuse().getAverageColor());
+		}
+		if(blur){
+			entityShader.updateUniform("mouseDir", mouseDir);
+		}	
+		block.getDiffuse().bind();
+		for(int i=0 ; i<6 ; i++){
+			if(block.sides[i]){
+				entityShader.updateUniform("transformationMatrix", block.getTransformationMatrix(i));
+				GL11.glDrawElements(GL11.GL_TRIANGLES, block.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+				
+				if(GVector3f.intersectRayWithSquare(mainCamera.getPosition(), mainCamera.getPosition().add(mainCamera.getForward().mul(1000)), 
+						block.getPosition().add(new GVector3f(1,1,1)), block.getPosition().add(new GVector3f(1,1,-1)), block.getPosition().add(new GVector3f(-1,1,1))) &&
+						(select == null || block.getPosition().dist(mainCamera.getPosition())<select.getPosition().dist(mainCamera.getPosition()) ))
+					select = block;
+			}
+		}
+		cleanUp(3);
+	}
+
+	public void renderParticle(Particle particle) {
+		if(mainCamera == null){
+			return;
+		}
+		
+		particleShader.bind();
+		
+		GL30.glBindVertexArray(Particle.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		
-		if(view == 3){
-			shader.updateUniform("color", box.getTexture().getAverageColor());
-		}
-		if(blur){
-			shader.updateUniform("mouseDir", mouseDir);
-		}
+		particleShader.updateUniform("color", particle.getColor());
+		particleShader.updateUniform("transformationMatrix",particle.getTransformationMatrix(mainCamera.getPosition()));
 		
-		box.getTexture().bind();
+		if(particle.getTexture() != null)
+			particle.getTexture().bind();
+		GL11.glDrawElements(GL11.GL_TRIANGLES, Particle.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
-		shader.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
-		
-		for(int i=0 ; i<6 ; i++){
-			if(box.sides[i]){
-				shader.updateUniform("transformationMatrix", box.getTransformationMatrix(i));
-				GL11.glDrawElements(GL11.GL_TRIANGLES, box.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
-			}
-		}
-		
-		cleanUp();
+		cleanUp(2);
 	}
-	
+
 	public void calcMouseDir(){
 		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
 		mouseDir =  actPos.sub(mousePos).div(5);
 		mousePos = actPos;
 	}
 	
-	public void cleanUp(){
+	public void cleanUp(int num){
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		if(num==3)
+			GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 
@@ -172,6 +182,9 @@ public class RenderingEngine {
 		
 		skyShader.bind();
 		skyShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+		
+		particleShader.bind();
+		particleShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
 	}
 
 	public void setView(int view) {
@@ -185,6 +198,9 @@ public class RenderingEngine {
 			
 			skyShader.bind();
 			skyShader.updateUniform("view", view);
+			
+			particleShader.bind();
+			particleShader.updateUniform("view", view);
 			
 		}
 	}
@@ -201,16 +217,55 @@ public class RenderingEngine {
 		
 	}
 
+	public void setEyePos(){
+		entityShader.bind();
+		entityShader.updateUniform("eyePos", mainCamera.getPosition());
+	}
+	
+	public void setViewMatrix(){
+		GMatrix4f mat = Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera));
+		entityShader.bind();
+		entityShader.updateUniform("viewMatrix", mat);
+		
+		skyShader.bind();
+		skyShader.updateUniform("viewMatrix", mat);
+		
+		particleShader.bind();
+		particleShader.updateUniform("viewMatrix", mat);
+		
+	}
+	
 	public void setAmbient(GVector3f ambient) {
 		if(this.ambient == ambient){
 			return ;
 		}
 		this.ambient = ambient;
+		
 		entityShader.bind();
 		entityShader.updateUniform("ambient", ambient);
 		
 		skyShader.bind();
 		skyShader.updateUniform("ambient",ambient);
+		
+		particleShader.bind();
+		particleShader.updateUniform("ambient",ambient);
 	}
+
+	public static Shader getEntityshader() {
+		return entityShader;
+	}
+
+	public Block getSelect() {
+		return select;
+	}
+
+	public void setSelect(Block select) {
+		this.select = select;
+	}
+
+	public Camera getMainCamera() {
+		return mainCamera;
+	}
+
 
 }

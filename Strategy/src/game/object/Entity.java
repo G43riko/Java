@@ -46,7 +46,7 @@ public class Entity extends GameObject{
 	public void update(){};
 	
 	public void render(RenderingEngine renderer){
-		renderer.renderEntity(this, RenderingEngine.entityShader);
+		renderer.renderEntity(this);
 	}
 
 	public Shader getShader() {
@@ -56,11 +56,4 @@ public class Entity extends GameObject{
 	public void setShader(Shader shader) {
 		this.shader = shader;
 	}
-
-	public GMatrix4f getTransformationMatrix(){
-		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
-				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
-		return Maths.MatrixToGMatrix(trans);
-	}
-	
 }

@@ -1,13 +1,17 @@
 package game.main;
 
 import game.core.CoreGame;
-import game.object.Box;
 import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
+import game.particle.Particle;
+import game.particle.ParticleEmmiter;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.world.Block;
+import game.world.Chunk;
+import game.world.World;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
@@ -15,21 +19,25 @@ public class StrategyGame extends CoreGame{
 	private static final long serialVersionUID = 1L;
 	
 	public void init(){
+		GLog.sleep(100);
 		Camera camera = new Camera();
-		
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(camera);
 		setLoader(new Loader());
 		setSkyBox(new SkyBox(camera));
 		
-		GLog.sleep(100);
-		
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));
 //		addToScene(box);
-		Box box = new Box(new GVector3f(0,1,0),1);
-		box.setPosition(new GVector3f(0,0,0));
-		addToScene(box);
+		
+//		Box box = new Box(new GVector3f(0,1,0),1);
+//		addToScene(box);
+		
+//		addToScene(new Particle(new GVector3f(0,1,-5), 0.1f, 2, 200, null));
+		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
+		
+//		addToScene(new World());
+		
 //		addToScene(new Entity(getPlane(), new Texture2D("texture.png")));
 		
 		

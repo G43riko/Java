@@ -1,0 +1,13 @@
+
+# e = entity - modelName textureName posX posY posZ rotX rotY rotZ scale transparency fakeLight
+# t = terrain - x y texture
+# l = light
+e fern fern.png 15 0 -15 0 0 0 1 1 0
+e grassModel grassTexture.png -15 0 -25 0 0 0 1 1 1 
+e lowPolyTree lowPolyTree.png 25 0 -25 0 0 0 0.5 0 0
+e tree tree.png -25 0 -25 0 0 0 5 0 0
+e stall stallTexture.png -40 0 -25 0 90 0 1.2 0 0 
+t 0 0 dirt.jpg
+t 0 -1 dirt.jpg
+t -1 0 dirt.jpg
+t -1 -1 dirt.jpg

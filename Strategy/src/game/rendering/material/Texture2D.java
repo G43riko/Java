@@ -50,7 +50,7 @@ public class Texture2D {
 	
     private static boolean mipMapping = true;
     
-    private int filtering = GL_NEAREST;
+    private int filtering = FILTER_NEAREST;
     private int wrapMode = WRAP_REPEAT;
     
     private int id;
@@ -73,7 +73,7 @@ public class Texture2D {
 		maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 	}
 	
-	public Texture2D(URL url, String fileName){
+	public Texture2D(String fileName, URL url){
 		this.fileName = fileName;
 		if(loadedTextures.containsKey(fileName)){
 			loadOld(loadedTextures.get(fileName));
@@ -84,7 +84,7 @@ public class Texture2D {
 		}
 	}
 	
-	public Texture2D(Texture tex, String fileName){
+	public Texture2D(String fileName, Texture tex, GVector3f averageColor){
 		this.fileName = fileName;
 		if(loadedTextures.containsKey(fileName)){
 			loadOld(loadedTextures.get(fileName));
@@ -93,7 +93,7 @@ public class Texture2D {
 			this.id = tex.getTextureID();
 			this.width = tex.getImageWidth();
 			this.height = tex.getImageHeight();
-			this.averageColor = new GVector3f();
+			this.averageColor = averageColor;
 			bind();
 			
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

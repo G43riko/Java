@@ -9,6 +9,7 @@ import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import game.util.Maths;
 import glib.util.vector.GMatrix4f;
+import glib.util.vector.GQuaternion;
 import glib.util.vector.GVector3f;
 
 public class SkyBox extends GameObject{
@@ -20,18 +21,20 @@ public class SkyBox extends GameObject{
 	
 	public SkyBox(Camera camera) {
 		super(new GVector3f(), new GVector3f(), new GVector3f(size,size,size),3);
-		texture.setFiltering(Texture2D.FILTER_NEAREST);
 		this.camera = camera;
 	}
 	
 	public void update(){
-		rotate(new GVector3f(0,rotationSpeed,0));
+		rotate(new GVector3f(0,0.01,0));
+//		rotate(new GVector3f(0,1,0), 1);
+//		getRotation().Rotate(new GVector3f(0,1,0), System.currentTimeMillis()%180);
+//		getRotation().Rotate(new GQuaternion(new GVector3f(0,1,0), System.currentTimeMillis()%180));
 		if(camera.move)
 			setPosition(camera.getPosition());
 	}
 	
 	public void render(RenderingEngine renderer){
-		renderer.renderSky(this,RenderingEngine.skyShader);
+		renderer.renderSky(this);
 	}
 	
 	public static Model getBox(int w, int h, int d){
@@ -97,16 +100,21 @@ public class SkyBox extends GameObject{
 				 		  0.50f,0.50f+t,
 				 		  0.50f,0.75f+t,};
 		
-		int[] indices ={0,1,3,	
-						3,1,2,	
+		int[] indices ={3,1,0,	
+						2,1,3,	
+						
 						4,5,7,
 						7,5,6,
-						8,9,11,
-						11,9,10,
+						
+						11,9,8,
+						10,9,11,
+						
 						12,13,15,
-						15,13,14,	
-						16,17,19,
-						19,17,18,
+						15,13,14,
+						
+						19,17,16,
+						18,17,19,
+						
 						20,21,23,
 						23,21,22};
 		
@@ -119,11 +127,5 @@ public class SkyBox extends GameObject{
 
 	public Model getModel() {
 		return model;
-	}
-
-	public GMatrix4f getTransformationMatrix(){
-		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
-				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
-		return Maths.MatrixToGMatrix(trans);
 	}
 }

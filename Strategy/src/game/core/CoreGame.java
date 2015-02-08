@@ -1,6 +1,11 @@
 package game.core;
 
 
+import static org.lwjgl.opengl.GL11.GL_FILL;
+import static org.lwjgl.opengl.GL11.GL_FRONT;
+import static org.lwjgl.opengl.GL11.GL_LINE;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+
 import java.util.ArrayList;
 
 import game.gui.Gui;
@@ -9,9 +14,11 @@ import game.main.MainStrategy;
 import game.object.Camera;
 import game.object.GameObject;
 import game.object.SkyBox;
+import game.particle.Particle;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 import javax.swing.JFrame;
 
@@ -31,7 +38,6 @@ public abstract class CoreGame extends JFrame{
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
 		scene = new ArrayList<GameObject>();
 		running = false;
-		
 	}
 	
 	public void createWindow(CoreGame game){
@@ -46,7 +52,6 @@ public abstract class CoreGame extends JFrame{
 		while(running && !Display.isCloseRequested()){
 			input();
 			update();
-			renderingEngine.clearScreen();
 			render();
 			
 			Display.update();
@@ -91,7 +96,8 @@ public abstract class CoreGame extends JFrame{
 	}
 
 	private void update(){
-		skyBox.update();
+		if(skyBox != null)
+			skyBox.update();
 	}
 	
 	public void render(){
@@ -99,13 +105,26 @@ public abstract class CoreGame extends JFrame{
 			GLog.write("nieje nastavený render engine");
 			return;
 		}
-		renderingEngine.calcMouseDir();
+		
+		renderingEngine.prepare();
+		
 		if(skyBox != null)
 			skyBox.render(renderingEngine);
+		
 		for(GameObject g: scene){
 			g.input();
 			g.update();
 			g.render(renderingEngine);
+		}
+		
+		if(renderingEngine.getSelect() != null){
+			RenderingEngine.entityShader.bind();
+			RenderingEngine.entityShader.updateUniform("select", true);
+			renderingEngine.getSelect().setScale(renderingEngine.getSelect().getScale().add(0.01f));
+			renderingEngine.getSelect().render(renderingEngine);
+			renderingEngine.getSelect().setScale(renderingEngine.getSelect().getScale().sub(0.01f));
+			RenderingEngine.entityShader.updateUniform("select", false);
+			renderingEngine.setSelect(null);
 		}
 	};
 

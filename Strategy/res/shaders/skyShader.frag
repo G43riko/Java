@@ -22,7 +22,7 @@ void main(){
 		out_Color = vec4(ambient,1) * texture(textureSampler, vec2(pass_textureCoords.x,pass_textureCoords.y+1));
 	}
 	else if(view == 1){
-		out_Color = 1-texture(textureSampler, pass_textureCoords);;
+		out_Color = vec4(1-texture(textureSampler, pass_textureCoords).xyz,1);
 	}
 	else if(view == 2){
 		vec4 text = texture(textureSampler, pass_textureCoords);

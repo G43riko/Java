@@ -1,6 +1,7 @@
 #version 400 core
 
 in vec2 pass_textureCoords;
+in float distance;
 
 out vec4 out_Color;
 
@@ -36,14 +37,20 @@ vec4 calcBlur(vec2 textureCoords, sampler2D texture, vec2 direction){
 void main(){
 	if(view == 0){
 		if(blur == 0){
-			out_Color = vec4(ambient,1) * texture(textureSampler, pass_textureCoords);
+			out_Color = vec4(ambient,1) * texture(textureSampler, pass_textureCoords) ;
 		}
 		else{
 			out_Color =  calcBlur(pass_textureCoords,textureSampler,mouseDir);
-		}	
+		}
+		if(select == 1){
+			out_Color *= vec4(color,1)*2;
+		}
 	}
 	else if(view == 1){
-		out_Color = 1-texture(textureSampler, pass_textureCoords);;
+		out_Color = vec4(1-texture(textureSampler, pass_textureCoords).xyz,1);
+		if(select == 1){
+			out_Color *= vec4(1-color,1)*2;
+		}
 	}
 	else if(view == 2){
 		vec4 text = texture(textureSampler, pass_textureCoords);

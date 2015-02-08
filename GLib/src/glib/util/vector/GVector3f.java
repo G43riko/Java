@@ -21,6 +21,13 @@ public class GVector3f {
 		this.z = z;
 	}
 	
+	public GVector3f randomize(double angle){
+		float ang = (float)(angle/1.5);
+		return this.add(new GVector3f((float)(ang*Math.random()-ang/2),
+									  (float)(ang*Math.random()-ang/2),
+									  (float)(ang*Math.random()-ang/2)));
+	}
+	
 	public GVector3f(GVector3f v){
 		this.x = v.getX();
 		this.y = v.getY();
@@ -81,6 +88,27 @@ public class GVector3f {
 	public GVector3f Lerp(GVector3f dest, float lerpFactor){
 		return dest.sub(this).mul(lerpFactor).add(this);
 	}
+	
+	public GVector3f toRadians(){
+		return new GVector3f((float)Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
+	}
+	
+	public GVector3f toDegrees(){
+		return new GVector3f((float)Math.toDegrees(x), (float)Math.toDegrees(y), (float)Math.toDegrees(z));
+	}
+	
+//	public GVector3f eulerToDirectional(){
+//		//x = pitch
+//		//y = yaw
+//		//t = roll;
+//		GVector3f v = this.getInstance();
+//		double rotX = Math.cos(v.getY())*Math.cos(v.getX());
+//		double rotY = Math.sin(v.getY())*Math.cos(v.getX());
+//		double rotZ = Math.sin(v.getX());
+//		
+////		return new GVector3f((float)rotX, (float)rotY, (float)rotZ);
+//		return new GVector3f((float)-rotY, (float)rotZ, (float)rotX);
+//	}
 	
 	public GVector3f add(GVector3f v){
 		return new GVector3f(x + v.getX(), y + v.getY(), z + v.getZ());

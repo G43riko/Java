@@ -9,6 +9,12 @@ public class GVector3f {
 		this(0,0,0);
 	}
 	
+	public GVector3f(float val){
+		this.x = val;
+		this.y = val;
+		this.z = val;
+	}
+	
 	public GVector3f(double x, double y, double z){
 		this.x = (float)x;
 		this.y = (float)y;

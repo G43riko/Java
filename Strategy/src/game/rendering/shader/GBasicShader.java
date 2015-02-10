@@ -73,7 +73,7 @@ public abstract class GBasicShader {
 			loadedShaders.put(fileName, new Data(shaderProgram, fragmentShader, vertexShader));
 		}
 		
-
+		bindAttributes();
 		getAllUniformsLocations();
 	}
 	

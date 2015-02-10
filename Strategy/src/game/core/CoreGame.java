@@ -1,11 +1,5 @@
 package game.core;
 
-
-import static org.lwjgl.opengl.GL11.GL_FILL;
-import static org.lwjgl.opengl.GL11.GL_FRONT;
-import static org.lwjgl.opengl.GL11.GL_LINE;
-import static org.lwjgl.opengl.GL11.glPolygonMode;
-
 import java.util.ArrayList;
 
 import game.gui.Gui;
@@ -14,11 +8,9 @@ import game.main.MainStrategy;
 import game.object.Camera;
 import game.object.GameObject;
 import game.object.SkyBox;
-import game.particle.Particle;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import glib.util.GLog;
-import glib.util.vector.GVector3f;
 
 import javax.swing.JFrame;
 
@@ -38,11 +30,11 @@ public abstract class CoreGame extends JFrame{
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
 		scene = new ArrayList<GameObject>();
 		running = false;
+		
 	}
 	
 	public void createWindow(CoreGame game){
 		gui = Window.createWindow(game);
-		
 	};
 	
 	public abstract void init();

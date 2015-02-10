@@ -15,12 +15,34 @@ public class World extends GameObject{
 	public World() {
 		super(new GVector3f(), 10);
 		create();
+		setNeighboards();
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].setSides();
+			}
+		}
 	}
 
 	private void create() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j] = new Chunk(getPosition().mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(new GVector3f(i,0,j).mul(new GVector3f(Chunk.NUM_X,0,Chunk.NUM_Z)))));
+				GVector3f pos = new GVector3f(2).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(new GVector3f(i,0,j).mul(new GVector3f(Chunk.NUM_X,0,Chunk.NUM_Z))));
+				chunks[i][j] = new Chunk(pos);
+			}
+		}
+	}
+	
+	private void setNeighboards() {
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				if(i>0)
+					chunks[i][j].setNeighboard(3, chunks[i-1][j]);
+				if(j>0)
+					chunks[i][j].setNeighboard(2, chunks[i][j-1]);
+				if(i+1<NUM_X)
+					chunks[i][j].setNeighboard(1, chunks[i+1][j]);
+				if(j+1<NUM_Z)
+					chunks[i][j].setNeighboard(0, chunks[i][j+1]);
 			}
 		}
 	}

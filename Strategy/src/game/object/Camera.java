@@ -14,6 +14,7 @@ public class Camera extends GameObject{
 	private final static float ROTATION_SPEED = 0.6f;
 	private final static float MOVE_SPEED = 0.3f;
 	private final static GVector3f up = new GVector3f(0,1,0);
+	private final static boolean VERTICAL = false; 
 	private float FOV = 70;
 	private float NEAR_PLANE = 0.1f;
 	private float FAR_PLANE = 1000;
@@ -44,12 +45,19 @@ public class Camera extends GameObject{
 	
 	public void input(){
 		if(Keyboard.isKeyDown(forwardKey)){
-			move(forward.mul(-MOVE_SPEED));
+			if(VERTICAL)
+				move(forward.mul(-MOVE_SPEED));
+			else{
+				move(up.cross(forward).cross(up).mul(-MOVE_SPEED));
+			}
 			move = true;
 		}
 		
 		if(Keyboard.isKeyDown(backKey)){
-			move(forward.mul(MOVE_SPEED));
+			if(VERTICAL)
+				move(forward.mul(MOVE_SPEED));
+			else
+				move(up.cross(forward).cross(up).mul(MOVE_SPEED));
 			move = true;
 		}
 		
@@ -75,12 +83,12 @@ public class Camera extends GameObject{
 		
 		if(Keyboard.isKeyDown(lockMouseKey)){
 			Mouse.setCursorPosition((int)centerPosition.getX(),(int)centerPosition.getY());
-			Mouse.setGrabbed(true);
+//			Mouse.setGrabbed(true);
 			mouseLocked = true;
 		}
 		
 		if(Keyboard.isKeyDown(unlockMouseKey)){
-			Mouse.setGrabbed(false);
+//			Mouse.setGrabbed(false);
 			mouseLocked = false;
 		}
 		
@@ -137,6 +145,11 @@ public class Camera extends GameObject{
 
 	public GMatrix4f getProjectionMatrix() {
 		return projectionMatrix;
+	}
+	
+	public boolean intersect(GVector3f a, GVector3f b, GVector3f c){
+		return GVector3f.intersectRayWithSquare(getPosition(), getPosition().add(getForward().mul(1000)), a, b,c);
+		
 	}
 	
 	private void updateForward(){

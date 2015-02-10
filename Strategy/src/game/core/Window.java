@@ -18,7 +18,7 @@ public class Window {
 	
 	public static Gui createWindow(CoreGame game){
 		Gui gui = new Gui(game);
-		if(game == null){
+		if(!MainStrategy.SHOW_GUI){
 			Display.setLocation(0, 0);
 			Display.setTitle(MainStrategy.TITLE);
 			try {

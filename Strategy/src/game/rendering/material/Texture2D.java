@@ -35,7 +35,6 @@ public class Texture2D {
 			count = 1;
 		}
 	}
-	
 	private static HashMap<String, Data> loadedTextures = new HashMap<String, Data>();
 	public static int maxSize;
 	
@@ -50,7 +49,7 @@ public class Texture2D {
 	
     private static boolean mipMapping = true;
     
-    private int filtering = FILTER_NEAREST;
+    private int filtering = GL_LINEAR;
     private int wrapMode = WRAP_REPEAT;
     
     private int id;

@@ -7,9 +7,9 @@ public class Shader extends GBasicShader{
 	}
 	
 	protected void bindAttributes() {
-		super.bindAttribute(0, "position");
-		super.bindAttribute(1, "texCoords");
-		super.bindAttribute(2, "normal");
+		bindAttribute(0, "position");
+		bindAttribute(1, "texCoords");
+		bindAttribute(2, "normal");
 	}
 	
 	public void getAllUniformsLocations() {
@@ -23,5 +23,6 @@ public class Shader extends GBasicShader{
 		uniforms.put("ambient", super.getUniformLocation("ambient"));
 		uniforms.put("select", super.getUniformLocation("select"));
 		uniforms.put("eyePos", super.getUniformLocation("eyePos"));
+		uniforms.put("alpha", super.getUniformLocation("alpha"));
 	}
 }

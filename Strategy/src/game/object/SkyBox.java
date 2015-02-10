@@ -1,15 +1,9 @@
 package game.object;
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-
 import game.main.Loader;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
-import game.util.Maths;
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GQuaternion;
 import glib.util.vector.GVector3f;
 
 public class SkyBox extends GameObject{
@@ -25,12 +19,8 @@ public class SkyBox extends GameObject{
 	}
 	
 	public void update(){
-		rotate(new GVector3f(0,0.01,0));
-//		rotate(new GVector3f(0,1,0), 1);
-//		getRotation().Rotate(new GVector3f(0,1,0), System.currentTimeMillis()%180);
-//		getRotation().Rotate(new GQuaternion(new GVector3f(0,1,0), System.currentTimeMillis()%180));
-		if(camera.move)
-			setPosition(camera.getPosition());
+		rotate(new GVector3f(0,rotationSpeed,0));
+		setPosition(camera.getPosition());
 	}
 	
 	public void render(RenderingEngine renderer){

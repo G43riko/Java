@@ -141,9 +141,9 @@ public class LogTester {
 		
 		init2D();
 		Color.white.bind();
-		font.drawString(100, 50, "THE LIGHTWEIGHT JAVA GAMES LIBRARY", Color.yellow);
-		//font2.drawString(100, 100, "NICE LOOKING FONTS!", Color.green);
+		font.drawString(0, 0, "THE LIGHTWEIGHT JAVA GAMES LIBRARY", Color.yellow);
 		init3D();
+		//font2.drawString(100, 100, "NICE LOOKING FONTS!", Color.green);
 		drawBlock();
 		
 	}

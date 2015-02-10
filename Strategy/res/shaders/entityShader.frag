@@ -1,12 +1,12 @@
 #version 400 core
 
-in vec2 pass_textureCoords;
 in float distance;
+in vec2 pass_textureCoords;
+in vec3 surface;
 
 out vec4 out_Color;
 
 uniform sampler2D textureSampler;
-
 
 uniform int view;
 uniform int select;
@@ -35,6 +35,7 @@ vec4 calcBlur(vec2 textureCoords, sampler2D texture, vec2 direction){
 }
 
 void main(){
+
 	if(view == 0){
 		if(blur == 0){
 			out_Color = vec4(ambient,1) * texture(textureSampler, pass_textureCoords) ;
@@ -65,7 +66,7 @@ void main(){
 			out_Color = vec4(0.5, 0.5, 0.5, 1);
 	}
 	if(select==1 || view ==3){
-		float limit = 0.005;
+		float limit = 0.002*distance;
 		if(pass_textureCoords.x <= limit || pass_textureCoords.y <= limit || pass_textureCoords.x >= 1-limit || pass_textureCoords.y >= 1-limit)
 			out_Color = vec4(0,0,0,1);
 	}

@@ -3,7 +3,7 @@ package game.rendering.model;
 public class Model {
 	private int vaoID;
 	private int vertexCount;
-	
+
 	public Model(int vao, int vertex){
 		vaoID = vao;
 		vertexCount = vertex;
@@ -16,4 +16,5 @@ public class Model {
 	public int getVertexCount() {
 		return vertexCount;
 	}
+
 }

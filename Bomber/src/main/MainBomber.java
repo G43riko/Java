@@ -1,9 +1,9 @@
 package main;
 
-//import main.game.Bomberman;
-//import main.game.core.CoreEngine;
-import main.both.Bomberman;
-import main.both.core.CoreEngine;
+import main.game.Bomberman;
+import main.game.core.CoreEngine;
+//import main.both.Bomberman;
+//import main.both.core.CoreEngine;
 
 public class MainBomber {
 	public static final int WIDTH = 600;

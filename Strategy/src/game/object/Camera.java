@@ -1,6 +1,5 @@
 package game.object;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
@@ -14,24 +13,12 @@ public class Camera extends GameObject{
 	private final static float ROTATION_SPEED = 0.6f;
 	private final static float MOVE_SPEED = 0.3f;
 	private final static GVector3f up = new GVector3f(0,1,0);
-	private final static boolean VERTICAL = false; 
 	private float FOV = 70;
 	private float NEAR_PLANE = 0.1f;
 	private float FAR_PLANE = 1000;
 	
+	private final static boolean VERTICAL = false; 
 	private boolean mouseLocked = false;
-	public boolean rotate = false;
-	public boolean move = false;
-	
-	private int unlockMouseKey = Keyboard.KEY_N;
-	private int lockMouseKey = Keyboard.KEY_M;
-	
-	private int forwardKey = Keyboard.KEY_W;
-	private int backKey = Keyboard.KEY_S;
-	private int leftKey = Keyboard.KEY_A;
-	private int rightKey = Keyboard.KEY_D;
-	private int upKey = Keyboard.KEY_SPACE;
-	private int downKey = Keyboard.KEY_LSHIFT;
 	
 	private GVector2f centerPosition = new GVector2f(Display.getWidth()/2,Display.getHeight()/2);
 	private GVector3f forward;
@@ -43,79 +30,75 @@ public class Camera extends GameObject{
 		updateForward();
 	}
 	
-	public void input(){
-		if(Keyboard.isKeyDown(forwardKey)){
-			if(VERTICAL)
-				move(forward.mul(-MOVE_SPEED));
-			else{
-				move(up.cross(forward).cross(up).mul(-MOVE_SPEED));
-			}
-			move = true;
-		}
+	public GVector3f getForwardVector(){
+		if(VERTICAL)
+			return forward.mul(-MOVE_SPEED);
 		
-		if(Keyboard.isKeyDown(backKey)){
-			if(VERTICAL)
-				move(forward.mul(MOVE_SPEED));
-			else
-				move(up.cross(forward).cross(up).mul(MOVE_SPEED));
-			move = true;
-		}
+		return up.cross(forward).cross(up).mul(-MOVE_SPEED);
+	}
+	
+	public GVector3f getBackVector(){
+		if(VERTICAL)
+			return forward.mul(MOVE_SPEED);
 		
-		if(Keyboard.isKeyDown(leftKey)){
-			move(up.cross(forward).mul(-MOVE_SPEED));
-			move = true;
-		}
-		
-		if(Keyboard.isKeyDown(rightKey)){
-			move(up.cross(forward).mul(MOVE_SPEED));
-			move = true;
-		}
-		
-		if(Keyboard.isKeyDown(upKey)){
-			move(up.mul(MOVE_SPEED));
-			move = true;
-		}
-		
-		if(Keyboard.isKeyDown(downKey)){
-			move(up.mul(-1).mul(MOVE_SPEED));
-			move = true;
-		}
-		
-		if(Keyboard.isKeyDown(lockMouseKey)){
-			Mouse.setCursorPosition((int)centerPosition.getX(),(int)centerPosition.getY());
-//			Mouse.setGrabbed(true);
-			mouseLocked = true;
-		}
-		
-		if(Keyboard.isKeyDown(unlockMouseKey)){
-//			Mouse.setGrabbed(false);
-			mouseLocked = false;
-		}
-		
-		if(mouseLocked){
-			GVector2f deltaPos = new GVector2f();
-			deltaPos = new GVector2f(Mouse.getX(),Mouse.getY()).sub(centerPosition);
-			
-			boolean rotY = deltaPos.getX() !=0;
-			boolean rotX = deltaPos.getY() !=0;
+		return up.cross(forward).cross(up).mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getRightVector(){
+		return up.cross(forward).mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getLeftVector(){
+		return up.cross(forward).mul(-MOVE_SPEED);
+	}
+	
+	public GVector3f getUpVector(){
+		return up.mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getDownVector(){
+		return up.mul(-MOVE_SPEED);
+	}
+	
+	public void goForward(){
+		if(VERTICAL)
+			move(forward.mul(-MOVE_SPEED));
+		else
+			move(up.cross(forward).cross(up).mul(-MOVE_SPEED));
+	}
+	
+	public void goBack(){
+		if(VERTICAL)
+			move(forward.mul(MOVE_SPEED));
+		else
+			move(up.cross(forward).cross(up).mul(MOVE_SPEED));
+	}
 
-			if(rotX){
-				getRotation().setX(getRotation().getX() - (deltaPos.getY() * ROTATION_SPEED/2));
-			}
-			if(rotY){
-				getRotation().setY(getRotation().getY() + (deltaPos.getX() * ROTATION_SPEED/2));
-			}
-			
-			if(rotY || rotX){
-				rotate = true;
-				Mouse.setCursorPosition((int)centerPosition.getX(), (int)centerPosition.getY());
-			}
-		}
-		
-		if(move || rotate){
-			updateForward();
-			move = rotate = false;
-		}
+	public void goRight(){
+		move(up.cross(forward).mul(MOVE_SPEED));
+	}
+	
+	public void goLeft(){
+		move(up.cross(forward).mul(-MOVE_SPEED));
+	}
+	
+	public void goUp(){
+		move(up.mul(MOVE_SPEED));
+	}
+	
+	public void goDown(){
+		move(up.mul(-1).mul(MOVE_SPEED));
+	}
+
+	public void lockMouse(){
+		Mouse.setCursorPosition(centerPosition.getXi(),centerPosition.getYi());
+//		Mouse.setGrabbed(true);
+		mouseLocked = true;
+	}
+	
+	public void unlockMouse(){
+		Mouse.setGrabbed(false);
+		mouseLocked = false;
 	}
 	
 	private void createProjectionMatrix(){
@@ -152,7 +135,7 @@ public class Camera extends GameObject{
 		
 	}
 	
-	private void updateForward(){
+	public void updateForward(){
 		double x = Math.cos(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
 		double y = Math.sin(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
 		double z = Math.sin(Math.toRadians(getPitch()));
@@ -164,5 +147,30 @@ public class Camera extends GameObject{
 
 	public GVector3f getForward() {
 		return forward;
+	}
+
+	public boolean isMouseLocked() {
+		return mouseLocked;
+	}
+
+	public boolean mouseMove() {
+		GVector2f deltaPos = new GVector2f();
+		deltaPos = new GVector2f(Mouse.getX(),Mouse.getY()).sub(centerPosition);
+		
+		boolean rotY = deltaPos.getX() !=0;
+		boolean rotX = deltaPos.getY() !=0;
+
+		if(rotX){
+			getRotation().setX(getRotation().getX() - (deltaPos.getY() * ROTATION_SPEED/2));
+		}
+		if(rotY){
+			getRotation().setY(getRotation().getY() + (deltaPos.getX() * ROTATION_SPEED/2));
+		}
+		
+		if(rotY || rotX){
+			Mouse.setCursorPosition((int)centerPosition.getX(), (int)centerPosition.getY());
+			return true;
+		}
+		return false;
 	}
 }

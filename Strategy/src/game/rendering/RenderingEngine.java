@@ -119,7 +119,7 @@ public class RenderingEngine {
 		block.getDiffuse().bind();
 		boolean search = (select == null || block.getPosition().dist(mainCamera.getPosition()) < select.getPosition().dist(mainCamera.getPosition())); 
 		for(int i=0 ; i<6 ; i++){
-			if(block.sides[i]){
+			if(block.getSide(i)){
 				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
 										    	  block.getPosition().add(block.getPoint(i, 1)),  
 										    	  block.getPosition().add(block.getPoint(i, 2))))

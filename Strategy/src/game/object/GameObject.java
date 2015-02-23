@@ -31,6 +31,7 @@ public abstract class GameObject {
 	 * 9 - chunk
 	 * 10 - world
 	 * 11 - particleEmmiter
+	 * 12 - Player
 	 */
 	public GameObject(GVector3f position,  int type) {
 		this(position, new GVector3f(0,0,0), new GVector3f(1,1,1), type);

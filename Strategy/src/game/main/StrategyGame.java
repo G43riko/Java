@@ -1,5 +1,6 @@
 package game.main;
 
+import game.components.Player;
 import game.core.CoreGame;
 import game.object.Camera;
 import game.object.Entity;
@@ -18,11 +19,12 @@ public class StrategyGame extends CoreGame{
 	
 	public void init(){
 		GLog.sleep(100);
-		Camera camera = new Camera();
+		setWorld(new World());
+		setPlayer(new Player(getWorld(), new Camera()));
 		setRenderingEngine(new RenderingEngine());
-		setMainCamera(camera);
+		setMainCamera(getPlayer().getCamera());
 		setLoader(new Loader());
-		setSkyBox(new SkyBox(camera));
+		setSkyBox(new SkyBox(getPlayer().getCamera()));
 		
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));
@@ -33,7 +35,6 @@ public class StrategyGame extends CoreGame{
 		
 		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
 		
-		addToScene(new World());
 //		addToScene(new Block(new GVector3f(0,1,-5),1));
 		
 //		addToScene(new Entity(getPlane(), new Texture2D("wood_64.jpg")));

@@ -66,7 +66,7 @@ void main(){
 			out_Color = vec4(0.5, 0.5, 0.5, 1);
 	}
 	if(select==1 || view ==3){
-		float limit = 0.002*distance;
+		float limit = 0.002*distance*2;
 		if(pass_textureCoords.x <= limit || pass_textureCoords.y <= limit || pass_textureCoords.x >= 1-limit || pass_textureCoords.y >= 1-limit)
 			out_Color = vec4(0,0,0,1);
 	}

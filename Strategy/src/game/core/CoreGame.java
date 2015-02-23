@@ -2,6 +2,7 @@ package game.core;
 
 import java.util.ArrayList;
 
+import game.components.Player;
 import game.gui.Gui;
 import game.main.Loader;
 import game.main.MainStrategy;
@@ -10,6 +11,7 @@ import game.object.GameObject;
 import game.object.SkyBox;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
+import game.world.World;
 import glib.util.GLog;
 
 import javax.swing.JFrame;
@@ -24,13 +26,14 @@ public abstract class CoreGame extends JFrame{
 	private Gui gui;
 	private Loader loader;
 	private SkyBox skyBox;
+	private Player player;
+	private World world;
 	private boolean running;
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
 		scene = new ArrayList<GameObject>();
 		running = false;
-		
 	}
 	
 	public void createWindow(CoreGame game){
@@ -85,11 +88,17 @@ public abstract class CoreGame extends JFrame{
 			//averageColor
 			renderingEngine.setBlur(false);
 		}
+		
+		if(player != null)
+			player.input();
 	}
 
 	private void update(){
 		if(skyBox != null)
 			skyBox.update();
+		
+		if(player != null)
+			player.update();
 	}
 	
 	public void render(){
@@ -102,6 +111,9 @@ public abstract class CoreGame extends JFrame{
 		
 		if(skyBox != null)
 			skyBox.render(renderingEngine);
+		
+		if(world != null)
+			world.render(renderingEngine);
 		
 		for(GameObject g: scene){
 			g.input();
@@ -163,5 +175,21 @@ public abstract class CoreGame extends JFrame{
 
 	public void setSkyBox(SkyBox skyBox) {
 		this.skyBox = skyBox;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

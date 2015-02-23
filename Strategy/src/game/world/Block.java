@@ -31,7 +31,7 @@ public class Block extends BasicBlock{
 	private static final Model[] model = new Model[6];
 	
 //	public boolean[] sides = new boolean[]{false,false,false,false,false,false};
-	public boolean[] sides = new boolean[]{true,true,true,true,true,true};
+	private boolean[] sides = new boolean[]{true,true,true,true,true,true};
 	static{
 		blockDatas = new HashMap<Integer,JSONObject>();
 		getBlockData();
@@ -177,5 +177,18 @@ public class Block extends BasicBlock{
 
 	public Model getModel(int i) {
 		return model[i];
+	}
+
+	public void setSide(int side, boolean value){
+		sides[side] = value;
+		active = sides[0] || sides[1] || sides[2] || sides[3] || sides[4] || sides[5] ;  
+	}
+	
+	public String toString(){
+		return "typ: "+blockDatas.get(type).getString("name");
+	}
+	
+	public boolean getSide(int side){
+		return sides[side];
 	}
 }

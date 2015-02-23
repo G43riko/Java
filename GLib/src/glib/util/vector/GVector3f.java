@@ -157,6 +157,10 @@ public class GVector3f {
 						axis.mul(this.dot(axis.mul(1 - cosAngle))))); //Rotation on local Y
 	}
 	
+	public boolean isNull(){
+		return x==0 && y==0 && z==0;
+	}
+	
 	public GVector3f Rotate(GQuaternion rotation){
 		//rotation = new Quaternion(axis, angle);
 		GQuaternion conjugate = rotation.conjugate();

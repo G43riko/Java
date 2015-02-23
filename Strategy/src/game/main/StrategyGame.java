@@ -22,7 +22,7 @@ public class StrategyGame extends CoreGame{
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(camera);
 		setLoader(new Loader());
-//		setSkyBox(new SkyBox(camera));
+		setSkyBox(new SkyBox(camera));
 		
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));
@@ -31,7 +31,7 @@ public class StrategyGame extends CoreGame{
 //		Box box = new Box(new GVector3f(0,1,0),1);
 //		addToScene(box);
 		
-//		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
+		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
 		
 		addToScene(new World());
 //		addToScene(new Block(new GVector3f(0,1,-5),1));

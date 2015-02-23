@@ -7,7 +7,11 @@ import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;
 
-public class BasicPlayer {
+public class BasicPlayer extends GameObject{
+	public BasicPlayer(GVector3f position) {
+		super(position, 12);
+	}
+
 	protected World world;
 	protected Camera camera;
 	
@@ -26,8 +30,8 @@ public class BasicPlayer {
 	private int leftKey = Keyboard.KEY_A;
 	private int rightKey = Keyboard.KEY_D;
 	
-	private int upKey = Keyboard.KEY_SPACE;
-	private int downKey = Keyboard.KEY_LSHIFT;
+//	private int upKey = Keyboard.KEY_SPACE;
+//	private int downKey = Keyboard.KEY_LSHIFT;
 	
 	private int jumpKey = Keyboard.KEY_SPACE;
 	

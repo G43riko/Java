@@ -1,23 +1,17 @@
 package game.world;
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 
 import game.main.Loader;
 import game.object.GameObject;
-import game.rendering.Vertex;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
-import game.util.Maths;
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public class BasicBlock extends GameObject{
-	private int width = Block.WIDTH;
-	private int height = Block.HEIGHT;
-	private int depth = Block.DEPTH;
+//	private int width = Block.WIDTH;
+//	private int height = Block.HEIGHT;
+//	private int depth = Block.DEPTH;
 	protected int type;
 	private GVector3f[][] points = new GVector3f[][]{ new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
 																	  new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
@@ -185,9 +179,9 @@ public class BasicBlock extends GameObject{
 		return active;
 	}
 	
-//	public void setActive(boolean active) {
-//		this.active = active;
-//	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	
 	public Texture2D getDiffuse(){
 		return ((Material) Block.blockDatas.get(type).get("mat")).getDiffuse();

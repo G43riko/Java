@@ -6,20 +6,23 @@ import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;
 
-public class Player extends BasicPlayer implements Collisable{
+public class Player extends BasicPlayer{
 	public final static float HEIGHT = 1;
 	public final static float MAX_FALLING_SPEED = 0.5f;
 	public final static float JUMP_STRENG = 0.6f;
 	public final static GVector3f GRAVITY = new GVector3f(0,0.04f,0);
 	
 	public Player(GVector3f position, World world, Camera camera){
+		super(position);
 		this.world = world;
 		this.camera = camera;
 		camera.setPosition(position);
 	}
 	
 	public Player(World world, Camera camera){
+		super(null);
 		camera.setPosition(world.getMaxSize().div(new GVector3f(2,1,2)));
+		setPosition(camera.getPosition());
 		this.world = world;
 		this.camera = camera;
 	}

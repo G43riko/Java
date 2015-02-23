@@ -86,10 +86,10 @@ public class Particle extends GameObject{
 		int[] indices ={3,1,0,	
 						2,1,3};
 		
-		float[] normals = {0.0000f,  0.0000f, -1.0000f,
-				 		   0.0000f,  0.0000f, -1.0000f,
-				 		   0.0000f,  0.0000f, -1.0000f,
-				 		   0.0000f,  0.0000f, -1.0000f};
+//		float[] normals = {0.0000f,  0.0000f, -1.0000f,
+//				 		   0.0000f,  0.0000f, -1.0000f,
+//				 		   0.0000f,  0.0000f, -1.0000f,
+//				 		   0.0000f,  0.0000f, -1.0000f};
 		
 		return new Loader().loadToVAO(vertices, texture, indices);
 	}

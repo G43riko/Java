@@ -42,6 +42,10 @@ public abstract class CoreGame extends JFrame{
 	
 	public abstract void init();
 	
+	public void update(){
+		
+	};
+	
 	public void start(){
 		running = true;
 		while(running && !Display.isCloseRequested()){
@@ -88,17 +92,6 @@ public abstract class CoreGame extends JFrame{
 			//averageColor
 			renderingEngine.setBlur(false);
 		}
-		
-		if(player != null)
-			player.input();
-	}
-
-	private void update(){
-		if(skyBox != null)
-			skyBox.update();
-		
-		if(player != null)
-			player.update();
 	}
 	
 	public void render(){
@@ -136,6 +129,16 @@ public abstract class CoreGame extends JFrame{
 		return renderingEngine;
 	}
 
+	public void cleanUp(){
+		running = false;
+		renderingEngine.cleanUp();
+		Window.cleanUp();
+	}
+
+	public void addToScene(GameObject g){
+		scene.add(g);
+	}
+	
 	protected void setRenderingEngine(RenderingEngine renderingEngine) {
 		this.renderingEngine = renderingEngine;
 	}
@@ -147,14 +150,6 @@ public abstract class CoreGame extends JFrame{
 		RenderingEngine.entityShader.bind();
 		RenderingEngine.entityShader.updateUniform("projectionMatrix", camera.getProjectionMatrix());
 		RenderingEngine.entityShader.unbind();
-	}
-	
-	public void cleanUp(){
-		Window.cleanUp();
-	}
-	
-	public void addToScene(GameObject g){
-		scene.add(g);
 	}
 	
 	public Gui getGui(){
@@ -175,10 +170,12 @@ public abstract class CoreGame extends JFrame{
 
 	public void setSkyBox(SkyBox skyBox) {
 		this.skyBox = skyBox;
+		addToScene(skyBox);
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
+		addToScene(player);
 	}
 
 	public Player getPlayer() {

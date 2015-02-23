@@ -1,5 +1,6 @@
 package game.rendering.material;
 
+import glib.util.Loader;
 import glib.util.vector.GVector3f;
 
 import java.awt.Color;
@@ -7,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -18,7 +18,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
@@ -129,7 +128,7 @@ public class Texture2D {
 	
 	public ByteBuffer makeByteBufferFILE(String fileName){
 		try{
-			BufferedImage image = ImageIO.read(new File("res/textures/"+fileName));
+			BufferedImage image = ImageIO.read(Loader.loadFile("res/textures/"+fileName));
 			width = image.getWidth();
 			height = image.getHeight();
 			int[] pixels = image.getRGB(0, 0, width, height, null, 0, image.getWidth());

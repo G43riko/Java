@@ -77,7 +77,7 @@ public class RenderingEngine {
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
-		cleanUp(3);
+		disableVertex(3);
 	}
 	
 	public void renderSky(SkyBox sky){
@@ -98,7 +98,7 @@ public class RenderingEngine {
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, sky.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		
-		cleanUp(2);
+		disableVertex(2);
 	}
 	
 	public void renderBlock(Block block){
@@ -128,7 +128,7 @@ public class RenderingEngine {
 				GL11.glDrawElements(GL11.GL_TRIANGLES, block.getModel(i).getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 			}
 		}
-		cleanUp(3);
+		disableVertex(3);
 	}
 
 	public void renderParticle(Particle particle) {
@@ -149,7 +149,7 @@ public class RenderingEngine {
 		if(particle.getTexture() != null)
 			particle.getTexture().bind();
 		GL11.glDrawElements(GL11.GL_TRIANGLES, particle.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
-		cleanUp(2);
+		disableVertex(2);
 	}
 
 	public void calcMouseDir(){
@@ -167,7 +167,7 @@ public class RenderingEngine {
 			GL20.glEnableVertexAttribArray(2);
 	}
 	
-	private void cleanUp(int i){
+	private void disableVertex(int i){
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		if(i>2)
@@ -176,6 +176,14 @@ public class RenderingEngine {
 		GL30.glBindVertexArray(0);
 	}
 
+	public void cleanUp(){
+		defaultShader.cleanUp();
+		guiShader.cleanUp();
+		entityShader.cleanUp();
+		skyShader.cleanUp();
+		particleShader.cleanUp();
+	}
+	
 	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
 

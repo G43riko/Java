@@ -20,7 +20,7 @@ import glib.util.vector.GVector3f;
 
 public class RenderingEngine {
 	public static final Shader defaultShader = new Shader("shader");
-	public static final Shader guiShader = new Shader("guiShader");
+	public static final Shader hudShader = new Shader("hudShader");
 	public static final Shader entityShader = new Shader("entityShader");
 	public static final Shader skyShader = new Shader("skyShader");
 	public static final Shader particleShader = new Shader("particleShader");
@@ -31,7 +31,26 @@ public class RenderingEngine {
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
-	private Block select;
+	private SelectBlock selectBlock = new SelectBlock();
+	
+	public class SelectBlock{
+		private Block block = null;
+		private int side = -1;
+		private float dist  = -1;
+		
+		public Block getBlock() {
+			return block;
+		}
+		
+		public int getSide() {
+			return side;
+		}
+		
+		public void reset(){
+			block = null;
+			dist = -1;
+		}
+	}
 	
 	public RenderingEngine(){ 
 		glEnable(GL_TEXTURE_2D);
@@ -40,8 +59,8 @@ public class RenderingEngine {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		
-//		GL11.glEnable(GL11.GL_CULL_FACE);
-//		GL11.glCullFace(GL11.GL_FRONT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_FRONT);
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
@@ -110,24 +129,34 @@ public class RenderingEngine {
 		
 		entityShader.updateUniform("transformationMatrix", block.getTransformationMatrix());
 		
-		if(view == 3 || select == block){
+		if(view == 3 || selectBlock.block == block){
 			entityShader.updateUniform("color", block.getDiffuse().getAverageColor());
 		}
 		if(blur){
 			entityShader.updateUniform("mouseDir", mouseDir);
 		}
 		block.getDiffuse().bind();
-		boolean search = (select == null || block.getPosition().dist(mainCamera.getPosition()) < select.getPosition().dist(mainCamera.getPosition())); 
+		
+		float blockToCamDist = block.getPosition().dist(mainCamera.getPosition());
+		boolean search = ((selectBlock.block == null || blockToCamDist < selectBlock.block.getPosition().dist(mainCamera.getPosition()))&&
+						  blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())));
 		for(int i=0 ; i<6 ; i++){
 			if(block.getSide(i)){
 				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
-										    	  block.getPosition().add(block.getPoint(i, 1)),  
-										    	  block.getPosition().add(block.getPoint(i, 2))))
-					select = block;
+				    	  						  block.getPosition().add(block.getPoint(i, 1)),  
+				    	  						  block.getPosition().add(block.getPoint(i, 2)))){
+					float dist = block.getPosition().add(block.getPoint(i, 1).add(block.getPoint(i, 2)).div(2)).dist(mainCamera.getPosition());
+					if(selectBlock.dist<0 || selectBlock.dist>dist){
+						selectBlock.dist = dist;
+						selectBlock.side = i;
+					}
+					selectBlock.block = block;
+				}
 				prepare(3, block.getModel(i).getVaoID());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, block.getModel(i).getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 			}
 		}
+			
 		disableVertex(3);
 	}
 
@@ -152,6 +181,8 @@ public class RenderingEngine {
 		disableVertex(2);
 	}
 
+	
+	
 	public void calcMouseDir(){
 		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
 		mouseDir =  actPos.sub(mousePos).div(5);
@@ -178,7 +209,7 @@ public class RenderingEngine {
 
 	public void cleanUp(){
 		defaultShader.cleanUp();
-		guiShader.cleanUp();
+		hudShader.cleanUp();
 		entityShader.cleanUp();
 		skyShader.cleanUp();
 		particleShader.cleanUp();
@@ -265,16 +296,18 @@ public class RenderingEngine {
 		return entityShader;
 	}
 
-	public Block getSelect() {
-		return select;
-	}
-	
-	public void setSelect(Block select) {
-		this.select = select;
-	}
-
 	public Camera getMainCamera() {
 		return mainCamera;
+	}
+
+	
+	public SelectBlock getSelectBlock() {
+		return selectBlock;
+	}
+
+	
+	public void setSelectBlock(SelectBlock selectBlock) {
+		this.selectBlock = selectBlock;
 	}
 
 

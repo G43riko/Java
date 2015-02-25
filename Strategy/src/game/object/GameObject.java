@@ -32,6 +32,7 @@ public abstract class GameObject {
 	 * 10 - world
 	 * 11 - particleEmmiter
 	 * 12 - Player
+	 * 13 - HUD
 	 */
 	public GameObject(GVector3f position,  int type) {
 		this(position, new GVector3f(0,0,0), new GVector3f(1,1,1), type);

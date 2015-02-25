@@ -24,9 +24,9 @@ public class Block extends BasicBlock{
 	public final static int TILE = 10;
 	public final static int PATH = 11;
 	
-	public static final int WIDTH = 1;
-	public static final int HEIGHT = 1;
-	public static final int DEPTH = 1;
+	public static int WIDTH = 1;
+	public static int HEIGHT = 1;
+	public static int DEPTH = 1;
 	public static final HashMap<Integer,JSONObject> blockDatas;
 	private static final Model[] model = new Model[6];
 	
@@ -45,6 +45,10 @@ public class Block extends BasicBlock{
 	
 	public Block(GVector3f position, int type) {
 		super(position, type);
+	}
+	
+	public Block(JSONObject data){
+		super(new GVector3f((float)data.getDouble("posX"),(float)data.getDouble("posY"),(float)data.getDouble("posZ")),data.getInt("typ"));
 	}
 	
 	public void render(RenderingEngine renderingEngine) {

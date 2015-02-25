@@ -17,6 +17,7 @@ import glib.util.GLog;
 import javax.swing.JFrame;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 public abstract class CoreGame extends JFrame{
@@ -29,6 +30,8 @@ public abstract class CoreGame extends JFrame{
 	private Player player;
 	private World world;
 	private boolean running;
+	private boolean[] clicks = new boolean[2];
+	
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
@@ -63,33 +66,41 @@ public abstract class CoreGame extends JFrame{
 	}
 
 	private void input() {
-		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_1)){
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){ 
+			if(Keyboard.isKeyDown(Keyboard.KEY_1)){
 			//normal
-			renderingEngine.setView(0);
+				renderingEngine.setView(0);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_2)){
+				//inverse
+				renderingEngine.setView(1);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_3)){
+				//greyScale
+				renderingEngine.setView(2);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_4)){
+				//averageColor
+				renderingEngine.setView(3);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+				world.saveToFile(world.toJSON().toString());
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_N)){
+				world = new World();
+				player.setWorld(world);
+			}
 		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_2)){
-			//inverse
-			renderingEngine.setView(1);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_3)){
-			//greyScale
-			renderingEngine.setView(2);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_4)){
-			//averageColor
-			renderingEngine.setView(3);
-		}
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-			//averageColor
 			renderingEngine.setBlur(true);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_O)){
-			//averageColor
 			renderingEngine.setBlur(false);
 		}
 	}
@@ -114,14 +125,29 @@ public abstract class CoreGame extends JFrame{
 			g.render(renderingEngine);
 		}
 		
-		if(renderingEngine.getSelect() != null){
+		if(renderingEngine.getSelectBlock().getBlock() != null){
 			RenderingEngine.entityShader.bind();
 			RenderingEngine.entityShader.updateUniform("select", true);
-			renderingEngine.getSelect().setScale(renderingEngine.getSelect().getScale().add(0.01f));
-			renderingEngine.getSelect().render(renderingEngine);
-			renderingEngine.getSelect().setScale(renderingEngine.getSelect().getScale().sub(0.01f));
+			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().add(0.01f));
+			renderingEngine.getSelectBlock().getBlock().render(renderingEngine);
+			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
 			RenderingEngine.entityShader.updateUniform("select", false);
-			renderingEngine.setSelect(null);
+			
+			if(Mouse.isButtonDown(1) && !clicks[1]){
+				world.remove(renderingEngine.getSelectBlock().getBlock());
+				clicks[1] = true;
+			}
+			if(!Mouse.isButtonDown(1))
+				clicks[1] = false;
+			
+			if(Mouse.isButtonDown(0) && !clicks[0]){
+				world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
+				clicks[0] = true;
+			}
+			if(!Mouse.isButtonDown(0))
+				clicks[0] = false;
+			
+			renderingEngine.getSelectBlock().reset();
 		}
 	};
 

@@ -1,5 +1,7 @@
 package game.main;
 
+import org.json.JSONObject;
+
 import game.components.Player;
 import game.core.CoreGame;
 import game.object.Camera;
@@ -19,7 +21,8 @@ public class StrategyGame extends CoreGame{
 	
 	public void init(){
 		GLog.sleep(100);
-		setWorld(new World());
+//		setWorld(new World());
+		setWorld(new World(new JSONObject(World.loadFromFile())));
 		setPlayer(new Player(getWorld(), new Camera()));
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(getPlayer().getCamera());
@@ -34,6 +37,7 @@ public class StrategyGame extends CoreGame{
 //		addToScene(box);
 		
 		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
+		
 		
 //		addToScene(new Block(new GVector3f(0,1,-5),1));
 		

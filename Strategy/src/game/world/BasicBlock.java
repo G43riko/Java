@@ -1,6 +1,8 @@
 package game.world;
 
 
+import org.json.JSONObject;
+
 import game.main.Loader;
 import game.object.GameObject;
 import game.rendering.material.Material;
@@ -185,5 +187,14 @@ public class BasicBlock extends GameObject{
 	
 	public Texture2D getDiffuse(){
 		return ((Material) Block.blockDatas.get(type).get("mat")).getDiffuse();
+	}
+
+	public JSONObject toJSON(){
+		JSONObject o = new JSONObject();
+		o.put("posX", getPosition().getX());
+		o.put("posY", getPosition().getY());
+		o.put("posZ", getPosition().getZ());
+		o.put("typ", type);
+		return o;
 	}
 }

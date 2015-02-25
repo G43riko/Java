@@ -22,6 +22,8 @@ public class BasicPlayer extends GameObject{
 	
 	private float minDist = 3f;
 	
+	protected int selectBlock = Block.GRASS;
+	
 	private int unlockMouseKey = Keyboard.KEY_N;
 	private int lockMouseKey = Keyboard.KEY_M;
 	
@@ -59,23 +61,24 @@ public class BasicPlayer extends GameObject{
 	}
 	
 	public void input(){
+		
+		/*	MOVING KEYS
+		 * 	W, A, S, D
+		 */
+		
 		if(Keyboard.isKeyDown(forwardKey)){
 			dir = dir.add(camera.getForwardVector());
-//			move(camera.getForwardVector());
 		}
 		
 		if(Keyboard.isKeyDown(backKey)){
-//			move(camera.getBackVector());
 			dir = dir.add(camera.getBackVector());
 		}
 		
 		if(Keyboard.isKeyDown(leftKey)){
-//			move(camera.getLeftVector());
 			dir = dir.add(camera.getLeftVector());
 		}
 		
 		if(Keyboard.isKeyDown(rightKey)){
-//			move(camera.getRightVector());
 			dir = dir.add(camera.getRightVector());
 		}
 		
@@ -89,10 +92,30 @@ public class BasicPlayer extends GameObject{
 //			move = true;
 //		}
 		
+		/*	BLOCK SELECTOR
+		 *	1-9  
+		 */
+		
+		for(int i=2; i<11 ; i++){
+			if(Keyboard.isKeyDown(i)){
+				selectBlock = i-1;
+			}
+		}
+		
+		
+		/*	JUMPING
+		 *  SPACE
+		 */
+		
+		
 		if(Keyboard.isKeyDown(jumpKey) && dir.getY()==0){
 			dir = dir.add(new GVector3f(0,Player.JUMP_STRENG,0));
 			move = true;
 		}
+		
+		/*	MOUSE LOCK & UNLOCK
+		 * 	M, N
+		 */
 		
 		if(Keyboard.isKeyDown(lockMouseKey)){
 			camera.lockMouse();
@@ -101,6 +124,8 @@ public class BasicPlayer extends GameObject{
 		if(Keyboard.isKeyDown(unlockMouseKey)){
 			camera.unlockMouse();
 		}
+		
+		
 		
 		if(camera.isMouseLocked()){
 			rotate = camera.mouseMove();
@@ -120,5 +145,13 @@ public class BasicPlayer extends GameObject{
 	
 	public Camera getCamera() {
 		return camera;
+	}
+
+	public int getSelectBlock() {
+		return selectBlock;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

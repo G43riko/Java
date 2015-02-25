@@ -1,4 +1,4 @@
-#version 400 core
+#version 130
 
 in float distance;
 in vec2 pass_textureCoords;
@@ -59,7 +59,7 @@ void main(){
 		out_Color = vec4(average, average, average,1);
 	}
 	else if(view == 3){
-		if(color != 0){
+		if(color!=vec3(0,0,0)){
 			out_Color = vec4(color,1);
 		}
 		else

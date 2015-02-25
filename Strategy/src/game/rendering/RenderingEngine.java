@@ -40,8 +40,8 @@ public class RenderingEngine {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_FRONT);
+//		GL11.glEnable(GL11.GL_CULL_FACE);
+//		GL11.glCullFace(GL11.GL_FRONT);
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		

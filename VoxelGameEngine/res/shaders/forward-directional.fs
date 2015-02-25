@@ -12,7 +12,7 @@ uniform sampler2D diffuse;
 uniform DirectionalLight R_directionalLight;
 
 void main(){
-	if(O_texturing == 0)
+	if(O_texturing == 1)
 		gl_FragColor = texture2D(diffuse, texCoord0.xy) * calcDirectionalLight(R_directionalLight, normalize(normal0),worldPos0);
 	else
 		gl_FragColor = vec4(R_color,1) * calcDirectionalLight(R_directionalLight, normalize(normal0),worldPos0);

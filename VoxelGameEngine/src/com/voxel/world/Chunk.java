@@ -7,9 +7,9 @@ import glib.util.vector.GVector3f;
 import com.voxel.core.GameObject;
 
 public class Chunk extends GameObject{
-	public static final int NUM_X = 8;
-	public static final int NUM_Y = 16;
-	public static final int NUM_Z = 8;
+	public static final int NUM_X = 4;
+	public static final int NUM_Y = 8;
+	public static final int NUM_Z = 4;
 	
 	private int x;
 	private int y;

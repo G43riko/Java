@@ -36,7 +36,7 @@ public class StrategyGame extends CoreGame{
 //		Box box = new Box(new GVector3f(0,1,0),1);
 //		addToScene(box);
 		
-		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
+		//addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
 		
 		
 //		addToScene(new Block(new GVector3f(0,1,-5),1));

@@ -12,6 +12,11 @@ public class MainWebCam implements Runnable{
     IplImage image;
     CanvasFrame canvas = new CanvasFrame("Web Cam");
     
+    public static void main(String[] args){
+    	MainWebCam webCam = new MainWebCam();
+    	webCam.run();
+    }
+    
     public void GrabberShow(){
         canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     }

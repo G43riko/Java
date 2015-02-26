@@ -9,6 +9,10 @@ public class GVector3f {
 		this(0,0,0);
 	}
 	
+	public GVector3f(String r){
+		this(Math.random(),Math.random(),Math.random());
+	}
+	
 	public GVector3f(float val){
 		this.x = val;
 		this.y = val;

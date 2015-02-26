@@ -30,7 +30,6 @@ public class Block extends BasicBlock{
 	public static final HashMap<Integer,JSONObject> blockDatas;
 	private static final Model[] model = new Model[6];
 	
-//	public boolean[] sides = new boolean[]{false,false,false,false,false,false};
 	private boolean[] sides = new boolean[]{true,true,true,true,true,true};
 	static{
 		blockDatas = new HashMap<Integer,JSONObject>();

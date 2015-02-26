@@ -18,6 +18,8 @@ public class MainStrategy {
 	
 	public static void main(String[] args) {
 		CoreGame game = new StrategyGame();
+//		CoreGame game = new ParticleTester();
+		
 		game.createWindow(game);
 		game.init();
 		game.start();

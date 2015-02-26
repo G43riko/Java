@@ -9,7 +9,6 @@ import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import game.util.Maths;
-
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GQuaternion;
@@ -55,18 +54,16 @@ public class Particle extends GameObject{
 		if(parent.isDwindle())
 			setScale(getScale().add(sizePerFrame*20));
 		if(parent.isFadding())
-			
 			alpha -= alphaPerFrame;
+		
 		life--;
-		if(life<0 || alpha<=0)
-			dead = true;
 		rotation+= rotationSpeed;
-//		rotate(new GVector3f(0,1,0));
-//		rotate(new GVector3f(0,1,0),1);
+		
+		if(life<=0 || alpha<=0)
+			dead = true;
 	};
 	
 	public void render(RenderingEngine renderingEngine){
-		
 		renderingEngine.renderParticle(this);
 	}
 	

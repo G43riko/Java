@@ -1,15 +1,10 @@
 package game.object;
 
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import game.rendering.shader.Shader;
-import game.util.Maths;
-import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
 public class Entity extends GameObject{

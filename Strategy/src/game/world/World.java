@@ -6,19 +6,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
+import game.components.Explosion;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import glib.util.noise.PerlinNoise;
-import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public class World extends GameObject{
 	public static int NUM_X = 2;
 	public static int NUM_Z = 2;
 	public static float[][] map;
+	
+	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
 	
 	private Chunk3D[][] chunks;
 	
@@ -37,8 +40,9 @@ public class World extends GameObject{
 		}
 	}
 	
-	public World(JSONObject o) {
+	public World(String fileName) {
 		super(new GVector3f(), 10);
+		JSONObject o = new JSONObject(loadFromFile(fileName));
 		NUM_X = o.getInt("worldX");
 		NUM_Z = o.getInt("worldZ");
 		Chunk3D.NUM_X = o.getInt("chunkX");
@@ -57,6 +61,7 @@ public class World extends GameObject{
 				chunks[i][j].setSides();
 			}
 		}
+		System.out.println("Svet "+fileName+" bol ˙speöne naËÌtan˝");
 	}
 
 	private void create(JSONObject o) {
@@ -102,6 +107,9 @@ public class World extends GameObject{
 				chunks[i][j].render(renderingEngine);
 			}
 		}
+		for(Explosion e:explosions){
+			e.render(renderingEngine);
+		}
 	}
 	
 	public GVector3f getMaxSize(){
@@ -124,6 +132,13 @@ public class World extends GameObject{
 			}
 		}
 		return o;
+	}
+	
+	public void update(){
+		System.out.println("tu to je");
+		for(Explosion e:explosions){
+			e.update();
+		}
 	}
 	
 	public Block getBlock(GVector3f from){
@@ -156,16 +171,20 @@ public class World extends GameObject{
 	public void remove(Block b) {
 		if(b.getPosition().getY() == 0)
 			return;
+		explosions.add(new Explosion(b,5));
+		
 		getChunkFromBlock(b).remove(getPosFromBlock(b));
 	}
 
-
-	public void saveToFile(String data){
-		File fileToSave = new File("ulozenaHra.txt");
-		PrintStream file = null;;
+	public void saveToFile(String fileName){
+		String data = toJSON().toString();
+		File fileToSave = new File("res/components/maps/"+fileName);
+		PrintStream file = null;
 		try {
 			file = new PrintStream(fileToSave);
 			file.println(data);
+			System.out.println("svet sa ˙speöne uloûil ako "+fileName);
+			
 		} catch (FileNotFoundException e1) {
 			System.out.println("lutujeme ale s˙bor nebolo moûnÈ najsù");
 			e1.printStackTrace();
@@ -173,16 +192,13 @@ public class World extends GameObject{
 		file.close();
 	}
 	
-	public static String loadFromFile(){
-		BufferedReader reader=null;
-
+	public static String loadFromFile(String fileName){
 		String line = null;
 		try {
-			reader = new BufferedReader(new FileReader("ulozenaHra.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("res/components/maps/"+fileName));
+			System.out.println("s˙bor "+fileName+" bol ˙speöne otvoren˝");
 			line = reader.readLine();
 			reader.close();
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

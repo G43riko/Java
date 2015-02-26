@@ -62,5 +62,9 @@ public class GMath {
     
     public static float randomize(float value, float level){
     	return value + (float)(Math.random()*2*level - level);
-    }
+    };
+    
+    public static float between(float value, float min, float max){
+    	return (float)Math.max(min, Math.min(value, max));
+    };
 }

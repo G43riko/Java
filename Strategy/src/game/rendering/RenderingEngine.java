@@ -11,6 +11,7 @@ import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
 import game.particle.Particle;
+import game.rendering.model.Model;
 import game.rendering.shader.Shader;
 import game.util.Maths;
 import game.world.Block;
@@ -59,8 +60,8 @@ public class RenderingEngine {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		
-//		GL11.glEnable(GL11.GL_CULL_FACE);
-//		GL11.glCullFace(GL11.GL_FRONT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_FRONT);
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
@@ -81,7 +82,6 @@ public class RenderingEngine {
 			return;
 		}
 		entityShader.bind();
-		prepare(3,entity.getModel().getVaoID());
 		
 		if(view == 3){
 			entityShader.updateUniform("color", entity.getTexture().getAverageColor());
@@ -93,8 +93,8 @@ public class RenderingEngine {
 		entityShader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
 		
 		entity.getTexture().bind();
-		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+
+		prepareAndDraw(3,entity.getModel());
 		
 		disableVertex(3);
 	}
@@ -105,7 +105,6 @@ public class RenderingEngine {
 		}
 		skyShader.bind();
 		
-		prepare(2, sky.getModel().getVaoID());
 		
 		if(view == 3){
 			skyShader.updateUniform("color", sky.getTexture().getAverageColor());
@@ -114,8 +113,8 @@ public class RenderingEngine {
 		skyShader.updateUniform("transformationMatrix", sky.getTransformationMatrix());
 		
 		sky.getTexture().bind();
-		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, sky.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+
+		prepareAndDraw(2, sky.getModel());
 		
 		disableVertex(2);
 	}
@@ -152,8 +151,7 @@ public class RenderingEngine {
 					}
 					selectBlock.block = block;
 				}
-				prepare(3, block.getModel(i).getVaoID());
-				GL11.glDrawElements(GL11.GL_TRIANGLES, block.getModel(i).getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+				prepareAndDraw(3, block.getModel(i));
 			}
 		}
 			
@@ -166,7 +164,7 @@ public class RenderingEngine {
 		}
 		particleShader.bind();
 		
-		prepare(2,particle.getModel().getVaoID());
+		
 		
 		particleShader.updateUniform("color", particle.getColor());
 		
@@ -177,11 +175,11 @@ public class RenderingEngine {
 		
 		if(particle.getTexture() != null)
 			particle.getTexture().bind();
-		GL11.glDrawElements(GL11.GL_TRIANGLES, particle.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+		
+		prepareAndDraw(2,particle.getModel());
+		
 		disableVertex(2);
 	}
-
-	
 	
 	public void calcMouseDir(){
 		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
@@ -189,13 +187,15 @@ public class RenderingEngine {
 		mousePos = actPos;
 	}
 	
-	private void prepare(int i, int id){
-		GL30.glBindVertexArray(id);
+	private void prepareAndDraw(int i, Model model){
+		GL30.glBindVertexArray(model.getVaoID());
 		
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		if(i>2)
 			GL20.glEnableVertexAttribArray(2);
+		
+		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 	}
 	
 	private void disableVertex(int i){
@@ -259,11 +259,19 @@ public class RenderingEngine {
 	}
 
 	public void setEyePos(){
+		if(mainCamera == null){
+			System.out.println("nieje nastavená hlavná kamera");
+			return;
+		}
 		entityShader.bind();
 		entityShader.updateUniform("eyePos", mainCamera.getPosition());
 	}
 	
 	public void setViewMatrix(){
+		if(mainCamera == null){
+			System.out.println("nieje nastavená hlavná kamera");
+			return;
+		}
 		GMatrix4f mat = Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera));
 		entityShader.bind();
 		entityShader.updateUniform("viewMatrix", mat);
@@ -300,12 +308,10 @@ public class RenderingEngine {
 		return mainCamera;
 	}
 
-	
 	public SelectBlock getSelectBlock() {
 		return selectBlock;
 	}
 
-	
 	public void setSelectBlock(SelectBlock selectBlock) {
 		this.selectBlock = selectBlock;
 	}

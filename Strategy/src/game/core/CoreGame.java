@@ -52,12 +52,13 @@ public abstract class CoreGame extends JFrame{
 	public void start(){
 		running = true;
 		while(running && !Display.isCloseRequested()){
+//			double time = System.currentTimeMillis();
 			input();
 			update();
 			render();
-			
 			Display.update();
 			Display.sync(MainStrategy.FPS);
+//			System.out.println(1000/(System.currentTimeMillis()-time));
 		}
 	}
 	
@@ -88,7 +89,7 @@ public abstract class CoreGame extends JFrame{
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-				world.saveToFile(world.toJSON().toString());
+				world.saveToFile("mainWorld.gw");
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_N)){
@@ -116,8 +117,8 @@ public abstract class CoreGame extends JFrame{
 		if(skyBox != null)
 			skyBox.render(renderingEngine);
 		
-		if(world != null)
-			world.render(renderingEngine);
+//		if(world != null)
+//			world.render(renderingEngine);
 		
 		for(GameObject g: scene){
 			g.input();
@@ -134,6 +135,7 @@ public abstract class CoreGame extends JFrame{
 			RenderingEngine.entityShader.updateUniform("select", false);
 			
 			if(Mouse.isButtonDown(1) && !clicks[1]){
+				if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
 				world.remove(renderingEngine.getSelectBlock().getBlock());
 				clicks[1] = true;
 			}
@@ -141,7 +143,8 @@ public abstract class CoreGame extends JFrame{
 				clicks[1] = false;
 			
 			if(Mouse.isButtonDown(0) && !clicks[0]){
-				world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
+				if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
+					world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
 				clicks[0] = true;
 			}
 			if(!Mouse.isButtonDown(0))
@@ -214,5 +217,6 @@ public abstract class CoreGame extends JFrame{
 
 	public void setWorld(World world) {
 		this.world = world;
+		addToScene(world);
 	}
 }

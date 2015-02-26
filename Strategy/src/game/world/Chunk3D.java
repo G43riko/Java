@@ -176,6 +176,7 @@ public class Chunk3D extends GameObject{
 	}
 	
 	public void remove(GVector3f sur){
+		if(!exist(sur.getXi(), sur.getYi(), sur.getZi(), false));
 		blocks[sur.getXi()][sur.getYi()][sur.getZi()] = null;
 		setSideAround(sur.getXi(),sur.getYi(),sur.getZi());
 	}

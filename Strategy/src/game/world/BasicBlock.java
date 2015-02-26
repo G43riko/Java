@@ -11,9 +11,6 @@ import game.rendering.model.Model;
 import glib.util.vector.GVector3f;
 
 public class BasicBlock extends GameObject{
-//	private int width = Block.WIDTH;
-//	private int height = Block.HEIGHT;
-//	private int depth = Block.DEPTH;
 	protected int type;
 	private GVector3f[][] points = new GVector3f[][]{ new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
 																	  new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
@@ -196,5 +193,10 @@ public class BasicBlock extends GameObject{
 		o.put("posZ", getPosition().getZ());
 		o.put("typ", type);
 		return o;
+	}
+
+	
+	public int getBlockType() {
+		return type;
 	}
 }

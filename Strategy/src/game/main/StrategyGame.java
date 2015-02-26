@@ -22,7 +22,7 @@ public class StrategyGame extends CoreGame{
 	public void init(){
 		GLog.sleep(100);
 //		setWorld(new World());
-		setWorld(new World(new JSONObject(World.loadFromFile())));
+		setWorld(new World("mainWorld.gw"));
 		setPlayer(new Player(getWorld(), new Camera()));
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(getPlayer().getCamera());
@@ -36,7 +36,7 @@ public class StrategyGame extends CoreGame{
 //		Box box = new Box(new GVector3f(0,1,0),1);
 //		addToScene(box);
 		
-		//addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
+		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
 		
 		
 //		addToScene(new Block(new GVector3f(0,1,-5),1));
@@ -46,97 +46,97 @@ public class StrategyGame extends CoreGame{
 		
 	}
 
-	public Model getPlane(){
-		float width = 50;
-		float height = 50;
-		float[] vertices = new float[]{-width, 0,  height,
-									   -width, 0, -height,
-									    width, 0, -height,
-									    width, 0,  height};
-		
-		int[] indices = new int[]{0,1,3,
-								  3,1,2};
-		
-		float[] texture = new float[]{0,0,
-									  0,height,
-									  width,height,
-									  width,0};
-		
-		return getLoader().loadToVAO(vertices, texture, indices);
-		
-	}
-	
-	public Model getBox(int w, int h, int d){
-		float[] vertices = new float[]{			
-				-w,h,-d,	
-				-w,-h,-d,	
-				w,-h,-d,	
-				w,h,-d,		
-				
-				-w,h,d,	
-				-w,-h,d,	
-				w,-h,d,	
-				w,h,d,
-				
-				w,h,-d,	
-				w,-h,-d,	
-				w,-h,d,	
-				w,h,d,
-				
-				-w,h,-d,	
-				-w,-h,-d,	
-				-w,-h,d,	
-				-w,h,d,
-				
-				-w,h,d,
-				-w,h,-d,
-				w,h,-d,
-				w,h,d,
-				
-				-w,-h,d,
-				-w,-h,-d,
-				w,-h,-d,
-				w,-h,d};
-		
-		float[] texture ={0,0,
-				 		  0,1,
-						  1,1,
-						  1,0,			
-						  0,0,
-						  0,1,
-						  1,1,
-						  1,0,			
-						  0,0,
-						  0,1,
-						  1,1,
-						  1,0,
-						  0,0,
-						  0,1,
-						  1,1,
-						  1,0,
-						  0,0,
-						  0,1,
-						  1,1,
-						  1,0,
-						  0,0,
-						  0,1,
-						  1,1,
-						  1,0};
-		
-		int[] indices ={0,1,3,	
-						3,1,2,	
-						4,5,7,
-						7,5,6,
-						8,9,11,
-						11,9,10,
-						12,13,15,
-						15,13,14,	
-						16,17,19,
-						19,17,18,
-						20,21,23,
-						23,21,22};
-		
-		return getLoader().loadToVAO(vertices, texture, indices);
-	}
-	
+//	public Model getPlane(){
+//		float width = 50;
+//		float height = 50;
+//		float[] vertices = new float[]{-width, 0,  height,
+//									   -width, 0, -height,
+//									    width, 0, -height,
+//									    width, 0,  height};
+//		
+//		int[] indices = new int[]{0,1,3,
+//								  3,1,2};
+//		
+//		float[] texture = new float[]{0,0,
+//									  0,height,
+//									  width,height,
+//									  width,0};
+//		
+//		return getLoader().loadToVAO(vertices, texture, indices);
+//		
+//	}
+//	
+//	public Model getBox(int w, int h, int d){
+//		float[] vertices = new float[]{			
+//				-w,h,-d,	
+//				-w,-h,-d,	
+//				w,-h,-d,	
+//				w,h,-d,		
+//				
+//				-w,h,d,	
+//				-w,-h,d,	
+//				w,-h,d,	
+//				w,h,d,
+//				
+//				w,h,-d,	
+//				w,-h,-d,	
+//				w,-h,d,	
+//				w,h,d,
+//				
+//				-w,h,-d,	
+//				-w,-h,-d,	
+//				-w,-h,d,	
+//				-w,h,d,
+//				
+//				-w,h,d,
+//				-w,h,-d,
+//				w,h,-d,
+//				w,h,d,
+//				
+//				-w,-h,d,
+//				-w,-h,-d,
+//				w,-h,-d,
+//				w,-h,d};
+//		
+//		float[] texture ={0,0,
+//				 		  0,1,
+//						  1,1,
+//						  1,0,			
+//						  0,0,
+//						  0,1,
+//						  1,1,
+//						  1,0,			
+//						  0,0,
+//						  0,1,
+//						  1,1,
+//						  1,0,
+//						  0,0,
+//						  0,1,
+//						  1,1,
+//						  1,0,
+//						  0,0,
+//						  0,1,
+//						  1,1,
+//						  1,0,
+//						  0,0,
+//						  0,1,
+//						  1,1,
+//						  1,0};
+//		
+//		int[] indices ={0,1,3,	
+//						3,1,2,	
+//						4,5,7,
+//						7,5,6,
+//						8,9,11,
+//						11,9,10,
+//						12,13,15,
+//						15,13,14,	
+//						16,17,19,
+//						19,17,18,
+//						20,21,23,
+//						23,21,22};
+//		
+//		return getLoader().loadToVAO(vertices, texture, indices);
+//	}
+//	
 }

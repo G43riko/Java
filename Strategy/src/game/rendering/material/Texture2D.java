@@ -5,7 +5,6 @@ import glib.util.vector.GVector3f;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -238,5 +237,9 @@ public class Texture2D {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public String getFileName() {
+		return fileName;
 	}
 }

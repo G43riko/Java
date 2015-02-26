@@ -1,15 +1,11 @@
 package game.object;
 
-import javax.xml.crypto.dsig.Transform;
-
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import static org.lwjgl.util.glu.GLU.*;
 import game.rendering.RenderingEngine;
 import game.util.Maths;
 import glib.util.vector.GMatrix4f;
-import glib.util.vector.GQuaternion;
 import glib.util.vector.GVector3f;
 
 
@@ -33,6 +29,7 @@ public abstract class GameObject {
 	 * 11 - particleEmmiter
 	 * 12 - Player
 	 * 13 - HUD
+	 * 14 - explosion
 	 */
 	public GameObject(GVector3f position,  int type) {
 		this(position, new GVector3f(0,0,0), new GVector3f(1,1,1), type);

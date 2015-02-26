@@ -20,12 +20,10 @@ public class BasicPlayer extends GameObject{
 	public boolean rotate = false;
 	public boolean move = false;
 	
-	private float minDist = 3f;
-	
 	protected int selectBlock = Block.GRASS;
 	
-	private int unlockMouseKey = Keyboard.KEY_N;
-	private int lockMouseKey = Keyboard.KEY_M;
+	private int unlockMouseKey = Keyboard.KEY_K;
+	private int lockMouseKey = Keyboard.KEY_L;
 	
 	private int forwardKey = Keyboard.KEY_W;
 	private int backKey = Keyboard.KEY_S;
@@ -42,19 +40,37 @@ public class BasicPlayer extends GameObject{
 	}
 	
 	public Block getFloor(){
-		return world.getBlock(getCamera().getPosition().add(new GVector3f(0,-Player.HEIGHT-Block.HEIGHT,0)));
+		
+		GVector3f pos = camera.getPosition().sub(new GVector3f(0,Player.HEIGHT+Block.HEIGHT*2,0));
+		Block b = world.getBlock(pos);
+//		strašne spomaluje hru
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(+Player.MIN_DIST_FROM_BLOCK,0,0)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(-Player.MIN_DIST_FROM_BLOCK,0,0)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(0,0,+Player.MIN_DIST_FROM_BLOCK)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(0,0,-Player.MIN_DIST_FROM_BLOCK)));
+		return b;
 	}
 	
 	public void move(GVector3f direction){
 		GVector3f x = new GVector3f(dir.getX(), 0, 0);
 		GVector3f z = new GVector3f(0, 0, dir.getZ());
-		
-		if(!x.isNull() && world.getBlock(getCamera().getPosition().add(x.mul(minDist)))==null){
+		GVector3f pos = getCamera().getPosition();
+		if(!x.isNull() && world.getBlock(pos.add(x).add(new GVector3f(Player.MIN_DIST_FROM_BLOCK,0,0)))==null &&
+						  world.getBlock(pos.add(x).sub(new GVector3f(Player.MIN_DIST_FROM_BLOCK,0,0)))==null &&
+						  world.getBlock(pos.add(x).add(new GVector3f(Player.MIN_DIST_FROM_BLOCK,-Player.HEIGHT,0)))==null &&
+						  world.getBlock(pos.add(x).sub(new GVector3f(Player.MIN_DIST_FROM_BLOCK,+Player.HEIGHT,0)))==null){
 			camera.move(x);
 			move = true;
 		}
 		
-		if(!z.isNull() && world.getBlock(getCamera().getPosition().add(z.mul(minDist)))==null){
+		if(!z.isNull() && world.getBlock(pos.add(z).add(new GVector3f(0,0,Player.MIN_DIST_FROM_BLOCK)))==null && 
+						  world.getBlock(pos.add(z).sub(new GVector3f(0,0,Player.MIN_DIST_FROM_BLOCK)))==null &&
+						  world.getBlock(pos.add(z).add(new GVector3f(0,-Player.HEIGHT,Player.MIN_DIST_FROM_BLOCK)))==null && 
+						  world.getBlock(pos.add(z).sub(new GVector3f(0,+Player.HEIGHT,Player.MIN_DIST_FROM_BLOCK)))==null){
 			camera.move(z);
 			move = true;
 		}

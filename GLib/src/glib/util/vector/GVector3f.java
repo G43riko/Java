@@ -9,7 +9,7 @@ public class GVector3f {
 		this(0,0,0);
 	}
 	
-	public GVector3f(String r){
+	public GVector3f(String n){
 		this(Math.random(),Math.random(),Math.random());
 	}
 	

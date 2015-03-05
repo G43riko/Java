@@ -32,7 +32,7 @@ public class Block extends Entity{
 	private boolean transparency;
 	private boolean active = true;
 	private Color color;
-	private static RawModel model=null;
+	private static RawModel model = null;
 	private static TexturedModel[] models;
 	private static Color[] colors = new Color[]{null,Color.ORANGE,Color.GREEN,Color.BLUE,Color.LIGHT_GRAY};
 	
@@ -49,6 +49,7 @@ public class Block extends Entity{
 		if(model!=null){
 			return;
 		}
+		//model = Box.getModel(loader, WIDTH, HEIGHT, DEPTH);
 		model = Box.getModel(loader, WIDTH, HEIGHT, DEPTH);
 		models = new TexturedModel[]{null,
 			new TexturedModel(model,new ModelTexture("dirt.jpg")),

@@ -135,10 +135,14 @@ public class World extends GameObject{
 	}
 	
 	public void update(){
-		System.out.println("tu to je");
+		ArrayList<Explosion> forRemove = new ArrayList<Explosion>();
 		for(Explosion e:explosions){
 			e.update();
+			if(e.getBlocks().size()==0){
+				forRemove.add(e);
+			}
 		}
+		explosions.removeAll(forRemove);
 	}
 	
 	public Block getBlock(GVector3f from){

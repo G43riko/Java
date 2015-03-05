@@ -257,7 +257,7 @@ public class Box {
 		return normals;
 	}
 	
-	public static RawModel getFront(Loader loader, float w,float h,float d){
+	public static RawModel getFront(Loader loader, float w,float h,float d, boolean repeat){
 		float[] vertices = {
 				//back
 				-w,h,d,
@@ -275,6 +275,12 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,h,
+								   w,h,
+								   w,0};
+		}
 		float[] normals = {
 				0.0000f,  0.0000f,  1.0000f,
 				0.0000f,  0.0000f,  1.0000f,
@@ -283,8 +289,7 @@ public class Box {
 		};
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
-	
-	public static RawModel getBack(Loader loader, float w,float h,float d){
+	public static RawModel getBack(Loader loader, float w,float h,float d, boolean repeat){
 		float[] vertices = {
 				//back
 				-w,h,-d,
@@ -302,6 +307,12 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,h,
+								   w,h,
+								   w,0};
+		}
 		float[] normals = {
 				0.0000f,  0.0000f,  -1.0000f,
 				0.0000f,  0.0000f,  -1.0000f,
@@ -311,7 +322,7 @@ public class Box {
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
 	
-	public static RawModel getTop(Loader loader, float w,float h,float d){
+	public static RawModel getTop(Loader loader, float w,float h,float d, boolean repeat){
 		float[] vertices = {
 				//top
 				-w,h,d,
@@ -329,6 +340,13 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,d,
+								   w,d,
+								   w,0};
+		}
+			
 		float[] normals = {
 				 0.0000f,  1.0000f,  0.0000f,
 				 0.0000f,  1.0000f,  0.0000f,
@@ -338,7 +356,7 @@ public class Box {
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
 	
-	public static RawModel getBottom(Loader loader, float w,float h,float d){
+	public static RawModel getBottom(Loader loader, float w,float h,float d,boolean repeat){
 		float[] vertices = {
 				//bottom
 				-w,-h,d,
@@ -356,6 +374,12 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,d,
+								   w,d,
+								   w,0};
+		}
 		float[] normals = {
 				0.0000f, -1.0000f,  0.0000f,
 			    0.0000f, -1.0000f,  0.0000f,
@@ -365,7 +389,7 @@ public class Box {
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
 	
-	public static RawModel getLeft(Loader loader, float w,float h,float d){
+	public static RawModel getLeft(Loader loader, float w,float h,float d, boolean repeat){
 		float[] vertices = {
 				//left
 				-w,h,-d,
@@ -383,6 +407,12 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,d,
+								   h,d,
+								   h,0};
+		}
 		float[] normals = {
 				-1.0000f,  0.0000f,  0.0000f,
 				-1.0000f,  0.0000f,  0.0000f,
@@ -391,8 +421,7 @@ public class Box {
 		};
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
-	
-	public static RawModel getRight(Loader loader, float w,float h,float d){
+	public static RawModel getRight(Loader loader, float w,float h,float d, boolean repeat){
 		float[] vertices = {
 				//right
 				w,h,-d,
@@ -410,6 +439,12 @@ public class Box {
 				1,1,
 				1,0
 		};
+		if(repeat){
+			textures = new float[]{0,0,
+								   0,d,
+								   h,d,
+								   h,0};
+		}
 		float[] normals = {
 				1.0000f,  0.0000f,  0.0000f,
 			    1.0000f,  0.0000f,  0.0000f,
@@ -418,7 +453,6 @@ public class Box {
 		};
 		return loader.loadToVAO(vertices, textures, normals, indices);
 	}
-	
 	public static RawModel getModel(Loader loader, float width,float height,float depth){
 		return loader.loadToVAO(getVertices(width,height,depth), getTextures(),getNormals(),getIndices());
 		//return loader.loadToVAO(vertices, textureCoords, normals, indices);

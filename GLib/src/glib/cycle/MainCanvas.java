@@ -1,16 +1,18 @@
 package glib.cycle;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import glib.util.GColor;
 import glib.util.noise.PerlinNoise;
 import glib.util.noise.SimplexNoise;
+import glib.util.vector.GVector2f;
 
 
 public class MainCanvas extends GCanvasCicle{
 	private static final long serialVersionUID = 1L;
 	
-	private float[][] mapa;
+//	private float[][] mapa;
 //	private GColor[][] map;
 
 	public static void main(String[] args){
@@ -21,23 +23,37 @@ public class MainCanvas extends GCanvasCicle{
 	}
 	
 	public MainCanvas(){
-		mapa = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(getWidth(), getHeight()), 8, 0.7f, true);
-		mapa = SimplexNoise.generateOctavedSimplexNoise(getWidth(), getHeight(), 6, 0.8f, 0.008f);
 		start();
 	}
 	
 	public void render(Graphics2D g2){
-		for(int i=0 ; i<mapa.length ; i++){
-			for(int j=0 ; j<mapa[i].length ; j++){
-				float color = mapa[i][j]*255;
-				color = (float)Math.max(0,Math.min(255, color));
-				g2.setColor(new GColor(color,0,color/2));
-				g2.fillRect(i, j, 1, 1);
-			}
-		}
-//		g2.setColor(GColor.red);
-//		g2.setPaint(new TexturePaint(null, new Rectangle2D.Float()));
-//		g2.fillPolygon(new int[]{10,20,10}, new int[]{10,10,20}, 3);
+		drawTriangel(g2,new GVector2f(50,50), new GVector2f(150,50), new GVector2f(50,150));
 	}
+	
+	public void drawLine(Graphics2D g2, GVector2f a, GVector2f b){
+		g2.setColor(Color.red);
+		g2.drawLine(a.getXi(), a.getYi(), b.getXi(), b.getYi());
+	}
+	
+	public void drawPoint(Graphics2D g2, GVector2f a){
+		g2.setColor(Color.GREEN);
+		g2.drawArc(a.getXi()-5, a.getYi()-5, 10, 10, 0, 360);
+	}
+	
+	public void drawTriangel(Graphics2D g2, GVector2f a, GVector2f b, GVector2f c){
+		g2.setColor(Color.red);
+		g2.drawLine(a.getXi(), a.getYi(), b.getXi(), b.getYi());
+		g2.drawLine(b.getXi(), b.getYi(), c.getXi(), c.getYi());
+		g2.drawLine(c.getXi(), c.getYi(), a.getXi(), a.getYi());
+	}
+	
+	public void drawQuad(Graphics2D g2, GVector2f a, GVector2f b, GVector2f c, GVector2f d){
+		g2.setColor(Color.red);
+		g2.drawLine(a.getXi(), a.getYi(), b.getXi(), b.getYi());
+		g2.drawLine(b.getXi(), b.getYi(), c.getXi(), c.getYi());
+		g2.drawLine(c.getXi(), c.getYi(), d.getXi(), d.getYi());
+		g2.drawLine(d.getXi(), d.getYi(), a.getXi(), a.getYi());
+	}
+	
 
 }

@@ -28,7 +28,6 @@ public class MyPlayer extends Player{
 		offset = new Vector2f(0 - MainBomber.WIDTH / 2, 0 - MainBomber.HEIGHT / 2);
 	}
 	
-
 	public void update(float delta){
 		//nastaví posun
 		offset.setX(position.getX() - MainBomber.WIDTH / 2);

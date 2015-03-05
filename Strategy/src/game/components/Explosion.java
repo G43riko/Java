@@ -38,18 +38,26 @@ public class Explosion extends GameObject{
 	}
 	
 	public void update(){
+		ArrayList<BlockPart> forRemove = new ArrayList<BlockPart>();
 		for(BlockPart b:blocks){
 			b.b.move(b.dir);
 			b.dir = b.dir.sub(Player.GRAVITY);
 			b.b.rotate(b.rot);
+			if(b.b.getPosition().getY()<-1000){
+				forRemove.add(b);
+			}
 		}
-		System.out.println("tu to je");
+		blocks.removeAll(forRemove);
 	}
 	
 	public void render(RenderingEngine renderingEngine) {
 		for(BlockPart b:blocks){
 			b.b.render(renderingEngine);
 		}
+	}
+
+	public ArrayList<BlockPart> getBlocks() {
+		return blocks;
 	}
 	
 }

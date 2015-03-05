@@ -22,9 +22,7 @@ public class Player extends GameComponent{
 		if(position==null)
 			return;
 		g2.setColor(color);
-		g2.fillRect((int)(position.getX()-
-				offset.getX()),
-				(int)(position.getY()-offset.getY()),Map.block,Map.block);
+		g2.fillRect((int)(position.getX()-offset.getX()),(int)(position.getY()-offset.getY()),Map.block,Map.block);
 	}
 	
 	//getters and seeters

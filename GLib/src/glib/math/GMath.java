@@ -67,4 +67,24 @@ public class GMath {
     public static float between(float value, float min, float max){
     	return (float)Math.max(min, Math.min(value, max));
     };
+
+    public static float max(float... args){
+    	float max = args[0];
+    	int num = args.length;
+    	for(int i=1 ; i<num ; i++)
+    		if(args[i] > max)
+    			max = args[i];
+    	
+    	return max;
+    }
+    
+    public static float min(float... args){
+    	float min = args[0];
+    	int num = args.length;
+    	for(int i=1 ; i<num ; i++)
+    		if(args[i] < min)
+    			min = args[i];
+    	
+    	return min;
+    }
 }

@@ -27,7 +27,11 @@ public class GColision {
 	 * Point - Rectangle collision
 	 */
 	public static boolean pointRect(float ax, float ay, float awidth, float aheight, float bx,float by){
-		return bx > ax && bx < ax + awidth && by > ay && by < ay + aheight;
+		return pointRect(new GVector2f(ax,ay), new GVector2f(awidth,aheight), new GVector2f(bx,by));
+	};
+	
+	public static boolean pointRect(GVector2f aPos, GVector2f aSize, GVector2f bPos){
+		return bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getX() && bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getY();
 	};
 	
 	/*

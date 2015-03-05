@@ -71,6 +71,7 @@ public class Mesh {
 		
 		Vertex[] vertexData = new Vertex[vertices.size()];
 		vertices.toArray(vertexData);
+		
 		Integer[] IndexData = new Integer[model.getIndices().size()];
 		model.getIndices().toArray(IndexData);
 		

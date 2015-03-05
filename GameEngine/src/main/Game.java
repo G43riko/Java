@@ -26,9 +26,11 @@ import entities.Camerka;
 import entities.Entity;
 import entities.Selector;
 import renderers.Renderer;
+import rendering.RenderingEngine;
 import shaders.StaticShader;
 import shapes.threeDimensional.Box;
 import shapes.twoDimensional.Rectangle;
+import terrains.Block2;
 import terrains.Map;
 import terrains.Terrain;
 import textures.ModelTexture;
@@ -64,6 +66,21 @@ public class Game extends JFrame{
 	private Entity entity2 = null;
 	private Selector selector = null;
 	private int pocetBlokov = 0;
+	private Block2 block;
+	
+	public void init2(){
+		isLoading = true;
+		createFrame();
+		Renderer.initGraphics();
+		
+		//mapa = new Map(32,32,loader);
+		//rmenu.setMinimap(mapa.getTerrain());
+		//tmenu.setMap(mapa);
+		block = new Block2();
+		shader = new StaticShader();
+		camerka = new Camerka(shader);
+		isLoading = false;
+	}
 	
 	public void init(){
 		isLoading = true;
@@ -91,7 +108,7 @@ public class Game extends JFrame{
 		this.entity2 = new Entity(textureModel2,-5,-1,0,0,0,0,0.5f);
 		
 		//camera = new Camera();
-		
+		block = new Block2();
 		mapa = new Map(32,32,loader);
 		//mapa.initDefaultMap();
 		mapa.initMapFromHeighMap("heightMap.png");
@@ -107,6 +124,16 @@ public class Game extends JFrame{
 		isLoading = false;
 	}
 	
+	public void mainLoop2(){
+		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(isLoading){
+				continue;
+			}
+			//Renderer.clearScreen(rmenu);
+			
+			block.render(new RenderingEngine());
+		}
+	}
 	public void mainLoop(){
 		while(!Display.isCloseRequested()&&!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			if(isLoading){
@@ -174,9 +201,9 @@ public class Game extends JFrame{
 //			selector.draw(renderer, shader);
 //			shader.loadChangeColor(false);
 //			double time = System.currentTimeMillis();
-			String txt = mapa.draw(renderer, shader)+"/"+pocetBlokov+" - "+(System.currentTimeMillis()-time);
+//			String txt = mapa.draw(renderer, shader)+"/"+pocetBlokov+" - "+(System.currentTimeMillis()-time);
 			//toto by sa dalu urËite upraviù nejako
-			
+			block.render(new RenderingEngine());
 			
 			//camera.init3DProjection();
 			//camera.useView();

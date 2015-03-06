@@ -1,4 +1,4 @@
-#version 400 core
+#version 130
 
 in vec3 position;
 in vec2 textureCoords;
@@ -17,7 +17,7 @@ void main(){
 	vec4 worldPosition = transformationMatrix * vec4(position,1);
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 	pass_textureCoords = textureCoords;
-	vec3 daco = normal;
-	//surface = (worldPosition * vec4(normal,1)).xyz;
+	//vec3 daco = normal;
+	surface = (worldPosition * vec4(normal,1)).xyz;
 	distance = length(eyePos - worldPosition.xyz);
 }

@@ -70,4 +70,5 @@ void main(){
 		if(pass_textureCoords.x <= limit || pass_textureCoords.y <= limit || pass_textureCoords.x >= 1-limit || pass_textureCoords.y >= 1-limit)
 			out_Color = vec4(0,0,0,1);
 	}
+	out_Color = vec4(surface,1);
 }

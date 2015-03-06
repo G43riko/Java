@@ -27,7 +27,7 @@ public class StrategyGame extends CoreGame{
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(getPlayer().getCamera());
 		setLoader(new Loader());
-		setSkyBox(new SkyBox(getPlayer().getCamera()));
+//		setSkyBox(new SkyBox(getPlayer().getCamera()));
 		
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));

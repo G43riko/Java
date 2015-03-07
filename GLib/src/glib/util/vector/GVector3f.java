@@ -165,6 +165,10 @@ public class GVector3f {
 		return x==0 && y==0 && z==0;
 	}
 	
+	public boolean isNegative(){
+		return x<=0 && y<=0 && z<=0;
+	}
+	
 	public GVector3f Rotate(GQuaternion rotation){
 		//rotation = new Quaternion(axis, angle);
 		GQuaternion conjugate = rotation.conjugate();

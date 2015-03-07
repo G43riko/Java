@@ -17,8 +17,8 @@ import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
 
 public class World extends GameObject{
-	public static int NUM_X = 2;
-	public static int NUM_Z = 2;
+	public static int NUM_X = 4;
+	public static int NUM_Z = 4;
 	public static float[][] map;
 	
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
@@ -175,7 +175,8 @@ public class World extends GameObject{
 	public void remove(Block b) {
 		if(b.getPosition().getY() == 0)
 			return;
-		explosions.add(new Explosion(b,5));
+		Block e = (new Block(b.getPosition(),b.getBlockType()));
+		explosions.add(new Explosion(e,5));
 		
 		getChunkFromBlock(b).remove(getPosFromBlock(b));
 	}

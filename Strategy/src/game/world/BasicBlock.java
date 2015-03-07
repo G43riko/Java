@@ -58,9 +58,9 @@ public class BasicBlock extends GameObject{
 								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};
 		
 		float[] normals = {0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f,
@@ -79,9 +79,9 @@ public class BasicBlock extends GameObject{
 								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};
 		
 		float[] normals = {1.0000f,  0.0000f,  0.0000f,
 				 		   1.0000f,  0.0000f,  0.0000f,
@@ -100,9 +100,9 @@ public class BasicBlock extends GameObject{
 								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};
 		
 		float[] normals = {0.0000f,  0.0000f,  -1.0000f,
 				 		   0.0000f,  0.0000f,  -1.0000f,
@@ -121,9 +121,9 @@ public class BasicBlock extends GameObject{
 								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};	
 		
 		float[] normals = {0.0000f,  0.0000f,  1.0000f,
 				 		   0.0000f,  0.0000f,  1.0000f,
@@ -142,9 +142,9 @@ public class BasicBlock extends GameObject{
 								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};
 		
 		float[] normals = {-1.0000f,  0.0000f,  0.0000f,
 				 		   -1.0000f,  0.0000f,  0.0000f,
@@ -163,9 +163,9 @@ public class BasicBlock extends GameObject{
 								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
-									  0,Block.DEPTH,
-									  Block.WIDTH,Block.DEPTH,
-									  Block.WIDTH,0};
+									  Block.DEPTH,0,
+									  Block.DEPTH,Block.WIDTH,
+									  0, Block.WIDTH};
 		
 		float[] normals = {0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f,

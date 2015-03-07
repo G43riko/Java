@@ -2,11 +2,15 @@ package game.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.List;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import game.Light;
+import game.components.Player;
 import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
@@ -26,12 +30,16 @@ public class RenderingEngine {
 	public static final Shader skyShader = new Shader("skyShader");
 	public static final Shader particleShader = new Shader("particleShader");
 	
+	public final static int MAX_LIGHTS = 4;
+	
 	private Camera mainCamera;
 	private int view = 0;
 	private boolean blur;
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
+	private Light sun;
+	private List<Light> lights;
 	private SelectBlock selectBlock = new SelectBlock();
 	
 	public class SelectBlock{
@@ -60,8 +68,8 @@ public class RenderingEngine {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		
-//		GL11.glEnable(GL11.GL_CULL_FACE);
-//		GL11.glCullFace(GL11.GL_FRONT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_FRONT);
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
@@ -137,8 +145,9 @@ public class RenderingEngine {
 		block.getDiffuse().bind();
 		
 		float blockToCamDist = block.getPosition().dist(mainCamera.getPosition());
-		boolean search = ((selectBlock.block == null || blockToCamDist < selectBlock.block.getPosition().dist(mainCamera.getPosition()))&&
-						  blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())) && view!=4);
+		boolean search = (block.isClickable() && blockToCamDist < Player.MAX_CLICK_DIST &&
+						 (selectBlock.block == null || blockToCamDist < selectBlock.block.getPosition().dist(mainCamera.getPosition())) &&
+						 blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())) && view!=4);
 		for(int i=0 ; i<6 ; i++){
 			if(block.getSide(i)){
 				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
@@ -258,6 +267,47 @@ public class RenderingEngine {
 		
 	}
 
+	public void setSun(Light sun){
+		if(this.sun == sun)
+			return;
+		this.sun = sun;
+		
+		entityShader.bind();
+		
+		entityShader.updateUniform("lightPosition", sun.getPosition());
+		entityShader.updateUniform("lightColor", sun.getColor());
+	}
+	
+	public void updateLight(Light light, int i){
+		if(i<MAX_LIGHTS){
+			System.out.println("terazz "+light.getPosition());
+			entityShader.updateUniform("lightPosition"+i, light.getPosition());
+			entityShader.updateUniform("lightColor"+i, light.getColor());
+			entityShader.updateUniform("attenuation"+i, light.getAttenuation());
+		}
+	}
+	
+	public void setLights(List<Light> lights){
+		if(this.lights == lights)
+			return;
+		this.lights = lights;
+		
+		entityShader.bind();
+		for(int i=0 ;i<MAX_LIGHTS ; i++){
+			if(i < lights.size()){
+				System.out.println(lights.get(i).getPosition()+" == "+lights.get(i).getColor() +" == "+lights.get(i).getAttenuation());
+				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
+				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+			}
+			else{
+				entityShader.updateUniform("lightPosition"+i, new GVector3f());
+				entityShader.updateUniform("lightColor"+i, new GVector3f());
+				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+			}
+		}
+	}
+	
 	public void setEyePos(){
 		if(mainCamera == null){
 			System.out.println("nieje nastavená hlavná kamera");

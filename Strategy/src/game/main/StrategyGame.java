@@ -2,6 +2,7 @@ package game.main;
 
 import org.json.JSONObject;
 
+import game.Light;
 import game.components.Player;
 import game.core.CoreGame;
 import game.object.Camera;
@@ -27,8 +28,8 @@ public class StrategyGame extends CoreGame{
 		setRenderingEngine(new RenderingEngine());
 		setMainCamera(getPlayer().getCamera());
 		setLoader(new Loader());
-//		setSkyBox(new SkyBox(getPlayer().getCamera()));
-		
+		setSkyBox(new SkyBox(getPlayer().getCamera()));
+		setSun(new Light(new GVector3f(100, 100, 100), new GVector3f(1)));
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));
 //		addToScene(box);

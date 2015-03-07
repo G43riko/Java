@@ -12,6 +12,7 @@ public class Explosion extends GameObject{
 		private Block b;
 		private GVector3f dir;
 		private GVector3f rot;
+		private int life;
 	}
 	
 	private ArrayList<BlockPart> blocks = new ArrayList<BlockPart>();
@@ -25,13 +26,13 @@ public class Explosion extends GameObject{
 				for(int k=0 ; k<num ; k++){
 					BlockPart p = new BlockPart();
 					p.b = new Block(startPos.add(new GVector3f(i, j, k).mul(blockSize).mul(2)),b.getBlockType());
-					p.b.setScale(blockSize.div(2));
+					p.b.setClickable(false);
+					p.b.setScale(blockSize);
 					p.b.setRotation(new GVector3f("rand").mul(360));
 					p.dir = new GVector3f("rand").sub(0.5f).div(2);
 					p.rot = new GVector3f("rand").mul(360).normalize();
+					p.life = 30+(int)(Math.random()*50)-25;
 					blocks.add(p);
-
-					
 				}
 			}
 		}
@@ -43,7 +44,9 @@ public class Explosion extends GameObject{
 			b.b.move(b.dir);
 			b.dir = b.dir.sub(Player.GRAVITY);
 			b.b.rotate(b.rot);
-			if(b.b.getPosition().getY()<-1000){
+			b.life--;
+			b.b.setScale(b.b.getScale().sub(0.01f));
+			if(b.life<=0 || b.b.getScale().isNegative()){
 				forRemove.add(b);
 			}
 		}

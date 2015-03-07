@@ -134,6 +134,31 @@ public class GMatrix4f{
 		return res;
 	}
 	
+	public GMatrix4f lookAt(GVector3f position, GVector3f direction, GVector3f up){
+		GVector3f f = new GVector3f();
+		GVector3f u = new GVector3f();
+		GVector3f s = new GVector3f();
+		f = direction.sub(position).Normalized();
+		s = f.cross(s).Normalized();
+		s = s.cross(f);
+		
+		GMatrix4f res = new GMatrix4f().initIdentity();
+		res.set(0, 0, s.getX());
+		res.set(1, 0, s.getY());
+		res.set(2, 0, s.getZ());
+		res.set(0, 1, u.getX());
+		res.set(1, 1, u.getY());
+		res.set(2, 1, u.getZ());
+		res.set(0, 2, -f.getX());
+		res.set(1, 2, -f.getY());
+		res.set(2, 2, -f.getZ());
+		res.set(3, 0, -s.dot(position));
+		res.set(3, 1, -u.dot(position));
+		res.set(3, 2, f.dot(position));
+		
+		return res;
+	}
+	
 	public float[][] getM(){
 		float[][] res = new float[4][4];
 		

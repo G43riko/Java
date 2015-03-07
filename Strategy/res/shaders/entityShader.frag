@@ -1,8 +1,11 @@
 #version 130
 
+const int MAX_LIGHTS = 4;
+
 in float distance;
 in vec2 pass_textureCoords;
-in vec3 surface;
+in vec3 surfaceNormal;
+in vec3 toLightVector[MAX_LIGHTS];
 
 out vec4 out_Color;
 
@@ -12,6 +15,8 @@ uniform int view;
 uniform int select;
 uniform vec3 color;
 uniform vec3 ambient;
+uniform vec3 lightColor[MAX_LIGHTS];
+uniform vec3 attenuation[MAX_LIGHTS];
 uniform int blur;
 uniform vec2 mouseDir;
 
@@ -38,13 +43,26 @@ void main(){
 
 	if(view == 0){
 		if(blur == 0){
-			out_Color = vec4(ambient,1) * texture(textureSampler, pass_textureCoords) ;
+			vec3 totalDiffuse = vec3(0.0);
+		
+			vec3 unitNormal = normalize(surfaceNormal);
+			for(int i=0 ; i<MAX_LIGHTS ; i++){
+				float distToLight = length(toLightVector[i]);
+				float attFactor = attenuation[i].x + attenuation[i].y * distToLight + attenuation[i].y * distToLight * distToLight; 
+				vec3 unitLightVector = normalize(toLightVector[i]);
+				float nDotl = dot(unitNormal,unitLightVector);
+				float brightness = max(nDotl,0.0);
+				totalDiffuse = totalDiffuse + brightness * lightColor[i]/attFactor;
+			}
+			totalDiffuse = max(totalDiffuse,0.2);
+		
+			out_Color = vec4(totalDiffuse,1.0) * vec4(ambient,1) * texture(textureSampler, pass_textureCoords) ;
 		}
 		else{
 			out_Color =  calcBlur(pass_textureCoords,textureSampler,mouseDir);
 		}
 		if(select == 1){
-			out_Color *= vec4(color,1)*2;
+			out_Color /= 2;
 		}
 	}
 	else if(view == 1){
@@ -71,7 +89,7 @@ void main(){
 			out_Color = vec4(0,0,0,1);
 	}
 	else if(view == 4){
-		out_Color = vec4(abs(surface),1);
+		out_Color = vec4(abs(surfaceNormal),1);
 	}
 	
 }

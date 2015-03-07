@@ -1,7 +1,11 @@
 package game.rendering.shader;
 
-public class Shader extends GBasicShader{
+import game.rendering.RenderingEngine;
 
+public class Shader extends GBasicShader{
+		
+//	private int lightPosition[];
+//	private int lightColor[];
 	public Shader(String fileName) {
 		super(fileName);
 	}
@@ -24,5 +28,14 @@ public class Shader extends GBasicShader{
 		uniforms.put("select", super.getUniformLocation("select"));
 		uniforms.put("eyePos", super.getUniformLocation("eyePos"));
 		uniforms.put("alpha", super.getUniformLocation("alpha"));
+		
+//		uniforms.put("lightPosition", super.getUniformLocation("lightPosition"));
+//		uniforms.put("lightColor", super.getUniformLocation("lightColor"));
+		for(int i=0 ; i<RenderingEngine.MAX_LIGHTS ; i++){
+			uniforms.put("lightPosition"+i, super.getUniformLocation("lightPosition["+i+"]"));
+			uniforms.put("lightColor"+i, super.getUniformLocation("lightColor["+i+"]"));
+			uniforms.put("attenuation"+i, super.getUniformLocation("attenuation["+i+"]"));
+		}
+		
 	}
 }

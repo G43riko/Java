@@ -1,7 +1,9 @@
 package game.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import game.Light;
 import game.components.Player;
 import game.gui.Gui;
 import game.main.Loader;
@@ -13,6 +15,7 @@ import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.world.World;
 import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 import javax.swing.JFrame;
 
@@ -29,9 +32,9 @@ public abstract class CoreGame extends JFrame{
 	private SkyBox skyBox;
 	private Player player;
 	private World world;
+	private Light sun;
 	private boolean running;
 	private boolean[] clicks = new boolean[2];
-	
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
@@ -110,7 +113,6 @@ public abstract class CoreGame extends JFrame{
 		
 //		if(world != null)
 //			world.render(renderingEngine);
-		
 		for(GameObject g: scene){
 			g.input();
 			g.update();
@@ -209,5 +211,19 @@ public abstract class CoreGame extends JFrame{
 	public void setWorld(World world) {
 		this.world = world;
 		addToScene(world);
+	}
+
+	public void setSun(Light sun) {
+		this.sun = sun;
+		Light r = new Light(new GVector3f(16,30,4),new GVector3f(1,0,0), new GVector3f(1,0.04f,0.008f));
+		Light g = new Light(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1,0.04f,0.008f));
+		Light b = new Light(new GVector3f(6,34,28),new GVector3f(0,0,1), new GVector3f(1,0.04f,0.008f));
+//		renderingEngine.setSun(sun);
+		List<Light> l = new ArrayList<Light>();
+		l.add(sun);
+		l.add(r);
+		l.add(g);
+		l.add(b);
+		renderingEngine.setLights(l);
 	}
 }

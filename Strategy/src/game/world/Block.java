@@ -29,6 +29,7 @@ public class Block extends BasicBlock{
 	public static int DEPTH = 1;
 	public static final HashMap<Integer,JSONObject> blockDatas;
 	private static final Model[] model = new Model[6];
+	private boolean clickable = true;
 	
 	private boolean[] sides = new boolean[]{true,true,true,true,true,true};
 	static{
@@ -193,5 +194,13 @@ public class Block extends BasicBlock{
 	
 	public boolean getSide(int side){
 		return sides[side];
+	}
+
+	public boolean isClickable() {
+		return clickable;
+	}
+
+	public void setClickable(boolean clickable) {
+		this.clickable = clickable;
 	}
 }

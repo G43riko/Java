@@ -12,6 +12,7 @@ public class Player extends BasicPlayer{
 	public final static float MAX_FALLING_SPEED = 0.5f;
 	public final static float JUMP_STRENG = 0.3f;
 	public final static float MIN_DIST_FROM_BLOCK = 0.3f;
+	public final static int MAX_CLICK_DIST = 100;
 	public final static GVector3f GRAVITY = new GVector3f(0,0.03f,0);
 	
 	public Player(GVector3f position, World world, Camera camera){

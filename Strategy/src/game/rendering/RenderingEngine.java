@@ -138,7 +138,7 @@ public class RenderingEngine {
 		
 		float blockToCamDist = block.getPosition().dist(mainCamera.getPosition());
 		boolean search = ((selectBlock.block == null || blockToCamDist < selectBlock.block.getPosition().dist(mainCamera.getPosition()))&&
-						  blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())));
+						  blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())) && view!=4);
 		for(int i=0 ; i<6 ; i++){
 			if(block.getSide(i)){
 				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 

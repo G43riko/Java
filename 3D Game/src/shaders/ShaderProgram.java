@@ -106,7 +106,5 @@ public abstract class ShaderProgram {
 			System.exit(-1);
 		}
 		return shaderID;
-		
-		
 	}
 }

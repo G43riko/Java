@@ -68,24 +68,15 @@ public abstract class CoreGame extends JFrame{
 
 	private void input() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){ 
-			if(Keyboard.isKeyDown(Keyboard.KEY_1)){
 			//normal
-				renderingEngine.setView(0);
-			}
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_2)){
-				//inverse
-				renderingEngine.setView(1);
-			}
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_3)){
-				//greyScale
-				renderingEngine.setView(2);
-			}
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_4)){
-				//averageColor
-				renderingEngine.setView(3);
+			//inverse
+			//greyScale
+			//averageColor
+			//normals
+			for(int i=0 ; i<5 ; i++){
+				if(Keyboard.isKeyDown(i+2)){
+					renderingEngine.setView(i);
+				}
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_S)){

@@ -67,13 +67,18 @@ public abstract class GBasicShader {
 			
 			glAttachShader(shaderProgram,vertexShader );
 			glAttachShader(shaderProgram,fragmentShader );
-			glLinkProgram(shaderProgram);
-			glValidateProgram(shaderProgram);
+
+			
 			
 			loadedShaders.put(fileName, new Data(shaderProgram, fragmentShader, vertexShader));
+			
+
+			
 		}
-		//bind();
+		
 		bindAttributes();
+		glLinkProgram(loadedShaders.get(fileName).s);
+		glValidateProgram(loadedShaders.get(fileName).s);
 		getAllUniformsLocations();
 	}
 	

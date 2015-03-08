@@ -1,4 +1,4 @@
-#version 130
+#version 400 core
 
 const int MAX_LIGHTS = 4;
 
@@ -6,19 +6,29 @@ in float distance;
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector[MAX_LIGHTS];
+in vec3 toCameraVector;
 
 out vec4 out_Color;
 
 uniform sampler2D textureSampler;
+uniform sampler2D normalSampler;
 
 uniform int view;
+
 uniform int select;
+uniform int blur;
+uniform int texture;
+uniform int light;
+uniform int specular;
+
 uniform vec3 color;
 uniform vec3 ambient;
 uniform vec3 lightColor[MAX_LIGHTS];
 uniform vec3 attenuation[MAX_LIGHTS];
-uniform int blur;
+uniform float range[MAX_LIGHTS];
 uniform vec2 mouseDir;
+uniform float shineDumper;
+uniform float reflectivity;
 
 vec4 calcBlur(vec2 textureCoords, sampler2D texture, vec2 direction){
 	float blurSize = 1.0/256.0;
@@ -44,19 +54,41 @@ void main(){
 	if(view == 0){
 		if(blur == 0){
 			vec3 totalDiffuse = vec3(0.0);
-		
-			vec3 unitNormal = normalize(surfaceNormal);
+			vec3 totalSpecular = vec3(0.0);
+			vec3 unitNormal = normalize(surfaceNormal );
+			vec3 unitVectorToCamera = normalize(toCameraVector);
 			for(int i=0 ; i<MAX_LIGHTS ; i++){
+				if(lightColor[i] == vec3(0,0,0)){
+					continue;
+				}
+				if(light != 1 ){
+					break;
+				}
 				float distToLight = length(toLightVector[i]);
+				
 				float attFactor = attenuation[i].x + attenuation[i].y * distToLight + attenuation[i].y * distToLight * distToLight; 
 				vec3 unitLightVector = normalize(toLightVector[i]);
+				
+				if(specular==1){
+					vec3 lightDirection = -unitLightVector;
+					vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+					float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
+					specularFactor = max(0.0, specularFactor);
+					float damperFactor = pow(specularFactor, shineDumper);
+					totalSpecular = totalSpecular +  damperFactor * reflectivity * lightColor[i];
+				}
 				float nDotl = dot(unitNormal,unitLightVector);
 				float brightness = max(nDotl,0.0);
-				totalDiffuse = totalDiffuse + brightness * lightColor[i]/attFactor;
+				totalDiffuse = totalDiffuse + (brightness * lightColor[i])/attFactor ;
 			}
 			totalDiffuse = max(totalDiffuse,0.2);
 		
-			out_Color = vec4(totalDiffuse,1.0) * vec4(ambient,1) * texture(textureSampler, pass_textureCoords) ;
+			out_Color =  vec4(ambient,1) * vec4(totalDiffuse,1.0);
+			if(texture==1){
+				out_Color *= texture(textureSampler, pass_textureCoords);
+				
+			}
+			out_Color += vec4(totalSpecular, 1.0);
 		}
 		else{
 			out_Color =  calcBlur(pass_textureCoords,textureSampler,mouseDir);

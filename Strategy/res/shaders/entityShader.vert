@@ -1,4 +1,4 @@
-#version 130
+#version 400 core
 
 const int MAX_LIGHTS = 4;
 
@@ -10,7 +10,7 @@ out float distance;
 out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector[MAX_LIGHTS];
-
+out vec3 toCameraVector;
 
 
 uniform mat4 transformationMatrix;
@@ -27,5 +27,6 @@ void main(){
 	for(int i=0 ; i<MAX_LIGHTS ; i++){
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
+	toCameraVector = (inverse(viewMatrix) * vec4(0,0,0,1)).xyz - worldPosition.xyz;
 	distance = length(eyePos - worldPosition.xyz);
 }

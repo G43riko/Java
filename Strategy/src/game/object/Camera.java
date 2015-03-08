@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 
 import game.util.Maths;
+import game.world.Chunk3D;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -16,7 +17,8 @@ public class Camera extends GameObject{
 	private float FOV = 70;
 	private float NEAR_PLANE = 0.1f;
 	private float FAR_PLANE = 1000;
-	
+	private float ASPECT_RATIO;
+	public static float MAX_ANGLE;
 	private final static boolean VERTICAL = false; 
 	private boolean mouseLocked = false;
 	
@@ -58,6 +60,45 @@ public class Camera extends GameObject{
 	
 	public GVector3f getDownVector(){
 		return up.mul(-MOVE_SPEED);
+	}
+	
+	private void calcFrustum(){
+		float Hnear = 2 * (float)Math.tan(FOV / 2) * NEAR_PLANE;
+		float Wnear = Hnear * ASPECT_RATIO;
+		float Hfar = 2 * (float)Math.tan(FOV / 2) * FAR_PLANE;
+		float Wfar = Hfar * ASPECT_RATIO;
+		
+		GVector3f up = new GVector3f(0,1,0);
+		GVector3f right = getForward().cross(up);
+		
+		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
+		GVector3f Cfar = getPosition().add(getForward().mul(FAR_PLANE));
+		
+		GVector3f nearLeft = Cnear.sub(right.mul(Wnear / 2));
+		GVector3f nearRight = Cnear.add(right.mul(Wnear / 2));
+		GVector3f nearUp = Cnear.add(up.mul(Hnear / 2));
+		GVector3f nearBottom = Cnear.sub(up.mul(Hnear / 2));
+		
+		GVector3f farLeft = Cfar.sub(right.mul(Wfar / 2));
+		GVector3f farRight = Cfar.add(right.mul(Wfar / 2));
+		GVector3f farUp = Cfar.add(up.mul(Wfar / 2));
+		GVector3f farBottom = Cfar.sub(up.mul(Wfar / 2));
+		
+		GVector3f vecLeft = farLeft.sub(nearLeft).Normalized();
+		GVector3f vecRight = farRight.sub(nearRight).Normalized();
+		GVector3f vecUp = farUp.sub(nearUp).Normalized();
+		GVector3f vecBottom = farBottom.sub(nearBottom).Normalized();
+		Camera.MAX_ANGLE = vecRight.dot(getForward());
+		
+//		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+//		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+//		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+//		GVector3f nearBottomRight = Cnear.sub(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+//		
+//		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
 	}
 	
 	public void goForward(){
@@ -102,9 +143,9 @@ public class Camera extends GameObject{
 	}
 	
 	private void createProjectionMatrix(){
-		float aspectRatio  = (float)Display.getWidth()/(float)Display.getHeight();
-		float y_scale = (1f / (float)Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio;
-		float x_scale = y_scale/aspectRatio;
+		ASPECT_RATIO  = (float)Display.getWidth()/(float)Display.getHeight();
+		float y_scale = (1f / (float)Math.tan(Math.toRadians(FOV / 2f))) * ASPECT_RATIO;
+		float x_scale = y_scale/ASPECT_RATIO;
 		
 		float frustum_length = FAR_PLANE - NEAR_PLANE;
 		

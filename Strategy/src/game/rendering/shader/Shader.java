@@ -28,6 +28,12 @@ public class Shader extends GBasicShader{
 		uniforms.put("select", super.getUniformLocation("select"));
 		uniforms.put("eyePos", super.getUniformLocation("eyePos"));
 		uniforms.put("alpha", super.getUniformLocation("alpha"));
+		uniforms.put("shineDumper", super.getUniformLocation("shineDumper"));
+		uniforms.put("reflectivity", super.getUniformLocation("reflectivity"));
+		uniforms.put("texture", super.getUniformLocation("texture"));
+		uniforms.put("light", super.getUniformLocation("light"));
+		uniforms.put("specular", super.getUniformLocation("specular"));
+		uniforms.put("normalSampler", super.getUniformLocation("normalSampler"));
 		
 //		uniforms.put("lightPosition", super.getUniformLocation("lightPosition"));
 //		uniforms.put("lightColor", super.getUniformLocation("lightColor"));
@@ -35,7 +41,11 @@ public class Shader extends GBasicShader{
 			uniforms.put("lightPosition"+i, super.getUniformLocation("lightPosition["+i+"]"));
 			uniforms.put("lightColor"+i, super.getUniformLocation("lightColor["+i+"]"));
 			uniforms.put("attenuation"+i, super.getUniformLocation("attenuation["+i+"]"));
-		}
-		
+			uniforms.put("range"+i, super.getUniformLocation("range["+i+"]"));
+		}	
+	}
+	
+	public void connectTextures(){
+		updateUniform("normalSampler", 1);
 	}
 }

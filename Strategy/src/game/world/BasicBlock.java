@@ -182,8 +182,8 @@ public class BasicBlock extends GameObject{
 		this.active = active;
 	}
 	
-	public Texture2D getDiffuse(){
-		return ((Material) Block.blockDatas.get(type).get("mat")).getDiffuse();
+	public Material getMaterial(){
+		return (Material) Block.blockDatas.get(type).get("mat");
 	}
 
 	public JSONObject toJSON(){

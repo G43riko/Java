@@ -127,10 +127,12 @@ public abstract class CoreGame extends JFrame{
 			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
 			RenderingEngine.entityShader.updateUniform("select", false);
 			
+			
 			if(Mouse.isButtonDown(1) && !clicks[1]){
 				if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
 				world.remove(renderingEngine.getSelectBlock().getBlock());
-				clicks[1] = true;
+				if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+					clicks[1] = true;
 			}
 			if(!Mouse.isButtonDown(1))
 				clicks[1] = false;
@@ -142,6 +144,7 @@ public abstract class CoreGame extends JFrame{
 			}
 			if(!Mouse.isButtonDown(0))
 				clicks[0] = false;
+			
 			
 			renderingEngine.getSelectBlock().reset();
 		}
@@ -168,7 +171,6 @@ public abstract class CoreGame extends JFrame{
 	protected void setMainCamera(Camera camera) {
 		addToScene(camera);
 		renderingEngine.setMainCamera(camera);
-		
 		RenderingEngine.entityShader.bind();
 		RenderingEngine.entityShader.updateUniform("projectionMatrix", camera.getProjectionMatrix());
 		RenderingEngine.entityShader.unbind();
@@ -213,11 +215,12 @@ public abstract class CoreGame extends JFrame{
 		addToScene(world);
 	}
 
+
 	public void setSun(Light sun) {
 		this.sun = sun;
-		Light r = new Light(new GVector3f(16,30,4),new GVector3f(1,0,0), new GVector3f(1,0.04f,0.008f));
-		Light g = new Light(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1,0.04f,0.008f));
-		Light b = new Light(new GVector3f(6,34,28),new GVector3f(0,0,1), new GVector3f(1,0.04f,0.008f));
+		Light r = new Light(new GVector3f(16,30,4 ),new GVector3f(1,0,0), new GVector3f(1, 0.04f, 0.008f));
+		Light g = new Light(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1, 0.04f, 0.008f));
+		Light b = new Light(new GVector3f(6 ,34,28),new GVector3f(0,0,1), new GVector3f(1, 0.02f, 0.008f));
 //		renderingEngine.setSun(sun);
 		List<Light> l = new ArrayList<Light>();
 		l.add(sun);

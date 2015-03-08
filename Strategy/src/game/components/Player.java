@@ -1,5 +1,6 @@
 package game.components;
 
+import game.main.StrategyGame;
 import game.object.BasicPlayer;
 import game.object.Camera;
 import game.world.Block;
@@ -35,8 +36,12 @@ public class Player extends BasicPlayer{
 		//pohne panáèikom horizontálne
 		move(dir);
 		
+		
 		//vymaže smerovy vektor X a Z
 		dir = dir.mul(new GVector3f(0,1,0));
+		
+		if(StrategyGame.FLY_MODE)
+			return;
 		
 		//zistí èi sa nachádza podomnou podlaha 
 		Block b = getFloor();

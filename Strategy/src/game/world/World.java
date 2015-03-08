@@ -11,16 +11,17 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import game.components.Explosion;
+import game.object.Camera;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
 
 public class World extends GameObject{
-	public static int NUM_X = 4;
-	public static int NUM_Z = 4;
+	public static int NUM_X = 3;
+	public static int NUM_Z = 3;
 	public static float[][] map;
-	
+	private Camera camera;
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
 	
 	private Chunk3D[][] chunks;
@@ -33,15 +34,23 @@ public class World extends GameObject{
 		
 		create();
 		setNeighboards();
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].setSides();
-			}
-		}
 	}
 	
 	public World(String fileName) {
 		super(new GVector3f(), 10);
+		
+		if(fileName.equals("sandBox")){
+			NUM_X = 1;
+			NUM_Z = 1;
+			Chunk3D.NUM_X = 32;
+			Chunk3D.NUM_Y = 32;
+			Chunk3D.NUM_Z = 32;
+			
+			createSandBox();
+			setNeighboards();
+			return;
+		}
+		
 		JSONObject o = new JSONObject(loadFromFile(fileName));
 		NUM_X = o.getInt("worldX");
 		NUM_Z = o.getInt("worldZ");
@@ -56,12 +65,14 @@ public class World extends GameObject{
 		
 		create(o);
 		setNeighboards();
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].setSides();
-			}
-		}
+		
 		System.out.println("Svet "+fileName+" bol úspešne naèítaný");
+	}
+
+	private void createSandBox() {
+		chunks = new Chunk3D[NUM_X][NUM_Z];
+		chunks[0][0] = new Chunk3D(new GVector3f(),"sandBox");
+		
 	}
 
 	private void create(JSONObject o) {
@@ -93,6 +104,11 @@ public class World extends GameObject{
 					chunks[i][j].setNeighboard(1, chunks[i+1][j]);
 				if(j+1<NUM_Z)
 					chunks[i][j].setNeighboard(0, chunks[i][j+1]);
+			}
+		}
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].setSides();
 			}
 		}
 	}
@@ -233,5 +249,9 @@ public class World extends GameObject{
 				break;
 		}
 		getChunkFromBlock(block).add(sur,new Block(new GVector3f(),selectBlock));
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 }

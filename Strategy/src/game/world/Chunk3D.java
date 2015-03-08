@@ -7,9 +7,9 @@ import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;
 
 public class Chunk3D extends GameObject{
-	public static int NUM_X = 8;
-	public static int NUM_Y = 32;
-	public static int NUM_Z = 8;
+	public static int NUM_X = 16;
+	public static int NUM_Y = 16;
+	public static int NUM_Z = 16;
 	
 	private Chunk3D[] neighboards;
 	public Block[][][] blocks;
@@ -19,6 +19,20 @@ public class Chunk3D extends GameObject{
 		neighboards = new Chunk3D[4];
 		blocks = new Block[NUM_X][NUM_Y][NUM_Z];
 		create();
+	}
+	
+	public Chunk3D(GVector3f position,String type) {
+		super(position, 9);
+
+		blocks = new Block[NUM_X][NUM_Y][NUM_Z];
+		neighboards = new Chunk3D[4];
+		if(type.equals("sandBox")){
+			for(int i=0 ; i<NUM_X ; i++){
+				for(int k=0 ; k<NUM_Z ; k++){
+					blocks[i][0][k] = new Block(getPosition().add(new GVector3f(i,0/*(int)(height*10-5)*/,k).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(2))),6);
+				}
+			}
+		}
 	}
 	
 	public Chunk3D(JSONObject data){
@@ -62,7 +76,7 @@ public class Chunk3D extends GameObject{
 	private void create(){
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int k=0 ; k<NUM_Z ; k++){
-				float height = World.map[i+getPosition().getXi()/2][k+getPosition().getZi()/2]*NUM_Y;
+				float height = World.map[i+getPosition().getXi()/2][k+getPosition().getZi()/2]*NUM_Y/8;
 				for(int j=0 ; j<NUM_Y ; j++){
 					int type = (int)(Block.blockDatas.size()*Math.random())+1;
 					if(type==0)
@@ -75,7 +89,6 @@ public class Chunk3D extends GameObject{
 		}
 	}
 	
-	
 	public boolean exist(int x, int y, int z, boolean checkNull){
 		if(checkNull)
 			return x>=0 && z>=0 && y>=0 && y<NUM_Y && x<NUM_X && z<NUM_Z && blocks[x][y][z]!=null;
@@ -84,6 +97,7 @@ public class Chunk3D extends GameObject{
 	}
 	
 	public void render(RenderingEngine renderingEngine) {
+		System.out.println("kreslí "+System.currentTimeMillis());
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
 				for(int k=0 ; k<NUM_Z ; k++){
@@ -186,6 +200,9 @@ public class Chunk3D extends GameObject{
 	}
 
 	public void add(GVector3f sur, Block block) {
+		if(!exist(sur.getXi(), sur.getYi(), sur.getZi(), false))
+			return;
+		
 		if(sur.getXi() == NUM_X && neighboards[1] != null)
 			neighboards[1].add(new GVector3f(0,sur.getY(),sur.getZ()), block);
 		
@@ -198,10 +215,10 @@ public class Chunk3D extends GameObject{
 		if(sur.getZ() == -1 && neighboards[2] != null)
 			neighboards[2].add(new GVector3f(sur.getX(),sur.getY(),NUM_Z-1), block);
 			
-		if(!exist(sur.getXi(), sur.getYi(), sur.getZi(), false))
-			return;
+		
 		block.setPosition(getPosition().add(sur.mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(2))));
 		blocks[sur.getXi()][sur.getYi()][sur.getZi()] = block;
 		setSideAround(sur.getXi(),sur.getYi(),sur.getZi());
+		setSide(sur.getXi(),sur.getYi(),sur.getZi());
 	}
 }

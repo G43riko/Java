@@ -19,14 +19,18 @@ import glib.util.vector.GVector3f;
 
 public class StrategyGame extends CoreGame{
 	private static final long serialVersionUID = 1L;
+	public static final boolean FLY_MODE = true;
 	
 	public void init(){
 		GLog.sleep(100);
-//		setWorld(new World());
-		setWorld(new World("mainWorld.gw"));
-		setPlayer(new Player(getWorld(), new Camera()));
+		
 		setRenderingEngine(new RenderingEngine());
+		setWorld(new World());
+		setPlayer(new Player(getWorld(), new Camera()));
 		setMainCamera(getPlayer().getCamera());
+		getWorld().setCamera(getPlayer().getCamera());
+//		setWorld(new World("sandBox"));
+//		setWorld(new World("mainWorld.gw"));
 		setLoader(new Loader());
 		setSkyBox(new SkyBox(getPlayer().getCamera()));
 		setSun(new Light(new GVector3f(100, 100, 100), new GVector3f(1)));

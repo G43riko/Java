@@ -3,6 +3,7 @@ package game.object;
 import org.lwjgl.input.Keyboard;
 
 import game.components.Player;
+import game.main.StrategyGame;
 import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;
@@ -30,8 +31,8 @@ public class BasicPlayer extends GameObject{
 	private int leftKey = Keyboard.KEY_A;
 	private int rightKey = Keyboard.KEY_D;
 	
-//	private int upKey = Keyboard.KEY_SPACE;
-//	private int downKey = Keyboard.KEY_LSHIFT;
+	private int upKey = Keyboard.KEY_SPACE;
+	private int downKey = Keyboard.KEY_LSHIFT;
 	
 	private int jumpKey = Keyboard.KEY_SPACE;
 	
@@ -59,6 +60,12 @@ public class BasicPlayer extends GameObject{
 		GVector3f x = new GVector3f(dir.getX(), 0, 0);
 		GVector3f z = new GVector3f(0, 0, dir.getZ());
 		GVector3f pos = getCamera().getPosition();
+		if(StrategyGame.FLY_MODE){
+			camera.move(x);
+			camera.move(z);
+			return;
+		}
+		
 		if(!x.isNull() && world.getBlock(pos.add(x).add(new GVector3f(Player.MIN_DIST_FROM_BLOCK,0,0)))==null &&
 						  world.getBlock(pos.add(x).sub(new GVector3f(Player.MIN_DIST_FROM_BLOCK,0,0)))==null &&
 						  world.getBlock(pos.add(x).add(new GVector3f(Player.MIN_DIST_FROM_BLOCK,-Player.HEIGHT,0)))==null &&
@@ -97,17 +104,17 @@ public class BasicPlayer extends GameObject{
 		if(Keyboard.isKeyDown(rightKey)){
 			dir = dir.add(camera.getRightVector());
 		}
-		
-//		if(Keyboard.isKeyDown(upKey)){
-//			camera.goUp();
-//			move = true;
-//		}
-		
-//		if(Keyboard.isKeyDown(downKey)){
-//			camera.goDown();
-//			move = true;
-//		}
-		
+		if(StrategyGame.FLY_MODE){
+			if(Keyboard.isKeyDown(upKey)){
+				camera.goUp();
+				move = true;
+			}
+			
+			if(Keyboard.isKeyDown(downKey)){
+				camera.goDown();
+				move = true;
+			}
+		}
 		/*	BLOCK SELECTOR
 		 *	1-9  
 		 */
@@ -123,10 +130,11 @@ public class BasicPlayer extends GameObject{
 		 *  SPACE
 		 */
 		
-		
-		if(Keyboard.isKeyDown(jumpKey) && dir.getY()==0){
-			dir = dir.add(new GVector3f(0,Player.JUMP_STRENG,0));
-			move = true;
+		if(!StrategyGame.FLY_MODE){
+			if(Keyboard.isKeyDown(jumpKey) && dir.getY()==0){
+				dir = dir.add(new GVector3f(0,Player.JUMP_STRENG,0));
+				move = true;
+			}
 		}
 		
 		/*	MOUSE LOCK & UNLOCK

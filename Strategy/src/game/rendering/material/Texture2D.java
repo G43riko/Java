@@ -47,7 +47,7 @@ public class Texture2D {
 	
     private static boolean mipMapping = true;
     
-    private int filtering = GL_LINEAR;
+    private int filtering = FILTER_NEAREST;
     private int wrapMode = WRAP_REPEAT;
     
     private int id;
@@ -206,7 +206,6 @@ public class Texture2D {
 	}
 	
 	public void bind() {
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 

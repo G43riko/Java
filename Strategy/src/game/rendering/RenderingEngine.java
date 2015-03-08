@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -15,6 +16,8 @@ import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
 import game.particle.Particle;
+import game.rendering.material.Material;
+import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import game.rendering.shader.Shader;
 import game.util.Maths;
@@ -35,11 +38,15 @@ public class RenderingEngine {
 	private Camera mainCamera;
 	private int view = 0;
 	private boolean blur;
+	private boolean specular;
+	private boolean texture;
+	private boolean light;
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
 	private Light sun;
 	private List<Light> lights;
+	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
 	
 	public class SelectBlock{
@@ -74,6 +81,9 @@ public class RenderingEngine {
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
 		setBlur(false);
+		setTexture(true);
+		setSpecular(true);
+		setLight(true);
 		setAmbient(new GVector3f(1, 1, 1));
 		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
@@ -111,6 +121,7 @@ public class RenderingEngine {
 		if(mainCamera == null){
 			return;
 		}
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		skyShader.bind();
 		
 		
@@ -137,12 +148,13 @@ public class RenderingEngine {
 		entityShader.updateUniform("transformationMatrix", block.getTransformationMatrix());
 		
 		if(view == 3 || selectBlock.block == block){
-			entityShader.updateUniform("color", block.getDiffuse().getAverageColor());
+			entityShader.updateUniform("color", block.getMaterial().getDiffuse().getAverageColor());
 		}
 		if(blur){
 			entityShader.updateUniform("mouseDir", mouseDir);
 		}
-		block.getDiffuse().bind();
+		
+		setMaterial(block.getMaterial());
 		
 		float blockToCamDist = block.getPosition().dist(mainCamera.getPosition());
 		boolean search = (block.isClickable() && blockToCamDist < Player.MAX_CLICK_DIST &&
@@ -264,7 +276,30 @@ public class RenderingEngine {
 		
 		skyShader.bind();
 		skyShader.updateUniform("blur", blur);
-		
+	}
+	
+	public void setTexture(boolean texture){
+		if(this.texture == texture)
+			return;
+		this.texture = texture;
+		entityShader.bind();
+		entityShader.updateUniform("texture", texture);
+	}
+	
+	public void setSpecular(boolean specular){
+		if(this.specular == specular)
+			return;
+		this.specular = specular;
+		entityShader.bind();
+		entityShader.updateUniform("specular", specular);
+	}
+	
+	public void setLight(boolean light){
+		if(this.light == light)
+			return;
+		this.light = light;
+		entityShader.bind();
+		entityShader.updateUniform("light", light);
 	}
 
 	public void setSun(Light sun){
@@ -280,10 +315,10 @@ public class RenderingEngine {
 	
 	public void updateLight(Light light, int i){
 		if(i<MAX_LIGHTS){
-			System.out.println("terazz "+light.getPosition());
 			entityShader.updateUniform("lightPosition"+i, light.getPosition());
 			entityShader.updateUniform("lightColor"+i, light.getColor());
 			entityShader.updateUniform("attenuation"+i, light.getAttenuation());
+			entityShader.updateUniform("range"+i, light.getRange());
 		}
 	}
 	
@@ -295,7 +330,6 @@ public class RenderingEngine {
 		entityShader.bind();
 		for(int i=0 ;i<MAX_LIGHTS ; i++){
 			if(i < lights.size()){
-				System.out.println(lights.get(i).getPosition()+" == "+lights.get(i).getColor() +" == "+lights.get(i).getAttenuation());
 				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
 				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
 				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
@@ -315,6 +349,18 @@ public class RenderingEngine {
 		}
 		entityShader.bind();
 		entityShader.updateUniform("eyePos", mainCamera.getPosition());
+	}
+	
+	public void setMaterial(Material mat){
+		entityShader.connectTextures();
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		mat.getDiffuse().bind();
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		normal.bind();
+		
+		entityShader.updateUniform("shineDumper", mat.getSpecularPower());
+		entityShader.updateUniform("reflectivity", mat.getSpecularIntensity());
 	}
 	
 	public void setViewMatrix(){

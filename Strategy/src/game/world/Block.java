@@ -64,7 +64,7 @@ public class Block extends BasicBlock{
 		adding.put("rep", true);//repeat
 		adding.put("t", false);//transparent
 		adding.put("si", 0.1);//specularIntensity
-		adding.put("sp", 8);//specularPower
+		adding.put("sp", 15);//specularPower
 		adding.put("mat",new Material(new Texture2D(adding.getString("name").toLowerCase()+postFix), adding.getInt("si"), adding.getInt("sp")));
 		blockDatas.put(GRASS, adding);
 		
@@ -75,7 +75,7 @@ public class Block extends BasicBlock{
 		adding.put("rep", true);//repeat
 		adding.put("t", false);//transparent
 		adding.put("si", 0.2);//specularIntensity
-		adding.put("sp", 8);//specularPower
+		adding.put("sp", 10);//specularPower
 		adding.put("mat",new Material(new Texture2D(adding.getString("name").toLowerCase()+postFix), adding.getInt("si"), adding.getInt("sp")));
 		blockDatas.put(DIRT, adding);
 		
@@ -96,8 +96,8 @@ public class Block extends BasicBlock{
 		adding.put("rY", 1);//repeatX
 		adding.put("rep", true);//repeat
 		adding.put("t", true);//transparent
-		adding.put("si", 1);//specularIntensity
-		adding.put("sp", 8);//specularPower
+		adding.put("si", 0.7);//specularIntensity
+		adding.put("sp", 15);//specularPower
 		adding.put("mat",new Material(new Texture2D(adding.getString("name").toLowerCase()+postFix), adding.getInt("si"), adding.getInt("sp")));
 		blockDatas.put(WATER, adding);
 		
@@ -119,7 +119,7 @@ public class Block extends BasicBlock{
 		adding.put("rep", true);//repeat
 		adding.put("t", false);//transparent
 		adding.put("si", 1);//specularIntensity
-		adding.put("sp", 8);//specularPower
+		adding.put("sp", 50);//specularPower
 		adding.put("mat",new Material(new Texture2D(adding.getString("name").toLowerCase()+postFix), adding.getInt("si"), adding.getInt("sp")));
 		blockDatas.put(IRON, adding);
 		
@@ -162,8 +162,8 @@ public class Block extends BasicBlock{
 		adding.put("rY", 1);//repeatX
 		adding.put("rep", true);//repeat
 		adding.put("t", false);//transparent
-		adding.put("si", 1.1);//specularIntensity
-		adding.put("sp", 8);//specularPower
+		adding.put("si", 1.001);//specularIntensity
+		adding.put("sp", 80);//specularPower
 		adding.put("mat",new Material(new Texture2D(adding.getString("name").toLowerCase()+postFix), adding.getInt("si"), adding.getInt("sp")));
 		blockDatas.put(TILE, adding);
 

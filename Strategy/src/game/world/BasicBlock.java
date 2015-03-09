@@ -35,8 +35,7 @@ public class BasicBlock extends GameObject{
 													  new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
 																	  new GVector3f( Block.WIDTH,-Block.HEIGHT,-Block.DEPTH),
 																	  new GVector3f(-Block.WIDTH, Block.HEIGHT,-Block.DEPTH)}};
-	
-	
+
 	protected boolean active = true;
 	
 	public GVector3f getPoint(int i, int j){

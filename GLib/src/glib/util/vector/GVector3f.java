@@ -162,7 +162,7 @@ public class GVector3f {
 	}
 	
 	public boolean isNull(){
-		return x==0 && y==0 && z==0;
+		return x==0.0 && y==0.0 && z==0.0;
 	}
 	
 	public boolean isNegative(){

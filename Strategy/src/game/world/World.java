@@ -23,7 +23,7 @@ public class World extends GameObject{
 	public static float[][] map;
 	private Camera camera;
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
-	
+	private boolean running;
 	private Chunk3D[][] chunks;
 	
 	public World() {
@@ -72,14 +72,16 @@ public class World extends GameObject{
 	private void createSandBox() {
 		chunks = new Chunk3D[NUM_X][NUM_Z];
 		chunks[0][0] = new Chunk3D(new GVector3f(),"sandBox");
+		chunks[0][0].setWorld(this);
 		
 	}
-
+	
 	private void create(JSONObject o) {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
 				JSONObject c = o.getJSONObject("chunk"+i+j);
 				chunks[i][j] = new Chunk3D(c);
+				chunks[i][j].setWorld(this);
 			}
 		}
 	}
@@ -89,6 +91,7 @@ public class World extends GameObject{
 			for(int j=0 ; j<NUM_Z ; j++){
 				GVector3f pos = new GVector3f(2).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(new GVector3f(i,0,j).mul(new GVector3f(Chunk3D.NUM_X,0,Chunk3D.NUM_Z))));
 				chunks[i][j] = new Chunk3D(pos);
+				chunks[i][j].setWorld(this);
 			}
 		}
 	}
@@ -96,14 +99,17 @@ public class World extends GameObject{
 	private void setNeighboards() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
+				Chunk3D c = chunks[i][j];
 				if(i>0)
-					chunks[i][j].setNeighboard(3, chunks[i-1][j]);
+					c.setNeighboard(3, chunks[i-1][j]);
 				if(j>0)
-					chunks[i][j].setNeighboard(2, chunks[i][j-1]);
+					c.setNeighboard(2, chunks[i][j-1]);
 				if(i+1<NUM_X)
-					chunks[i][j].setNeighboard(1, chunks[i+1][j]);
+					c.setNeighboard(1, chunks[i+1][j]);
 				if(j+1<NUM_Z)
-					chunks[i][j].setNeighboard(0, chunks[i][j+1]);
+					c.setNeighboard(0, chunks[i][j+1]);
+	
+				c.setNeighboards();
 			}
 		}
 		for(int i=0 ; i<NUM_X ; i++){
@@ -151,6 +157,11 @@ public class World extends GameObject{
 	}
 	
 	public void update(){
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].update();
+			}
+		}
 		ArrayList<Explosion> forRemove = new ArrayList<Explosion>();
 		for(Explosion e:explosions){
 			e.update();
@@ -191,7 +202,7 @@ public class World extends GameObject{
 	public void remove(Block b) {
 		if(b.getPosition().getY() == 0)
 			return;
-		Block e = (new Block(b.getPosition(),b.getBlockType()));
+		Block e = (new Block(b.getPosition().add(b.getRelativePos()), b.getBlockType()));
 		explosions.add(new Explosion(e,5));
 		
 		getChunkFromBlock(b).remove(getPosFromBlock(b));
@@ -248,10 +259,43 @@ public class World extends GameObject{
 				sur = sur.add(new GVector3f(0,0,-1));
 				break;
 		}
-		getChunkFromBlock(block).add(sur,new Block(new GVector3f(),selectBlock));
+		Block b = new Block(new GVector3f(),selectBlock);
+		b.setWorld(this);
+		getChunkFromBlock(block).add(sur,b);
 	}
 
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	public void moveDown(Block block) {
+		Chunk3D actChunk = getChunkFromBlock(block);
+		GVector3f actPos = getPosFromBlock(block);
+		actChunk.remove(actPos);
+		actChunk.add(actPos, block);
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public void blockInpact(Block block, Block imp) {
+		int HEIGHT_LIMIT = 10;
+		if(block.getRelativePos().getY()<-HEIGHT_LIMIT){
+			remove(block);
+		}
+		else{
+			Chunk3D chunk = getChunkFromBlock(block); 
+			chunk.remove(getPosFromBlock(block));
+			
+			Block b = new Block(new GVector3f(),block.getBlockType());
+			b.setWorld(this);
+			chunk.add(getPosFromBlock(imp).add(new GVector3f(0,1,0)),b);
+		}
+		
 	}
 }

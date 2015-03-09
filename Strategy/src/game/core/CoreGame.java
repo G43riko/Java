@@ -212,7 +212,9 @@ public abstract class CoreGame extends JFrame{
 
 	public void setWorld(World world) {
 		this.world = world;
+		world.setRunning(true);
 		addToScene(world);
+		
 	}
 
 

@@ -25,12 +25,12 @@ public class StrategyGame extends CoreGame{
 		GLog.sleep(100);
 		
 		setRenderingEngine(new RenderingEngine());
-		setWorld(new World());
+//		setWorld(new World());
+		setWorld(new World("sandBox"));
+//		setWorld(new World("mainWorld.gw"));
 		setPlayer(new Player(getWorld(), new Camera()));
 		setMainCamera(getPlayer().getCamera());
 		getWorld().setCamera(getPlayer().getCamera());
-//		setWorld(new World("sandBox"));
-//		setWorld(new World("mainWorld.gw"));
 		setLoader(new Loader());
 		setSkyBox(new SkyBox(getPlayer().getCamera()));
 		setSun(new Light(new GVector3f(100, 100, 100), new GVector3f(1)));

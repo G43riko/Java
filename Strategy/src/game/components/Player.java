@@ -14,7 +14,7 @@ public class Player extends BasicPlayer{
 	public final static float JUMP_STRENG = 0.3f;
 	public final static float MIN_DIST_FROM_BLOCK = 0.3f;
 	public final static int MAX_CLICK_DIST = 100;
-	public final static GVector3f GRAVITY = new GVector3f(0,0.03f,0);
+	public final static GVector3f GRAVITY = new GVector3f(0,-0.03f,0);
 	
 	public Player(GVector3f position, World world, Camera camera){
 		super(position);
@@ -71,7 +71,7 @@ public class Player extends BasicPlayer{
 			}
 			//ak sa nachádzam nad 0-tou urovnou pripoèíta sa gravitaèné zrychlenie 
 			if(camera.getPosition().getY()>HEIGHT)
-				dir = dir.sub(GRAVITY);
+				dir = dir.add(GRAVITY);
 		}
 		//ak skáèem
 		if(dir.getY()>0){

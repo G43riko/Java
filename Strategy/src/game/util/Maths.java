@@ -2,6 +2,7 @@ package game.util;
 
 import game.object.Camera;
 import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector3f;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
@@ -17,6 +18,22 @@ public class Maths {
 		Matrix4f.rotate((float)Math.toRadians(ry),new Vector3f(0,1,0) ,matrix,matrix);
 		Matrix4f.rotate((float)Math.toRadians(rz),new Vector3f(0,0,1) ,matrix,matrix);
 		Matrix4f.scale(new Vector3f(scale,scale,scale),matrix, matrix);
+		return matrix;
+	};
+	
+	public static Matrix4f createTransformationMatrix(GVector3f position, GVector3f rotation, GVector3f scale){
+		return createTransformationMatrix(new Vector3f(position.getX(), position.getY(), position.getZ()), 
+										  new Vector3f(rotation.getX(), rotation.getY(), rotation.getZ()), 
+										  new Vector3f(scale.getX(), scale.getY(), scale.getZ()));
+	};
+	public static Matrix4f createTransformationMatrix(Vector3f position, Vector3f rotation, Vector3f scale){
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+		Matrix4f.translate(position,matrix,matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.getX()),new Vector3f(1,0,0) ,matrix,matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.getY()),new Vector3f(0,1,0) ,matrix,matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.getZ()),new Vector3f(0,0,1) ,matrix,matrix);
+		Matrix4f.scale(scale,matrix, matrix);
 		return matrix;
 	};
 	

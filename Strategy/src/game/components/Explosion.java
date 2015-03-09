@@ -42,7 +42,7 @@ public class Explosion extends GameObject{
 		ArrayList<BlockPart> forRemove = new ArrayList<BlockPart>();
 		for(BlockPart b:blocks){
 			b.b.move(b.dir);
-			b.dir = b.dir.sub(Player.GRAVITY);
+			b.dir = b.dir.add(Player.GRAVITY);
 			b.b.rotate(b.rot);
 			b.life--;
 			b.b.setScale(b.b.getScale().sub(0.01f));

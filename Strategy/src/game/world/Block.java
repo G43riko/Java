@@ -1,13 +1,21 @@
 package game.world;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import org.json.JSONObject;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
+import game.components.Player;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.util.Maths;
+import glib.math.GMath;
+import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
 public class Block extends BasicBlock{
@@ -23,13 +31,20 @@ public class Block extends BasicBlock{
 	public final static int CONCRETE = 9;
 	public final static int TILE = 10;
 	public final static int PATH = 11;
-	
+
+//	private ArrayList<Block> dependOn = new ArrayList<Block>();
+	private LinkedHashSet<Block> connection = new LinkedHashSet<Block>();
+	private Block[] neightboars = new Block[6];
 	public static int WIDTH = 1;
 	public static int HEIGHT = 1;
 	public static int DEPTH = 1;
+	private World world;
 	public static final HashMap<Integer,JSONObject> blockDatas;
 	private static final Model[] model = new Model[6];
+	private GVector3f direction = new GVector3f();
+//	private boolean fall = false;
 	private boolean clickable = true;
+	private GVector3f relativePos = new GVector3f();
 	
 	private boolean[] sides = new boolean[]{true,true,true,true,true,true};
 	static{
@@ -45,10 +60,36 @@ public class Block extends BasicBlock{
 	
 	public Block(GVector3f position, int type) {
 		super(position, type);
+		direction = new GVector3f();
 	}
+	
+	public void update(){
+		if(!direction.isNull()){
+			relativePos = relativePos.add(direction);
+			if(direction.getY() > -Player.MAX_FALLING_SPEED);
+				direction = direction.add(Player.GRAVITY);
+			Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
+			if((imp) != null){
+				world.blockInpact(this,imp);
+			}
+//			if(relativePos.getY()<-2*Block.HEIGHT){
+////				setPosition(position)
+//			}
+		}
+	}
+	
+	private void startFalling(){
+		clickable = false;
+		direction = new GVector3f(0,-0.001,0);
+	}
+	
+//	private void stopFalling(){
+//		direction = new GVector3f();
+//	}
 	
 	public Block(JSONObject data){
 		super(new GVector3f((float)data.getDouble("posX"),(float)data.getDouble("posY"),(float)data.getDouble("posZ")),data.getInt("typ"));
+		direction = new GVector3f();
 	}
 	
 	public void render(RenderingEngine renderingEngine) {
@@ -185,12 +226,17 @@ public class Block extends BasicBlock{
 
 	public void setSide(int side, boolean value){
 		sides[side] = value;
-		active = sides[0] || sides[1] || sides[2] || sides[3] || sides[4] || sides[5] ;  
+		active = sides[0] || sides[1] || sides[2] || sides[3] || sides[4] || sides[5] ;
+//		if(getBlockType()>0 && sides[0] && sides[1] && sides[2] && sides[3] && sides[4] && sides[5] && direction.isNull() && world != null && world.isRunning()){
+//			startFalling();
+//		}
+//		else
+//			stopFalling();
 	}
 	
-	public String toString(){
-		return "typ: "+blockDatas.get(type).getString("name");
-	}
+//	public String toString(){
+//		return "typ: "+blockDatas.get(type).getString("name");
+//	}
 	
 	public boolean getSide(int side){
 		return sides[side];
@@ -200,7 +246,79 @@ public class Block extends BasicBlock{
 		return clickable;
 	}
 
+	public GMatrix4f getTransformationMatrix(){
+		Matrix4f trans = Maths.createTransformationMatrix(getPosition().add(relativePos),getRotation(), getScale());
+		return Maths.MatrixToGMatrix(trans);
+	}
+	
 	public void setClickable(boolean clickable) {
 		this.clickable = clickable;
+	}
+	
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setNeighboard(int i, Block val){
+		neightboars[i] = val;
+//		if(val==null)
+//			return;
+//		val.getConnection().addAll(connection);
+//		connection.addAll(val.getConnection());
+	}
+	
+	public void removeNeighboard(Block b){
+		for(int i=0 ; i<6 ; i++){
+			if(neightboars[i] == b){
+				neightboars[i] = null;
+				return;
+			}
+		}
+	}
+	
+	public GVector3f getRelativePos() {
+		return relativePos;
+	}
+
+	
+//	public LinkedHashSet<Block> getConnection() {
+//		return connection;
+//	}
+
+	public void remove() {
+		for(int i=0 ; i<6 ; i++){
+			Block b = neightboars[i];
+			if(b!=null){
+				b.removeNeighboard(this);
+				if(b.checkFall())
+					b.startFalling();	
+			}
+		}
+	}
+
+//	private boolean hasNeigboardExcept(Block ...b){
+//		int size = b.length;
+//		for(int i=0 ; i<6 ; i++){
+//			if(neightboars[i]!=null){
+//				for(int j=0 ; j<size ; j++){
+//					if(neightboars[i] == b[j])
+//						return true;
+//				}
+//			}	
+//		}
+//		return false;
+//	}
+	
+	private boolean checkFall() {
+		for(int i=0 ; i<6 ; i++){
+			if(neightboars[i]!=null)
+				return false;
+			
+		}
+		return true;
 	}
 }

@@ -238,7 +238,7 @@ public class Chunk3D extends GameObject{
 		return null;
 	}
 	
-	private void setSideAround(int i, int j, int k){
+	public void setSideAround(int i, int j, int k){
 		if(exist(i+1, j, k,true))
 			setSide(i+1, j, k);
 		if(exist(i-1, j, k,true))
@@ -265,7 +265,7 @@ public class Chunk3D extends GameObject{
 	
 	public void remove(GVector3f sur){
 //		if(!exist(sur.getXi(), sur.getYi(), sur.getZi(), false));
-		blocks[sur.getXi()][sur.getYi()][sur.getZi()].remove();
+		blocks[sur.getXi()][sur.getYi()][sur.getZi()].remove(this);
 		blocks[sur.getXi()][sur.getYi()][sur.getZi()] = null;
 		setSideAround(sur.getXi(),sur.getYi(),sur.getZi());
 	}
@@ -274,6 +274,10 @@ public class Chunk3D extends GameObject{
 		neighboards[i] = n;
 	}
 
+	public void set(GVector3f pos, Block b){
+		blocks[pos.getXi()][pos.getYi()][pos.getZi()] = b;
+	}
+	
 	public void add(GVector3f sur, Block block) {
 		if(!exist(sur.getXi(), sur.getYi(), sur.getZi(), false))
 			return;
@@ -296,7 +300,6 @@ public class Chunk3D extends GameObject{
 		
 		setNeighboards(sur.getXi(), sur.getYi(), sur.getZi());
 		setNeighboardsAround(sur.getXi(), sur.getYi(), sur.getZi());
-		
 		setSideAround(sur.getXi(),sur.getYi(),sur.getZi());
 		setSide(sur.getXi(),sur.getYi(),sur.getZi());
 	}

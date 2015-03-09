@@ -79,6 +79,10 @@ public class Block extends BasicBlock{
 	}
 	
 	private void startFalling(){
+		if(!direction.isNull())
+			return;
+		
+//		world.remove(this,false);
 		clickable = false;
 		direction = new GVector3f(0,-0.001,0);
 	}
@@ -234,9 +238,24 @@ public class Block extends BasicBlock{
 //			stopFalling();
 	}
 	
-//	public String toString(){
-//		return "typ: "+blockDatas.get(type).getString("name");
-//	}
+	public String toString(){
+		return "typ: "+blockDatas.get(type).getString("name");
+	}
+	
+	public boolean checkFall(ArrayList<Block> b, int level){
+		if(level<=0)
+			return true;
+		for(int i=0 ; i<6 ; i++){
+			if(neightboars[i] != null){
+				if(!b.contains(neightboars[i])){
+					b.add(neightboars[i]);
+					if(neightboars[i].checkFall(b, level-1))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	public boolean getSide(int side){
 		return sides[side];
@@ -289,13 +308,24 @@ public class Block extends BasicBlock{
 //		return connection;
 //	}
 
-	public void remove() {
+	public void remove(Chunk3D c) {
 		for(int i=0 ; i<6 ; i++){
 			Block b = neightboars[i];
 			if(b!=null){
 				b.removeNeighboard(this);
 				if(b.checkFall())
-					b.startFalling();	
+					b.startFalling();
+				ArrayList<Block> collizable = new ArrayList<Block>();
+				if(!b.checkFall(collizable,30)){
+					for(int j=0 ; j<collizable.size() ; j++){
+						Block n = collizable.get(j);
+						n.startFalling();
+//						GVector3f pos = world.getPosFromBlock(n);
+//						c.set(pos, null);
+//						c.set(pos.add(new GVector3f(0,-1,0)), n);
+//						world.set
+					}
+				}
 			}
 		}
 	}

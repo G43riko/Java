@@ -1,5 +1,6 @@
 package game.object;
 
+import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -96,6 +97,11 @@ public abstract class GameObject {
 
 	public int getType() {
 		return type;
+	}
+	
+	public JSONObject toJSON(){
+		return null;
+		
 	}
 	
 	public GMatrix4f lookAt(GVector3f eye, GVector3f target, GVector3f up)

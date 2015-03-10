@@ -68,6 +68,8 @@ public class RenderingEngine {
 		}
 	}
 	
+	//CONSTRUCTORS
+	
 	public RenderingEngine(){ 
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
@@ -88,12 +90,7 @@ public class RenderingEngine {
 		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
 	
-	public void prepare() {
-		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		calcMouseDir();
-		setViewMatrix();
-		setEyePos();
-	}
+	//RENDERERS
 	
 	public void renderEntity(Entity entity){
 		if(mainCamera == null){
@@ -202,6 +199,15 @@ public class RenderingEngine {
 		disableVertex(2);
 	}
 	
+	//OTHERS
+	
+	public void prepare() {
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		calcMouseDir();
+		setViewMatrix();
+		setEyePos();
+	}
+	
 	public void calcMouseDir(){
 		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
 		mouseDir =  actPos.sub(mousePos).div(5);
@@ -235,6 +241,32 @@ public class RenderingEngine {
 		skyShader.cleanUp();
 		particleShader.cleanUp();
 	}
+	
+	public void updateLight(Light light, int i){
+		if(i<MAX_LIGHTS){
+			entityShader.updateUniform("lightPosition"+i, light.getPosition());
+			entityShader.updateUniform("lightColor"+i, light.getColor());
+			entityShader.updateUniform("attenuation"+i, light.getAttenuation());
+			entityShader.updateUniform("range"+i, light.getRange());
+		}
+	}
+	
+
+	//GETTERS
+	
+	public static Shader getEntityshader() {
+		return entityShader;
+	}
+
+	public Camera getMainCamera() {
+		return mainCamera;
+	}
+	
+	public SelectBlock getSelectBlock() {
+		return selectBlock;
+	}
+
+	//SETTERS
 	
 	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
@@ -313,15 +345,10 @@ public class RenderingEngine {
 		entityShader.updateUniform("lightColor", sun.getColor());
 	}
 	
-	public void updateLight(Light light, int i){
-		if(i<MAX_LIGHTS){
-			entityShader.updateUniform("lightPosition"+i, light.getPosition());
-			entityShader.updateUniform("lightColor"+i, light.getColor());
-			entityShader.updateUniform("attenuation"+i, light.getAttenuation());
-			entityShader.updateUniform("range"+i, light.getRange());
-		}
+	public void setSelectBlock(SelectBlock selectBlock) {
+		this.selectBlock = selectBlock;
 	}
-	
+
 	public void setLights(List<Light> lights){
 		if(this.lights == lights)
 			return;
@@ -395,22 +422,4 @@ public class RenderingEngine {
 		particleShader.bind();
 		particleShader.updateUniform("ambient",ambient);
 	}
-
-	public static Shader getEntityshader() {
-		return entityShader;
-	}
-
-	public Camera getMainCamera() {
-		return mainCamera;
-	}
-
-	public SelectBlock getSelectBlock() {
-		return selectBlock;
-	}
-
-	public void setSelectBlock(SelectBlock selectBlock) {
-		this.selectBlock = selectBlock;
-	}
-
-
 }

@@ -26,6 +26,8 @@ public class World extends GameObject{
 	private boolean running;
 	private Chunk3D[][] chunks;
 	
+	//CONSTRUCTORS
+	
 	public World() {
 		super(new GVector3f(), 10);
 		
@@ -69,6 +71,8 @@ public class World extends GameObject{
 		System.out.println("Svet "+fileName+" bol úspešne naèítaný");
 	}
 
+	//CREATORS
+	
 	private void createSandBox() {
 		chunks = new Chunk3D[NUM_X][NUM_Z];
 		chunks[0][0] = new Chunk3D(new GVector3f(),"sandBox");
@@ -96,27 +100,22 @@ public class World extends GameObject{
 		}
 	}
 	
-	private void setNeighboards() {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				Chunk3D c = chunks[i][j];
-				if(i>0)
-					c.setNeighboard(3, chunks[i-1][j]);
-				if(j>0)
-					c.setNeighboard(2, chunks[i][j-1]);
-				if(i+1<NUM_X)
-					c.setNeighboard(1, chunks[i+1][j]);
-				if(j+1<NUM_Z)
-					c.setNeighboard(0, chunks[i][j+1]);
+	//OTHERS
 	
-				c.setNeighboards();
-			}
+	public void blockInpact(Block block, Block imp) {
+		int HEIGHT_LIMIT = 10;
+		if(block.getRelativePos().getY()<-HEIGHT_LIMIT){
+			remove(block);
 		}
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].setSides();
-			}
+		else{
+			Chunk3D chunk = getChunkFromBlock(block); 
+			chunk.remove(getPosFromBlock(block));
+			
+			Block b = new Block(new GVector3f(),block.getBlockType());
+			b.setWorld(this);
+			chunk.add(getPosFromBlock(imp).add(new GVector3f(0,1,0)),b);
 		}
+		
 	}
 	
 	private boolean exist(int i, int j){
@@ -132,10 +131,6 @@ public class World extends GameObject{
 		for(Explosion e:explosions){
 			e.render(renderingEngine);
 		}
-	}
-	
-	public GVector3f getMaxSize(){
-		return new GVector3f(NUM_X, 1, NUM_Z).mul(2).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH)).mul(new GVector3f(Chunk3D.NUM_X, Chunk3D.NUM_Y, Chunk3D.NUM_Z));
 	}
 	
 	public JSONObject toJSON(){
@@ -170,33 +165,6 @@ public class World extends GameObject{
 			}
 		}
 		explosions.removeAll(forRemove);
-	}
-	
-	public Block getBlock(GVector3f from){
-		from = from.add(new GVector3f(Block.WIDTH,Block.HEIGHT, Block.DEPTH)).div(new GVector3f(Block.WIDTH*2,Block.HEIGHT*2, Block.DEPTH*2));
-		int chunkX = from.getXi()/Chunk3D.NUM_X*Block.WIDTH;
-		int chunkZ = from.getZi()/Chunk3D.NUM_Z*Block.DEPTH;
-		
-		int blockX = from.getXi()% Chunk3D.NUM_X * Block.WIDTH;
-		int blockY = from.getYi()/Block.HEIGHT;
-		int blockZ = from.getZi()% Chunk3D.NUM_Z * Block.DEPTH;
-		
-		if(exist(chunkX, chunkZ) && chunks[chunkX][chunkZ].exist(blockX, blockY, blockZ, false))
-			return chunks[chunkX][chunkZ].getBlock(blockX, blockY, blockZ);
-		
-		return null;
-	}
-
-	public Chunk3D getChunkFromBlock(Block b){
-		int chunkX = (int)((b.getPosition().getX()) / Chunk3D.NUM_X*Block.WIDTH/2);
-		int chunkZ = (int)((b.getPosition().getZ()) / Chunk3D.NUM_Z*Block.DEPTH/2);
-		return chunks[chunkX][chunkZ];
-	}
-	
-	public GVector3f getPosFromBlock(Block b){
-		return new GVector3f((b.getPosition().getX()/2) % Chunk3D.NUM_X*Block.WIDTH,
-							 (b.getPosition().getY()/2) % Chunk3D.NUM_Y*Block.HEIGHT,
-							 (b.getPosition().getZ()/2) % Chunk3D.NUM_Z*Block.DEPTH);
 	}
 	
 	public void remove(Block b) {
@@ -264,10 +232,6 @@ public class World extends GameObject{
 		getChunkFromBlock(block).add(sur,b);
 	}
 
-	public void setCamera(Camera camera) {
-		this.camera = camera;
-	}
-
 	public void moveDown(Block block) {
 		Chunk3D actChunk = getChunkFromBlock(block);
 		GVector3f actPos = getPosFromBlock(block);
@@ -275,27 +239,73 @@ public class World extends GameObject{
 		actChunk.add(actPos, block);
 	}
 
+	//GETTERS
+	
 	public boolean isRunning() {
 		return running;
 	}
 
-	public void setRunning(boolean running) {
-		this.running = running;
+	public GVector3f getMaxSize(){
+		return new GVector3f(NUM_X, 1, NUM_Z).mul(2).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH)).mul(new GVector3f(Chunk3D.NUM_X, Chunk3D.NUM_Y, Chunk3D.NUM_Z));
 	}
 
-	public void blockInpact(Block block, Block imp) {
-		int HEIGHT_LIMIT = 10;
-		if(block.getRelativePos().getY()<-HEIGHT_LIMIT){
-			remove(block);
-		}
-		else{
-			Chunk3D chunk = getChunkFromBlock(block); 
-			chunk.remove(getPosFromBlock(block));
-			
-			Block b = new Block(new GVector3f(),block.getBlockType());
-			b.setWorld(this);
-			chunk.add(getPosFromBlock(imp).add(new GVector3f(0,1,0)),b);
-		}
+	public Block getBlock(GVector3f from){
+		from = from.add(new GVector3f(Block.WIDTH,Block.HEIGHT, Block.DEPTH)).div(new GVector3f(Block.WIDTH*2,Block.HEIGHT*2, Block.DEPTH*2));
+		int chunkX = from.getXi()/Chunk3D.NUM_X*Block.WIDTH;
+		int chunkZ = from.getZi()/Chunk3D.NUM_Z*Block.DEPTH;
 		
+		int blockX = from.getXi()% Chunk3D.NUM_X * Block.WIDTH;
+		int blockY = from.getYi()/Block.HEIGHT;
+		int blockZ = from.getZi()% Chunk3D.NUM_Z * Block.DEPTH;
+		
+		if(exist(chunkX, chunkZ) && chunks[chunkX][chunkZ].exist(blockX, blockY, blockZ, false))
+			return chunks[chunkX][chunkZ].getBlock(blockX, blockY, blockZ);
+		
+		return null;
+	}
+
+	public Chunk3D getChunkFromBlock(Block b){
+		int chunkX = (int)((b.getPosition().getX()) / Chunk3D.NUM_X*Block.WIDTH/2);
+		int chunkZ = (int)((b.getPosition().getZ()) / Chunk3D.NUM_Z*Block.DEPTH/2);
+		return chunks[chunkX][chunkZ];
+	}
+	
+	public GVector3f getPosFromBlock(Block b){
+		return new GVector3f((b.getPosition().getX()/2) % Chunk3D.NUM_X*Block.WIDTH,
+							 (b.getPosition().getY()/2) % Chunk3D.NUM_Y*Block.HEIGHT,
+							 (b.getPosition().getZ()/2) % Chunk3D.NUM_Z*Block.DEPTH);
+	}
+	
+	//SETTERS
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+	
+	private void setNeighboards() {
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				Chunk3D c = chunks[i][j];
+				if(i>0)
+					c.setNeighboard(3, chunks[i-1][j]);
+				if(j>0)
+					c.setNeighboard(2, chunks[i][j-1]);
+				if(i+1<NUM_X)
+					c.setNeighboard(1, chunks[i+1][j]);
+				if(j+1<NUM_Z)
+					c.setNeighboard(0, chunks[i][j+1]);
+	
+				c.setNeighboards();
+			}
+		}
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].setSides();
+			}
+		}
+	}
+	
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 }

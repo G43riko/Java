@@ -25,8 +25,8 @@ public class StrategyGame extends CoreGame{
 		GLog.sleep(100);
 		
 		setRenderingEngine(new RenderingEngine());
-//		setWorld(new World());
-		setWorld(new World("sandBox"));
+		setWorld(new World());
+//		setWorld(new World("sandBox"));
 //		setWorld(new World("mainWorld.gw"));
 		setPlayer(new Player(getWorld(), new Camera()));
 		setMainCamera(getPlayer().getCamera());

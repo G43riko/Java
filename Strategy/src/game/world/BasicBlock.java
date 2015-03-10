@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import game.main.Loader;
 import game.object.GameObject;
 import game.rendering.material.Material;
-import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import glib.util.vector.GVector3f;
 
@@ -38,13 +37,34 @@ public class BasicBlock extends GameObject{
 
 	protected boolean active = true;
 	
-	public GVector3f getPoint(int i, int j){
-		return points[i][j];
-	}
+	//CONSTRUCTORS
 	
 	public BasicBlock(GVector3f position, int blockType) {
 		super(position, 8);
 		this.type = blockType;
+	}
+	
+	//OTHERS
+
+	public JSONObject toJSON(){
+		JSONObject o = new JSONObject();
+		o.put("posX", getPosition().getX());
+		o.put("posY", getPosition().getY());
+		o.put("posZ", getPosition().getZ());
+		o.put("typ", type);
+		return o;
+	}
+	
+	//SETTERS
+	
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	//GETTERS
+	
+	public GVector3f getPoint(int i, int j){
+		return points[i][j];
 	}
 	
 	public static Model getTop(){
@@ -177,23 +197,9 @@ public class BasicBlock extends GameObject{
 		return active;
 	}
 	
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
 	public Material getMaterial(){
 		return (Material) Block.blockDatas.get(type).get("mat");
 	}
-
-	public JSONObject toJSON(){
-		JSONObject o = new JSONObject();
-		o.put("posX", getPosition().getX());
-		o.put("posY", getPosition().getY());
-		o.put("posZ", getPosition().getZ());
-		o.put("typ", type);
-		return o;
-	}
-
 	
 	public int getBlockType() {
 		return type;

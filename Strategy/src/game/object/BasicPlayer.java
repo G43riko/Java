@@ -57,6 +57,7 @@ public class BasicPlayer extends GameObject{
 	}
 	
 	public void move(GVector3f direction){
+//		direction = dir.mul(new GVector3f(1,0,1)).Normalized();
 		GVector3f x = new GVector3f(dir.getX(), 0, 0);
 		GVector3f z = new GVector3f(0, 0, dir.getZ());
 		GVector3f pos = getCamera().getPosition();

@@ -3,7 +3,9 @@ package glib.util.vector;
 import glib.math.GMath;
 
 public class GVector3f {
-	private float x,y,z;
+	private float x;
+	private float y;
+	private float z;
 	
 	public GVector3f(){
 		this(0,0,0);
@@ -182,10 +184,6 @@ public class GVector3f {
 		return new GVector3f(Math.abs(x), Math.abs(y), Math.abs(z));
 	}
 	
-	public String toString(){
-		return "(" + x + " " + y + " " + z + ")";
-	}
-	
 	public static boolean intersectRayWithSquare(GVector3f R1, GVector3f R2, GVector3f S1, GVector3f S2, GVector3f S3) {
 		 GVector3f dS21 = S2.sub(S1);
 		 GVector3f dS31 = S3.sub(S1);
@@ -205,7 +203,6 @@ public class GVector3f {
 		 GVector3f dMS1 = M.sub(S1);
 		 float u = dMS1.dot(dS21);
 		 float v = dMS1.dot(dS31);
-
 
 		 return (u >= 0.0f && u <= dS21.dot(dS21)&& v >= 0.0f && v <= dS31.dot(dS31));
 	}
@@ -250,8 +247,14 @@ public class GVector3f {
 	public void setX(float x) {this.x = x;}
 	public void setY(float y) {this.y = y;}
 	public void setZ(float z) {this.z = z;};
+
+	public String toString(){
+		return "(" + x + " " + y + " " + z + ")";
+	}
 	
-	public boolean equals(GVector3f v){
+	public boolean equals(Object o){
+		GVector3f v =(GVector3f)o;
 		return x == v.getX() && y == v.getY() && z == v.getZ();
 	}
+
 }

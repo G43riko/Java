@@ -65,6 +65,16 @@ public class Chunk3D extends GameObject{
 			b.setNeighboard(2, blocks[i][j-1][k]);
 		if(k > 0)
 			b.setNeighboard(5, blocks[i][j][k-1]);
+		
+//		if(i==0 && neighboards[3] != null )
+//			b.setNeighboard(3, neighboards[3].getBlock(NUM_X-1, j, k));
+//		if(i+1 == NUM_X && neighboards[1] != null)
+//			b.setNeighboard(1, neighboards[1].getBlock(0, j, k));
+//		
+//		if(k==0 && neighboards[2] != null)
+//			b.setNeighboard(4, neighboards[2].getBlock(i, j, NUM_Z-1));
+//		if(k+1 == NUM_Z && neighboards[0] != null)
+//			b.setNeighboard(5, neighboards[0].getBlock(i, j,0));
 	}
 	
 	public void setNeighboardsAround(int i, int j, int k){

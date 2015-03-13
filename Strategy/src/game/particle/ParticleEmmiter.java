@@ -219,7 +219,6 @@ public class ParticleEmmiter extends GameObject{
 		return numOfModels;
 	}
 
-	
 	public int getAlphaPower() {
 		return alphaPower;
 	}

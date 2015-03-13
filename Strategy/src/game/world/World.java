@@ -294,12 +294,11 @@ public class World extends GameObject{
 					c.setNeighboard(1, chunks[i+1][j]);
 				if(j+1<NUM_Z)
 					c.setNeighboard(0, chunks[i][j+1]);
-	
-				c.setNeighboards();
 			}
 		}
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].setNeighboards();
 				chunks[i][j].setSides();
 			}
 		}

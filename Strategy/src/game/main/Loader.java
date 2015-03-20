@@ -29,12 +29,33 @@ public class Loader {
 		return new Model(vaoID,indices.length);
 	}
 	
+	public Model loadToVAO(float[] positions, int[] indices){
+		int vaoID = createVAO();
+		
+		bindIndicesBuffer(indices);
+		storeDataInAttributeList(0,3,positions);
+		
+		unbindVAO();
+		return new Model(vaoID,indices.length);
+	}
+	
 	public Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0,3,positions);
 		storeDataInAttributeList(1,2,textureCoords);
 		storeDataInAttributeList(2,3,normals);
+		unbindVAO();
+		return new Model(vaoID,indices.length);
+	}
+	
+	public Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, float[] tangent, int[] indices){
+		int vaoID = createVAO();
+		bindIndicesBuffer(indices);
+		storeDataInAttributeList(0,3,positions);
+		storeDataInAttributeList(1,2,textureCoords);
+		storeDataInAttributeList(2,3,normals);
+		storeDataInAttributeList(3,3,tangent);
 		unbindVAO();
 		return new Model(vaoID,indices.length);
 	}

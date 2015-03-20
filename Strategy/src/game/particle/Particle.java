@@ -37,6 +37,8 @@ public class Particle extends GameObject{
 	
 	private boolean dead;
 	
+	//CONSTRUCTORS
+	
 	public Particle(GVector3f position, Texture2D texture, GVector3f color, ParticleEmmiter parent) {
 		super(position, 7);
 		this.dead = false;
@@ -46,6 +48,8 @@ public class Particle extends GameObject{
 		rotation = (float)(Math.random()*Math.PI*2);
 		rotationSpeed = (float)Math.toRadians((Math.random()-0.5f));
 	}
+	
+	//OVERRIDES
 	
 	public void update(){
 		move(direction.mul(speed));
@@ -66,6 +70,8 @@ public class Particle extends GameObject{
 	public void render(RenderingEngine renderingEngine){
 		renderingEngine.renderParticle(this);
 	}
+	
+	//OTHERS
 	
  	public static Model makeModel(float minX, float maxX,float minY,float maxY){
 		float w = 0.1f;

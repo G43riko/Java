@@ -14,8 +14,10 @@ public class Explosion extends GameObject{
 		private GVector3f rot;
 		private int life;
 	}
-	
+
 	private ArrayList<BlockPart> blocks = new ArrayList<BlockPart>();
+	
+	//CONSTRUCTORS
 	
 	public Explosion(Block b,int num){
 		super(b.getPosition(), 14);
@@ -38,6 +40,8 @@ public class Explosion extends GameObject{
 		}
 	}
 	
+	//OVERRIDES
+	
 	public void update(){
 		ArrayList<BlockPart> forRemove = new ArrayList<BlockPart>();
 		for(BlockPart b:blocks){
@@ -59,6 +63,8 @@ public class Explosion extends GameObject{
 		}
 	}
 
+	//GETTERS
+	
 	public ArrayList<BlockPart> getBlocks() {
 		return blocks;
 	}

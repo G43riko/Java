@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.Light;
+import game.components.Line;
 import game.components.Player;
 import game.gui.Gui;
 import game.main.Loader;
@@ -13,6 +14,7 @@ import game.object.GameObject;
 import game.object.SkyBox;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
+import game.util.MousePicker;
 import game.world.World;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
@@ -33,14 +35,19 @@ public abstract class CoreGame extends JFrame{
 	private Player player;
 	private World world;
 	private Light sun;
+	private MousePicker mousePicker;
 	private boolean running;
 	private boolean[] clicks = new boolean[2];
+	
+	//CONSTRUCTORS
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
 		scene = new ArrayList<GameObject>();
 		running = false;
 	}
+	
+	//OTHERS
 	
 	public void createWindow(CoreGame game){
 		gui = Window.createWindow(game);
@@ -113,11 +120,18 @@ public abstract class CoreGame extends JFrame{
 		
 //		if(world != null)
 //			world.render(renderingEngine);
+		ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
 		for(GameObject g: scene){
 			g.input();
 			g.update();
+			if(g instanceof Line){
+				if(((Line)g).isDead()){
+					toRemove.add(g);
+				}
+			}
 			g.render(renderingEngine);
 		}
+		scene.removeAll(toRemove);
 		
 		if(renderingEngine.getSelectBlock().getBlock() != null){
 			RenderingEngine.entityShader.bind();
@@ -127,32 +141,34 @@ public abstract class CoreGame extends JFrame{
 			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
 			RenderingEngine.entityShader.updateUniform("select", false);
 			
-			
-			if(Mouse.isButtonDown(1) && !clicks[1]){
-				if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
-				world.remove(renderingEngine.getSelectBlock().getBlock());
-				if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
-					clicks[1] = true;
+			if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
+				if(Mouse.isButtonDown(1) && !clicks[1]){
+					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
+						world.remove(renderingEngine.getSelectBlock().getBlock());
+					if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+						clicks[1] = true;
+				}
+				if(!Mouse.isButtonDown(1))
+					clicks[1] = false;
+				
+				if(Mouse.isButtonDown(0) && !clicks[0]){
+					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null){
+						world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
+					}
+					clicks[0] = true;
+				}
+				
+				if(!Mouse.isButtonDown(0))
+					clicks[0] = false;
 			}
-			if(!Mouse.isButtonDown(1))
-				clicks[1] = false;
-			
-			if(Mouse.isButtonDown(0) && !clicks[0]){
-				if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
-					world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
-				clicks[0] = true;
-			}
-			if(!Mouse.isButtonDown(0))
-				clicks[0] = false;
-			
-			
 			renderingEngine.getSelectBlock().reset();
 		}
+		
+		if(Mouse.isButtonDown(0)){
+			mousePicker.update();
+			addToScene(new Line(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10))));
+		}
 	};
-
-	public RenderingEngine getRenderingEngine() {
-		return renderingEngine;
-	}
 
 	public void cleanUp(){
 		running = false;
@@ -163,6 +179,38 @@ public abstract class CoreGame extends JFrame{
 	public void addToScene(GameObject g){
 		scene.add(g);
 	}
+
+	//GETTERS
+
+	public RenderingEngine getRenderingEngine() {
+		return renderingEngine;
+	}
+
+	public Gui getGui(){
+		return gui;
+	}
+
+	public Loader getLoader() {
+		return loader;
+	}
+
+	public SkyBox getSkyBox() {
+		return skyBox;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setLoader(Loader loader) {
+		this.loader = loader;
+	}
+
+	//SETTERS
 	
 	protected void setRenderingEngine(RenderingEngine renderingEngine) {
 		this.renderingEngine = renderingEngine;
@@ -176,22 +224,6 @@ public abstract class CoreGame extends JFrame{
 		RenderingEngine.entityShader.unbind();
 	}
 	
-	public Gui getGui(){
-		return gui;
-	}
-
-	public Loader getLoader() {
-		return loader;
-	}
-
-	public void setLoader(Loader loader) {
-		this.loader = loader;
-	}
-
-	public SkyBox getSkyBox() {
-		return skyBox;
-	}
-
 	public void setSkyBox(SkyBox skyBox) {
 		this.skyBox = skyBox;
 		addToScene(skyBox);
@@ -202,21 +234,12 @@ public abstract class CoreGame extends JFrame{
 		addToScene(player);
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
-
-	public World getWorld() {
-		return world;
-	}
-
 	public void setWorld(World world) {
 		this.world = world;
 		world.setRunning(true);
 		addToScene(world);
 		
 	}
-
 
 	public void setSun(Light sun) {
 		this.sun = sun;
@@ -230,5 +253,9 @@ public abstract class CoreGame extends JFrame{
 		l.add(g);
 		l.add(b);
 		renderingEngine.setLights(l);
+	}
+
+	public void setMousePicker(Player player){
+		mousePicker = new MousePicker(player.getCamera());
 	}
 }

@@ -11,10 +11,14 @@ public class Chunk2D extends GameObject{
 	private Chunk2D[] neighboards = new Chunk2D[4];
 	public Block[][] blocks = new Block[NUM_X][NUM_Z];
 	
+	//CONSTRUCTORS
+	
 	public Chunk2D(GVector3f position) {
 		super(position, 9);
 		create();
 	}
+	
+	//OTHERS
 	
 	private void create(){
 		for(int i=0 ; i<NUM_X ; i++){
@@ -28,6 +32,28 @@ public class Chunk2D extends GameObject{
 		}
 	}
 	
+	public boolean exist(int x, int z){
+		return x>=0 && z>=0 && x<NUM_X && z<NUM_Z;
+	}
+	
+	//OVERRIDES
+	
+	public void render(RenderingEngine renderingEngine) {
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				blocks[i][j].render(renderingEngine);
+			}
+		}
+	}
+
+	//GETTERS
+	
+	public Block getBlock(int i, int j){
+		return blocks[i][j];
+	}
+	
+	//SETTERS
+
 	public void setSides(){
 //		for(int i=0 ; i<NUM_X ; i++){
 //			for(int j=0 ; j<NUM_Z ; j++){
@@ -50,22 +76,6 @@ public class Chunk2D extends GameObject{
 //						b.sides[4] = true;
 //			}
 //		}
-	}
-	
-	public boolean exist(int x, int z){
-		return x>=0 && z>=0 && x<NUM_X && z<NUM_Z;
-	}
-	
-	public void render(RenderingEngine renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				blocks[i][j].render(renderingEngine);
-			}
-		}
-	}
-
-	public Block getBlock(int i, int j){
-		return blocks[i][j];
 	}
 	
 	public void setNeighboard(int i, Chunk2D n){

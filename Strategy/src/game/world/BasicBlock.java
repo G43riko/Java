@@ -85,6 +85,7 @@ public class BasicBlock extends GameObject{
 				 		   0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f};
+		
 		return new Loader().loadToVAO(position, texture, normals, indices);
 	}
 	

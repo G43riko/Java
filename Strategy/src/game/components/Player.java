@@ -16,6 +16,8 @@ public class Player extends BasicPlayer{
 	public final static int MAX_CLICK_DIST = 100;
 	public final static GVector3f GRAVITY = new GVector3f(0,-0.03f,0);
 	
+	//CONSTRUCTORS
+	
 	public Player(GVector3f position, World world, Camera camera){
 		super(position);
 		this.world = world;
@@ -30,6 +32,8 @@ public class Player extends BasicPlayer{
 		this.world = world;
 		this.camera = camera;
 	}
+	
+	//OVERRIDES
 	
 	public void update(){
 		
@@ -82,5 +86,11 @@ public class Player extends BasicPlayer{
 				dir.setY(0);
 			}
 		}
+	}
+
+	//GETTERS
+	
+	public GVector3f getPosition(){
+		return camera.getPosition();
 	}
 }

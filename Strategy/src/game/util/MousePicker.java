@@ -17,8 +17,8 @@ public class MousePicker {
 	private GMatrix4f viewMatrix;
 	private Camera camera;
 	
-	public MousePicker(GMatrix4f projectionMatrix, Camera camera) {
-		this.projectionMatrix = projectionMatrix;
+	public MousePicker(Camera camera) {
+		this.projectionMatrix = camera.getProjectionMatrix();
 		this.camera = camera;
 		this.viewMatrix  = Maths.MatrixToGMatrix(Maths.createViewMatrix(camera));
 	}
@@ -32,7 +32,7 @@ public class MousePicker {
 		currentRay = calculateMouseRay();
 	}
 	
-	public GVector3f calculateMouseRay(){
+	private GVector3f calculateMouseRay(){
 		float mouseX = Mouse.getX();
 		float mouseY = Mouse.getY();
 		GVector2f normalizedCoords = getNormalizedDeviceCoords(mouseX, mouseY);

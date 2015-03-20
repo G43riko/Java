@@ -16,6 +16,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class Window {
 	
+	//CREATORS
+	
 	public static Gui createWindow(CoreGame game){
 		Gui gui = new Gui(game);
 		if(!MainStrategy.SHOW_GUI){
@@ -47,21 +49,6 @@ public class Window {
 			return gui;
 		}
 	}
-	
-	private static void initFrame(CoreGame game) {
-		game.setResizable(true);
-		if(MainStrategy.FULLSCREEN){
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			MainStrategy.WIDTH = (int)screenSize.getWidth();
-			MainStrategy.HEIGHT = (int)screenSize.getHeight();
-			game.setExtendedState(Frame.MAXIMIZED_BOTH);
-			game.setUndecorated(true);
-		}
-		game.setVisible(true);
-		game.setTitle(MainStrategy.TITLE);
-		game.setSize(MainStrategy.WIDTH, MainStrategy.HEIGHT);
-		game.setDefaultCloseOperation(CoreGame.EXIT_ON_CLOSE);
-	}
 
 	public static void createWindow(int width, int height, String title){
 		Display.setTitle(title);
@@ -91,9 +78,34 @@ public class Window {
 		}
 	}
 	
+	//OTHRES
+	
+	private static void initFrame(CoreGame game) {
+		game.setResizable(true);
+		if(MainStrategy.FULLSCREEN){
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			MainStrategy.WIDTH = (int)screenSize.getWidth();
+			MainStrategy.HEIGHT = (int)screenSize.getHeight();
+			game.setExtendedState(Frame.MAXIMIZED_BOTH);
+			game.setUndecorated(true);
+		}
+		game.setVisible(true);
+		game.setTitle(MainStrategy.TITLE);
+		game.setSize(MainStrategy.WIDTH, MainStrategy.HEIGHT);
+		game.setDefaultCloseOperation(CoreGame.EXIT_ON_CLOSE);
+	}
+
 	public static void render(){
 		Display.update();
 	}
+
+	public static void cleanUp(){
+		Keyboard.destroy();
+		Mouse.destroy();
+		Display.destroy();
+	}
+	
+	//GETTERS
 	
 	public static boolean isCloseRequested(){
 		return Display.isCloseRequested();
@@ -105,12 +117,6 @@ public class Window {
 	
 	public static int getHeight(){
 		return Display.getDisplayMode().getHeight();
-	}
-	
-	public static void cleanUp(){
-		Keyboard.destroy();
-		Mouse.destroy();
-		Display.destroy();
 	}
 	
 	public static Vector2f getCenter(){

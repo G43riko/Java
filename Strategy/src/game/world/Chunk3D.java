@@ -45,6 +45,52 @@ public class Chunk3D extends GameObject{
 		create(data);
 	}
 	
+	//OVERRIDES
+	
+	public JSONObject toJSON(){
+		JSONObject o = new JSONObject();
+		o.put("posX", getPosition().getX());
+		o.put("posY", getPosition().getY());
+		o.put("posZ", getPosition().getZ());
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Y ; j++){
+				for(int k=0 ; k<NUM_Z ; k++){
+					if(blocks[i][j][k] != null)
+						o.put("block"+i+j+k, blocks[i][j][k].toJSON());
+					else
+						o.put("block"+i+j+k, "null");
+				}
+			}
+		}
+		return o;
+	}
+
+	public void render(RenderingEngine renderingEngine) {
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Y ; j++){
+				for(int k=0 ; k<NUM_Z ; k++){
+					Block b = blocks[i][j][k];
+					if(b!=null && b.isActive() && b.getType()>0){
+						b.render(renderingEngine);
+					}
+				}
+			}
+		}
+	}
+	
+	public void update(){
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Y ; j++){
+				for(int k=0 ; k<NUM_Z ; k++){
+					Block b = blocks[i][j][k];
+					if(b!=null && b.isActive() && b.getType()>0){
+						b.update();
+					}
+				}
+			}
+		}
+	}
+	
 	//NEIGHBOARDS
 	
 	public void setNeighboards(int i, int j, int k){
@@ -174,24 +220,6 @@ public class Chunk3D extends GameObject{
 		}
 	}
 	
-	public JSONObject toJSON(){
-		JSONObject o = new JSONObject();
-		o.put("posX", getPosition().getX());
-		o.put("posY", getPosition().getY());
-		o.put("posZ", getPosition().getZ());
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					if(blocks[i][j][k] != null)
-						o.put("block"+i+j+k, blocks[i][j][k].toJSON());
-					else
-						o.put("block"+i+j+k, "null");
-				}
-			}
-		}
-		return o;
-	}
-	
 	//GETTERS
 
 	public Block getBlock(int i, int j, int k){
@@ -303,32 +331,6 @@ public class Chunk3D extends GameObject{
 			return x>=0 && z>=0 && y>=0 && y<NUM_Y && x<NUM_X && z<NUM_Z && blocks[x][y][z]!=null;
 		else
 			return x>=0 && z>=0 && y>=0 && y<NUM_Y && x<NUM_X && z<NUM_Z;
-	}
-	
-	public void render(RenderingEngine renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					Block b = blocks[i][j][k];
-					if(b!=null && b.isActive() && b.getType()>0){
-						b.render(renderingEngine);
-					}
-				}
-			}
-		}
-	}
-	
-	public void update(){
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					Block b = blocks[i][j][k];
-					if(b!=null && b.isActive() && b.getType()>0){
-						b.update();
-					}
-				}
-			}
-		}
 	}
 	
 }

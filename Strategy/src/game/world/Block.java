@@ -31,6 +31,8 @@ public class Block extends BasicBlock{
 	public final static int CONCRETE = 9;
 	public final static int TILE = 10;
 	public final static int PATH = 11;
+	
+	private final static int MAX_COLLISION_DISTANCE = 100;
 
 //	private ArrayList<Block> dependOn = new ArrayList<Block>();
 //	private LinkedHashSet<Block> connection = new LinkedHashSet<Block>();
@@ -72,21 +74,6 @@ public class Block extends BasicBlock{
 	
 	//OTHERS
 	
-	public void update(){
-		if(!direction.isNull()){
-			relativePos = relativePos.add(direction);
-			if(direction.getY() > -Player.MAX_FALLING_SPEED);
-				direction = direction.add(Player.GRAVITY);
-			Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
-			if(imp != null && imp.isClickable()){
-				world.blockInpact(this,imp);
-			}
-//			if(relativePos.getY()<-2*Block.HEIGHT){
-////				setPosition(position)
-//			}
-		}
-	}
-	
 	private void startFalling(Chunk3D c){
 		if(!direction.isNull())
 			return;
@@ -98,10 +85,6 @@ public class Block extends BasicBlock{
 //		c.moveDown(this);
 	}
 	
-	public void render(RenderingEngine renderingEngine) {
-		renderingEngine.renderBlock(this);
-	}
-
 	public static void getBlockData(){
 		String postFix = "_64.jpg";
 		JSONObject adding = new JSONObject();
@@ -226,10 +209,6 @@ public class Block extends BasicBlock{
 		blockDatas.put(PATH, adding);
 	}
 
-	public String toString(){
-		return "typ: "+blockDatas.get(type).getString("name");
-	}
-	
 	private boolean checkFall(ArrayList<Block> b, int level){
 		if(level<=0)
 			return true;
@@ -243,11 +222,6 @@ public class Block extends BasicBlock{
 			}
 		}
 		return false;
-	}
-	
-	public GMatrix4f getTransformationMatrix(){
-		Matrix4f trans = Maths.createTransformationMatrix(getPosition().add(relativePos),getRotation(), getScale());
-		return Maths.MatrixToGMatrix(trans);
 	}
 	
 	public void removeNeighboard(Block b){
@@ -267,7 +241,7 @@ public class Block extends BasicBlock{
 				if(b.checkFall())
 					b.startFalling(c);
 				ArrayList<Block> collizable = new ArrayList<Block>();
-				if(!b.checkFall(collizable,30)){
+				if(!b.checkFall(collizable,MAX_COLLISION_DISTANCE)){
 					for(int j=0 ; j<collizable.size() ; j++){
 						Block n = collizable.get(j);
 						n.startFalling(c);
@@ -286,6 +260,36 @@ public class Block extends BasicBlock{
 		return true;
 	}
 
+	//OVERRIDES
+
+	public GMatrix4f getTransformationMatrix(){
+		Matrix4f trans = Maths.createTransformationMatrix(getPosition().add(relativePos),getRotation(), getScale());
+		return Maths.MatrixToGMatrix(trans);
+	}
+
+	public String toString(){
+		return "typ: "+blockDatas.get(type).getString("name");
+	}
+
+	public void render(RenderingEngine renderingEngine) {
+		renderingEngine.renderBlock(this);
+	}
+
+	public void update(){
+		if(!direction.isNull()){
+			relativePos = relativePos.add(direction);
+			if(direction.getY() > -Player.MAX_FALLING_SPEED);
+				direction = direction.add(Player.GRAVITY);
+			Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
+			if(imp != null && imp.isClickable()){
+				world.blockInpact(this,imp);
+			}
+//			if(relativePos.getY()<-2*Block.HEIGHT){
+////				setPosition(position)
+//			}
+		}
+	}
+	
 	//GETTERS
 	
 	public World getWorld() {

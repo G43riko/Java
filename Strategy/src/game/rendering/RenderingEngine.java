@@ -11,7 +11,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import game.Light;
+import game.components.Line;
 import game.components.Player;
+import game.enemy.BasicEnemy;
 import game.object.Camera;
 import game.object.Entity;
 import game.object.SkyBox;
@@ -21,6 +23,7 @@ import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import game.rendering.shader.Shader;
 import game.util.Maths;
+import game.util.MousePicker;
 import game.world.Block;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
@@ -48,6 +51,7 @@ public class RenderingEngine {
 	private List<Light> lights;
 	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
+	private MousePicker mousePicker;
 	
 	public class SelectBlock{
 		private Block block = null;
@@ -115,7 +119,7 @@ public class RenderingEngine {
 	}
 	
 	public void renderSky(SkyBox sky){
-		if(mainCamera == null){
+		if(mainCamera == null || view == 4){
 			return;
 		}
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -159,9 +163,15 @@ public class RenderingEngine {
 						 blockToCamDist < block.getPosition().dist(mainCamera.getPosition().add(mainCamera.getForward())) && view!=4);
 		for(int i=0 ; i<6 ; i++){
 			if(block.getSide(i)){
-				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
-				    	  						  block.getPosition().add(block.getPoint(i, 1)),  
-				    	  						  block.getPosition().add(block.getPoint(i, 2)))){
+//				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
+//				    	  						  block.getPosition().add(block.getPoint(i, 1)),  
+//				    	  						  block.getPosition().add(block.getPoint(i, 2)))){
+				mousePicker.update();
+				if(search && GVector3f.intersectRayWithSquare(mainCamera.getPosition(), 
+															  mainCamera.getPosition().add(mousePicker.getCurrentRay().mul(1000)),
+															  block.getPosition().add(block.getPoint(i, 0)), 
+															  block.getPosition().add(block.getPoint(i, 1)),  
+															  block.getPosition().add(block.getPoint(i, 2)))){
 					float dist = block.getPosition().add(block.getPoint(i, 1).add(block.getPoint(i, 2)).div(2)).dist(mainCamera.getPosition());
 					if(selectBlock.dist<0 || selectBlock.dist>dist){
 						selectBlock.dist = dist;
@@ -199,6 +209,39 @@ public class RenderingEngine {
 		disableVertex(2);
 	}
 	
+	public void renderLine(Line line) {
+		entityShader.bind();
+		entityShader.updateUniform("transformationMatrix", line.getTransformationMatrix());
+		entityShader.updateUniform("color", line.getColor());
+		entityShader.updateUniform("view", 3);
+		
+		GL30.glBindVertexArray(line.getModel().getVaoID());
+		
+		GL20.glEnableVertexAttribArray(0);
+		
+		GL11.glDrawElements(GL11.GL_LINE_STRIP, line.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+		
+		GL20.glDisableVertexAttribArray(0);
+		
+		entityShader.updateUniform("view", view);
+	}
+
+	public void renderEnemy(BasicEnemy basicEnemy) {
+		if(mainCamera == null){
+			return;
+		}
+		
+		entityShader.bind();
+		
+		entityShader.updateUniform("transformationMatrix", basicEnemy.getTransformationMatrix());
+		
+		entityShader.updateUniform("color", new GVector3f(1,0,0));
+		
+		prepareAndDraw(3, basicEnemy.getModel());
+		
+		disableVertex(3);
+	}
+	
 	//OTHERS
 	
 	public void prepare() {
@@ -222,6 +265,7 @@ public class RenderingEngine {
 		if(i>2)
 			GL20.glEnableVertexAttribArray(2);
 		
+//		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 	}
 	
@@ -270,7 +314,9 @@ public class RenderingEngine {
 	
 	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
-
+		this.mousePicker = new MousePicker(mainCamera);
+		mousePicker.update();
+		
 		entityShader.bind();
 		entityShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
 		

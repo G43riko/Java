@@ -31,30 +31,21 @@ public class BasicPlayer extends GameObject{
 	private int leftKey = Keyboard.KEY_A;
 	private int rightKey = Keyboard.KEY_D;
 	
+	private int turnRightKey = Keyboard.KEY_E;
+	private int turnLeftKey = Keyboard.KEY_Q;
+	
 	private int upKey = Keyboard.KEY_SPACE;
 	private int downKey = Keyboard.KEY_LSHIFT;
 	
 	private int jumpKey = Keyboard.KEY_SPACE;
 	
+	private float rotSpeed = 1;
+	
 	public boolean checkGround(){
 		return (world.getBlock(getCamera().getPosition().add(new GVector3f(0,-Player.HEIGHT,0)))!=null);
 	}
 	
-	public Block getFloor(){
-		
-		GVector3f pos = camera.getPosition().sub(new GVector3f(0,Player.HEIGHT+Block.HEIGHT*2,0));
-		Block b = world.getBlock(pos);
-//		strašne spomaluje hru
-//		if(b == null)
-//			b = world.getBlock(pos.add(new GVector3f(+Player.MIN_DIST_FROM_BLOCK,0,0)));
-//		if(b == null)
-//			b = world.getBlock(pos.add(new GVector3f(-Player.MIN_DIST_FROM_BLOCK,0,0)));
-//		if(b == null)
-//			b = world.getBlock(pos.add(new GVector3f(0,0,+Player.MIN_DIST_FROM_BLOCK)));
-//		if(b == null)
-//			b = world.getBlock(pos.add(new GVector3f(0,0,-Player.MIN_DIST_FROM_BLOCK)));
-		return b;
-	}
+	//OVERRIDES
 	
 	public void move(GVector3f direction){
 //		direction = dir.mul(new GVector3f(1,0,1)).Normalized();
@@ -116,6 +107,21 @@ public class BasicPlayer extends GameObject{
 				move = true;
 			}
 		}
+		
+		/*	ROTATION
+		 * 	Q and E
+		 */
+		
+		if(Keyboard.isKeyDown(turnRightKey)){
+			camera.rotate(new GVector3f(0, rotSpeed, 0));
+			rotate = true;
+		}
+		
+		if(Keyboard.isKeyDown(turnLeftKey)){
+			camera.rotate(new GVector3f(0,-rotSpeed, 0));
+			rotate = true;
+		}
+		
 		/*	BLOCK SELECTOR
 		 *	1-9  
 		 */
@@ -162,12 +168,28 @@ public class BasicPlayer extends GameObject{
 		}
 	}
 
+	//GETTERS
+
+	public Block getFloor(){
+		
+		GVector3f pos = camera.getPosition().sub(new GVector3f(0,Player.HEIGHT+Block.HEIGHT*2,0));
+		Block b = world.getBlock(pos);
+//		strašne spomaluje hru
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(+Player.MIN_DIST_FROM_BLOCK,0,0)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(-Player.MIN_DIST_FROM_BLOCK,0,0)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(0,0,+Player.MIN_DIST_FROM_BLOCK)));
+//		if(b == null)
+//			b = world.getBlock(pos.add(new GVector3f(0,0,-Player.MIN_DIST_FROM_BLOCK)));
+		return b;
+	}
 	
 	public World getWorld() {
 		return world;
 	}
 
-	
 	public Camera getCamera() {
 		return camera;
 	}
@@ -176,6 +198,8 @@ public class BasicPlayer extends GameObject{
 		return selectBlock;
 	}
 
+	//SETTERS
+	
 	public void setWorld(World world) {
 		this.world = world;
 	}

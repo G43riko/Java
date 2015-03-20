@@ -1,6 +1,7 @@
 import glib.util.GColor;
 import glib.util.noise.PerlinNoise;
 import glib.util.noise.SimplexNoise;
+import glib.util.vector.GVector2f;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,8 +10,8 @@ import java.awt.Graphics;
 public class G2D {
 	private float[][] mapa;
 	private Block[][] blocks;
-	private int width = 10;
-	private int height = 10;
+	private int width = 5;
+	private int height = 5;
 	private static int index = 1;
 	private class Block{
 		
@@ -26,12 +27,12 @@ public class G2D {
 	}
 	
 	G2D(){
-		
 		int x = Main.WIDTH/width;
 		int y = Main.HEIGHT/height;
 		System.out.println(x+" "+y);
-		mapa = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(x, y), 8, 0.7f, true);
+//		mapa = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(x, y), 8, 0.7f, true);
 //		mapa = SimplexNoise.generateOctavedSimplexNoise(x, y, 6, 0.8f, 0.008f);
+		mapa = Generator.create(y, y);
 		Main.keyboard.setG2D(this);
 		blocks = new Block[mapa.length][mapa[0].length];
 		for(int i=0 ; i<mapa.length ; i++){
@@ -49,7 +50,7 @@ public class G2D {
 					actColor = (new GColor(204,0,0,255));
 				else
 					actColor = (new GColor(255,0,255,255));
-				
+//				actColor = new GColor(color,color,color,255);
 //				g.setColor(new GColor((int)color,(int)color,(int)color,255));
 				blocks[i][j] = new Block();
 				blocks[i][j].x = i;
@@ -60,11 +61,76 @@ public class G2D {
 			}
 		}
 	};
+	/*
+	 	[X1,Y1]       [X2,Y1]
+		Cl1-------1-------Cl2
+		  |       |       |
+		  |       |       |
+		  3-------5-------4
+		  |       |       |
+		  |       |       |
+		Cl3-------2-------Cl4
+		[X1,Y2]       [X2,Y2]
+	 */
+	
 	
 	public void drawMenu(Graphics g){
 		g.setColor(GColor.DARK_GRAY);
 		g.fillRect(0,0,Main.WIDTH,Main.HEIGHT);
 	};
+
+	private void kukni(Block b,int t){
+		Color oldC = b.c;
+		b.c = Color.WHITE;
+		uspi(t);
+		b.c = oldC;
+	}
+	
+	private void uspi(int time){
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private boolean exist(int x,int y){
+		if(x>=0 && y>=0 && x<blocks.length && y<blocks[x].length && blocks[x][y]!=null)
+			return true;
+		return false;
+	}
+	
+	public void drawGame(Graphics g){
+		g.setColor(GColor.BLACK);
+		g.fillRect(0,0,Main.WIDTH,Main.HEIGHT);
+		
+		if(Main.gameIs==1){
+			for(int i=0 ; i<mapa.length ; i++){
+				for(int j=0 ; j<mapa[i].length ; j++){
+					if(exist(i, j))
+					blocks[i][j].draw = false;
+				}
+			}
+			for(int i=0 ; i<mapa.length ; i++){
+				for(int j=0 ; j<mapa[i].length ; j++){
+					if(exist(i, j) && !blocks[i][j].draw){
+						g.setColor(blocks[i][j].c);
+						g.fillRect(i*width, j*height, blocks[i][j].w*width, blocks[i][j].h*height);
+						
+						g.setColor(Color.black);
+						g.drawRect(i*width, j*height, blocks[i][j].w*width, blocks[i][j].h*height);
+						blocks[i][j].draw = true;
+					}
+				}
+			}
+		}
+	};
+	
+	public void drawPause(Graphics g){
+		
+	}
+
 	
 //	public void simplification(){
 //		//funguje ale blbne
@@ -264,6 +330,7 @@ public class G2D {
 		}
 		index++;
 	}
+	
 	private void nahrad(Block a, Block b){
 		int XS = a.w;
 		int YS = a.h;
@@ -278,55 +345,4 @@ public class G2D {
 		
 	}
 		
-	private void kukni(Block b,int t){
-		Color oldC = b.c;
-		b.c = Color.WHITE;
-		uspi(t);
-		b.c = oldC;
-	}
-	
-	private void uspi(int time){
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private boolean exist(int x,int y){
-		if(x>=0 && y>=0 && x<blocks.length && y<blocks[x].length && blocks[x][y]!=null)
-			return true;
-		return false;
-	}
-	
-	public void drawGame(Graphics g){
-		g.setColor(GColor.BLACK);
-		g.fillRect(0,0,Main.WIDTH,Main.HEIGHT);
-		
-		if(Main.gameIs==1){
-			for(int i=0 ; i<mapa.length ; i++){
-				for(int j=0 ; j<mapa[i].length ; j++){
-					if(exist(i, j))
-					blocks[i][j].draw = false;
-				}
-			}
-			for(int i=0 ; i<mapa.length ; i++){
-				for(int j=0 ; j<mapa[i].length ; j++){
-					if(exist(i, j) && !blocks[i][j].draw){
-						g.setColor(blocks[i][j].c);
-						g.fillRect(i*width, j*height, blocks[i][j].w*width, blocks[i][j].h*height);
-						
-						g.setColor(Color.black);
-						g.drawRect(i*width, j*height, blocks[i][j].w*width, blocks[i][j].h*height);
-						blocks[i][j].draw = true;
-					}
-				}
-			}
-		}
-	};
-	
-	public void drawPause(Graphics g){
-		
-	}
 }

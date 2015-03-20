@@ -48,6 +48,8 @@ public class ParticleEmmiter extends GameObject{
 	private boolean dwindle = true;
 	private boolean fading = true;
 	
+	//CONSTRUCTORS
+	
 	public ParticleEmmiter(GVector3f position){
 		super(position,  11);
 		particles = new ArrayList<Particle>();
@@ -69,13 +71,14 @@ public class ParticleEmmiter extends GameObject{
 		update();
 	}
 	
-
+	//OTHERS
+	
 	public void saveToFile(String fileName){
 		File fileToSave = new File("res/components/particles/"+fileName);
 		PrintStream file = null;;
 		try {
 			file = new PrintStream(fileToSave);
-			file.println(toJson());
+			file.println(toJSON());
 			System.out.println("s˙bor "+fileName+" bol ˙speËne uloûen˝ medzy Ëastice");
 		} catch (FileNotFoundException e1) {
 			System.out.println("lutujeme ale s˙bor nebolo moûnÈ najsù");
@@ -109,8 +112,48 @@ public class ParticleEmmiter extends GameObject{
 		fading = o.getBoolean("fading");
 		System.out.println("Ëastica bola ˙speöne naËÌtan·");
 	}
+
+	private String loadFromFile(String fileName){
+		String line = null;
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader("res/components/particles/"+fileName));
+			line = reader.readLine();
+			System.out.println("s˙bor "+fileName+" bol ˙speËne otvoren˝");
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return line;
+	}
 	
-	public JSONObject toJson(){
+	//CREATORS
+	
+	public Particle createParticle(){
+		GVector3f pos = getPosition().randomize(positionRandomness);
+		
+		Particle particle = new Particle(pos,texture,color.randomize(colorRandomness),this);
+		particle.setSpeed(speed, speedRandomnes);
+		particle.setDirection(direction,directionRandomness);
+		particle.setLife(life,lifeRandomness);
+		particle.setSize(size, sizeRandomness);
+		return particle;
+	}
+	
+	private void createModels(String fileName, int numX, int numY){
+		texture = new Texture2D(fileName);
+		numOfModels = numX * numY;
+		float imageWidth = 1f/numX;
+		float imageHeight = 1f/numY;
+		for(int j=0 ; j<numY ; j++){
+			for(int i=0 ; i<numX ; i++){
+				models.add(Particle.makeModel(imageWidth*i, imageWidth*i+imageWidth, imageHeight*j, imageHeight*j+imageHeight));
+			}
+		}
+	}
+	
+	//OVERRIDES
+	
+	public JSONObject toJSON(){
 		JSONObject o = new JSONObject();
 		o.put("texture", texture.getFileName());
 		o.put("gravityX", gravity.getX());
@@ -163,30 +206,6 @@ public class ParticleEmmiter extends GameObject{
 		}
 	}
 	
-	private String loadFromFile(String fileName){
-		String line = null;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader("res/components/particles/"+fileName));
-			line = reader.readLine();
-			System.out.println("s˙bor "+fileName+" bol ˙speËne otvoren˝");
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return line;
-	}
-	
-	public Particle createParticle(){
-		GVector3f pos = getPosition().randomize(positionRandomness);
-		
-		Particle particle = new Particle(pos,texture,color.randomize(colorRandomness),this);
-		particle.setSpeed(speed, speedRandomnes);
-		particle.setDirection(direction,directionRandomness);
-		particle.setLife(life,lifeRandomness);
-		particle.setSize(size, sizeRandomness);
-		return particle;
-	}
-	
 	public void render(RenderingEngine renderingEngine){
 		glDisable(GL_DEPTH_TEST);
 		
@@ -199,17 +218,7 @@ public class ParticleEmmiter extends GameObject{
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	private void createModels(String fileName, int numX, int numY){
-		texture = new Texture2D(fileName);
-		numOfModels = numX * numY;
-		float imageWidth = 1f/numX;
-		float imageHeight = 1f/numY;
-		for(int j=0 ; j<numY ; j++){
-			for(int i=0 ; i<numX ; i++){
-				models.add(Particle.makeModel(imageWidth*i, imageWidth*i+imageWidth, imageHeight*j, imageHeight*j+imageHeight));
-			}
-		}
-	}
+	//GETTERS
 	
 	public Model getModel(int i){
 		return models.get(i);

@@ -20,7 +20,7 @@ void main()
     worldPos0 = (T_model * vec4(position,1.0)).xyz;
     
     vec3 n = normalize((T_model * vec4(normal,0.0)).xyz);
-    vec3 t = normalize((T_model * vec4(tangent,0.0)).xyz);
+    vec3 t = normalize((T_model * vec4(1,0,0,0.0)).xyz);
     t = normalize(t - dot(t,n) * n);
     vec3 biTangent = cross(t,n);
     //vec3 biTangent = cross(n,t);

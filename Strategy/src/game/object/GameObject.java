@@ -16,25 +16,33 @@ public abstract class GameObject {
 	private GVector3f scale;
 	private int type;
 	
-	/*
-	 * 1 - Camera
-	 * 2 - Entity
-	 * 3 - SkyBox
-	 * 4 - DirectionalLight
-	 * 5 - PointLight
-	 * 6 - SpotLight
-	 * 7 - Particle
-	 * 8 - Box
-	 * 9 - chunk
-	 * 10 - world
-	 * 11 - particleEmmiter
-	 * 12 - Player
-	 * 13 - HUD
-	 * 14 - explosion
-	 * 15 - sandbox
-	 */
+	public final static int CAMERA = 1;
+	public final static int ENTITY = 2;
+	public final static int SKYBOX = 3;
+	public final static int DIRECTIONALLIGHT = 4;
+	public final static int POINTLIGHT = 5;
+	public final static int SPOTLIGHT = 6;
+	public final static int PARTICLE = 7;
+	public final static int BOX = 8;
+	public final static int CHUNK = 9;
+	public final static int WORLD = 10;
+	public final static int PARTICLEEMMITER = 11;
+	public final static int PLAYER = 12;
+	public final static int HUD = 13;
+	public final static int EXPLOSION = 14;
+	public final static int SANDBOX = 15;
+	public final static int LINE = 16;
+	public final static int TOWER = 17;
+	public final static int ENEMY = 18;
+	
+	// CONSTRUCTORS;
+	
+	public GameObject(int type) {
+		this(new GVector3f(), new GVector3f(), new GVector3f(1), type);
+	}
+	
 	public GameObject(GVector3f position,  int type) {
-		this(position, new GVector3f(0,0,0), new GVector3f(1,1,1), type);
+		this(position, new GVector3f(), new GVector3f(1), type);
 	}
 	
 	public GameObject(GVector3f position, GVector3f rotation, GVector3f scale, int type) {
@@ -44,6 +52,8 @@ public abstract class GameObject {
 		this.type = type;
 	}
 
+	//OTHERS
+	
 	public void move(GVector3f vec){
 		position = position.add(vec);
 	}
@@ -52,41 +62,7 @@ public abstract class GameObject {
 		rotation = rotation.add(vec);
 	}
 	
-//	public void rotate(GVector3f dir,float angle){
-//		rotation = rotation.Rotate(dir, angle);
-//		rotation = rotation.Rotate(new GQuaternion(dir, angle));
-//	}
-
-	public GVector3f getPosition() {
-		return position;
-	}
-	
-	public void setPosition(GVector3f position) {
-		this.position = position;
-	}
-	
-	public GVector3f getRotation() {
-		return rotation;
-	}
-	
-	public void setRotation(GVector3f rotation) {
-		this.rotation = rotation;
-	}
-	
-	public GVector3f getScale() {
-		return scale;
-	}
-	
-	public void setScale(GVector3f scale) {
-		this.scale = scale;
-	}
-	
-	public void setScale(float scale) {
-		this.scale = new GVector3f(scale, scale, scale);
-	}
-	
 	public void render(RenderingEngine renderingEngine) {}
-	
 	
 	public void lookAt(GVector3f pos){
 	}
@@ -95,13 +71,8 @@ public abstract class GameObject {
 
 	public void update() {}
 
-	public int getType() {
-		return type;
-	}
-	
 	public JSONObject toJSON(){
 		return null;
-		
 	}
 	
 	public GMatrix4f lookAt(GVector3f eye, GVector3f target, GVector3f up)
@@ -114,6 +85,42 @@ public abstract class GameObject {
 		m.set(2, 0, side.getZ());	m.set(2, 1, up.getZ());	m.set(2, 2, -forward.getZ());
 		m.set(0, 3, -eye.getX());	m.set(1, 3, -eye.getY());m.set(2, 3, -eye.getX());
 		return m;
+	}
+	
+	//GETTERS
+	
+	public GVector3f getPosition() {
+		return position;
+	}
+
+	public GVector3f getRotation() {
+		return rotation;
+	}
+
+	public GVector3f getScale() {
+		return scale;
+	}
+	
+	//SETTERS
+	
+	public void setPosition(GVector3f position) {
+		this.position = position;
+	}
+	
+	public void setRotation(GVector3f rotation) {
+		this.rotation = rotation;
+	}
+	
+	public void setScale(GVector3f scale) {
+		this.scale = scale;
+	}
+	
+	public void setScale(float scale) {
+		this.scale = new GVector3f(scale, scale, scale);
+	}
+	
+	public int getType() {
+		return type;
 	}
 	
 	public GMatrix4f getTransformationMatrix(){

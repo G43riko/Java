@@ -55,7 +55,7 @@ void main(){
 		if(blur == 0){
 			vec3 totalDiffuse = vec3(0.0);
 			vec3 totalSpecular = vec3(0.0);
-			vec3 unitNormal = normalize(surfaceNormal );
+			vec3 unitNormal = normalize(surfaceNormal);
 			vec3 unitVectorToCamera = normalize(toCameraVector);
 			for(int i=0 ; i<MAX_LIGHTS ; i++){
 				if(lightColor[i] == vec3(0,0,0)){
@@ -115,7 +115,7 @@ void main(){
 		else
 			out_Color = vec4(0.5, 0.5, 0.5, 1);
 	}
-	if(select==1 || view ==3){
+	if(select==1){
 		float limit = 0.002*distance*2;
 		if(pass_textureCoords.x <= limit || pass_textureCoords.y <= limit || pass_textureCoords.x >= 1-limit || pass_textureCoords.y >= 1-limit)
 			out_Color = vec4(0,0,0,1);

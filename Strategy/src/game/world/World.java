@@ -29,7 +29,7 @@ public class World extends GameObject{
 	//CONSTRUCTORS
 	
 	public World() {
-		super(new GVector3f(), 10);
+		super(10);
 		
 		map = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk3D.NUM_X * NUM_X, Chunk3D.NUM_Z * NUM_Z), 6, 0.7f, true);
 		chunks = new Chunk3D[NUM_X][NUM_Z];
@@ -39,7 +39,7 @@ public class World extends GameObject{
 	}
 	
 	public World(String fileName) {
-		super(new GVector3f(), 10);
+		super(10);
 		
 		if(fileName.equals("sandBox")){
 			NUM_X = 1;
@@ -121,52 +121,7 @@ public class World extends GameObject{
 	private boolean exist(int i, int j){
 		return i>=0 && j>=0 && i<NUM_X && j < NUM_Z;
 	}
-	
-	public void render(RenderingEngine renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].render(renderingEngine);
-			}
-		}
-		for(Explosion e:explosions){
-			e.render(renderingEngine);
-		}
-	}
-	
-	public JSONObject toJSON(){
-		JSONObject o = new JSONObject();
-		o.put("worldX", NUM_X);
-		o.put("worldZ", NUM_Z);
-		o.put("chunkX", Chunk3D.NUM_X);
-		o.put("chunkY", Chunk3D.NUM_Y);
-		o.put("chunkZ", Chunk3D.NUM_Z);
-		o.put("blockX", Block.WIDTH);
-		o.put("blockY", Block.HEIGHT);
-		o.put("blockZ", Block.DEPTH);
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int k=0 ; k<NUM_Z ; k++){
-				o.put("chunk"+i+k, chunks[i][k].toJSON());
-			}
-		}
-		return o;
-	}
-	
-	public void update(){
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].update();
-			}
-		}
-		ArrayList<Explosion> forRemove = new ArrayList<Explosion>();
-		for(Explosion e:explosions){
-			e.update();
-			if(e.getBlocks().size()==0){
-				forRemove.add(e);
-			}
-		}
-		explosions.removeAll(forRemove);
-	}
-	
+
 	public void remove(Block b) {
 		if(b.getPosition().getY() == 0)
 			return;
@@ -239,6 +194,53 @@ public class World extends GameObject{
 		actChunk.add(actPos, block);
 	}
 
+	//OVERRIDES
+	
+	public void render(RenderingEngine renderingEngine) {
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].render(renderingEngine);
+			}
+		}
+		for(Explosion e:explosions){
+			e.render(renderingEngine);
+		}
+	}
+	
+	public JSONObject toJSON(){
+		JSONObject o = new JSONObject();
+		o.put("worldX", NUM_X);
+		o.put("worldZ", NUM_Z);
+		o.put("chunkX", Chunk3D.NUM_X);
+		o.put("chunkY", Chunk3D.NUM_Y);
+		o.put("chunkZ", Chunk3D.NUM_Z);
+		o.put("blockX", Block.WIDTH);
+		o.put("blockY", Block.HEIGHT);
+		o.put("blockZ", Block.DEPTH);
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int k=0 ; k<NUM_Z ; k++){
+				o.put("chunk"+i+k, chunks[i][k].toJSON());
+			}
+		}
+		return o;
+	}
+	
+	public void update(){
+		for(int i=0 ; i<NUM_X ; i++){
+			for(int j=0 ; j<NUM_Z ; j++){
+				chunks[i][j].update();
+			}
+		}
+		ArrayList<Explosion> forRemove = new ArrayList<Explosion>();
+		for(Explosion e:explosions){
+			e.update();
+			if(e.getBlocks().size()==0){
+				forRemove.add(e);
+			}
+		}
+		explosions.removeAll(forRemove);
+	}
+	
 	//GETTERS
 	
 	public boolean isRunning() {

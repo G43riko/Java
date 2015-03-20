@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Slick-Util"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaCV"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JBox2D"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

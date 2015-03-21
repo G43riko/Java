@@ -42,6 +42,7 @@ public class Shader extends GBasicShader{
 		uniforms.put("light", super.getUniformLocation("light"));
 		uniforms.put("specular", super.getUniformLocation("specular"));
 		uniforms.put("normalSampler", super.getUniformLocation("normalSampler"));
+		uniforms.put("fog", super.getUniformLocation("fog"));
 		
 //		uniforms.put("lightPosition", super.getUniformLocation("lightPosition"));
 //		uniforms.put("lightColor", super.getUniformLocation("lightColor"));

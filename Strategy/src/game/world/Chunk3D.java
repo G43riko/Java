@@ -2,6 +2,7 @@ package game.world;
 
 import org.json.JSONObject;
 
+import game.object.Camera;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;
@@ -70,7 +71,8 @@ public class Chunk3D extends GameObject{
 			for(int j=0 ; j<NUM_Y ; j++){
 				for(int k=0 ; k<NUM_Z ; k++){
 					Block b = blocks[i][j][k];
-					if(b!=null && b.isActive() && b.getType()>0){
+					if(b!=null && b.isActive() && b.getType()>0 && isVisible(b,renderingEngine.getMainCamera())){
+						World.NUMBER_OF_RENDERED_BLOCK++;
 						b.render(renderingEngine);
 					}
 				}
@@ -78,6 +80,12 @@ public class Chunk3D extends GameObject{
 		}
 	}
 	
+	private boolean isVisible(Block b, Camera camera) {
+		if(!camera.isVisible(b))
+			return false;
+		return true;
+	}
+
 	public void update(){
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
@@ -207,7 +215,7 @@ public class Chunk3D extends GameObject{
 	private void create(){
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int k=0 ; k<NUM_Z ; k++){
-				float height = World.map[i+getPosition().getXi()/2][k+getPosition().getZi()/2]*NUM_Y/8;
+				float height = World.map[i+getPosition().getXi()/2][k+getPosition().getZi()/2]*NUM_Y/2;
 				for(int j=0 ; j<NUM_Y ; j++){
 					int type = (int)(Block.blockDatas.size()*Math.random())+1;
 					if(type==0)

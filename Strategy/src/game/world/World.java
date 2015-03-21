@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.json.JSONObject;
 
@@ -24,7 +26,9 @@ public class World extends GameObject{
 	private Camera camera;
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
 	private boolean running;
-	private Chunk3D[][] chunks;
+	private HashMap<String, Chunk3D> chunks = new HashMap<String, Chunk3D>();
+	
+	public static int NUMBER_OF_RENDERED_BLOCK;  
 	
 	//CONSTRUCTORS
 	
@@ -32,7 +36,8 @@ public class World extends GameObject{
 		super(GameObject.WORLD);
 		
 		map = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk3D.NUM_X * NUM_X, Chunk3D.NUM_Z * NUM_Z), 6, 0.7f, true);
-		chunks = new Chunk3D[NUM_X][NUM_Z];
+		
+		
 		
 		create();
 		setNeighboards();
@@ -63,8 +68,6 @@ public class World extends GameObject{
 		Block.HEIGHT = o.getInt("blockY");
 		Block.DEPTH = o.getInt("blockZ");
 		
-		chunks = new Chunk3D[NUM_X][NUM_Z];
-		
 		create(o);
 		setNeighboards();
 		
@@ -74,18 +77,19 @@ public class World extends GameObject{
 	//CREATORS
 	
 	private void createSandBox() {
-		chunks = new Chunk3D[NUM_X][NUM_Z];
-		chunks[0][0] = new Chunk3D(new GVector3f(),"sandBox");
-		chunks[0][0].setWorld(this);
+		Chunk3D c = new Chunk3D(new GVector3f(),"sandBox");
+		c.setWorld(this);
+		chunks.put("0-0", c);
 		
 	}
 	
 	private void create(JSONObject o) {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				JSONObject c = o.getJSONObject("chunk"+i+j);
-				chunks[i][j] = new Chunk3D(c);
-				chunks[i][j].setWorld(this);
+				JSONObject data = o.getJSONObject("chunk"+i+j);
+				Chunk3D c = new Chunk3D(data);
+				c.setWorld(this);
+				chunks.put(i+"-"+j, c);
 			}
 		}
 	}
@@ -94,8 +98,9 @@ public class World extends GameObject{
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
 				GVector3f pos = new GVector3f(2).mul(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH).mul(new GVector3f(i,0,j).mul(new GVector3f(Chunk3D.NUM_X,0,Chunk3D.NUM_Z))));
-				chunks[i][j] = new Chunk3D(pos);
-				chunks[i][j].setWorld(this);
+				Chunk3D c = new Chunk3D(pos);
+				c.setWorld(this);
+				chunks.put(i+"-"+j, c);
 			}
 		}
 	}
@@ -119,7 +124,8 @@ public class World extends GameObject{
 	}
 	
 	private boolean exist(int i, int j){
-		return i>=0 && j>=0 && i<NUM_X && j < NUM_Z;
+//		return i>=0 && j>=0 && i<NUM_X && j < NUM_Z;
+		return chunks.containsKey(i+"-"+j);
 	}
 
 	public void remove(Block b) {
@@ -197,14 +203,19 @@ public class World extends GameObject{
 	//OVERRIDES
 	
 	public void render(RenderingEngine renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].render(renderingEngine);
-			}
+		NUMBER_OF_RENDERED_BLOCK = 0;
+		double time = System.currentTimeMillis();
+		for(Entry<String, Chunk3D> e : chunks.entrySet()) {
+			Chunk3D c = e.getValue();
+			if(c.getPosition().add(new GVector3f(Chunk3D.NUM_X*Block.WIDTH ,0,Chunk3D.NUM_Z*Block.DEPTH)).dist(renderingEngine.getMainCamera().getPosition()) < 120)
+				c.render(renderingEngine);
 		}
 		for(Explosion e:explosions){
 			e.render(renderingEngine);
 		}
+		System.out.println(System.currentTimeMillis()-time);
+//		System.out.println(NUMBER_OF_RENDERED_BLOCK);
+//		System.out.println(explosions.size());
 	}
 	
 	public JSONObject toJSON(){
@@ -219,26 +230,24 @@ public class World extends GameObject{
 		o.put("blockZ", Block.DEPTH);
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int k=0 ; k<NUM_Z ; k++){
-				o.put("chunk"+i+k, chunks[i][k].toJSON());
+				o.put("chunk"+i+k, chunks.get(i+"-"+k).toJSON());
 			}
 		}
 		return o;
 	}
 	
 	public void update(){
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].update();
-			}
+		
+		for(Entry<String, Chunk3D> e : chunks.entrySet()) {
+			Chunk3D c = e.getValue();
+			c.update();
 		}
-		ArrayList<Explosion> forRemove = new ArrayList<Explosion>();
-		for(Explosion e:explosions){
+		for(int i=0 ; i<explosions.size() ; i++){
+			Explosion e = explosions.get(i);
 			e.update();
-			if(e.getBlocks().size()==0){
-				forRemove.add(e);
-			}
+			if(e.getBlocks().size()==0)
+				explosions.remove(e);
 		}
-		explosions.removeAll(forRemove);
 	}
 	
 	//GETTERS
@@ -260,8 +269,8 @@ public class World extends GameObject{
 		int blockY = from.getYi()/Block.HEIGHT;
 		int blockZ = from.getZi()% Chunk3D.NUM_Z * Block.DEPTH;
 		
-		if(exist(chunkX, chunkZ) && chunks[chunkX][chunkZ].exist(blockX, blockY, blockZ, false))
-			return chunks[chunkX][chunkZ].getBlock(blockX, blockY, blockZ);
+		if(exist(chunkX, chunkZ) && chunks.get(chunkX+"-"+chunkZ).exist(blockX, blockY, blockZ, false))
+			return chunks.get(chunkX+"-"+chunkZ).getBlock(blockX, blockY, blockZ);
 		
 		return null;
 	}
@@ -269,7 +278,7 @@ public class World extends GameObject{
 	public Chunk3D getChunkFromBlock(Block b){
 		int chunkX = (int)((b.getPosition().getX()) / Chunk3D.NUM_X*Block.WIDTH/2);
 		int chunkZ = (int)((b.getPosition().getZ()) / Chunk3D.NUM_Z*Block.DEPTH/2);
-		return chunks[chunkX][chunkZ];
+		return chunks.get(chunkX+"-"+chunkZ);
 	}
 	
 	public GVector3f getPosFromBlock(Block b){
@@ -287,21 +296,21 @@ public class World extends GameObject{
 	private void setNeighboards() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				Chunk3D c = chunks[i][j];
+				Chunk3D c = chunks.get(i+"-"+j);
 				if(i>0)
-					c.setNeighboard(3, chunks[i-1][j]);
+					c.setNeighboard(3, chunks.get((i-1)+"-"+j));
 				if(j>0)
-					c.setNeighboard(2, chunks[i][j-1]);
+					c.setNeighboard(2, chunks.get(i+"-"+(j-1)));
 				if(i+1<NUM_X)
-					c.setNeighboard(1, chunks[i+1][j]);
+					c.setNeighboard(1, chunks.get((i-1)+"-"+j));
 				if(j+1<NUM_Z)
-					c.setNeighboard(0, chunks[i][j+1]);
+					c.setNeighboard(0, chunks.get(i+"-"+(j+1)));
 			}
 		}
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].setNeighboards();
-				chunks[i][j].setSides();
+				chunks.get(i+"-"+j).setNeighboards();
+				chunks.get(i+"-"+j).setSides();
 			}
 		}
 	}

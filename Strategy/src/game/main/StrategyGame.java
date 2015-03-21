@@ -21,14 +21,14 @@ import glib.util.vector.GVector3f;
 
 public class StrategyGame extends CoreGame{
 	private static final long serialVersionUID = 1L;
-	public static final boolean FLY_MODE = false;
+	public static final boolean FLY_MODE = true;
 	
 	public void init(){
 		GLog.sleep(100);
 		
 		setRenderingEngine(new RenderingEngine());
-//		setWorld(new World());
-		setWorld(new World("sandBox"));
+		setWorld(new World());
+//		setWorld(new World("sandBox"));
 //		setWorld(new World("mainWorld.gw"));
 		setPlayer(new Player(getWorld(), new Camera()));
 		setMainCamera(getPlayer().getCamera());
@@ -50,48 +50,16 @@ public class StrategyGame extends CoreGame{
 //		t.setTarget(getPlayer());
 //		addToScene(t);
 		
-		BasicEnemy e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(5,2,5));
-		e.setTarget(getPlayer());
-		e.setBulletColor(new GVector3f(0, 1, 0));
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(10,2,5));
-		e.setBulletColor(new GVector3f(1, 0, 0));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(5,2,10));
-		e.setBulletColor(new GVector3f(0, 0, 1));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(10,2,10));
-		e.setBulletColor(new GVector3f(1, 1, 1));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(10,2,15));
-		e.setBulletColor(new GVector3f(1, 1, 0));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(15,2,10));
-		e.setBulletColor(new GVector3f(0, 1, 1));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
-		e = new BasicEnemy(getWorld());
-		e.setPosition(new GVector3f(15,2,15));
-		e.setBulletColor(new GVector3f(1, 0, 1));
-		e.setTarget(getPlayer());
-		addToScene(e);
-		
+		BasicEnemy e;
+		GVector3f worldSize = getWorld().getMaxSize();
+		for(int i=0 ; i<10 ; i++){
+			e = new BasicEnemy(getWorld());
+			e.setPosition(new GVector3f(Math.random()*(worldSize.getX()-3),2, Math.random()*(worldSize.getZ()-3)));
+			e.setTarget(getPlayer());
+			e.setBulletColor(new GVector3f(Math.random(), Math.random(), Math.random()));
+			addToScene(e);
+		}
+	
 		
 	}
 }

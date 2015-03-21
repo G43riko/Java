@@ -280,13 +280,12 @@ public class Block extends BasicBlock{
 			relativePos = relativePos.add(direction);
 			if(direction.getY() > -Player.MAX_FALLING_SPEED);
 				direction = direction.add(Player.GRAVITY);
-			Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
-			if(imp != null && imp.isClickable()){
-				world.blockInpact(this,imp);
+			if(world != null && getPosition() != null && relativePos != null ){
+				Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
+				if(imp != null && imp.isClickable()){
+					world.blockInpact(this,imp);
+				}
 			}
-//			if(relativePos.getY()<-2*Block.HEIGHT){
-////				setPosition(position)
-//			}
 		}
 	}
 	

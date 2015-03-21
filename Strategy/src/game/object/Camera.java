@@ -40,6 +40,13 @@ public class Camera extends GameObject{
 	
 	//OTHERS
 
+	public boolean isVisible(GameObject o){
+		float distance = getPosition().dist(o.getPosition());
+		
+		GVector3f toObject =  o.getPosition().sub(getPosition()).Normalized();
+		return distance > NEAR_PLANE && distance < FAR_PLANE && toObject.dot(forward)<-0.6 && (Math.exp(-Math.pow((distance * 0.02), 1.5)) > 0.0001);
+	}
+	
 	public void goForward(){
 		if(VERTICAL)
 			move(forward.mul(-MOVE_SPEED));

@@ -55,23 +55,82 @@ public abstract class CoreGame extends JFrame{
 	
 	public abstract void init();
 	
-	public void update(){
-		
-	};
-	
 	public void start(){
 		running = true;
+		
+		if(renderingEngine == null){
+			GLog.write("nieje nastavený render engine");
+			return;
+		}
+		
 		while(running && !Display.isCloseRequested()){
 //			double time = System.currentTimeMillis();
 			input();
-			update();
-			render();
+			mainLoop();
 			Display.update();
 			Display.sync(MainStrategy.FPS);
 //			System.out.println(1000/(System.currentTimeMillis()-time));
 		}
 	}
 	
+	private void mainLoop() {
+		
+		renderingEngine.prepare();
+//		if(skyBox != null)
+//			skyBox.render(renderingEngine);
+		
+//		ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
+		int i=0;
+		for(GameObject g: scene){
+			i++;
+			g.input();
+			g.update();
+//			if(g instanceof Bullet){
+//				if(((Bullet)g).isDead()){
+//					toRemove.add(g);
+//				}
+//			}
+			g.render(renderingEngine);
+		}
+		
+//		scene.removeAll(toRemove);
+		
+		if(renderingEngine.getSelectBlock().getBlock() != null){
+			RenderingEngine.entityShader.bind();
+			RenderingEngine.entityShader.updateUniform("select", true);
+			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().add(0.01f));
+			renderingEngine.getSelectBlock().getBlock().render(renderingEngine);
+			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
+			RenderingEngine.entityShader.updateUniform("select", false);
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
+				if(Mouse.isButtonDown(1) && !clicks[1]){
+					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
+						world.remove(renderingEngine.getSelectBlock().getBlock());
+					if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+						clicks[1] = true;
+				}
+				if(!Mouse.isButtonDown(1))
+					clicks[1] = false;
+				
+				if(Mouse.isButtonDown(0) && !clicks[0]){
+					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null){
+						world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
+					}
+					clicks[0] = true;
+				}
+				
+				if(!Mouse.isButtonDown(0))
+					clicks[0] = false;
+			}
+			renderingEngine.getSelectBlock().reset();
+		}
+		if(Mouse.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
+			mousePicker.update();
+			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10)), world));
+		}
+	}
+
 	public void stop(){
 		running = false;
 	}
@@ -107,69 +166,6 @@ public abstract class CoreGame extends JFrame{
 		}
 	}
 	
-	public void render(){
-		if(renderingEngine == null){
-			GLog.write("nieje nastavený render engine");
-			return;
-		}
-		
-		renderingEngine.prepare();
-		
-		if(skyBox != null)
-			skyBox.render(renderingEngine);
-		
-//		if(world != null)
-//			world.render(renderingEngine);
-		ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
-		for(GameObject g: scene){
-			g.input();
-			g.update();
-			if(g instanceof Bullet){
-				if(((Bullet)g).isDead()){
-					toRemove.add(g);
-				}
-			}
-			g.render(renderingEngine);
-		}
-		scene.removeAll(toRemove);
-		
-		if(renderingEngine.getSelectBlock().getBlock() != null){
-			RenderingEngine.entityShader.bind();
-			RenderingEngine.entityShader.updateUniform("select", true);
-			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().add(0.01f));
-			renderingEngine.getSelectBlock().getBlock().render(renderingEngine);
-			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
-			RenderingEngine.entityShader.updateUniform("select", false);
-			
-			if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
-				if(Mouse.isButtonDown(1) && !clicks[1]){
-					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
-						world.remove(renderingEngine.getSelectBlock().getBlock());
-					if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
-						clicks[1] = true;
-				}
-				if(!Mouse.isButtonDown(1))
-					clicks[1] = false;
-				
-				if(Mouse.isButtonDown(0) && !clicks[0]){
-					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null){
-						world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
-					}
-					clicks[0] = true;
-				}
-				
-				if(!Mouse.isButtonDown(0))
-					clicks[0] = false;
-			}
-			renderingEngine.getSelectBlock().reset();
-		}
-		
-		if(Mouse.isButtonDown(0)){
-			mousePicker.update();
-			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10))));
-		}
-	};
-
 	public void cleanUp(){
 		running = false;
 		renderingEngine.cleanUp();

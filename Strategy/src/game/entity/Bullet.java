@@ -4,6 +4,8 @@ import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.rendering.model.Model;
 import game.util.Loader;
+import game.world.Block;
+import game.world.World;
 import glib.util.vector.GVector3f;
 
 public class Bullet extends GameObject{
@@ -13,17 +15,19 @@ public class Bullet extends GameObject{
 	private int life = -1;
 	private boolean dead;
 	private Model model;
+	private World world;
 	
 	private GVector3f color;
 	 
 	//CONSTRUCTORS
 	
-	public Bullet(GVector3f a, GVector3f b) {
+	public Bullet(GVector3f a, GVector3f b, World world) {
 		super(GameObject.LINE);
 		this.a = a;
 		this.b = b;
 		this.model = createModel();
-		this.color = new GVector3f(0, 0, 0);
+		this.color = new GVector3f();
+		this.world = world;
 		life = 300;
 		direction = b.sub(a).Normalized();
 	}
@@ -52,6 +56,12 @@ public class Bullet extends GameObject{
 		move(direction);
 		if(life > 0){
 			life--;
+			Block b = world.getBlock(this.b.add(getPosition()));
+			if(b != null && b.getBlockType() > 0 && b.isClickable()){
+				
+				world.remove(b);
+				dead = true;
+			}
 		}
 		if(life == 0)
 			dead = true;

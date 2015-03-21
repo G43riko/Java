@@ -23,6 +23,7 @@ public class BasicEnemy extends GameObject{
 	private World world;
 	private float speed = 0.2f;
 	private float jumpPower = 0.4f;
+	private float accuracy = 1;
 	private GVector3f bulletColor;
 	
 	
@@ -87,6 +88,7 @@ public class BasicEnemy extends GameObject{
 		}
 		
 		//SHOTS
+		
 		for(int i=0 ; i<bullets.size() ; i++){
 			Bullet l = bullets.get(i);
 			l.update();
@@ -98,8 +100,8 @@ public class BasicEnemy extends GameObject{
 		shot++;
 		if(target != null && shot == shotEveryNthFrame){
 			shot = 0;
-			GVector3f toTarget = target.getPosition().sub(getPosition()).div(20).randomize(1);
-			Bullet l = new Bullet(getPosition(),getPosition().add(toTarget));
+			GVector3f toTarget = target.getPosition().sub(getPosition()).div(20).randomize(accuracy);
+			Bullet l = new Bullet(getPosition(),getPosition().add(toTarget), world);
 			l.setColor(bulletColor);
 			bullets.add(l);
 		}

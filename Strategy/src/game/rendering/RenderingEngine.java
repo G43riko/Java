@@ -43,6 +43,7 @@ public class RenderingEngine {
 	private boolean specular;
 	private boolean texture;
 	private boolean light;
+	private boolean fog;
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
@@ -89,6 +90,7 @@ public class RenderingEngine {
 		setTexture(true);
 		setSpecular(true);
 		setLight(true);
+		setFog(false);
 		setAmbient(new GVector3f(1, 1, 1));
 		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
@@ -228,7 +230,7 @@ public class RenderingEngine {
 		setEyePos();
 	}
 	
-	public void calcMouseDir(){
+	private void calcMouseDir(){
 		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
 		mouseDir =  actPos.sub(mousePos).div(5);
 		mousePos = actPos;
@@ -288,6 +290,18 @@ public class RenderingEngine {
 	}
 
 	//SETTERS
+	
+
+	public void setFog(boolean fog) {
+		if(this.fog == fog)
+			return;
+		this.fog = fog;
+		entityShader.bind();
+		entityShader.updateUniform("fog", fog);
+		
+		skyShader.bind();
+		skyShader.updateUniform("fog", fog);
+	}
 	
 	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
@@ -445,4 +459,5 @@ public class RenderingEngine {
 		particleShader.bind();
 		particleShader.updateUniform("ambient",ambient);
 	}
+
 }

@@ -2,19 +2,18 @@ package game.main;
 
 import org.json.JSONObject;
 
-import game.Light;
-import game.components.Line;
-import game.components.Player;
-import game.components.Tower;
 import game.core.CoreGame;
-import game.enemy.BasicEnemy;
+import game.entity.Bullet;
+import game.entity.enemy.BasicEnemy;
+import game.entity.player.Player;
+import game.light.PointLight;
 import game.object.Camera;
-import game.object.Entity;
 import game.object.SkyBox;
 import game.particle.ParticleEmmiter;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.util.Loader;
 import game.world.Block;
 import game.world.World;
 import glib.util.GLog;
@@ -36,7 +35,7 @@ public class StrategyGame extends CoreGame{
 		getWorld().setCamera(getPlayer().getCamera());
 		setLoader(new Loader());
 		setSkyBox(new SkyBox(getPlayer().getCamera()));
-		setSun(new Light(new GVector3f(100, 100, 100), new GVector3f(1)));
+		setSun(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		setMousePicker(getPlayer());
 //		Entity box = new Entity(getBox(1,1,1), new Texture2D("texture.png"));
 //		box.setPosition(new GVector3f(0,1,0));

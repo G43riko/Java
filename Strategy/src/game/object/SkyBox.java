@@ -1,9 +1,9 @@
 package game.object;
 
-import game.main.Loader;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.util.Loader;
 import glib.util.vector.GVector3f;
 
 public class SkyBox extends GameObject{
@@ -13,10 +13,15 @@ public class SkyBox extends GameObject{
 	private Camera camera;
 	private float rotationSpeed = 0.001f;
 	
+	//CONSTRUCTORS
+	
 	public SkyBox(Camera camera) {
-		super(new GVector3f(), new GVector3f(), new GVector3f(size,size,size),3);
+		super(GameObject.SKY_BOX);
+		setScale(new GVector3f(size,size,size));
 		this.camera = camera;
 	}
+	
+	//OVERRIDES
 	
 	public void update(){
 		rotate(new GVector3f(0,rotationSpeed,0));
@@ -26,6 +31,8 @@ public class SkyBox extends GameObject{
 	public void render(RenderingEngine renderer){
 		renderer.renderSky(this);
 	}
+	
+	//GETTERS
 	
 	public static Model getBox(int w, int h, int d){
 		float[] vertices = new float[]{			

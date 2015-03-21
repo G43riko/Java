@@ -10,12 +10,11 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import game.Light;
-import game.components.Line;
-import game.components.Player;
-import game.enemy.BasicEnemy;
+import game.entity.Bullet;
+import game.entity.enemy.BasicEnemy;
+import game.entity.player.Player;
+import game.light.PointLight;
 import game.object.Camera;
-import game.object.Entity;
 import game.object.SkyBox;
 import game.particle.Particle;
 import game.rendering.material.Material;
@@ -47,8 +46,8 @@ public class RenderingEngine {
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
-	private Light sun;
-	private List<Light> lights;
+	private PointLight sun;
+	private List<PointLight> lights;
 	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
 	private MousePicker mousePicker;
@@ -95,28 +94,6 @@ public class RenderingEngine {
 	}
 	
 	//RENDERERS
-	
-	public void renderEntity(Entity entity){
-		if(mainCamera == null){
-			return;
-		}
-		entityShader.bind();
-		
-		if(view == 3){
-			entityShader.updateUniform("color", entity.getTexture().getAverageColor());
-		}
-		if(blur){
-			entityShader.updateUniform("mouseDir", mouseDir);
-		}
-		
-		entityShader.updateUniform("transformationMatrix", entity.getTransformationMatrix());
-		
-		entity.getTexture().bind();
-
-		prepareAndDraw(3,entity.getModel());
-		
-		disableVertex(3);
-	}
 	
 	public void renderSky(SkyBox sky){
 		if(mainCamera == null || view == 4){
@@ -209,7 +186,7 @@ public class RenderingEngine {
 		disableVertex(2);
 	}
 	
-	public void renderLine(Line line) {
+	public void renderLine(Bullet line) {
 		entityShader.bind();
 		entityShader.updateUniform("transformationMatrix", line.getTransformationMatrix());
 		entityShader.updateUniform("color", line.getColor());
@@ -286,7 +263,7 @@ public class RenderingEngine {
 		particleShader.cleanUp();
 	}
 	
-	public void updateLight(Light light, int i){
+	public void updateLight(PointLight light, int i){
 		if(i<MAX_LIGHTS){
 			entityShader.updateUniform("lightPosition"+i, light.getPosition());
 			entityShader.updateUniform("lightColor"+i, light.getColor());
@@ -380,7 +357,7 @@ public class RenderingEngine {
 		entityShader.updateUniform("light", light);
 	}
 
-	public void setSun(Light sun){
+	public void setSun(PointLight sun){
 		if(this.sun == sun)
 			return;
 		this.sun = sun;
@@ -395,7 +372,7 @@ public class RenderingEngine {
 		this.selectBlock = selectBlock;
 	}
 
-	public void setLights(List<Light> lights){
+	public void setLights(List<PointLight> lights){
 		if(this.lights == lights)
 			return;
 		this.lights = lights;

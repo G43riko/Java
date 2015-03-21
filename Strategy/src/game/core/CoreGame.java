@@ -3,17 +3,17 @@ package game.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.Light;
-import game.components.Line;
-import game.components.Player;
+import game.entity.Bullet;
+import game.entity.player.Player;
 import game.gui.Gui;
-import game.main.Loader;
+import game.light.PointLight;
 import game.main.MainStrategy;
 import game.object.Camera;
 import game.object.GameObject;
 import game.object.SkyBox;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
+import game.util.Loader;
 import game.util.MousePicker;
 import game.world.World;
 import glib.util.GLog;
@@ -34,7 +34,7 @@ public abstract class CoreGame extends JFrame{
 	private SkyBox skyBox;
 	private Player player;
 	private World world;
-	private Light sun;
+	private PointLight sun;
 	private MousePicker mousePicker;
 	private boolean running;
 	private boolean[] clicks = new boolean[2];
@@ -124,8 +124,8 @@ public abstract class CoreGame extends JFrame{
 		for(GameObject g: scene){
 			g.input();
 			g.update();
-			if(g instanceof Line){
-				if(((Line)g).isDead()){
+			if(g instanceof Bullet){
+				if(((Bullet)g).isDead()){
 					toRemove.add(g);
 				}
 			}
@@ -166,7 +166,7 @@ public abstract class CoreGame extends JFrame{
 		
 		if(Mouse.isButtonDown(0)){
 			mousePicker.update();
-			addToScene(new Line(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10))));
+			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10))));
 		}
 	};
 
@@ -241,13 +241,13 @@ public abstract class CoreGame extends JFrame{
 		
 	}
 
-	public void setSun(Light sun) {
+	public void setSun(PointLight sun) {
 		this.sun = sun;
-		Light r = new Light(new GVector3f(16,30,4 ),new GVector3f(1,0,0), new GVector3f(1, 0.04f, 0.008f));
-		Light g = new Light(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1, 0.04f, 0.008f));
-		Light b = new Light(new GVector3f(6 ,34,28),new GVector3f(0,0,1), new GVector3f(1, 0.02f, 0.008f));
+		PointLight r = new PointLight(new GVector3f(16,30,4 ),new GVector3f(1,0,0), new GVector3f(1, 0.04f, 0.008f));
+		PointLight g = new PointLight(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1, 0.04f, 0.008f));
+		PointLight b = new PointLight(new GVector3f(6 ,34,28),new GVector3f(0,0,1), new GVector3f(1, 0.02f, 0.008f));
 //		renderingEngine.setSun(sun);
-		List<Light> l = new ArrayList<Light>();
+		List<PointLight> l = new ArrayList<PointLight>();
 		l.add(sun);
 		l.add(r);
 		l.add(g);

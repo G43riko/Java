@@ -4,17 +4,25 @@ import game.rendering.RenderingEngine;
 
 public class Shader extends GBasicShader{
 		
-//	private int lightPosition[];
-//	private int lightColor[];
+	//CONSTRUCTORS
+	
 	public Shader(String fileName) {
 		super(fileName);
 	}
+	
+	//OTHERS
 	
 	protected void bindAttributes() {
 		bindAttribute(0, "position");
 		bindAttribute(1, "texCoords");
 		bindAttribute(2, "normal");
 	}
+	
+	public void connectTextures(){
+		updateUniform("normalSampler", 1);
+	}
+
+	//GETTERS
 	
 	public void getAllUniformsLocations() {
 		uniforms.put("view", super.getUniformLocation("view"));
@@ -43,9 +51,5 @@ public class Shader extends GBasicShader{
 			uniforms.put("attenuation"+i, super.getUniformLocation("attenuation["+i+"]"));
 			uniforms.put("range"+i, super.getUniformLocation("range["+i+"]"));
 		}	
-	}
-	
-	public void connectTextures(){
-		updateUniform("normalSampler", 1);
 	}
 }

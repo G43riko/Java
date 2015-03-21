@@ -1,13 +1,13 @@
-package game.enemy;
+package game.entity.enemy;
 
 import java.util.ArrayList;
 
-import game.components.Line;
-import game.components.Player;
-import game.main.Loader;
+import game.entity.Bullet;
+import game.entity.player.Player;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.rendering.model.Model;
+import game.util.Loader;
 import game.util.OBJLoader;
 import game.world.World;
 import glib.shapes.threeDimensional.Box;
@@ -27,7 +27,7 @@ public class BasicEnemy extends GameObject{
 	
 	
 	private GameObject target;
-	private ArrayList<Line> bullets = new ArrayList<Line>();
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private int shot;
 	private int shotEveryNthFrame = 10;
 	
@@ -88,7 +88,7 @@ public class BasicEnemy extends GameObject{
 		
 		//SHOTS
 		for(int i=0 ; i<bullets.size() ; i++){
-			Line l = bullets.get(i);
+			Bullet l = bullets.get(i);
 			l.update();
 			if(l.isDead()){
 				bullets.remove(i);
@@ -99,7 +99,7 @@ public class BasicEnemy extends GameObject{
 		if(target != null && shot == shotEveryNthFrame){
 			shot = 0;
 			GVector3f toTarget = target.getPosition().sub(getPosition()).div(20).randomize(1);
-			Line l = new Line(getPosition(),getPosition().add(toTarget));
+			Bullet l = new Bullet(getPosition(),getPosition().add(toTarget));
 			l.setColor(bulletColor);
 			bullets.add(l);
 		}
@@ -109,7 +109,7 @@ public class BasicEnemy extends GameObject{
 	public void render(RenderingEngine renderingEngine){
 		renderingEngine.renderEnemy(this);
 		
-		for(Line l : bullets)
+		for(Bullet l : bullets)
 			l.render(renderingEngine);
 	}
 	

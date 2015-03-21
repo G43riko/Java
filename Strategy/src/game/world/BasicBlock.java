@@ -3,10 +3,10 @@ package game.world;
 
 import org.json.JSONObject;
 
-import game.main.Loader;
 import game.object.GameObject;
 import game.rendering.material.Material;
 import game.rendering.model.Model;
+import game.util.Loader;
 import glib.util.vector.GVector3f;
 
 public class BasicBlock extends GameObject{
@@ -40,7 +40,7 @@ public class BasicBlock extends GameObject{
 	//CONSTRUCTORS
 	
 	public BasicBlock(GVector3f position, int blockType) {
-		super(position, 8);
+		super(position, GameObject.BOX);
 		this.type = blockType;
 	}
 	

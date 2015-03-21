@@ -3,11 +3,11 @@ package game.particle;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import game.main.Loader;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.util.Loader;
 import game.util.Maths;
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;
@@ -40,12 +40,12 @@ public class Particle extends GameObject{
 	//CONSTRUCTORS
 	
 	public Particle(GVector3f position, Texture2D texture, GVector3f color, ParticleEmmiter parent) {
-		super(position, 7);
+		super(position, GameObject.PARTICLE);
 		this.dead = false;
 		this.color = color;
 		this.alpha = 1;
 		this.parent = parent;
-		rotation = (float)(Math.random()*Math.PI*2);
+		rotation = (float)(Math.random() * Math.PI * 2);
 		rotationSpeed = (float)Math.toRadians((Math.random()-0.5f));
 	}
 	

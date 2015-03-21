@@ -1,7 +1,6 @@
-package game.components;
+package game.entity.player;
 
 import game.main.StrategyGame;
-import game.object.BasicPlayer;
 import game.object.Camera;
 import game.world.Block;
 import game.world.World;

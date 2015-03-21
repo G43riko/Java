@@ -1,4 +1,4 @@
-package game.main;
+package game.util;
 
 import game.rendering.model.Model;
 

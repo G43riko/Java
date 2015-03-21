@@ -1,18 +1,15 @@
-package game.object;
+package game.entity.player;
 
 import org.lwjgl.input.Keyboard;
 
-import game.components.Player;
 import game.main.StrategyGame;
+import game.object.Camera;
+import game.object.GameObject;
 import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;
 
 public class BasicPlayer extends GameObject{
-	public BasicPlayer(GVector3f position) {
-		super(position, 12);
-	}
-
 	protected World world;
 	protected Camera camera;
 	
@@ -40,6 +37,14 @@ public class BasicPlayer extends GameObject{
 	private int jumpKey = Keyboard.KEY_SPACE;
 	
 	private float rotSpeed = 1;
+
+	//CONSTRUCTORS
+	
+	public BasicPlayer(GVector3f position) {
+		super(position, GameObject.PLAYER);
+	}
+	
+	//OTHERS
 	
 	public boolean checkGround(){
 		return (world.getBlock(getCamera().getPosition().add(new GVector3f(0,-Player.HEIGHT,0)))!=null);

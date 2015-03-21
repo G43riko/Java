@@ -1,7 +1,8 @@
-package game.components;
+package game.particle;
 
 import java.util.ArrayList;
 
+import game.entity.player.Player;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.world.Block;
@@ -20,7 +21,7 @@ public class Explosion extends GameObject{
 	//CONSTRUCTORS
 	
 	public Explosion(Block b,int num){
-		super(b.getPosition(), 14);
+		super(b.getPosition(), GameObject.EXPLOSION);
 		GVector3f startPos = b.getPosition().sub(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH));
 		GVector3f blockSize = new GVector3f((float)Block.WIDTH/(float)num, (float)Block.HEIGHT/(float)num, (float)Block.DEPTH/(float)num);
 		for(int i=0 ; i<num ; i++){

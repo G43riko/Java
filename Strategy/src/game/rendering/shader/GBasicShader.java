@@ -53,6 +53,8 @@ public abstract class GBasicShader {
 	
 	private FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
+	//CONSTRUCTORS
+	
 	public GBasicShader(String fileName){
 		this.fileName = fileName;
 		
@@ -82,9 +84,9 @@ public abstract class GBasicShader {
 		getAllUniformsLocations();
 	}
 	
-	protected abstract void bindAttributes();
+	//OTERS
 	
-	public abstract void getAllUniformsLocations();
+	protected abstract void bindAttributes();
 	
 	public void finalize(){
 		cleanUp();
@@ -144,9 +146,7 @@ public abstract class GBasicShader {
 		GL20.glBindAttribLocation(loadedShaders.get(fileName).s, attribute, variableName);
 	}
 	
-	protected int getUniformLocation(String uniformName){
-		return GL20.glGetUniformLocation(loadedShaders.get(fileName).s, uniformName);
-	}
+	//UPDATERS
 	
 	public void updateUniform(String name, float value){
 		GL20.glUniform1f(uniforms.get(name),value);
@@ -182,6 +182,14 @@ public abstract class GBasicShader {
 		GL20.glUniform1i(uniforms.get(name), toLoad);
 	}
 
+	//GETTERS
+	
+	public abstract void getAllUniformsLocations();
+
+	protected int getUniformLocation(String uniformName){
+		return GL20.glGetUniformLocation(loadedShaders.get(fileName).s, uniformName);
+	}
+	
 	public int getId(){
 		return loadedShaders.get(fileName).s;
 	}

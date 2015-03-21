@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import game.components.Explosion;
 import game.object.Camera;
 import game.object.GameObject;
+import game.particle.Explosion;
 import game.rendering.RenderingEngine;
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
@@ -29,7 +29,7 @@ public class World extends GameObject{
 	//CONSTRUCTORS
 	
 	public World() {
-		super(10);
+		super(GameObject.WORLD);
 		
 		map = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk3D.NUM_X * NUM_X, Chunk3D.NUM_Z * NUM_Z), 6, 0.7f, true);
 		chunks = new Chunk3D[NUM_X][NUM_Z];

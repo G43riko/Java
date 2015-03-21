@@ -1,6 +1,5 @@
 package game.util;
 
-import game.main.Loader;
 import game.rendering.model.Model;
 
 import java.io.BufferedReader;

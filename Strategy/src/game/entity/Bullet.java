@@ -1,12 +1,12 @@
-package game.components;
+package game.entity;
 
-import game.main.Loader;
 import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.rendering.model.Model;
+import game.util.Loader;
 import glib.util.vector.GVector3f;
 
-public class Line extends GameObject{
+public class Bullet extends GameObject{
 	private GVector3f a;
 	private GVector3f b;
 	private GVector3f direction;
@@ -18,7 +18,7 @@ public class Line extends GameObject{
 	 
 	//CONSTRUCTORS
 	
-	public Line(GVector3f a, GVector3f b) {
+	public Bullet(GVector3f a, GVector3f b) {
 		super(GameObject.LINE);
 		this.a = a;
 		this.b = b;

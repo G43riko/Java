@@ -18,15 +18,15 @@ public abstract class GameObject {
 	
 	public final static int CAMERA = 1;
 	public final static int ENTITY = 2;
-	public final static int SKYBOX = 3;
-	public final static int DIRECTIONALLIGHT = 4;
+	public final static int SKY_BOX = 3;
+	public final static int DIRECTIONAL_LIGHT = 4;
 	public final static int POINTLIGHT = 5;
 	public final static int SPOTLIGHT = 6;
 	public final static int PARTICLE = 7;
 	public final static int BOX = 8;
 	public final static int CHUNK = 9;
 	public final static int WORLD = 10;
-	public final static int PARTICLEEMMITER = 11;
+	public final static int PARTICLE_EMMITER = 11;
 	public final static int PLAYER = 12;
 	public final static int HUD = 13;
 	public final static int EXPLOSION = 14;

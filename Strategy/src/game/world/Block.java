@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import game.components.Player;
+import game.entity.player.Player;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;

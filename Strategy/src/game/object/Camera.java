@@ -26,81 +26,20 @@ public class Camera extends GameObject{
 	private GVector3f forward;
 	private GMatrix4f projectionMatrix;
 	
+	//CONSTRUCTORS
+	
 	public Camera() {
-		super(new GVector3f(0,1,5), new GVector3f(), new GVector3f(1,1,1),1);
+		this(new GVector3f(0,1,5));
+	}
+	
+	public Camera(GVector3f position) {
+		super(position, GameObject.CAMERA);
 		createProjectionMatrix();
 		updateForward();
 	}
 	
-	public GVector3f getForwardVector(){
-		if(VERTICAL)
-			return forward.mul(-MOVE_SPEED);
-		
-		return up.cross(forward).cross(up).mul(-MOVE_SPEED);
-	}
-	
-	public GVector3f getBackVector(){
-		if(VERTICAL)
-			return forward.mul(MOVE_SPEED);
-		
-		return up.cross(forward).cross(up).mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getRightVector(){
-		return up.cross(forward).mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getLeftVector(){
-		return up.cross(forward).mul(-MOVE_SPEED);
-	}
-	
-	public GVector3f getUpVector(){
-		return up.mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getDownVector(){
-		return up.mul(-MOVE_SPEED);
-	}
-	
-	private void calcFrustum(){
-		float Hnear = 2 * (float)Math.tan(FOV / 2) * NEAR_PLANE;
-		float Wnear = Hnear * ASPECT_RATIO;
-		float Hfar = 2 * (float)Math.tan(FOV / 2) * FAR_PLANE;
-		float Wfar = Hfar * ASPECT_RATIO;
-		
-		GVector3f up = new GVector3f(0,1,0);
-		GVector3f right = getForward().cross(up);
-		
-		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
-		GVector3f Cfar = getPosition().add(getForward().mul(FAR_PLANE));
-		
-		GVector3f nearLeft = Cnear.sub(right.mul(Wnear / 2));
-		GVector3f nearRight = Cnear.add(right.mul(Wnear / 2));
-		GVector3f nearUp = Cnear.add(up.mul(Hnear / 2));
-		GVector3f nearBottom = Cnear.sub(up.mul(Hnear / 2));
-		
-		GVector3f farLeft = Cfar.sub(right.mul(Wfar / 2));
-		GVector3f farRight = Cfar.add(right.mul(Wfar / 2));
-		GVector3f farUp = Cfar.add(up.mul(Wfar / 2));
-		GVector3f farBottom = Cfar.sub(up.mul(Wfar / 2));
-		
-		GVector3f vecLeft = farLeft.sub(nearLeft).Normalized();
-		GVector3f vecRight = farRight.sub(nearRight).Normalized();
-		GVector3f vecUp = farUp.sub(nearUp).Normalized();
-		GVector3f vecBottom = farBottom.sub(nearBottom).Normalized();
-		Camera.MAX_ANGLE = vecRight.dot(getForward());
-		
-//		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
-//		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
-//		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
-//		GVector3f nearBottomRight = Cnear.sub(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
-//		
-//		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-//		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-//		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-//		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-	}
-	
+	//OTHERS
+
 	public void goForward(){
 		if(VERTICAL)
 			move(forward.mul(-MOVE_SPEED));
@@ -159,18 +98,45 @@ public class Camera extends GameObject{
 		projectionMatrix = Maths.MatrixToGMatrix(mat);
 	}
 
-	public float getPitch(){
-		return getRotation().getX();
-	}
-	
-	public float getYaw(){
-		return getRotation().getY();
+	private void calcFrustum(){
+		float Hnear = 2 * (float)Math.tan(FOV / 2) * NEAR_PLANE;
+		float Wnear = Hnear * ASPECT_RATIO;
+		float Hfar = 2 * (float)Math.tan(FOV / 2) * FAR_PLANE;
+		float Wfar = Hfar * ASPECT_RATIO;
+		
+		GVector3f up = new GVector3f(0,1,0);
+		GVector3f right = getForward().cross(up);
+		
+		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
+		GVector3f Cfar = getPosition().add(getForward().mul(FAR_PLANE));
+		
+		GVector3f nearLeft = Cnear.sub(right.mul(Wnear / 2));
+		GVector3f nearRight = Cnear.add(right.mul(Wnear / 2));
+		GVector3f nearUp = Cnear.add(up.mul(Hnear / 2));
+		GVector3f nearBottom = Cnear.sub(up.mul(Hnear / 2));
+		
+		GVector3f farLeft = Cfar.sub(right.mul(Wfar / 2));
+		GVector3f farRight = Cfar.add(right.mul(Wfar / 2));
+		GVector3f farUp = Cfar.add(up.mul(Wfar / 2));
+		GVector3f farBottom = Cfar.sub(up.mul(Wfar / 2));
+		
+		GVector3f vecLeft = farLeft.sub(nearLeft).Normalized();
+		GVector3f vecRight = farRight.sub(nearRight).Normalized();
+		GVector3f vecUp = farUp.sub(nearUp).Normalized();
+		GVector3f vecBottom = farBottom.sub(nearBottom).Normalized();
+		Camera.MAX_ANGLE = vecRight.dot(getForward());
+		
+//		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+//		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+//		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+//		GVector3f nearBottomRight = Cnear.sub(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+//		
+//		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+//		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
 	}
 
-	public GMatrix4f getProjectionMatrix() {
-		return projectionMatrix;
-	}
-	
 	public boolean intersect(GVector3f a, GVector3f b, GVector3f c){
 		return GVector3f.intersectRayWithSquare(getPosition(), getPosition().add(getForward().mul(1000)), a, b,c);
 		
@@ -184,14 +150,6 @@ public class Camera extends GameObject{
 //		System.out.println(forward);
 //		forward = getRotation().toRadians().eulerToDirectional();
 //		System.out.println(forward);
-	}
-
-	public GVector3f getForward() {
-		return forward;
-	}
-
-	public boolean isMouseLocked() {
-		return mouseLocked;
 	}
 
 	public boolean mouseMove() {
@@ -213,5 +171,57 @@ public class Camera extends GameObject{
 			return true;
 		}
 		return false;
+	}
+
+	//GETTERS
+	
+	public GVector3f getForwardVector(){
+		if(VERTICAL)
+			return forward.mul(-MOVE_SPEED);
+		
+		return up.cross(forward).cross(up).mul(-MOVE_SPEED);
+	}
+	
+	public GVector3f getBackVector(){
+		if(VERTICAL)
+			return forward.mul(MOVE_SPEED);
+		
+		return up.cross(forward).cross(up).mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getRightVector(){
+		return up.cross(forward).mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getLeftVector(){
+		return up.cross(forward).mul(-MOVE_SPEED);
+	}
+	
+	public GVector3f getUpVector(){
+		return up.mul(MOVE_SPEED);
+	}
+	
+	public GVector3f getDownVector(){
+		return up.mul(-MOVE_SPEED);
+	}
+	
+	public float getPitch(){
+		return getRotation().getX();
+	}
+	
+	public float getYaw(){
+		return getRotation().getY();
+	}
+
+	public GMatrix4f getProjectionMatrix() {
+		return projectionMatrix;
+	}
+	
+	public GVector3f getForward() {
+		return forward;
+	}
+
+	public boolean isMouseLocked() {
+		return mouseLocked;
 	}
 }

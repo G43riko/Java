@@ -57,6 +57,7 @@ public class Texture2D {
 	
 	private String fileName;
 	
+	//CONSTRUCTORS
 	
 	public Texture2D(String fileName){
 		this.fileName = fileName;
@@ -104,6 +105,8 @@ public class Texture2D {
 			loadedTextures.put(fileName, new Data(this));
 		}
 	}
+	
+	//MAKERS
 	
 	public ByteBuffer makeByteBufferURL(URL url){
 		try {
@@ -165,6 +168,8 @@ public class Texture2D {
 		return null;
 	}
 	
+	//OTHERS
+	
 	public void addTextureToOpenGL(ByteBuffer buf){
 		id = glGenTextures();
 		bind();
@@ -209,6 +214,8 @@ public class Texture2D {
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 
+	//SETTERS
+	
 	public static void setMipMapping(boolean mipMapping) {Texture2D.mipMapping = mipMapping;}
 	
 	public void setFiltering(int filtering) {
@@ -227,7 +234,10 @@ public class Texture2D {
 		unbind();
 	}
 
+	//GETTERS
+	
 	public GVector3f getAverageColor() {return averageColor; }
+
 	public int getId(){return id; }
 
 	public int getWidth() {

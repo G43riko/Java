@@ -14,7 +14,7 @@ public class Chunk2D extends GameObject{
 	//CONSTRUCTORS
 	
 	public Chunk2D(GVector3f position) {
-		super(position, 9);
+		super(position, GameObject.CHUNK);
 		create();
 	}
 	

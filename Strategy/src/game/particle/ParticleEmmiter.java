@@ -27,7 +27,7 @@ public class ParticleEmmiter extends GameObject{
 	private ArrayList<Model> models;
 	
 	private GVector3f gravity = new GVector3f(0,0.05,0);
-	private GVector3f color = new GVector3f(1,1,1);
+	private GVector3f color = new GVector3f(1);
 	private GVector3f direction = new GVector3f(0,1,0);
 	
 	private int numOfModels;
@@ -51,7 +51,7 @@ public class ParticleEmmiter extends GameObject{
 	//CONSTRUCTORS
 	
 	public ParticleEmmiter(GVector3f position){
-		super(position,  11);
+		super(position,  GameObject.PARTICLE_EMMITER);
 		particles = new ArrayList<Particle>();
 		models = new ArrayList<Model>();
 		createModels("smoke.png",1,1);

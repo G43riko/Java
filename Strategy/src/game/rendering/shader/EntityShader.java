@@ -4,10 +4,14 @@ import game.rendering.RenderingEngine;
 
 public class EntityShader extends GBasicShader{
 
+	//GETTERS
+	
 	public EntityShader() {
 		super("entityShader");
 	}
 
+	//OTHERS
+	
 	@Override
 	protected void bindAttributes() {
 		bindAttribute(0, "position");
@@ -15,6 +19,8 @@ public class EntityShader extends GBasicShader{
 		bindAttribute(2, "normal");
 	}
 
+	//GETTERS
+	
 	@Override
 	public void getAllUniformsLocations() {
 		uniforms.put("view", super.getUniformLocation("view"));

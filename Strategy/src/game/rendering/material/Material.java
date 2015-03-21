@@ -10,6 +10,8 @@ public class Material {
 	private float specularIntensity;
 	private float specularPower;
 	
+	//CONSTRUCTORS
+	
 	public Material(){
 		this(new Texture2D(DEFAULT_TEXTURE),null,1,8);
 	}
@@ -31,8 +33,13 @@ public class Material {
 		this.specularPower = specularPower;
 	}
 
+	//GETTERS
+	
 	public Texture2D getDiffuse() {return diffuse;}
 	public Texture2D getNormal() {return normal;}
+	
+	//SETTERS
+	
 	public float getSpecularIntensity() {return specularIntensity;}
 	public float getSpecularPower() {return specularPower;}
 }

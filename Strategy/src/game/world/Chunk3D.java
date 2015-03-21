@@ -17,7 +17,7 @@ public class Chunk3D extends GameObject{
 	//CONSTRUCTORS
 
 	public Chunk3D(GVector3f position) {
-		super(position, 9);
+		super(position, GameObject.CHUNK);
 		neighboards = new Chunk3D[4];
 		blocks = new Block[NUM_X][NUM_Y][NUM_Z];
 		create();

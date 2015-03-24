@@ -1,10 +1,10 @@
 package game.world;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;
 
-public class Chunk2D extends GameObject{
+public class Chunk2D extends GameComponent{
 	public static final int NUM_X = 16;
 	public static final int NUM_Z = 16;
 
@@ -14,7 +14,7 @@ public class Chunk2D extends GameObject{
 	//CONSTRUCTORS
 	
 	public Chunk2D(GVector3f position) {
-		super(position, GameObject.CHUNK);
+		super(position, GameComponent.CHUNK);
 		create();
 	}
 	

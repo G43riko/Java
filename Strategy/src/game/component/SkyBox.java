@@ -1,4 +1,4 @@
-package game.object;
+package game.component;
 
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
@@ -6,7 +6,7 @@ import game.rendering.model.Model;
 import game.util.Loader;
 import glib.util.vector.GVector3f;
 
-public class SkyBox extends GameObject{
+public class SkyBox extends GameComponent{
 	private static int size = (int)(Math.sqrt(1000*1000/4));
 	private Texture2D texture = new Texture2D("skyHD2.jpg");
 	private Model model = getBox(1,1,1);
@@ -16,7 +16,7 @@ public class SkyBox extends GameObject{
 	//CONSTRUCTORS
 	
 	public SkyBox(Camera camera) {
-		super(GameObject.SKY_BOX);
+		super(GameComponent.SKY_BOX);
 		setScale(new GVector3f(size,size,size));
 		this.camera = camera;
 	}

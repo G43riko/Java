@@ -233,9 +233,20 @@ public class GVector3f {
 	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this; }
 	public GVector3f set(GVector3f r) { set(r.getX(), r.getY(), r.getZ()); return this; }
 	
-	public void addToY(float y){this.y += y;}
-	public void addToX(float x){this.x += x;}
-	public void addToZ(float z){this.z += z;}
+	public GVector3f addToX(float x){
+		this.x += x; 
+		return this; 
+	}
+	
+	public GVector3f addToY(float y){
+		this.y += y; 
+		return this; 
+	}
+	
+	public GVector3f addToZ(float z){
+		this.z += z; 
+		return this; 
+	}
 	
 	public float getX() {return x;}
 	public float getY() {return y;}

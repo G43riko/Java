@@ -3,14 +3,14 @@ package game.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.component.Camera;
+import game.component.GameComponent;
+import game.component.SkyBox;
 import game.entity.Bullet;
 import game.entity.player.Player;
 import game.gui.Gui;
 import game.light.PointLight;
 import game.main.MainStrategy;
-import game.object.Camera;
-import game.object.GameObject;
-import game.object.SkyBox;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.util.Loader;
@@ -27,7 +27,7 @@ import org.lwjgl.opengl.Display;
 
 public abstract class CoreGame extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private ArrayList<GameObject> scene;
+	private ArrayList<GameComponent> scene;
 	private RenderingEngine renderingEngine;
 	private Gui gui;
 	private Loader loader;
@@ -43,7 +43,7 @@ public abstract class CoreGame extends JFrame{
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
-		scene = new ArrayList<GameObject>();
+		scene = new ArrayList<GameComponent>();
 		running = false;
 	}
 	
@@ -76,24 +76,21 @@ public abstract class CoreGame extends JFrame{
 	private void mainLoop() {
 		
 		renderingEngine.prepare();
-//		if(skyBox != null)
-//			skyBox.render(renderingEngine);
 		
-//		ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
+		ArrayList<GameComponent> toRemove = new ArrayList<GameComponent>();
 		int i=0;
-		for(GameObject g: scene){
+		for(GameComponent g: scene){
 			i++;
 			g.input();
 			g.update();
-//			if(g instanceof Bullet){
-//				if(((Bullet)g).isDead()){
-//					toRemove.add(g);
-//				}
-//			}
+			if(g instanceof Bullet){
+				if(((Bullet)g).isDead()){
+					toRemove.add(g);
+				}
+			}
 			g.render(renderingEngine);
 		}
-		
-//		scene.removeAll(toRemove);
+		scene.removeAll(toRemove);
 		
 		if(renderingEngine.getSelectBlock().getBlock() != null){
 			RenderingEngine.entityShader.bind();
@@ -127,7 +124,7 @@ public abstract class CoreGame extends JFrame{
 		}
 		if(Mouse.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
 			mousePicker.update();
-			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10)), world));
+			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10)), world, player));
 		}
 	}
 
@@ -158,11 +155,11 @@ public abstract class CoreGame extends JFrame{
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-			renderingEngine.setBlur(true);
+			renderingEngine.setLight(true);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_O)){
-			renderingEngine.setBlur(false);
+			renderingEngine.setLight(false);
 		}
 	}
 	
@@ -172,7 +169,7 @@ public abstract class CoreGame extends JFrame{
 		Window.cleanUp();
 	}
 
-	public void addToScene(GameObject g){
+	public void addToScene(GameComponent g){
 		scene.add(g);
 	}
 
@@ -245,9 +242,9 @@ public abstract class CoreGame extends JFrame{
 //		renderingEngine.setSun(sun);
 		List<PointLight> l = new ArrayList<PointLight>();
 		l.add(sun);
-		l.add(r);
-		l.add(g);
-		l.add(b);
+//		l.add(r);
+//		l.add(g);
+//		l.add(b);
 		renderingEngine.setLights(l);
 	}
 

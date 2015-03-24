@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
 import glib.util.vector.GVector3f;
 
-public class ParticleEmmiter extends GameObject{
+public class ParticleEmmiter extends GameComponent{
 	private Texture2D texture;
 	
 	private ArrayList<Particle> particles;
@@ -51,7 +51,7 @@ public class ParticleEmmiter extends GameObject{
 	//CONSTRUCTORS
 	
 	public ParticleEmmiter(GVector3f position){
-		super(position,  GameObject.PARTICLE_EMMITER);
+		super(position,  GameComponent.PARTICLE_EMMITER);
 		particles = new ArrayList<Particle>();
 		models = new ArrayList<Model>();
 		createModels("smoke.png",1,1);

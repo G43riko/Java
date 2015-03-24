@@ -2,6 +2,8 @@ package game.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
@@ -10,17 +12,24 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import game.Line;
+import game.component.Camera;
+import game.component.GameComponent;
+import game.component.SkyBox;
 import game.entity.Bullet;
 import game.entity.enemy.BasicEnemy;
 import game.entity.player.Player;
 import game.light.PointLight;
-import game.object.Camera;
-import game.object.SkyBox;
+import game.object.GameObject;
 import game.particle.Particle;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
+import game.rendering.shader.EntityShader;
+import game.rendering.shader.GBasicShader;
+import game.rendering.shader.ParticleShader;
 import game.rendering.shader.Shader;
+import game.rendering.shader.SkyShader;
 import game.util.Maths;
 import game.util.MousePicker;
 import game.world.Block;
@@ -29,21 +38,19 @@ import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public class RenderingEngine {
-	public static final Shader defaultShader = new Shader("shader");
-	public static final Shader hudShader = new Shader("hudShader");
-	public static final Shader entityShader = new Shader("entityShader");
-	public static final Shader skyShader = new Shader("skyShader");
-	public static final Shader particleShader = new Shader("particleShader");
+	public static final GBasicShader entityShader = new EntityShader();
+	public static final GBasicShader skyShader = new SkyShader();
+	public static final GBasicShader particleShader = new ParticleShader();
 	
 	public final static int MAX_LIGHTS = 4;
 	
 	private Camera mainCamera;
 	private int view = 0;
-	private boolean blur;
 	private boolean specular;
 	private boolean texture;
 	private boolean light;
 	private boolean fog;
+	private HashMap<String, Boolean> variables = new HashMap<String, Boolean>(); 
 	private GVector3f ambient;
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
@@ -86,7 +93,6 @@ public class RenderingEngine {
 		
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
-		setBlur(false);
 		setTexture(true);
 		setSpecular(true);
 		setLight(true);
@@ -129,9 +135,6 @@ public class RenderingEngine {
 		
 		if(view == 3 || selectBlock.block == block){
 			entityShader.updateUniform("color", block.getMaterial().getDiffuse().getAverageColor());
-		}
-		if(blur){
-			entityShader.updateUniform("mouseDir", mouseDir);
 		}
 		
 		setMaterial(block.getMaterial());
@@ -188,7 +191,7 @@ public class RenderingEngine {
 		disableVertex(2);
 	}
 	
-	public void renderLine(Bullet line) {
+	public void renderLine(Line line) {
 		entityShader.bind();
 		entityShader.updateUniform("transformationMatrix", line.getTransformationMatrix());
 		entityShader.updateUniform("color", line.getColor());
@@ -205,6 +208,29 @@ public class RenderingEngine {
 		entityShader.updateUniform("view", view);
 	}
 
+	public void renderObject(GameObject object){
+		if(mainCamera == null)
+			return;
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+		
+		entityShader.bind();
+		
+		entityShader.updateUniform("transformationMatrix", object.getTransformationMatrix());
+		
+		entityShader.updateUniform("color", new GVector3f(1,0,0));
+		
+		setMaterial(object.getMaterial());
+		
+		prepareAndDraw(3, object.getModel());
+		
+		disableVertex(3);
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_FRONT);
+	}
+	
 	public void renderEnemy(BasicEnemy basicEnemy) {
 		if(mainCamera == null){
 			return;
@@ -258,8 +284,8 @@ public class RenderingEngine {
 	}
 
 	public void cleanUp(){
-		defaultShader.cleanUp();
-		hudShader.cleanUp();
+//		defaultShader.cleanUp();
+//		hudShader.cleanUp();
 		entityShader.cleanUp();
 		skyShader.cleanUp();
 		particleShader.cleanUp();
@@ -274,10 +300,45 @@ public class RenderingEngine {
 		}
 	}
 	
+	public void addLight(PointLight light){
+		lights.add(light);
+		
+		entityShader.bind();
+		for(int i=0 ;i<MAX_LIGHTS ; i++){
+			if(i < lights.size()){
+				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
+				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+			}
+			else{
+				entityShader.updateUniform("lightPosition"+i, new GVector3f());
+				entityShader.updateUniform("lightColor"+i, new GVector3f());
+				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+			}
+		}
+	}
+	
+	public void addLight(ArrayList<PointLight> lights){
+		lights.addAll(lights);
+		
+		entityShader.bind();
+		for(int i=0 ;i<MAX_LIGHTS ; i++){
+			if(i < lights.size()){
+				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
+				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+			}
+			else{
+				entityShader.updateUniform("lightPosition"+i, new GVector3f());
+				entityShader.updateUniform("lightColor"+i, new GVector3f());
+				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+			}
+		}
+	}
 
 	//GETTERS
 	
-	public static Shader getEntityshader() {
+	public static GBasicShader getEntityshader() {
 		return entityShader;
 	}
 
@@ -290,7 +351,6 @@ public class RenderingEngine {
 	}
 
 	//SETTERS
-	
 
 	public void setFog(boolean fog) {
 		if(this.fog == fog)
@@ -334,17 +394,6 @@ public class RenderingEngine {
 			particleShader.updateUniform("view", view);
 			
 		}
-	}
-	
-	public void setBlur(boolean blur){
-		if(this.blur == blur)
-			return;
-		this.blur = blur;
-		entityShader.bind();
-		entityShader.updateUniform("blur", blur);
-		
-		skyShader.bind();
-		skyShader.updateUniform("blur", blur);
 	}
 	
 	public void setTexture(boolean texture){

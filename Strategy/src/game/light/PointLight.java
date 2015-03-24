@@ -1,9 +1,9 @@
 package game.light;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import glib.util.vector.GVector3f;
 
-public class PointLight extends GameObject{
+public class PointLight extends GameComponent{
 	private GVector3f color;
 	private GVector3f attenuation;
 	private float range;
@@ -19,7 +19,7 @@ public class PointLight extends GameObject{
 	}
 	
 	public PointLight(GVector3f position, GVector3f color, GVector3f attenuation) {
-		super(position, GameObject.POINTLIGHT);
+		super(position, GameComponent.POINTLIGHT);
 		this.color = color;
 		this.attenuation = attenuation;
 		this.range = calcRange(attenuation);

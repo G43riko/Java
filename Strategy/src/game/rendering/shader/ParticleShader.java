@@ -1,20 +1,22 @@
 package game.rendering.shader;
 
 public class ParticleShader extends GBasicShader{
-	public ParticleShader(String fileName) {
-		super(fileName);
-		// TODO Auto-generated constructor stub
+	public ParticleShader() {
+		super("particleShader");
 	}
 
-	@Override
 	protected void bindAttributes() {
-		// TODO Auto-generated method stub
-		
+		bindAttribute(0, "position");
+		bindAttribute(1, "texCoords");
 	}
 
-	@Override
 	public void getAllUniformsLocations() {
-		// TODO Auto-generated method stub
+		uniforms.put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
+		uniforms.put("projectionMatrix", super.getUniformLocation("projectionMatrix"));
+		uniforms.put("viewMatrix", super.getUniformLocation("viewMatrix"));
+		uniforms.put("alpha", super.getUniformLocation("alpha"));
+		uniforms.put("color", super.getUniformLocation("color"));
+		uniforms.put("ambient", super.getUniformLocation("ambient"));
 		
 	}
 }

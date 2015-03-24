@@ -1,7 +1,7 @@
 package game.main;
 
+import game.component.Camera;
 import game.core.CoreGame;
-import game.object.Camera;
 import game.particle.ParticleEmmiter;
 import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;

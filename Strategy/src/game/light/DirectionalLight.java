@@ -1,15 +1,15 @@
 package game.light;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import glib.util.vector.GVector3f;
 
-public class DirectionalLight extends GameObject{
+public class DirectionalLight extends GameComponent{
 	private GVector3f color;
 	
 	//CONSTRUCTORS
 	
 	public DirectionalLight(GVector3f position, GVector3f rotation, GVector3f scale, int type) {
-		super(position, GameObject.DIRECTIONAL_LIGHT);
+		super(position, GameComponent.DIRECTIONAL_LIGHT);
 	}
 
 	//GETTERS

@@ -1,15 +1,17 @@
 package game.entity.player;
 
+import java.util.HashMap;
+
 import org.lwjgl.input.Keyboard;
 
+import game.component.Camera;
+import game.component.GameComponent;
 import game.main.StrategyGame;
-import game.object.Camera;
-import game.object.GameObject;
 import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;
 
-public class BasicPlayer extends GameObject{
+public class BasicPlayer extends GameComponent{
 	protected World world;
 	protected Camera camera;
 	
@@ -19,6 +21,8 @@ public class BasicPlayer extends GameObject{
 	public boolean move = false;
 	
 	protected int selectBlock = Block.GRASS;
+	
+//	private HashMap<String, Integer> keys = new HashMap<String, Integer>();
 	
 	private int unlockMouseKey = Keyboard.KEY_K;
 	private int lockMouseKey = Keyboard.KEY_L;
@@ -41,7 +45,8 @@ public class BasicPlayer extends GameObject{
 	//CONSTRUCTORS
 	
 	public BasicPlayer(GVector3f position) {
-		super(position, GameObject.PLAYER);
+		super(position, GameComponent.PLAYER);
+//		setDefaultKeys();
 	}
 	
 	//OTHERS
@@ -204,6 +209,23 @@ public class BasicPlayer extends GameObject{
 	}
 
 	//SETTERS
+	
+//	private void setDefaultKeys(){
+//		keys.put("unlockMouseKey", Keyboard.KEY_L);
+//		
+//		keys.put("forwardKey", Keyboard.KEY_W);
+//		keys.put("backKey", Keyboard.KEY_A);
+//		keys.put("leftKey", Keyboard.KEY_S);
+//		keys.put("rightKey", Keyboard.KEY_D);
+//		
+//		keys.put("turnRightKey", Keyboard.KEY_E);
+//		keys.put("turnLeftKey", Keyboard.KEY_Q);
+//		
+//		keys.put("upKey", Keyboard.KEY_SPACE);
+//		keys.put("downKey", Keyboard.KEY_LSHIFT);
+//		
+//		keys.put("jumpKey", Keyboard.KEY_SPACE);
+//	}
 	
 	public void setWorld(World world) {
 		this.world = world;

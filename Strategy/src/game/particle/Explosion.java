@@ -2,13 +2,13 @@ package game.particle;
 
 import java.util.ArrayList;
 
+import game.component.GameComponent;
 import game.entity.player.Player;
-import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.world.Block;
 import glib.util.vector.GVector3f;
 
-public class Explosion extends GameObject{
+public class Explosion extends GameComponent{
 	private class BlockPart{
 		private Block b;
 		private GVector3f dir;
@@ -21,7 +21,7 @@ public class Explosion extends GameObject{
 	//CONSTRUCTORS
 	
 	public Explosion(Block b,int num){
-		super(b.getPosition(), GameObject.EXPLOSION);
+		super(b.getPosition(), GameComponent.EXPLOSION);
 		GVector3f startPos = b.getPosition().sub(new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH));
 		GVector3f blockSize = new GVector3f((float)Block.WIDTH/(float)num, (float)Block.HEIGHT/(float)num, (float)Block.DEPTH/(float)num);
 		for(int i=0 ; i<num ; i++){

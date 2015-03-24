@@ -1,4 +1,4 @@
-package game.object;
+package game.component;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -10,7 +10,7 @@ import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
-public class Camera extends GameObject{
+public class Camera extends GameComponent{
 	private final static float ROTATION_SPEED = 0.6f;
 	private final static float MOVE_SPEED = 0.3f;
 	private final static GVector3f up = new GVector3f(0,1,0);
@@ -33,14 +33,14 @@ public class Camera extends GameObject{
 	}
 	
 	public Camera(GVector3f position) {
-		super(position, GameObject.CAMERA);
+		super(position, GameComponent.CAMERA);
 		createProjectionMatrix();
 		updateForward();
 	}
 	
 	//OTHERS
 
-	public boolean isVisible(GameObject o){
+	public boolean isVisible(GameComponent o){
 		float distance = getPosition().dist(o.getPosition());
 		
 		GVector3f toObject =  o.getPosition().sub(getPosition()).Normalized();

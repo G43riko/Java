@@ -86,6 +86,10 @@ public abstract class GBasicShader {
 	
 	//OTERS
 	
+	public void connectTextures(){
+		
+	};
+	
 	protected abstract void bindAttributes();
 	
 	public void finalize(){

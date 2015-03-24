@@ -1,6 +1,6 @@
 package game.util;
 
-import game.object.Camera;
+import game.component.Camera;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 

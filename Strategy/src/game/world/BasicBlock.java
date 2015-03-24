@@ -3,13 +3,13 @@ package game.world;
 
 import org.json.JSONObject;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import game.rendering.material.Material;
 import game.rendering.model.Model;
 import game.util.Loader;
 import glib.util.vector.GVector3f;
 
-public class BasicBlock extends GameObject{
+public class BasicBlock extends GameComponent{
 	protected int type;
 	private GVector3f[][] points = new GVector3f[][]{ new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
 																	  new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
@@ -40,7 +40,7 @@ public class BasicBlock extends GameObject{
 	//CONSTRUCTORS
 	
 	public BasicBlock(GVector3f position, int blockType) {
-		super(position, GameObject.BOX);
+		super(position, GameComponent.BOX);
 		this.type = blockType;
 	}
 	

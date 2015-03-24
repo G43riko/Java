@@ -2,12 +2,12 @@ package game.world;
 
 import org.json.JSONObject;
 
-import game.object.Camera;
-import game.object.GameObject;
+import game.component.Camera;
+import game.component.GameComponent;
 import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;
 
-public class Chunk3D extends GameObject{
+public class Chunk3D extends GameComponent{
 	public static int NUM_X = 16;
 	public static int NUM_Y = 16;
 	public static int NUM_Z = 16;
@@ -18,7 +18,7 @@ public class Chunk3D extends GameObject{
 	//CONSTRUCTORS
 
 	public Chunk3D(GVector3f position) {
-		super(position, GameObject.CHUNK);
+		super(position, GameComponent.CHUNK);
 		neighboards = new Chunk3D[4];
 		blocks = new Block[NUM_X][NUM_Y][NUM_Z];
 		create();

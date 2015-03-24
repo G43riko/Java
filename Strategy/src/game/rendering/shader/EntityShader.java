@@ -19,6 +19,10 @@ public class EntityShader extends GBasicShader{
 		bindAttribute(2, "normal");
 	}
 
+	public void connectTextures(){
+		updateUniform("normalSampler", 1);
+	}
+	
 	//GETTERS
 	
 	@Override

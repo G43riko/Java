@@ -12,14 +12,14 @@ import java.util.Map.Entry;
 
 import org.json.JSONObject;
 
-import game.object.Camera;
-import game.object.GameObject;
+import game.component.Camera;
+import game.component.GameComponent;
 import game.particle.Explosion;
 import game.rendering.RenderingEngine;
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
 
-public class World extends GameObject{
+public class World extends GameComponent{
 	public static int NUM_X = 3;
 	public static int NUM_Z = 3;
 	public static float[][] map;
@@ -33,7 +33,7 @@ public class World extends GameObject{
 	//CONSTRUCTORS
 	
 	public World() {
-		super(GameObject.WORLD);
+		super(GameComponent.WORLD);
 		
 		map = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk3D.NUM_X * NUM_X, Chunk3D.NUM_Z * NUM_Z), 6, 0.7f, true);
 		
@@ -204,7 +204,7 @@ public class World extends GameObject{
 	
 	public void render(RenderingEngine renderingEngine) {
 		NUMBER_OF_RENDERED_BLOCK = 0;
-		double time = System.currentTimeMillis();
+//		double time = System.currentTimeMillis();
 		for(Entry<String, Chunk3D> e : chunks.entrySet()) {
 			Chunk3D c = e.getValue();
 			if(c.getPosition().add(new GVector3f(Chunk3D.NUM_X*Block.WIDTH ,0,Chunk3D.NUM_Z*Block.DEPTH)).dist(renderingEngine.getMainCamera().getPosition()) < 120)
@@ -213,7 +213,7 @@ public class World extends GameObject{
 		for(Explosion e:explosions){
 			e.render(renderingEngine);
 		}
-		System.out.println(System.currentTimeMillis()-time);
+//		System.out.println(System.currentTimeMillis()-time);
 //		System.out.println(NUMBER_OF_RENDERED_BLOCK);
 //		System.out.println(explosions.size());
 	}
@@ -317,5 +317,9 @@ public class World extends GameObject{
 	
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	public Camera getCamera() {
+		return camera;
 	}
 }

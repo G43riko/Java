@@ -3,7 +3,7 @@ package game.particle;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import game.object.GameObject;
+import game.component.GameComponent;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Texture2D;
 import game.rendering.model.Model;
@@ -15,7 +15,7 @@ import glib.util.vector.GQuaternion;
 import glib.util.vector.GVector3f;
 
 
-public class Particle extends GameObject{
+public class Particle extends GameComponent{
 	
 	private ParticleEmmiter parent;
 	
@@ -40,7 +40,7 @@ public class Particle extends GameObject{
 	//CONSTRUCTORS
 	
 	public Particle(GVector3f position, Texture2D texture, GVector3f color, ParticleEmmiter parent) {
-		super(position, GameObject.PARTICLE);
+		super(position, GameComponent.PARTICLE);
 		this.dead = false;
 		this.color = color;
 		this.alpha = 1;

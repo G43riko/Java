@@ -1,4 +1,4 @@
-package game.object;
+package game.component;
 
 public class Hud {
 	//private Model model

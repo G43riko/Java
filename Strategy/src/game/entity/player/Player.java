@@ -1,7 +1,7 @@
 package game.entity.player;
 
+import game.component.Camera;
 import game.main.StrategyGame;
-import game.object.Camera;
 import game.world.Block;
 import game.world.World;
 import glib.math.GMath;

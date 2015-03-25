@@ -7,17 +7,18 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame{
 	
-	public void init(){
+	public Window(){
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(new Dimension(800,600));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Village");
-		
+		setResizable(true);
+	}
+	
+	public void init(){
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int centerX = (int)(screenSize.getWidth()-getWidth())/2;
 		int centerY = (int)(screenSize.getHeight()-getHeight())/2;
 		setLocation(centerX, centerY);
-		
-		setResizable(true);
-//		setVisible(true);
+
 	}
 }

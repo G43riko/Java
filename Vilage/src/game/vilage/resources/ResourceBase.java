@@ -20,22 +20,28 @@ public class ResourceBase {
 	}
 	
 	public boolean canWork(){
-		return canWork(1);
-	}
-	
-	public boolean canWork(int num){
 		for(Entry<Byte, Integer> e : required.entrySet())
-			if(owned.get(e.getKey()) < e.getValue() * num)
+			if(owned.get(e.getKey()) < e.getValue())
 				return false;
 		
 		return true;
 	}
 	
-	public void build(int num){
+	public HashMap<Byte, Integer> getMissingResources(){
+		HashMap<Byte, Integer> missing = new HashMap<Byte, Integer>();
+		
 		for(Entry<Byte, Integer> e : required.entrySet())
-			owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue() * num);
+			if(owned.get(e.getKey()) < e.getValue())
+				missing.put(e.getKey(), (e.getValue() - owned.get(e.getKey())));
+		
+		return missing;
+	}
+	
+	public void build(){
+		for(Entry<Byte, Integer> e : required.entrySet())
+			owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue());
 		
 		for(Entry<Byte, Integer> e : produce.entrySet())
-			owned.put(e.getKey(), owned.get(e.getKey()) + e.getValue() * num);
+			owned.put(e.getKey(), owned.get(e.getKey()) + e.getValue());
 	}
 }

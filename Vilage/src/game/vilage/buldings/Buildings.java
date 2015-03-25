@@ -1,6 +1,10 @@
 package game.vilage.buldings;
 
+import java.util.HashMap;
+
 public abstract class Buildings {
+	private static HashMap<Byte, String> buildingsNames = new HashMap<Byte, String>();
+	
 	public final static byte TAVIC = 0;
 	public final static byte FARMA = 1;
 	public final static byte MLYNA = 2;
@@ -18,6 +22,30 @@ public abstract class Buildings {
 	public final static byte PIVOVAR = 14;
 	public final static byte RYBAR = 15;
 	
-	protected int level;
-	protected int maxSurovin;
+	static{
+		setNames();
+	}
+
+	private static void setNames() {
+		buildingsNames.put(TAVIC, "Taviè");
+		buildingsNames.put(FARMA, "Farmár");
+		buildingsNames.put(PEKAREN, "Pekáreò");
+		buildingsNames.put(OBCHOD, "Obchod");
+		buildingsNames.put(CHATRC_LOVCA, "Chatrè lovca");
+		buildingsNames.put(CHOVATEL_ZVIERAT, "Chovatel zvierat");
+		buildingsNames.put(BANA, "Baòa");
+		buildingsNames.put(DREVORUBAC, "Drevorubaè");
+		buildingsNames.put(TESAR, "Tesár");
+		buildingsNames.put(MASIAR, "Mäsiar");
+		buildingsNames.put(KOZUSINAR, "Kožušinár");
+		buildingsNames.put(KOVAC, "Kováè");
+		buildingsNames.put(KAMENOLOM, "kameòolom");
+		buildingsNames.put(PIVOVAR, "Pivovar");
+		buildingsNames.put(RYBAR, "Rybár");
+		
+	}
+
+	public static String getName(byte type){
+		return buildingsNames.get(type);
+	}
 }

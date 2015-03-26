@@ -42,6 +42,6 @@ public class ResourceBase {
 			owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue());
 		
 		for(Entry<Byte, Integer> e : produce.entrySet())
-			owned.put(e.getKey(), owned.get(e.getKey()) + e.getValue());
+			addResource(e.getKey(), e.getValue());
 	}
 }

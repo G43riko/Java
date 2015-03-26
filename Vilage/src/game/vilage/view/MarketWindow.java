@@ -33,18 +33,20 @@ public class MarketWindow extends Window{
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		add(getResouceSelector(),BorderLayout.NORTH);
+		add(getResouceSelectors(),BorderLayout.NORTH);
 		add(getBottomPanel(),BorderLayout.CENTER);
 	}
 	
-	public JPanel getResouceSelector(){
+	public JPanel getResouceSelectors(){
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(new GridLayout(4,1));
 		
 		for(Entry<Byte, Integer> e : market.getResources().entrySet())
 			panel.add(new ResourceSelector(e.getKey(), e.getValue()));
+		
 		setPreferredSize(new Dimension(300,300));
+		
 		return panel;
 	}
 	

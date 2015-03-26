@@ -21,7 +21,7 @@ public class Village {
 		market = new Market(this);
 		market.showWindow();
 		
-		building.get(Buildings.TESAR).showWindow();
+		building.get(Buildings.DREVORUBAC).showWindow();
 		
 	}
 	

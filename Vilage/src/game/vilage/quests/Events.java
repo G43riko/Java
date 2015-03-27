@@ -1,4 +1,4 @@
-package game.vilage;
+package game.vilage.quests;
 
 import game.vilage.buldings.Buildings;
 

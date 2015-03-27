@@ -3,7 +3,9 @@ package game.vilage.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.HashMap;
 import java.util.Map.Entry;
+
 
 
 
@@ -25,6 +27,8 @@ import game.vilage.view.component.ResourceSelector;
 public class MarketWindow extends Window{
 	private Market market;
 	private JScrollPane panel;
+	private JTextArea text;
+	private HashMap<Byte, ResourceSelector> resourcesSelectors = new HashMap<Byte, ResourceSelector>();
 	
 	public MarketWindow(Market market) {
 		this.market = market;
@@ -42,8 +46,10 @@ public class MarketWindow extends Window{
 		
 		panel.setLayout(new GridLayout(4,1));
 		
-		for(Entry<Byte, Integer> e : market.getResources().entrySet())
-			panel.add(new ResourceSelector(e.getKey(), e.getValue()));
+		for(Entry<Byte, Integer> e : market.getResources().entrySet()){
+			resourcesSelectors.put(e.getKey(), new ResourceSelector(e.getKey(), e.getValue(), market));
+			panel.add(resourcesSelectors.get(e.getKey()));
+		}
 		
 		setPreferredSize(new Dimension(300,300));
 		
@@ -51,11 +57,27 @@ public class MarketWindow extends Window{
 	}
 	
 	public JScrollPane getBottomPanel(){
-		panel = new JScrollPane();
-		
+		text = new JTextArea();
+		panel = new JScrollPane(text);
 		panel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		return panel;
+	}
+	
+	public void appendNotice(int type, int value, byte resource){
+		String s;
+		switch(type){
+			case 0:
+				s = "Market: Bola odoslaná položka: "+Suroviny.getName(resource)+" "+value+" ks ";
+				break;
+			default:
+				s = "System: Lutujeme ale nastala strašná chyba:";
+		}
+		text.append(s+"at: "+System.currentTimeMillis()+"\n");
+	}
+	
+	public void updateValue(byte type){
+		resourcesSelectors.get(type).Update(market.getResources().get(type));
 	}
 }

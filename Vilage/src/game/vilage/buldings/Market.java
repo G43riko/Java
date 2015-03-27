@@ -39,5 +39,12 @@ public class Market {
 			resources.put(resource, resources.get(resource) + value);
 		else
 			resources.put(resource,value);
+		
+		window.updateValue(resource);
+	}
+
+	public void wantBuy(byte type, int value) {
+		window.appendNotice(0, value, type);
+		addResource(type,-value);
 	}
 }

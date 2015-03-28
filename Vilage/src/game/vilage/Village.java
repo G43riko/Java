@@ -22,10 +22,21 @@ public class Village {
 		market.showWindow();
 		
 		building.get(Buildings.DREVORUBAC).showWindow();
-		
 	}
 	
 	public BasicBuilding getBuilding(byte buildingType){
 		return building.get(buildingType);
 	}
+	
+	public void show(byte type){
+		building.get(type).showWindow();
+	}
+	
+	public boolean isAnyWindowOpened(){
+		if(market.getWindow().isVisible())
+			return true;
+		
+		return false;
+	}
+	
 }

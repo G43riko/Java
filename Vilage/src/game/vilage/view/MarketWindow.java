@@ -3,8 +3,13 @@ package game.vilage.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+
+
 
 
 
@@ -20,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import game.vilage.buldings.Buildings;
 import game.vilage.buldings.Market;
 import game.vilage.resources.Suroviny;
 import game.vilage.view.component.ResourceSelector;
@@ -58,6 +64,7 @@ public class MarketWindow extends Window{
 	
 	public JScrollPane getBottomPanel(){
 		text = new JTextArea();
+		text.setEditable(false);
 		panel = new JScrollPane(text);
 		panel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -68,13 +75,17 @@ public class MarketWindow extends Window{
 	public void appendNotice(int type, int value, byte resource){
 		String s;
 		switch(type){
-			case 0:
-				s = "Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks ";
+			case Market.GOODS_SHIPPED:
+				s = "Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks";
+				break;
+			case Market.REQUEST_WAS_SENT:
+				s = "Market: éiadosù o : "+Suroviny.getName(resource)+" "+value+" ks  bola odoslan· k: "+Buildings.getName(Suroviny.getBuildingFromProduct(resource)) ;
 				break;
 			default:
 				s = "System: Lutujeme ale nastala straön· chyba:";
 		}
-		text.append(s+"at: "+System.currentTimeMillis()+"\n");
+		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));
+		text.append(s+" o: "+time+"\n");
 	}
 	
 	public void updateValue(byte type){

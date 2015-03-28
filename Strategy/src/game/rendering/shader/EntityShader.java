@@ -44,6 +44,7 @@ public class EntityShader extends GBasicShader{
 		uniforms.put("light", super.getUniformLocation("light"));
 		uniforms.put("specular", super.getUniformLocation("specular"));
 		uniforms.put("normalSampler", super.getUniformLocation("normalSampler"));
+		uniforms.put("fakeLight", super.getUniformLocation("fakeLight"));
 		
 		for(int i=0 ; i<RenderingEngine.MAX_LIGHTS ; i++){
 			uniforms.put("lightPosition"+i, super.getUniformLocation("lightPosition["+i+"]"));

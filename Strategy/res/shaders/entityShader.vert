@@ -17,12 +17,14 @@ out vec3 toLightVector[MAX_LIGHTS];
 out vec3 toCameraVector;
 
 
+
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 eyePos;
 uniform vec3 lightPosition[MAX_LIGHTS];
 uniform int fog;
+uniform int fakeLight;
 
 void main(){
 	vec4 worldPosition = transformationMatrix * vec4(position,1);
@@ -31,7 +33,14 @@ void main(){
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	
 	pass_textureCoords = textureCoords;
-	surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
+	
+	vec3 actNormal = normal;
+	
+	if(fakeLight == 1){
+		actNormal = vec3(0.0, 1.0, 0.0);
+	}
+	
+	surfaceNormal = (transformationMatrix * vec4(actNormal,0.0)).xyz;
 	for(int i=0 ; i<MAX_LIGHTS ; i++){
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}

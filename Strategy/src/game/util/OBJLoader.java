@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -14,7 +15,13 @@ import org.lwjgl.util.vector.Vector3f;
 
 
 public class OBJLoader {
+	private static HashMap<String, Model> loadedModels = new HashMap<String, Model>(); 
 	public static Model loadObjModel(String fileName, Loader loader){
+		if(loadedModels.containsKey(fileName)){
+			return loadedModels.get(fileName);
+		}
+		
+		
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/models/"+fileName+".obj"));
@@ -77,7 +84,6 @@ public class OBJLoader {
 				processVertex(vertex3,indices,textures,normals,textureArray,normalsArray);
 				line = reader.readLine();
 			}
-			
 			reader.close();
 		}catch(Exception e){
 			System.out.println("Nastala chyba pri èítaní zo súboru v "+fileName+" :  "+e);
@@ -94,11 +100,8 @@ public class OBJLoader {
 		for(int i=0 ; i<indices.size() ; i++){
 			indicesArray[i]  = indices.get(i);
 		}
-//		System.out.println(verticesArray.length);
-//		System.out.println(textureArray.length);
-//		System.out.println(normalsArray.length);
-//		System.out.println(indicesArray.length);
-		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
+		loadedModels.put(fileName, loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray));
+		return loadedModels.get(fileName);
 	}
 	
 	private static void processVertex(String[] vertexData, List<Integer> indices, 

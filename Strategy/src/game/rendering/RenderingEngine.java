@@ -94,7 +94,7 @@ public class RenderingEngine {
 		glClearColor(0, 1.0f, 0.0f, 0.10f);
 		
 		setTexture(true);
-		setSpecular(true);
+		setSpecular(false);
 		setLight(true);
 		setFog(false);
 		setAmbient(new GVector3f(1, 1, 1));
@@ -217,6 +217,8 @@ public class RenderingEngine {
 		
 		entityShader.bind();
 		
+		entityShader.updateUniform("fakeLight", object.isFakeLight());
+		
 		entityShader.updateUniform("transformationMatrix", object.getTransformationMatrix());
 		
 		entityShader.updateUniform("color", new GVector3f(1,0,0));
@@ -226,6 +228,8 @@ public class RenderingEngine {
 		prepareAndDraw(3, object.getModel());
 		
 		disableVertex(3);
+		
+		entityShader.updateUniform("fakeLight", false);
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_FRONT);

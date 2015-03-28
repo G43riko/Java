@@ -25,4 +25,6 @@ public class LumberJack extends BasicBuilding{
 		res.put(Suroviny.DREVO, 5);
 		return res;
 	}
+	
+	
 }

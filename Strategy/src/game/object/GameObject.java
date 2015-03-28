@@ -13,6 +13,8 @@ public class GameObject extends GameComponent{
 	protected Material material;
 	protected ArrayList<PointLight> lights = new ArrayList<PointLight>();
 	
+	protected boolean fakeLight;
+	
 	public GameObject(Model model, Material material, PointLight... lights) {
 		super(GameComponent.GAME_OBJECT);
 		this.model = model;
@@ -41,5 +43,16 @@ public class GameObject extends GameComponent{
 	public ArrayList<PointLight> getLights() {
 		return lights;
 	}
+	
+	public boolean isFakeLight() {
+		return fakeLight;
+	}
+
+	//SETTERS
+	
+	public void setFakeLight(boolean fakeLight) {
+		this.fakeLight = fakeLight;
+	}
+
 
 }

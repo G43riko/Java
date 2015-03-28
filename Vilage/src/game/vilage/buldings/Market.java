@@ -7,6 +7,9 @@ import game.vilage.view.MarketWindow;
 import java.util.HashMap;
 
 public class Market {
+	public final static byte GOODS_SHIPPED = 0;
+	public final static byte REQUEST_WAS_SENT = 1;
+	
 	private HashMap<Byte, Integer> resources;
 	private Village village;
 	private MarketWindow window;
@@ -44,7 +47,18 @@ public class Market {
 	}
 
 	public void wantBuy(byte type, int value) {
-		window.appendNotice(0, value, type);
-		addResource(type,-value);
+		if(resources.get(type) >= value){
+			window.appendNotice(GOODS_SHIPPED, value, type);
+			addResource(type,-value);
+		}
+		else{
+			int missing = value - resources.get(type);
+			window.appendNotice(REQUEST_WAS_SENT, missing, type);
+		}
+		
+	}
+
+	public MarketWindow getWindow() {
+		return window;
 	}
 }

@@ -8,18 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,10 +19,14 @@ import game.vilage.resources.Suroviny;
 import game.vilage.view.component.ResourceSelector;
 
 public class MarketWindow extends Window{
+	private static final long serialVersionUID = 1L;
+	
 	private Market market;
 	private JScrollPane panel;
 	private JTextArea text;
 	private HashMap<Byte, ResourceSelector> resourcesSelectors = new HashMap<Byte, ResourceSelector>();
+	
+	//CONSTRUCTORS
 	
 	public MarketWindow(Market market) {
 		this.market = market;
@@ -47,6 +39,37 @@ public class MarketWindow extends Window{
 		add(getBottomPanel(),BorderLayout.CENTER);
 	}
 	
+	//OTHERS
+	
+	public void appendNotice(int type, int value, byte resource){
+		switch(type){
+			case Market.GOODS_SHIPPED:
+				appendNotice("Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks");
+				break;
+			case Market.REQUEST_WAS_SENT:
+				appendNotice("Market: éiadosù o : "+Suroviny.getName(resource)+" "+value+" ks  bola odoslan· k: "+Buildings.getName(Suroviny.getBuildingFromProduct(resource)));
+				break;
+			case Market.GOODES_RECEIVED:
+				appendNotice("Market: Bolo doruËen˝ch "+value+" ks  suroviny "+Suroviny.getName(resource));
+				break;
+			default:
+				appendNotice("System: Lutujeme ale nastala straön· chyba:");
+		}
+		
+	}
+	
+	public void appendNotice(String s){
+		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));
+		text.append(s+" o: "+time+"\n");
+		
+	}
+	
+	public void updateValue(byte type){
+		resourcesSelectors.get(type).Update(market.getResources().get(type));
+	}
+
+	//GETTERS
+
 	public JPanel getResouceSelectors(){
 		JPanel panel = new JPanel();
 		
@@ -63,32 +86,14 @@ public class MarketWindow extends Window{
 	}
 	
 	public JScrollPane getBottomPanel(){
-		text = new JTextArea();
-		text.setEditable(false);
-		panel = new JScrollPane(text);
+		panel = new JScrollPane(text = new JTextArea());
 		panel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+
+		text.setEditable(false);
 		
 		return panel;
 	}
 	
-	public void appendNotice(int type, int value, byte resource){
-		String s;
-		switch(type){
-			case Market.GOODS_SHIPPED:
-				s = "Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks";
-				break;
-			case Market.REQUEST_WAS_SENT:
-				s = "Market: éiadosù o : "+Suroviny.getName(resource)+" "+value+" ks  bola odoslan· k: "+Buildings.getName(Suroviny.getBuildingFromProduct(resource)) ;
-				break;
-			default:
-				s = "System: Lutujeme ale nastala straön· chyba:";
-		}
-		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));
-		text.append(s+" o: "+time+"\n");
-	}
-	
-	public void updateValue(byte type){
-		resourcesSelectors.get(type).Update(market.getResources().get(type));
-	}
 }

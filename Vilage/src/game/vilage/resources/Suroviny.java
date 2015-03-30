@@ -26,6 +26,7 @@ public final class Suroviny {
 	static{
 		setResourcesAndProducers();
 		setNames();
+		
 	}
 	
 	public static HashMap<Byte, Integer> getAllDefault(){

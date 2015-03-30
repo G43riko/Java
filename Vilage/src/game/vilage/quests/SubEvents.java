@@ -1,7 +1,5 @@
 package game.vilage.quests;
 
-import game.vilage.buldings.Buildings;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +8,7 @@ public class SubEvents {
 	private static HashMap<Byte, List<Byte>> subEventsToSubQuest = new HashMap<Byte, List<Byte>>();
 	
 	public final static byte REZNE_PORANENIE = 1;
-	public final static byte STATENIE_SA_V_LESE = 2;
+	public final static byte STRATENIE_SA_V_LESE = 2;
 	public final static byte UTOK_VLKA = 3;
 	public final static byte UTOK_DIVIAKA = 4;
 	public final static byte POZIAR = 5;
@@ -25,29 +23,40 @@ public class SubEvents {
 	public final static byte MODEL_NESEDI_KU_KONSTRUKCII = 13;
 	public final static byte ZNICENIE_MODELU = 14;
 	
+	public final static byte ODOSLANIE_NA_ZLU_ADRESU = 15;
+	public final static byte ODOSLANIE_ZLEJ_OBJEDNAVKY = 16;
+	
 	static{
+		setSubEventsToSubQuests();
+	}
+	
+	private static void setSubEventsToSubQuests(){
 		//drevorubaè
-		
 		List<Byte> list = new ArrayList<Byte>();
+		list.add(ODOSLANIE_NA_ZLU_ADRESU);
+		list.add(ODOSLANIE_ZLEJ_OBJEDNAVKY);
+		subEventsToSubQuest.put(SubQuests.ODOSLAT_OBJEDNAVKU, list);
+		
+		list = new ArrayList<Byte>();
 		list.add(REZNE_PORANENIE);
 		subEventsToSubQuest.put(SubQuests.NABRUSIT_SEKERU, list);
 		
 		list = new ArrayList<Byte>();
-		list.add(STATENIE_SA_V_LESE);
+		list.add(STRATENIE_SA_V_LESE);
 		list.add(UTOK_VLKA);
 		list.add(UTOK_DIVIAKA);
 		list.add(POZIAR);
 		subEventsToSubQuest.put(SubQuests.IST_DO_LESA, list);
 		
 		list = new ArrayList<Byte>();
-		list.add(STATENIE_SA_V_LESE);
+		list.add(STRATENIE_SA_V_LESE);
 		list.add(UTOK_VLKA);
 		list.add(UTOK_DIVIAKA);
 		list.add(POZIAR);
 		subEventsToSubQuest.put(SubQuests.NAJST_VHODNY_STROM, list);
 		
 		list = new ArrayList<Byte>();
-		list.add(STATENIE_SA_V_LESE);
+		list.add(STRATENIE_SA_V_LESE);
 		list.add(UTOK_VLKA);
 		list.add(UTOK_DIVIAKA);
 		list.add(POZIAR);
@@ -57,7 +66,7 @@ public class SubEvents {
 		subEventsToSubQuest.put(SubQuests.ZOTAT_STROM, list);
 		
 		list = new ArrayList<Byte>();
-		list.add(STATENIE_SA_V_LESE);
+		list.add(STRATENIE_SA_V_LESE);
 		list.add(UTOK_VLKA);
 		list.add(UTOK_DIVIAKA);
 		list.add(POZIAR);
@@ -72,6 +81,28 @@ public class SubEvents {
 		list = new ArrayList<Byte>();
 		list.add(SECNE_PORANENIE);
 		subEventsToSubQuest.put(SubQuests.ROZSEKAT_STROM, list);
+	}
+
+	public static List<Byte> getSubEventsfromsubQuest(byte subQuest){
+		return subEventsToSubQuest.get(subQuest);
+	}
+	
+	public static String getName(byte type){
+		switch(type){
+			case ODOSLANIE_NA_ZLU_ADRESU: return "Objednávka bola odoslaná na zlú adresu";
+			case ODOSLANIE_ZLEJ_OBJEDNAVKY: return "Bola odoslaná zlá objednávka";
+					
+			case REZNE_PORANENIE: return "Stalo sa vážne rezné poranienie";
+			case STRATENIE_SA_V_LESE: return "Stratil som sa v lese asi to nezvládnem";
+			case UTOK_VLKA: return "Napadol ma vlk";
+			case UTOK_DIVIAKA: return "Napadol ma obrovský diviak";
+			case POZIAR: return "Horí tu! niesú žiadne stromy na rúbanie";
+			case ZAVALENIE_STROMOM: return "Padol na mòa strom. Pomoooooc";
+			case SECNE_PORANENIE: return "Sekol som sa sekerov.";
+			case ZLOMENA_SEKERA: return "Zlomila sa mi sekera a rukami strom neskolím";
+			
+			default: return "neznámy typ udalosti";
+		}
 	}
 }
 

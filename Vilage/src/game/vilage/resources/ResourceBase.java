@@ -8,9 +8,15 @@ public class ResourceBase {
 	private HashMap<Byte, Integer> owned;
 	private HashMap<Byte, Integer> produce;
 	
+	//CONSTRUCTORS
+	
 	public ResourceBase(HashMap<Byte, Integer> required, HashMap<Byte, Integer> produced){
 		this.required = required;
+		this.produce = produced;
+		owned = new HashMap<Byte, Integer>();
 	}
+	
+	//OTHERS
 	
 	public void addResource(byte resource, int value){
 		if(owned.containsKey(resource))
@@ -26,6 +32,18 @@ public class ResourceBase {
 		
 		return true;
 	}
+
+	public void build(){
+		for(Entry<Byte, Integer> e : required.entrySet())
+			if(owned.containsKey(e.getKey()))
+			owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue());
+		
+		for(Entry<Byte, Integer> e : produce.entrySet())
+			if(produce.containsKey(e.getKey()))
+				addResource(e.getKey(), e.getValue());
+	}
+
+	//GETTERS
 	
 	public HashMap<Byte, Integer> getMissingResources(){
 		HashMap<Byte, Integer> missing = new HashMap<Byte, Integer>();
@@ -37,11 +55,11 @@ public class ResourceBase {
 		return missing;
 	}
 	
-	public void build(){
-		for(Entry<Byte, Integer> e : required.entrySet())
-			owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue());
-		
-		for(Entry<Byte, Integer> e : produce.entrySet())
-			addResource(e.getKey(), e.getValue());
+	public HashMap<Byte, Integer> getRequired() {
+		return required;
+	}
+
+	public HashMap<Byte, Integer> getProduce() {
+		return produce;
 	}
 }

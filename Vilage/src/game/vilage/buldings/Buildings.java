@@ -5,7 +5,7 @@ import java.util.HashMap;
 public abstract class Buildings {
 	private static HashMap<Byte, String> buildingsNames = new HashMap<Byte, String>();
 	
-	public final static byte TAVIC = 0;
+	public final static byte MARKET = 0;
 	public final static byte FARMA = 1;
 	public final static byte MLYNA = 2;
 	public final static byte PEKAREN = 3;
@@ -21,12 +21,14 @@ public abstract class Buildings {
 	public final static byte KAMENOLOM = 13;
 	public final static byte PIVOVAR = 14;
 	public final static byte RYBAR = 15;
+	public final static byte TAVIC = 16;
 	
 	static{
 		setNames();
 	}
 
 	private static void setNames() {
+		buildingsNames.put(MARKET, "Obchod");
 		buildingsNames.put(TAVIC, "Taviè");
 		buildingsNames.put(FARMA, "Farmár");
 		buildingsNames.put(PEKAREN, "Pekáreò");

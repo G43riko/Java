@@ -1,8 +1,6 @@
 package game.vilage.buldings;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import game.vilage.Village;
 import game.vilage.resources.ResourceBase;

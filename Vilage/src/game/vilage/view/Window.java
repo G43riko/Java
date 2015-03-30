@@ -2,18 +2,22 @@ package game.vilage.view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
 public abstract class Window extends JFrame{
+	private static final long serialVersionUID = 1L;
+
+	//CONSTRUCTORS
+	
 	public Window(){
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(new Dimension(800,600));
 		setTitle("Village");
 		setResizable(true);
 	}
+	
+	//OTHERS
 	
 	public void init(){
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -1,6 +1,5 @@
 package game.vilage.view.component;
 
-import game.vilage.Village;
 import game.vilage.buldings.Market;
 import game.vilage.resources.Suroviny;
 
@@ -26,8 +25,10 @@ public class ResourceSelector extends JPanel{
 	private int maximum;
 	private JButton button;
 	private byte type;
-	private boolean showBuyButton;
 	private Market market;
+	
+	//ACTIONS
+	
 	private ActionListener buyEvent = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			market.wantBuy(type, (int)value.getValue());
@@ -40,6 +41,8 @@ public class ResourceSelector extends JPanel{
 		}
 	};
 	
+	//CONSTRUCTORS
+	
 	public ResourceSelector(byte type, int max, Market market){
 		this.market = market;
 		this.type = type;
@@ -49,9 +52,10 @@ public class ResourceSelector extends JPanel{
 		button.addActionListener(buyEvent);
 		button.setVisible(false);
 		maximum = max;
-		showBuyButton = false; 
 		init();
 	}
+	
+	//OTHERS
 	
 	private void init(){
 		value = new JSpinner(new SpinnerNumberModel(0,mininmum,maximum*2+20,1));

@@ -1,7 +1,5 @@
 package game.vilage.quests;
 
-import game.vilage.buldings.Buildings;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +25,10 @@ public class SubQuests {
 	private static HashMap<Byte, List<Byte>> subQuestsToQuest = new HashMap<Byte, List<Byte>>();
 	
 	static{
+		setSubQuestsToQuestS();
+	}
+	
+	private static void setSubQuestsToQuestS(){
 		List<Byte> list = new ArrayList<Byte>();
 		list.add(NABRUSIT_SEKERU);
 		list.add(IST_DO_LESA);
@@ -34,7 +36,8 @@ public class SubQuests {
 		list.add(ZOTAT_STROM);
 		list.add(DOTIAHNUT_STROM);
 		list.add(ROZSEKAT_STROM);
-		subQuestsToQuest.put(Buildings.DREVORUBAC, list);
+		list.add(ODOSLAT_OBJEDNAVKU);
+		subQuestsToQuest.put(Quests.VYTAZIT_DREVO, list);
 		
 		list = new ArrayList<Byte>();
 		list.add(PRIPRAVIT_NASTROJE);
@@ -43,6 +46,32 @@ public class SubQuests {
 		list.add(VYTVORIT_MODEL);
 		list.add(DOLADIT_DETAILY);
 		list.add(NALAKOVAT);
-		subQuestsToQuest.put(Buildings.TESAR, list);
+		list.add(ODOSLAT_OBJEDNAVKU);
+		subQuestsToQuest.put(Quests.VYTVORIT_NASTROJ, list);
+	}
+	
+	public static List<Byte> getSubquestsFromQuest(byte quest){
+		return subQuestsToQuest.get(quest);
+	}
+	
+	public static String getName(byte type){
+		switch(type){
+			case NABRUSIT_SEKERU: return "Nabr˙siù sekeru";
+			case IST_DO_LESA: return "Õsù do lesa";
+			case NAJST_VHODNY_STROM: return "N·jsù vhodn˝ strom";
+			case DOTIAHNUT_STROM: return "Datiahnuù strom domou";
+			case ROZSEKAT_STROM: return "Rozsekaù strom";
+		
+			case PRIPRAVIT_NASTROJE: return "Pripraviù si n·stroje";
+			case VYTVORIT_NAKRES: return "Vytvoriù n·kres";
+			case VYTVORI_KONSTRUKCIU: return "Vytvoriù z·kladn˙ konötrukciu";
+			case VYTVORIT_MODEL: return "Vytvoriù model";
+			case DOLADIT_DETAILY: return "Doladiù detaily";
+			case NALAKOVAT: return "Nalakovaù n·stroj";
+			
+			case ODOSLAT_OBJEDNAVKU: return "Odoslaù objedn·vku";
+			case ZACAT_PRACU_NA_OBJEDNAVKU: return "ZaËaù pracovaù na objedn·vke";
+			default: return "Nezn·my typ ˙lohy";
+		}
 	}
 }

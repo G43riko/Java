@@ -5,7 +5,6 @@ import game.vilage.resources.ResourceBase;
 import game.vilage.resources.Suroviny;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 public class Carpenter extends BasicBuilding{
 	public Carpenter(Village village){

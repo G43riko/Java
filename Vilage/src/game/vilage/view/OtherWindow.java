@@ -10,29 +10,34 @@ import game.vilage.quests.Quest;
 import game.vilage.view.component.PanelBottom;
 import game.vilage.view.component.PanelRight;
 import game.vilage.view.component.PanelTop;
+import game.vilage.view.component.ResourcesPanel;
 
 public class OtherWindow extends Window{
 	private static final long serialVersionUID = 1L;
 	
-	private byte type;
 	private PanelRight rPanel;
 	private PanelTop tPanel;
 	private PanelBottom bPanel;
 	private BasicBuilding parent;
+	private ResourcesPanel resources;
 	
 	//CONSTRUCTORS
 	
-	public OtherWindow(byte type, BasicBuilding parent){
-		this.type = type;
+	public OtherWindow( BasicBuilding parent){
 		this.parent = parent;
-		setTitle("MOS: "+Buildings.getName(type));
-		
-		setLayout(new BorderLayout());
-		add(rPanel = new PanelRight(this),BorderLayout.EAST);
-		add(createLeftPartOfView(),BorderLayout.CENTER);
+		init();
 	}
 	
 	//OTHERS
+	
+	public void init(){
+		setTitle("MOS: "+Buildings.getName(parent.getType()));
+		setLayout(new BorderLayout());
+		
+		add(resources = new ResourcesPanel(getParrent()),BorderLayout.NORTH);
+		add(rPanel = new PanelRight(this),BorderLayout.EAST);
+		add(createLeftPartOfView(),BorderLayout.CENTER);
+	}
 	
 	private JPanel createLeftPartOfView(){
 		JPanel panel = new JPanel();
@@ -41,36 +46,38 @@ public class OtherWindow extends Window{
 		panel.add(bPanel = new PanelBottom(this),BorderLayout.CENTER);
 		return panel;
 	}
-	
-	public void addQuest(byte type, int value, byte from){
-	}
-	
-	public void changeSelectQuest(int id){
-		for(Quest q : parent.getQuests()){	//prejde všetky questy
-			if(q.getId() == id){	
-				bPanel.setActQuest(parent.getQuests().indexOf(q));
-				break;
-			}
-		}
+		
+	public void changeSelectedQuest(Quest selectedQuest) {
+		bPanel.setActQuest(selectedQuest);
+		tPanel.setActQuest(selectedQuest);
 	}
 
 	public void updateQuests() {
 		rPanel.clear();
 		for(Quest q : parent.getQuests()){
-			rPanel.addString(q.getDescription(), q.getId());
+			rPanel.addQuest(q);
 		}
 	}
 
 	public void finishQuest(int finishedQuest) {
-		rPanel.removeString(parent.getQuests().get(finishedQuest).getDescription());
+		rPanel.removeQuest(parent.getQuests().get(finishedQuest));
 		bPanel.removeAll();
 		bPanel.updateUI();
 		parent.finishQuest(finishedQuest);
+		tPanel.setVisible(false);
 	}
 
+	public void updateResourcePanel() {
+		resources.upateResources();
+	}
+	
 	//GETTERS
 	
 	public BasicBuilding getParrent() {
 		return parent;
+	}
+
+	public PanelTop getTopPanel() {
+		return tPanel;
 	}
 }

@@ -62,4 +62,16 @@ public class ResourceBase {
 	public HashMap<Byte, Integer> getProduce() {
 		return produce;
 	}
+
+	
+	public HashMap<Byte, Integer> getOwned() {
+		return owned;
+	}
+
+	public HashMap<Byte, Integer> getAll(){
+		HashMap<Byte, Integer> res = new HashMap<Byte, Integer>(owned);
+		res.putAll(required);
+		res.putAll(produce);
+		return res;
+	}
 }

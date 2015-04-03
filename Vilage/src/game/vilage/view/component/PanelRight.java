@@ -1,5 +1,6 @@
 package game.vilage.view.component;
 
+import game.vilage.quests.Quest;
 import game.vilage.view.OtherWindow;
 
 import java.awt.Dimension;
@@ -14,9 +15,10 @@ import javax.swing.event.ListSelectionListener;
 
 public class PanelRight extends JPanel{
 	private static final long serialVersionUID = 1L;
-	DefaultListModel<String> listModel;
-	JList<String> list;
-	OtherWindow parent;
+	
+	private DefaultListModel<Quest> listModel;
+	private JList<Quest> list;
+	private OtherWindow parent;
 	private HashMap<String, Integer> ides = new HashMap<String, Integer>(); 
 	
 	//ACTIONS
@@ -25,8 +27,9 @@ public class PanelRight extends JPanel{
 		@SuppressWarnings("unchecked")
 		public void valueChanged(ListSelectionEvent e) {
 			if(!e.getValueIsAdjusting()){
-				if(ides.containsKey((String)((JList<String>)e.getSource()).getSelectedValue()))
-					parent.changeSelectQuest(ides.get((String)((JList<String>)e.getSource()).getSelectedValue()));
+				Quest q = ((JList<Quest>)e.getSource()).getSelectedValue();
+				if(parent.getParrent().getQuests().contains(q))
+					parent.changeSelectedQuest(q);
 			}
 		}
 	};
@@ -35,24 +38,28 @@ public class PanelRight extends JPanel{
 	
 	public PanelRight(OtherWindow parent){
 		this.parent = parent;
-		setPreferredSize(new Dimension(200,200));
-		list = new JList<String>(listModel = new DefaultListModel<String>());
-		list.setPreferredSize(getPreferredSize());
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.addListSelectionListener(listChanges);
-		list.setLayoutOrientation(JList.VERTICAL);
-		add(list);
+		init();
 	}
 	
 	//OTHERS
 	
-	public void addString(String s, int id){
-		ides.put(s, id);
-		listModel.addElement(s);
+	private void init(){
+		setPreferredSize(new Dimension(200,200));
+		list = new JList<Quest>(listModel = new DefaultListModel<Quest>());
+		list.setPreferredSize(getPreferredSize());
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.addListSelectionListener(listChanges);
+		list.setLayoutOrientation(JList.VERTICAL);
+		
+		add(list);
 	}
 	
-	public void removeString(String s){
-		listModel.removeElement(s);
+	public void addQuest(Quest q){
+		listModel.addElement(q);
+	}
+	
+	public void removeQuest(Quest q){
+		listModel.removeElement(q);
 	}
 
 	public void clear() {

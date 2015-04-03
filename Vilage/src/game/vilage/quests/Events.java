@@ -12,9 +12,9 @@ public class Events {
 		public void add(String event){
 			this.events.add(event);
 		}
-		public void get(){
-			this.events.get((int)(Math.random()*this.events.size()));
-		}
+//		public void get(){
+//			this.events.get((int)(Math.random()*this.events.size()));
+//		}
 	}
 
 	public Events(){
@@ -40,10 +40,10 @@ public class Events {
 		randEvent[Buildings.CHOVATEL_ZVIERAT].add("Útok dobytka");
 		randEvent[Buildings.CHOVATEL_ZVIERAT].add("Útok vlkov");
 		
-		randEvent[Buildings.BANA].add("Zavalenie");
-		randEvent[Buildings.BANA].add("Výbuch zemného plynu");
-		randEvent[Buildings.BANA].add("Udusenie");
-		randEvent[Buildings.BANA].add("Prebudenie draka");
+		randEvent[Buildings.ZELEZNA_BANA].add("Zavalenie");
+		randEvent[Buildings.ZELEZNA_BANA].add("Výbuch zemného plynu");
+		randEvent[Buildings.ZELEZNA_BANA].add("Udusenie");
+		randEvent[Buildings.ZELEZNA_BANA].add("Prebudenie draka");
 		
 		randEvent[Buildings.DREVORUBAC].add("Zavalenie stromom");
 		randEvent[Buildings.DREVORUBAC].add("Útok medveda");

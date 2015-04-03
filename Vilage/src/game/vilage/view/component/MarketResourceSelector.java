@@ -15,7 +15,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ResourceSelector extends JPanel{
+public class MarketResourceSelector extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel name;
@@ -43,7 +43,7 @@ public class ResourceSelector extends JPanel{
 	
 	//CONSTRUCTORS
 	
-	public ResourceSelector(byte type, int max, Market market){
+	public MarketResourceSelector(byte type, int max, Market market){
 		this.market = market;
 		this.type = type;
 		this.name = new JLabel(Suroviny.getName(type));

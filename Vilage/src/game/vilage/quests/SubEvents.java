@@ -20,22 +20,29 @@ public class SubEvents {
 	public final static byte ZLOMENY_NASTROJ = 10;
 	public final static byte ZIADNY_NASTROJ_NA_PISANIE = 11;
 	public final static byte KONCTRUKCIA_NESEDI = 12;
+	public final static byte ZNIECENIE_KONSTRUKCIE = 19;
+	public final static byte KONSTRUKCIA_SA_NEPODOBA_NA_NAKRES = 17;
 	public final static byte MODEL_NESEDI_KU_KONSTRUKCII = 13;
+	public final static byte MODEL_SA_NEPODOBA_NA_NAKRES = 18;
 	public final static byte ZNICENIE_MODELU = 14;
+	
+//	public final static byte ZNICENIE_MODELU = 20;
 	
 	public final static byte ODOSLANIE_NA_ZLU_ADRESU = 15;
 	public final static byte ODOSLANIE_ZLEJ_OBJEDNAVKY = 16;
 	
 	static{
 		setSubEventsToSubQuests();
+		
 	}
 	
 	private static void setSubEventsToSubQuests(){
-		//drevorubaè
 		List<Byte> list = new ArrayList<Byte>();
 		list.add(ODOSLANIE_NA_ZLU_ADRESU);
 		list.add(ODOSLANIE_ZLEJ_OBJEDNAVKY);
 		subEventsToSubQuest.put(SubQuests.ODOSLAT_OBJEDNAVKU, list);
+		
+		//DREVORUBAC
 		
 		list = new ArrayList<Byte>();
 		list.add(REZNE_PORANENIE);
@@ -79,8 +86,37 @@ public class SubEvents {
 		//TESAR
 		
 		list = new ArrayList<Byte>();
-		list.add(SECNE_PORANENIE);
-		subEventsToSubQuest.put(SubQuests.ROZSEKAT_STROM, list);
+		list.add(ZLODEJI);
+		list.add(ZLOMENY_NASTROJ);
+		subEventsToSubQuest.put(SubQuests.PRIPRAVIT_NASTROJE, list);
+		
+		list = new ArrayList<Byte>();
+		list.add(ZIADNY_NASTROJ_NA_PISANIE);
+		subEventsToSubQuest.put(SubQuests.VYTVORIT_NAKRES, list);
+		
+		list = new ArrayList<Byte>();
+		list.add(ZLOMENY_NASTROJ);
+		list.add(KONCTRUKCIA_NESEDI);
+		list.add(KONSTRUKCIA_SA_NEPODOBA_NA_NAKRES);
+		list.add(ZNIECENIE_KONSTRUKCIE);
+		subEventsToSubQuest.put(SubQuests.VYTVORI_KONSTRUKCIU, list);
+		
+		list = new ArrayList<Byte>();
+		list.add(ZLOMENY_NASTROJ);
+		list.add(MODEL_NESEDI_KU_KONSTRUKCII);
+		list.add(MODEL_SA_NEPODOBA_NA_NAKRES);
+		list.add(ZNIECENIE_KONSTRUKCIE);
+		subEventsToSubQuest.put(SubQuests.VYTVORIT_MODEL, list);
+		
+		list = new ArrayList<Byte>();
+		list.add(ZLOMENY_NASTROJ);
+		list.add(ZNICENIE_MODELU);
+		subEventsToSubQuest.put(SubQuests.DOLADIT_DETAILY, list);
+		
+		list = new ArrayList<Byte>();
+		list.add(ZLOMENY_NASTROJ);
+		list.add(ZNICENIE_MODELU);
+		subEventsToSubQuest.put(SubQuests.NALAKOVAT, list);
 	}
 
 	public static List<Byte> getSubEventsfromsubQuest(byte subQuest){
@@ -100,6 +136,16 @@ public class SubEvents {
 			case ZAVALENIE_STROMOM: return "Padol na mòa strom. Pomoooooc";
 			case SECNE_PORANENIE: return "Sekol som sa sekerov.";
 			case ZLOMENA_SEKERA: return "Zlomila sa mi sekera a rukami strom neskolím";
+			
+			case ZLODEJI: return "Zlodeji ukradli všetký nástroje";
+			case ZLOMENY_NASTROJ: return "Zlomil sa nástroj";
+			case ZIADNY_NASTROJ_NA_PISANIE: return "Niesú nástroje potrebné na písanie";
+			case KONCTRUKCIA_NESEDI: return "Konštukcia nesedí k modelu";
+			case KONSTRUKCIA_SA_NEPODOBA_NA_NAKRES: return "Konštrukcie sa vôbec nepodobá na nákres";
+			case MODEL_NESEDI_KU_KONSTRUKCII: return "Model nesedí na konštrukciu";
+			case MODEL_SA_NEPODOBA_NA_NAKRES: return "Model sa nepodobá na nákres";
+			case ZNICENIE_MODELU: return "Model bol nechtiac znièený";
+			case ZNIECENIE_KONSTRUKCIE: return "Zlomila sa konštrukcia";
 			
 			default: return "neznámy typ udalosti";
 		}

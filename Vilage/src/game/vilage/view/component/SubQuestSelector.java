@@ -27,18 +27,18 @@ public class SubQuestSelector extends JPanel{
 	private	ActionListener selectValue = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			if(list.getSelectedIndex()+1 == list.getItemCount()){
-				parent.finishSubQuest(PanelBottom.SUCCESS, subQuest, (byte)0);
+				parent.finishSubQuest(PanelBottom.SUCCESS, subQuest, (byte)0, list.getSelectedIndex());
 				parent.showNext(toto);
 				list.setEnabled(false);
 			}
 			else if(list.getSelectedIndex() > 0)
-				parent.finishSubQuest(PanelBottom.FAILURE, subQuest, subEvents.get(list.getSelectedIndex()-1));
+				parent.finishSubQuest(PanelBottom.FAILURE, subQuest, subEvents.get(list.getSelectedIndex()-1), list.getSelectedIndex());
 		}
 	};
 	
 	//CONSTRUCTORS
 
-	public SubQuestSelector(byte subQuest, PanelBottom parent, boolean selectedValue){
+	public SubQuestSelector(byte subQuest, PanelBottom parent, int selectedValue){
 		this.parent = parent;
 		this.subQuest = subQuest;
 		toto = this;
@@ -53,7 +53,7 @@ public class SubQuestSelector extends JPanel{
 		texts[subEvents.size()+1] = "Hotovo";
 		
 		add(list = new JComboBox<String>(texts));
-		list.setSelectedItem(selectedValue);
+		list.setSelectedIndex(selectedValue);
 
 		add(button = new JButton("potvrdiù"));
 		button.addActionListener(selectValue);
@@ -64,5 +64,11 @@ public class SubQuestSelector extends JPanel{
 	public void makeEnable(boolean value){
 		button.setVisible(value);
 		list.setEnabled(value);
+	}
+
+	//GETTERS
+	
+	public int getSelectedIndex(){
+		return list.getSelectedIndex();
 	}
 }

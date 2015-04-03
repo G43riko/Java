@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 import game.vilage.buldings.Buildings;
 import game.vilage.buldings.Market;
 import game.vilage.resources.Suroviny;
-import game.vilage.view.component.ResourceSelector;
+import game.vilage.view.component.MarketResourceSelector;
 
 public class MarketWindow extends Window{
 	private static final long serialVersionUID = 1L;
@@ -24,13 +24,18 @@ public class MarketWindow extends Window{
 	private Market market;
 	private JScrollPane panel;
 	private JTextArea text;
-	private HashMap<Byte, ResourceSelector> resourcesSelectors = new HashMap<Byte, ResourceSelector>();
+	private HashMap<Byte, MarketResourceSelector> resourcesSelectors = new HashMap<Byte, MarketResourceSelector>();
 	
 	//CONSTRUCTORS
 	
 	public MarketWindow(Market market) {
 		this.market = market;
 		init();
+	}
+	
+	//OTHERS
+	
+	private void init(){
 		setTitle("Medieaval Online Shop");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +44,6 @@ public class MarketWindow extends Window{
 		add(getBottomPanel(),BorderLayout.CENTER);
 	}
 	
-	//OTHERS
 	
 	public void appendNotice(int type, int value, byte resource){
 		switch(type){
@@ -76,7 +80,7 @@ public class MarketWindow extends Window{
 		panel.setLayout(new GridLayout(4,1));
 		
 		for(Entry<Byte, Integer> e : market.getResources().entrySet()){
-			resourcesSelectors.put(e.getKey(), new ResourceSelector(e.getKey(), e.getValue(), market));
+			resourcesSelectors.put(e.getKey(), new MarketResourceSelector(e.getKey(), e.getValue(), market));
 			panel.add(resourcesSelectors.get(e.getKey()));
 		}
 		

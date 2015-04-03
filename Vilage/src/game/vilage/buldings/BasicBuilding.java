@@ -25,9 +25,9 @@ public abstract class BasicBuilding {
 	public BasicBuilding(Village village, byte type){
 		this.village = village;
 		this.type = type;
-		window = new OtherWindow(type, this);
+		resources = new ResourceBase(Buildings.getRequired(type),Buildings.getProduced(type));
+		window = new OtherWindow(this);
 		window.init();
-		resources = new ResourceBase(new HashMap<Byte, Integer>(), new HashMap<Byte, Integer>());
 	}
 	
 	//ADDERS
@@ -37,8 +37,9 @@ public abstract class BasicBuilding {
 			resources.addResource(e.getKey(), e.getValue());
 	}
 	
-	public void addResource(byte type, int value){
-			resources.addResource(type, value);
+	private void addResource(byte type, int value){
+		resources.addResource(type, value);
+		window.updateResourcePanel();
 	}
 
 	public void addQuest(byte type, byte from, int value){
@@ -74,26 +75,36 @@ public abstract class BasicBuilding {
 		Quest q = quests.get(finishedQuest);
 		village.appentNotice(sign()+"bola odoslan· poloûka: "+Suroviny.getName(q.getResourceType())+" "+q.getValue()+"ks");
 		
-		if(q.getFrom() > 0){
+		if(q.getFrom() == Buildings.OBCHOD)
+			village.getMarket().addResource(q.getResourceType(), q.getValue());
+		else{
 			BasicBuilding b = village.getBuilding(q.getFrom());
 			b.addResource(q.getResourceType(), q.getValue());
-		}
-		else{
-			village.getMarket().addResource(q.getResourceType(), q.getValue());
 		}
 	}
 
 	//GETTERS
 	
-	protected abstract HashMap<Byte, Integer> getRequeredResources();
-	
-	protected abstract HashMap<Byte, Integer> getProducesResources();
-
 	public Village getVillage() {
 		return village;
 	}
 
 	public ArrayList<Quest> getQuests() {
 		return quests;
+	}
+
+	public ResourceBase getResources() {
+		return resources;
+	}
+
+	public void wantBuy(byte type, int value) {
+		village.appentNotice(sign()+"bola odoslan· ûiadosù o doruËenie "+value+" ks tovaru: "+Suroviny.getName(type));
+		BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));
+		b.showWindow();
+		b.addQuest(type,this.type, value);
+	}
+
+	public byte getType() {
+		return type;
 	}
 }

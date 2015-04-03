@@ -1,11 +1,17 @@
 package game.vilage.view.component;
 
+import game.vilage.quests.Quest;
 import game.vilage.view.OtherWindow;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class PanelBottom extends JPanel{
@@ -23,14 +29,15 @@ public class PanelBottom extends JPanel{
 	public PanelBottom(OtherWindow parent){
 		this.parent = parent;
 		setPreferredSize(new Dimension(200,200));
+		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 	
 	//OTHERS
 	
-	public void addSubQuest(SubQuestSelector s){
+	private SubQuestSelector addSubQuest(SubQuestSelector s){
 		add(s);
-		s.makeEnable(subQuests.isEmpty());
 		subQuests.add(s);
+		return s;
 	}
 
 	public void showNext(SubQuestSelector box) {
@@ -50,12 +57,16 @@ public class PanelBottom extends JPanel{
 		parent.finishQuest(actQuest);
 	}
 	
-	public void finishSubQuest(byte type, byte subQuest, byte subEvent) {
+	public void finishSubQuest(byte type, byte subQuest, byte subEvent, int index) {
 		parent.getParrent().finishSubQuest(type == SUCCESS, subQuest, subEvent);
-		parent.getParrent().getQuests().get(actQuest).getSubQestsProgress().put(subQuest, type == SUCCESS);
+		
+		Quest q = parent.getParrent().getQuests().get(actQuest); 
+		q.getSubQestsProgress().put(subQuest, index);
+		q.completeSubQuest();
+		parent.getTopPanel().upadeProgress(q.getCompletedSubQuests());
 	}
 
-	public void clear() {
+	private void clear() {
 		for(SubQuestSelector box : subQuests){
 			box.removeAll();
 			remove(box);
@@ -65,14 +76,32 @@ public class PanelBottom extends JPanel{
 
 	//SETTERS
 	
-	public void setActQuest(int actQuest) {
+	public void setActQuest(Quest actQuest) {
+		this.actQuest = parent.getParrent().getQuests().indexOf(actQuest);
 		setVisible(false);
 		removeAll();
 		clear();
-		this.actQuest = actQuest;
-		for(Entry<Byte, Boolean> e : parent.getParrent().getQuests().get(actQuest).getSubQestsProgress().entrySet()){
-			addSubQuest(new SubQuestSelector(e.getKey(),this,e.getValue()));
+		boolean isEnable = true;
+		for(Entry<Byte, Integer> e : actQuest.getSubQestsProgress().entrySet()){		
+			if(e.getValue() > 0 && isEnable){
+				addSubQuest(new SubQuestSelector(e.getKey(),this,e.getValue())).makeEnable(false);
+			}
+			else if(e.getValue() == 0){
+				if(isEnable){
+					addSubQuest(new SubQuestSelector(e.getKey(),this,e.getValue())).makeEnable(true);
+					isEnable = false;
+				}
+				else
+					addSubQuest(new SubQuestSelector(e.getKey(),this,e.getValue())).makeEnable(false);
+			}
 		}
+		JButton b = new JButton("dokonËiù");
+		b.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				finishQuest();
+			}
+		});
+		add(b);
 		setVisible(true);
 	}
 }

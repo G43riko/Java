@@ -62,9 +62,8 @@ public class Market {
 			window.appendNotice(REQUEST_WAS_SENT, missing, type);
 			BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));
 			b.showWindow();
-			b.addQuest(type,Buildings.MARKET, missing);
+			b.addQuest(type,Buildings.OBCHOD, missing);
 		}
-		
 	}
 
 	//GETTERS

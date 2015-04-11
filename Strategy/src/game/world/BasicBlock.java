@@ -73,8 +73,8 @@ public class BasicBlock extends GameComponent{
 									    Block.WIDTH, Block.HEIGHT, -Block.DEPTH,
 									    Block.WIDTH, Block.HEIGHT,  Block.DEPTH};
 		
-		int[] indices = new int[]{0,1,3,
-								  3,1,2};
+		int[] indices = new int[]{3,1,0,
+								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,
@@ -95,8 +95,8 @@ public class BasicBlock extends GameComponent{
 									    Block.WIDTH, Block.HEIGHT, -Block.DEPTH,
 									    Block.WIDTH, Block.HEIGHT,  Block.DEPTH};
 		
-		int[] indices = new int[]{3,1,0,
-								  2,1,3};
+		int[] indices = new int[]{0,1,3,
+								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,
@@ -116,8 +116,8 @@ public class BasicBlock extends GameComponent{
 									   -Block.WIDTH, Block.HEIGHT, -Block.DEPTH,
 									    Block.WIDTH, Block.HEIGHT, -Block.DEPTH};
 		
-		int[] indices = new int[]{3,1,0,
-								  2,1,3};
+		int[] indices = new int[]{0,1,3,
+								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,
@@ -137,8 +137,8 @@ public class BasicBlock extends GameComponent{
 									   -Block.WIDTH, Block.HEIGHT,  Block.DEPTH,
 									    Block.WIDTH, Block.HEIGHT,  Block.DEPTH};
 		
-		int[] indices = new int[]{0,1,3,
-								  3,1,2};
+		int[] indices = new int[]{3,1,0,
+								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,
@@ -158,8 +158,8 @@ public class BasicBlock extends GameComponent{
 									   -Block.WIDTH, Block.HEIGHT, -Block.DEPTH,
 									   -Block.WIDTH, Block.HEIGHT,  Block.DEPTH};
 		
-		int[] indices = new int[]{0,1,3,
-								  3,1,2};
+		int[] indices = new int[]{3,1,0,
+								  2,1,3};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,
@@ -179,8 +179,8 @@ public class BasicBlock extends GameComponent{
 									    Block.WIDTH, -Block.HEIGHT, -Block.DEPTH,
 									    Block.WIDTH, -Block.HEIGHT,  Block.DEPTH};
 		
-		int[] indices = new int[]{3,1,0,
-								  2,1,3};
+		int[] indices = new int[]{0,1,3,
+								  3,1,2};
 		
 		float[] texture = new float[]{0,0,
 									  Block.DEPTH,0,

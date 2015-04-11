@@ -25,6 +25,7 @@ public class BasicEnemy extends GameComponent{
 	private float jumpPower = 0.4f;
 	private float accuracy = 1;
 	private GVector3f bulletColor;
+	private Line line;
 //	private Line dir;
 	
 	
@@ -47,6 +48,8 @@ public class BasicEnemy extends GameComponent{
 		angle = Math.toRadians(angle);
 		
 		direction = new GVector3f((float)Math.cos(angle), 0, (float)Math.sin(angle));
+		
+		line = new Line(new GVector3f(),direction.mul(-1000));
 //		dir = new Line(new GVector3f(), direction.mul(1000));
 	}
 	
@@ -56,7 +59,7 @@ public class BasicEnemy extends GameComponent{
 		//MOVE
 		
 		move(direction.mul(speed).mul(new GVector3f(1, 0, 1)));
-		
+		line.setPosition(getPosition());
 		GVector3f size = world.getMaxSize();
 		
 //		dir.setRotation(direction.toDegrees());
@@ -84,12 +87,14 @@ public class BasicEnemy extends GameComponent{
 		
 		if(getPosition().getX() <= 0 || getPosition().getX() >= size.getX()){
 			direction = direction.mul(new GVector3f(-1, 1, 1));
+			line = new Line(new GVector3f(),direction.mul(-1000));
 //			setRotation(getRotation().mul(new GVector3f(-1,1,1)));
 //			setFace(Math.abs(Math.toDegrees(Math.acos(direction.getX()))));
 		}
 		
 		if(getPosition().getZ() <= 0 || getPosition().getZ() >= size.getZ()){
 			direction = direction.mul(new GVector3f(1, 1, -1));
+			line = new Line(new GVector3f(),direction.mul(-1000));
 //			setRotation(getRotation().mul(new GVector3f(1,1,-1)));
 //			setFace(Math.abs(Math.toDegrees(Math.asin(direction.getZ()))));
 		}
@@ -117,7 +122,7 @@ public class BasicEnemy extends GameComponent{
 	
 	public void render(RenderingEngine renderingEngine){
 		renderingEngine.renderEnemy(this);
-		
+		line.render(renderingEngine);
 //		renderingEngine.renderLine(dir);
 		
 		for(Bullet l : bullets)

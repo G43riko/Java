@@ -36,8 +36,4 @@ public abstract class Window extends JFrame{
 			setLocation(lastWindow.getLocation().x+CASCADE_OFFSET, lastWindow.getLocation().y+CASCADE_OFFSET);
 		
 	}
-	
-	protected void onClose(){
-		
-	}
 }

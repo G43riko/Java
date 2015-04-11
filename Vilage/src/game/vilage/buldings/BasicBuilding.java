@@ -32,20 +32,20 @@ public abstract class BasicBuilding {
 	
 	//ADDERS
 	
-	public void addResource(HashMap<Byte, Integer> res){
-		for(Entry<Byte, Integer> e : res.entrySet())
-			resources.addResource(e.getKey(), e.getValue());
+	public void addResource(HashMap<Byte, Integer> res){	//pridá hashMapu surovín do skladu
+		for(Entry<Byte, Integer> e : res.entrySet())	//prejde kadou surovinou
+			resources.addResource(e.getKey(), e.getValue());	//pridá kadú jednu surovinu do skladu
 	}
 	
-	private void addResource(byte type, int value){
-		resources.addResource(type, value);
-		window.updateResourcePanel();
+	public void addResource(byte type, int value){	//pridí konkrétnu surovinu
+		resources.addResource(type, value);	//prída surovinu
+		window.updateResourcePanel();	//aktualizuje poèet surovín v okne
 	}
 
 	public void addQuest(byte type, byte from, int value){
 		while(value > 0){	//pokial neni vyprodukované mnostvo vaèšie alebo rovné ako potrebné mnostvo;
 			for(Entry<Byte, Integer> e : resources.getProduce().entrySet()){	//pre kadú z vyprodukovanıch surovín
-				quests.add(new Quest(Quests.getQuestFromProduct(type),from,e.getKey(),  e.getValue()));
+				quests.add(new Quest(Quests.getQuestFromProduct(type),from,e.getKey(),  e.getValue()));	//pridá quest do zoznamu questov
 				window.updateQuests();	//odošle iados
 				if(e.getKey() == type)	//ak je surovina taká istá ako tá ktorá sa vyaduje
 					value -= e.getValue();	//pripoèítam jej mnostvo
@@ -55,34 +55,44 @@ public abstract class BasicBuilding {
 	
 	//OTHERS
 	
-	public void showWindow(){
+	public void showWindow(){	//zobrazí okno budovy
 		window.setVisible(true);
 	}
 
-	public void finishSubQuest(boolean success, byte subQuest, byte subEvent) {
-		if(success)
-			village.appentNotice(sign()+"podarilo sa splni úlohu: "+SubQuests.getName(subQuest)+"");
-		else
-			village.appentNotice(sign()+"nepodarilo sa splni úlohu: "+SubQuests.getName(subQuest)+" z dôvodu: "+SubEvents.getName(subEvent));
+	public void finishSubQuest(boolean success, byte subQuest, byte subEvent) {	//skonèí subquest
+		if(success)	//ak dokonèil s úspechom
+			village.appentNotice(sign()+"podarilo sa splni úlohu: "+SubQuests.getName(subQuest)+"");	//napíše e to vyšlo
+		else	//ináè
+			village.appentNotice(sign()+"nepodarilo sa splni úlohu: "+SubQuests.getName(subQuest)+" z dôvodu: "+SubEvents.getName(subEvent));	//napíš e to nevyšlo a dôvod
 	}
 	
-	public String sign(){
-		return Buildings.getName(type)+": ";
+	public String sign(){	//vríti meno budovy
+		return Buildings.getName(type)+": ";	
 	}
 
-	public void finishQuest(int finishedQuest) {
-		resources.build();
-		Quest q = quests.get(finishedQuest);
-		village.appentNotice(sign()+"bola odoslaná poloka: "+Suroviny.getName(q.getResourceType())+" "+q.getValue()+"ks");
+	public void finishQuest(int finishedQuest) {	//skonèí subquest
+		resources.build();	//vyprodukuje èo by mal vyprodukova
+		window.updateResourcePanel();
+		Quest q = quests.get(finishedQuest);	//najkde dokonèenı quest v zozname questov
+		village.appentNotice(sign()+"bola odoslaná poloka: "+Suroviny.getName(q.getResourceType())+" "+q.getValue()+"ks");	//prilepí info o uspechu
 		
-		if(q.getFrom() == Buildings.OBCHOD)
-			village.getMarket().addResource(q.getResourceType(), q.getValue());
-		else{
-			BasicBuilding b = village.getBuilding(q.getFrom());
-			b.addResource(q.getResourceType(), q.getValue());
+		if(q.getFrom() == Buildings.OBCHOD)	//ak quest prišiel z obchodu
+			village.getMarket().addResource(q.getResourceType(), q.getValue());	//pošle suroviny do obchodu
+		else{	//ináè
+			BasicBuilding b = village.getBuilding(q.getFrom());	//najde budovu s ktorej prišiel quest
+			b.addResource(q.getResourceType(), q.getValue());	//pošle danej budove suroviny
 		}
+		quests.remove(q);//vymae quest zo zoznamu questov
 	}
 
+	public String toFile() {
+		String res = "";
+		for(Entry<Byte, Integer> e : resources.getOwned().entrySet()){
+			res += type+" "+e.getKey()+" "+e.getValue()+"\n";
+		}
+		return res;
+	}
+	
 	//GETTERS
 	
 	public Village getVillage() {

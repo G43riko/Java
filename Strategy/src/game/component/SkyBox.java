@@ -8,7 +8,7 @@ import glib.util.vector.GVector3f;
 
 public class SkyBox extends GameComponent{
 	private static int size = (int)(Math.sqrt(1000*1000/4));
-	private Texture2D texture = new Texture2D("skyHD2.jpg");
+	private Texture2D texture;
 	private Model model = getBox(1,1,1);
 	private Camera camera;
 	private float rotationSpeed = 0.001f;
@@ -16,8 +16,13 @@ public class SkyBox extends GameComponent{
 	//CONSTRUCTORS
 	
 	public SkyBox(Camera camera) {
+		this(camera, "skyHD2.jpg");
+	}
+	
+	public SkyBox(Camera camera, String fileName) {
 		super(GameComponent.SKY_BOX);
-		setScale(new GVector3f(size,size,size));
+		texture = new Texture2D(fileName);
+		setScale(new GVector3f(size));
 		this.camera = camera;
 	}
 	
@@ -97,23 +102,23 @@ public class SkyBox extends GameComponent{
 				 		  0.50f,0.50f+t,
 				 		  0.50f,0.75f+t,};
 		
-		int[] indices ={3,1,0,	
-						2,1,3,	
+		int[] indices ={0,1,3,	
+						3,1,2,	
 						
-						4,5,7,
-						7,5,6,
+						7,5,4,
+						6,5,7,
 						
-						11,9,8,
-						10,9,11,
+						8,9,11,
+						11,9,10,
 						
-						12,13,15,
-						15,13,14,
+						15,13,12,
+						14,13,15,
 						
-						19,17,16,
-						18,17,19,
+						16,17,19,
+						19,17,18,
 						
-						20,21,23,
-						23,21,22};
+						23,21,20,
+						22,21,23};
 		
 		return new Loader().loadToVAO(vertices, texture, indices);
 	}
@@ -124,5 +129,12 @@ public class SkyBox extends GameComponent{
 
 	public Model getModel() {
 		return model;
+	}
+
+	
+	//SETTERS
+	
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 }

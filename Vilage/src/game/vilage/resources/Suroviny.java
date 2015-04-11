@@ -80,7 +80,7 @@ public final class Suroviny {
 		resourcesNames.put(ZELEZNA_RUDA, "Železná ruda");
 		resourcesNames.put(ZELEZO, "Železo");
 		resourcesNames.put(PIVO, "Pivo");
-		resourcesNames.put(KLOBASA, "KLOBASA");
+		resourcesNames.put(KLOBASA, "Klobása");
 		resourcesNames.put(VLNA, "Vlna");
 		resourcesNames.put(SATY, "Šaty");
 		resourcesNames.put(RYBA, "Ryba");

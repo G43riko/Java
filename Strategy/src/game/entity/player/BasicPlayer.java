@@ -52,7 +52,7 @@ public class BasicPlayer extends GameComponent{
 	//OTHERS
 	
 	public boolean checkGround(){
-		return (world.getBlock(getCamera().getPosition().add(new GVector3f(0,-Player.HEIGHT,0)))!=null);
+		return (world.getBlock(camera.getPosition().add(new GVector3f(0,-Player.HEIGHT,0)))!=null);
 	}
 	
 	//OVERRIDES
@@ -61,7 +61,7 @@ public class BasicPlayer extends GameComponent{
 //		direction = dir.mul(new GVector3f(1,0,1)).Normalized();
 		GVector3f x = new GVector3f(dir.getX(), 0, 0);
 		GVector3f z = new GVector3f(0, 0, dir.getZ());
-		GVector3f pos = getCamera().getPosition();
+		GVector3f pos = camera.getPosition();
 		if(StrategyGame.FLY_MODE){
 			camera.move(x);
 			camera.move(z);
@@ -200,9 +200,9 @@ public class BasicPlayer extends GameComponent{
 		return world;
 	}
 
-	public Camera getCamera() {
-		return camera;
-	}
+//	public Camera getCamera() {
+//		return camera;
+//	}
 
 	public int getSelectBlock() {
 		return selectBlock;

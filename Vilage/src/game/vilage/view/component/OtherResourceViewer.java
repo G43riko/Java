@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class OtherResourceSelector extends JPanel{
+public class OtherResourceViewer extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel owned;
@@ -29,7 +29,7 @@ public class OtherResourceSelector extends JPanel{
 	
 	//CONSTRUCTORS
 	
-	public OtherResourceSelector(byte type, int need, int have, BasicBuilding parent){
+	public OtherResourceViewer(byte type, int need, int have, BasicBuilding parent){
 		this.parent = parent;
 		this.type = type;
 		
@@ -48,16 +48,14 @@ public class OtherResourceSelector extends JPanel{
 	//OTHERS
 
 	public void updateValue() {
-		owned.setText(String.valueOf(parent.getResources().getOwned().get(type)));
-		int have = 0;
 		if(parent.getResources().getOwned().containsKey(type))
-			have = parent.getResources().getOwned().get(type);
-		int need = 0;
+			owned.setText(String.valueOf(parent.getResources().getOwned().get(type)));
 		
-		if(parent.getResources().getRequired().containsKey(type))
-			need = have = parent.getResources().getRequired().get(type);
-		
-		buy.setVisible(have < need);
+		buy.setVisible(parent.getResources().getOwned(type) < parent.getResources().getRequired(type));
+	}
+	
+	public void clear(){
+		removeAll();
 	}
 	
 	//GETTERS
@@ -71,5 +69,4 @@ public class OtherResourceSelector extends JPanel{
 	public void setValue(int val){
 		owned.setText(val+"");
 	}
-
 }

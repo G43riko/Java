@@ -19,41 +19,27 @@ import game.world.World;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
-import javax.swing.JFrame;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-public abstract class CoreGame extends JFrame{
+public abstract class CoreGame extends CoreEngine{
 	private static final long serialVersionUID = 1L;
-	private ArrayList<GameComponent> scene;
-	private RenderingEngine renderingEngine;
-	private Gui gui;
-	private Loader loader;
+	
 	private SkyBox skyBox;
 	private Player player;
 	private World world;
 	private PointLight sun;
-	private MousePicker mousePicker;
-	private boolean running;
+
 	private boolean[] clicks = new boolean[2];
 	
 	//CONSTRUCTORS
 	
 	public CoreGame(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
-		scene = new ArrayList<GameComponent>();
-		running = false;
 	}
 	
 	//OTHERS
-	
-	public void createWindow(CoreGame game){
-		gui = Window.createWindow(game);
-	};
-	
-	public abstract void init();
 	
 	public void start(){
 		running = true;
@@ -128,11 +114,7 @@ public abstract class CoreGame extends JFrame{
 		}
 	}
 
-	public void stop(){
-		running = false;
-	}
-
-	private void input() {
+	protected void input() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){ 
 			//normal
 			//inverse
@@ -163,29 +145,7 @@ public abstract class CoreGame extends JFrame{
 		}
 	}
 	
-	public void cleanUp(){
-		running = false;
-		renderingEngine.cleanUp();
-		Window.cleanUp();
-	}
-
-	public void addToScene(GameComponent g){
-		scene.add(g);
-	}
-
 	//GETTERS
-
-	public RenderingEngine getRenderingEngine() {
-		return renderingEngine;
-	}
-
-	public Gui getGui(){
-		return gui;
-	}
-
-	public Loader getLoader() {
-		return loader;
-	}
 
 	public SkyBox getSkyBox() {
 		return skyBox;
@@ -199,23 +159,7 @@ public abstract class CoreGame extends JFrame{
 		return world;
 	}
 
-	public void setLoader(Loader loader) {
-		this.loader = loader;
-	}
-
 	//SETTERS
-	
-	protected void setRenderingEngine(RenderingEngine renderingEngine) {
-		this.renderingEngine = renderingEngine;
-	}
-	
-	protected void setMainCamera(Camera camera) {
-		addToScene(camera);
-		renderingEngine.setMainCamera(camera);
-		RenderingEngine.entityShader.bind();
-		RenderingEngine.entityShader.updateUniform("projectionMatrix", camera.getProjectionMatrix());
-		RenderingEngine.entityShader.unbind();
-	}
 	
 	public void setSkyBox(SkyBox skyBox) {
 		this.skyBox = skyBox;
@@ -246,9 +190,5 @@ public abstract class CoreGame extends JFrame{
 //		l.add(g);
 //		l.add(b);
 		renderingEngine.setLights(l);
-	}
-
-	public void setMousePicker(Player player){
-		mousePicker = new MousePicker(player.getCamera());
 	}
 }

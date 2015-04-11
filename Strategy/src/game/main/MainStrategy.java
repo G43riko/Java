@@ -1,6 +1,6 @@
 package game.main;
 
-import game.core.CoreGame;
+import game.core.CoreEngine;
 
 public class MainStrategy {
 	public final static boolean MIP_MAPPING = true;
@@ -17,8 +17,9 @@ public class MainStrategy {
 	public static int HEIGHT = 720;
 	
 	public static void main(String[] args) {
-		CoreGame game = new StrategyGame();
-//		CoreGame game = new ParticleTester();
+//		CoreEngine game = new StrategyGame();
+		CoreEngine game = new PhysicsTester();
+//		CoreEngine game = new ParticleTester();
 		
 		game.createWindow(game);
 		game.init();

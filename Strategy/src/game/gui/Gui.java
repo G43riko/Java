@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import game.core.CoreEngine;
 import game.core.CoreGame;
 import game.gui.menu.BMenu;
 import game.gui.menu.RMenu;
@@ -22,7 +23,7 @@ public class Gui extends JPanel{
 	private RMenu rmenu;
 	private BMenu bmenu;
 	
-	public Gui(CoreGame game) {
+	public Gui(CoreEngine game) {
 		setLayout(new BorderLayout());
 		setBackground(Color.blue);
 		init();

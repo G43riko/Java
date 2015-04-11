@@ -26,7 +26,6 @@ public class Player extends BasicPlayer{
 	
 	public Player(World world, Camera camera){
 		super(null);
-		camera.setPosition(world.getMaxSize().div(new GVector3f(2,1,2)));
 		setPosition(camera.getPosition());
 		this.world = world;
 		this.camera = camera;

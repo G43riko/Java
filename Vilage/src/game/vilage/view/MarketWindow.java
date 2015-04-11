@@ -3,12 +3,15 @@ package game.vilage.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,12 +27,33 @@ public class MarketWindow extends Window{
 	private Market market;
 	private JScrollPane panel;
 	private JTextArea text;
+	private MarketWindow window;
 	private HashMap<Byte, MarketResourceSelector> resourcesSelectors = new HashMap<Byte, MarketResourceSelector>();
+	
+	//ACTIONS
+	
+	private WindowListener onExit = new WindowListener(){
+		public void windowActivated(WindowEvent e) {}
+		public void windowClosed(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {	//metoda pri zatv·ranÌ okna
+			if(JOptionPane.showConfirmDialog(window, "Naozaj chceö skonËiù?","Posledn· öanca na n·vrat",0) == JOptionPane.YES_OPTION){	//ak chceme skonËiù
+				window.dispose();	//zavrie sa okno
+				market.getVillage().saveData();//uloûÌ sa aktualne mnoûstvo tovaru v budov·ch
+				System.exit(1);	//ukonËÌ sa aplik·cia
+			};
+		}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowOpened(WindowEvent e) {}
+		
+	};
 	
 	//CONSTRUCTORS
 	
 	public MarketWindow(Market market) {
 		this.market = market;
+		this.window = this;
 		init();
 	}
 	
@@ -38,15 +62,17 @@ public class MarketWindow extends Window{
 	private void init(){
 		setTitle("Medieaval Online Shop");
 		setLayout(new BorderLayout());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		add(getResouceSelectors(),BorderLayout.NORTH);
 		add(getBottomPanel(),BorderLayout.CENTER);
+		
+		addWindowListener(onExit);
 	}
 	
 	
-	public void appendNotice(int type, int value, byte resource){
-		switch(type){
+	public void appendNotice(int type, int value, byte resource){	//podla typu ozn·menie vytvor˝ string
+		switch(type){	//vyberie si aktualny typ ozn·menie
 			case Market.GOODS_SHIPPED:
 				appendNotice("Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks");
 				break;
@@ -59,25 +85,21 @@ public class MarketWindow extends Window{
 			default:
 				appendNotice("System: Lutujeme ale nastala straön· chyba:");
 		}
-		
 	}
 	
-	public void appendNotice(String s){
-		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));
-		text.append(s+" o: "+time+"\n");
-		
+	public void appendNotice(String s){	//prilepÌ string
+		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));	//prid· aktualny Ëas
+		text.append(s+" o: "+time+"\n");	//prilepÌ text
 	}
 	
-	public void updateValue(byte type){
-		resourcesSelectors.get(type).Update(market.getResources().get(type));
+	public void updateValue(byte type){	//aktualizuje panel s konkrÈtnou surovinou
+		resourcesSelectors.get(type).update(market.getResources().get(type));
 	}
 
 	//GETTERS
 
 	public JPanel getResouceSelectors(){
-		JPanel panel = new JPanel();
-		
-		panel.setLayout(new GridLayout(4,1));
+		JPanel panel = new JPanel(new GridLayout(4,1));
 		
 		for(Entry<Byte, Integer> e : market.getResources().entrySet()){
 			resourcesSelectors.put(e.getKey(), new MarketResourceSelector(e.getKey(), e.getValue(), market));

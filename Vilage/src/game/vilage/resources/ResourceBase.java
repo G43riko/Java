@@ -26,9 +26,12 @@ public class ResourceBase {
 	}
 	
 	public boolean canWork(){
-		for(Entry<Byte, Integer> e : required.entrySet())
+		for(Entry<Byte, Integer> e : required.entrySet()){
+			if(!owned.containsKey(e.getKey()))
+				return false;
 			if(owned.get(e.getKey()) < e.getValue())
 				return false;
+		}
 		
 		return true;
 	}
@@ -44,6 +47,20 @@ public class ResourceBase {
 	}
 
 	//GETTERS
+	
+	public int getOwned(byte type){
+		int have = 0;
+		if(owned.containsKey(type))
+			have = owned.get(type);
+		return have;
+	}
+	
+	public int getRequired(byte type){
+		int need = 0;
+		if(required.containsKey(type))
+			need = required.get(type);
+		return need;
+	}
 	
 	public HashMap<Byte, Integer> getMissingResources(){
 		HashMap<Byte, Integer> missing = new HashMap<Byte, Integer>();
@@ -63,7 +80,6 @@ public class ResourceBase {
 		return produce;
 	}
 
-	
 	public HashMap<Byte, Integer> getOwned() {
 		return owned;
 	}

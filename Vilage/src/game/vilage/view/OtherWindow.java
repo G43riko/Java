@@ -30,7 +30,7 @@ public class OtherWindow extends Window{
 	
 	//OTHERS
 	
-	public void init(){
+	public void init(){	//inicializuje okno
 		setTitle("MOS: "+Buildings.getName(parent.getType()));
 		setLayout(new BorderLayout());
 		
@@ -39,35 +39,33 @@ public class OtherWindow extends Window{
 		add(createLeftPartOfView(),BorderLayout.CENTER);
 	}
 	
-	private JPanel createLeftPartOfView(){
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+	private JPanel createLeftPartOfView(){	//vytovrÌ lav˙ Ëasù okna
+		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(tPanel = new PanelTop(),BorderLayout.NORTH);
 		panel.add(bPanel = new PanelBottom(this),BorderLayout.CENTER);
 		return panel;
 	}
 		
-	public void changeSelectedQuest(Quest selectedQuest) {
+	public void changeSelectedQuest(Quest selectedQuest) {	//zmenÌ aktualny quest
 		bPanel.setActQuest(selectedQuest);
 		tPanel.setActQuest(selectedQuest);
 	}
 
-	public void updateQuests() {
+	public void updateQuests() {	//aktualizuje quest po pridanÌ alebo odobratÌ questu
 		rPanel.clear();
 		for(Quest q : parent.getQuests()){
 			rPanel.addQuest(q);
 		}
 	}
 
-	public void finishQuest(int finishedQuest) {
-		rPanel.removeQuest(parent.getQuests().get(finishedQuest));
-		bPanel.removeAll();
-		bPanel.updateUI();
-		parent.finishQuest(finishedQuest);
-		tPanel.setVisible(false);
+	public void finishQuest(int finishedQuest) {	//po dokonËenÌ quest
+		rPanel.removeQuest(parent.getQuests().get(finishedQuest));	//vymaûe quest s pravÈho panela
+		bPanel.removeAll();	//vymaûe spodn˝ panel
+		parent.finishQuest(finishedQuest);	//poöle rodiËovy spr·vu o dokonËen˝ questu
+		tPanel.setVisible(false);	//zneviditeln˝ vrch˝ panel s inform·ciami o quest 
 	}
 
-	public void updateResourcePanel() {
+	public void updateResourcePanel() {	//aktualizuje suroviny
 		resources.upateResources();
 	}
 	

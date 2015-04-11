@@ -28,14 +28,14 @@ public class StrategyGame extends CoreGame{
 //		setWorld(new World());
 		setWorld(new World("sandBox"));
 //		setWorld(new World("mainWorld.gw"));
-		
-		setPlayer(new Player(getWorld(), new Camera()));
-		setMainCamera(getPlayer().getCamera());
-		getWorld().setCamera(getPlayer().getCamera());
+		setCamera(new Camera());
+		getCamera().setPosition(getWorld().getMaxSize().div(new GVector3f(2,1,2)));
+		setPlayer(new Player(getWorld(), getCamera()));
+		getWorld().setCamera(getCamera());
 		setLoader(new Loader());
-		setSkyBox(new SkyBox(getPlayer().getCamera()));
+		setSkyBox(new SkyBox(getCamera()));
 		setSun(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
-		setMousePicker(getPlayer());
+		setMousePicker(getCamera());
 		
 //		addToScene(new ParticleEmmiter(new GVector3f(0,1,-5)));
 		

@@ -11,7 +11,7 @@ public class ParticleTester extends CoreGame{
 
 	public void init() {
 		setRenderingEngine(new RenderingEngine());
-		setMainCamera(new Camera());
+		setCamera(new Camera());
 		ParticleEmmiter e = new ParticleEmmiter(new GVector3f(0,-1,-5), "smoke.gp");
 //		e.saveToFile("smoke.gp");
 		addToScene(e);

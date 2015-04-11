@@ -1,4 +1,4 @@
-package game.vilage.utils;
+package util;
 
 public class Log {
 	public static void write(Object o){

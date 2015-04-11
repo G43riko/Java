@@ -32,19 +32,17 @@ public class PanelTop extends JPanel{
 		setPreferredSize(new Dimension(200,200));
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		heading = new JLabel();
+		add(heading = new JLabel());
 		heading.setFont(new Font("Serif", Font.BOLD, 52));
-		add(heading);
 		
-		startTime = new JLabel();
+		add(startTime = new JLabel());
 		startTime.setFont(new Font("Serif", Font.BOLD, 32));
-		add(startTime);
 		
-		progressBar = new JProgressBar(0,100);
+		add(progressBar = new JProgressBar(0,100));
 		progressBar.setValue(50);
 		progressBar.setStringPainted(true);
 		progressBar.setPreferredSize(new Dimension(570,30));
-		add(progressBar);
+		
 		setVisible(false);
 	}
 	

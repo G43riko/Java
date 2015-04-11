@@ -164,6 +164,7 @@ public class SubQuests {
 			case IST_DO_LESA: return "Õsù do lesa";
 			case NAJST_VHODNY_STROM: return "N·jsù vhodn˝ strom";
 			case DOTIAHNUT_STROM: return "Datiahnuù strom domou";
+			case ZOTAT_STROM: return "Zoùaù strom";
 			case ROZSEKAT_STROM: return "Rozsekaù strom";
 		
 			case PRIPRAVIT_NASTROJE: return "Pripraviù si n·stroje";

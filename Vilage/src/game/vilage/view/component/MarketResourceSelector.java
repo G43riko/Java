@@ -22,7 +22,6 @@ public class MarketResourceSelector extends JPanel{
 	private JSpinner value;
 	private JLabel max;
 	private int mininmum = 0;
-	private int maximum;
 	private JButton button;
 	private byte type;
 	private Market market;
@@ -49,16 +48,19 @@ public class MarketResourceSelector extends JPanel{
 		this.name = new JLabel(Suroviny.getName(type));
 		this.max = new JLabel(String.valueOf(max));
 		button = new JButton("k˙più");
-		button.addActionListener(buyEvent);
-		button.setVisible(false);
-		maximum = max;
+		value = new JSpinner(new SpinnerNumberModel(0,mininmum,max*2+20,1));
+
 		init();
+		
+		makeEnable(type == Suroviny.DREVO || type == Suroviny.NASTROJ);	//povol˝ iba k˙pu surovÌn ktorÈ s˙ dokonËenÈ
 	}
 	
 	//OTHERS
 	
 	private void init(){
-		value = new JSpinner(new SpinnerNumberModel(0,mininmum,maximum*2+20,1));
+		button.addActionListener(buyEvent);
+		button.setVisible(false);
+		
 		value.setPreferredSize(new Dimension(40,20));
 		value.addChangeListener(changeValueEvent);
 		add(name);
@@ -67,9 +69,14 @@ public class MarketResourceSelector extends JPanel{
 		add(button);
 	}
 	
-	public void Update(int maximum){
-		this.maximum = maximum;
+	private void makeEnable(boolean val){
+		value.setEnabled(val);
+		button.setVisible(val);
+	}
+	
+	public void update(int maximum){
 		max.setText(String.valueOf(maximum));
 		value.setValue(0);
+		((SpinnerNumberModel)value.getModel()).setMaximum(maximum*2+20);
 	}
 }

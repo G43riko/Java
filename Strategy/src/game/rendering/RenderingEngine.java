@@ -21,6 +21,7 @@ import game.entity.enemy.BasicEnemy;
 import game.entity.player.Player;
 import game.light.PointLight;
 import game.object.GameObject;
+import game.object.GameObjectWithLight;
 import game.particle.Particle;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;
@@ -37,7 +38,7 @@ import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
-public class RenderingEngine {
+public final class RenderingEngine {
 	public static final GBasicShader entityShader = new EntityShader();
 	public static final GBasicShader skyShader = new SkyShader();
 	public static final GBasicShader particleShader = new ParticleShader();
@@ -59,6 +60,7 @@ public class RenderingEngine {
 	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
 	private MousePicker mousePicker;
+	private GVector3f backgroundColor = new GVector3f();
 	
 	public class SelectBlock{
 		private Block block = null;
@@ -89,15 +91,16 @@ public class RenderingEngine {
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_FRONT);
+//		GL11.glCullFace(GL11.GL_FRONT);
+		GL11.glCullFace(GL11.GL_BACK);
 		
-		glClearColor(0, 1.0f, 0.0f, 0.10f);
+		glClearColor(backgroundColor.getX(), backgroundColor.getY(), backgroundColor.getZ(), 1f);
 		
 		setTexture(true);
 		setSpecular(false);
 		setLight(true);
 		setFog(false);
-		setAmbient(new GVector3f(1, 1, 1));
+		setAmbient(new GVector3f(1));
 		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
 	
@@ -208,12 +211,10 @@ public class RenderingEngine {
 		entityShader.updateUniform("view", view);
 	}
 
-	public void renderObject(GameObject object){
+	public void renderObjectWithLight(GameObjectWithLight object){
 		if(mainCamera == null)
 			return;
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
 		
 		entityShader.bind();
 		
@@ -230,10 +231,32 @@ public class RenderingEngine {
 		disableVertex(3);
 		
 		entityShader.updateUniform("fakeLight", false);
-		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_FRONT);
 	}
+	
+	public void renderObject(GameObject object){
+		if(mainCamera == null)
+			return;
+		
+		entityShader.bind();
+		
+		entityShader.updateUniform("transformationMatrix", object.getTransformationMatrix());
+		
+		setMaterial(object.getMaterial());
+		
+		prepareAndDraw(3, object.getModel());
+		
+		disableVertex(3);
+		
+		entityShader.updateUniform("fakeLight", false);
+	}
+	
+//	public void render(GameComponent component){
+//		entityShader.bind();
+//		entityShader.updateUniform("transformationMatrix", component.getTransformationMatrix());
+//		setMaterial(component.getMaterial());
+//		prepareAndDraw(3, component.getModel());
+//		disableVertex(3);
+//	}
 	
 	public void renderEnemy(BasicEnemy basicEnemy) {
 		if(mainCamera == null){

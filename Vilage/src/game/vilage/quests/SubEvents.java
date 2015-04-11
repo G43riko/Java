@@ -63,7 +63,6 @@ public class SubEvents {
 		subEventsToSubQuest.put(SubQuests.NAJST_VHODNY_STROM, list);
 		
 		list = new ArrayList<Byte>();
-		list.add(STRATENIE_SA_V_LESE);
 		list.add(UTOK_VLKA);
 		list.add(UTOK_DIVIAKA);
 		list.add(POZIAR);

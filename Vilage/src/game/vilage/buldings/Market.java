@@ -5,6 +5,7 @@ import game.vilage.resources.Suroviny;
 import game.vilage.view.MarketWindow;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class Market {
 	public final static byte GOODS_SHIPPED = 0;
@@ -22,50 +23,63 @@ public class Market {
 		this.village = village;
 		resources = Suroviny.getAllDefault();
 		
-		resources.put(Suroviny.CHLIEB, 20);
-		resources.put(Suroviny.DREVO, 40);
-		resources.put(Suroviny.KLOBASA, 5);
-		resources.put(Suroviny.NASTROJ, 25);
-		resources.put(Suroviny.KAMEN, 30);
-		resources.put(Suroviny.UHLIE, 35);
+//		resources.put(Suroviny.CHLIEB, 20);
+//		resources.put(Suroviny.DREVO, 40);
+//		resources.put(Suroviny.KLOBASA, 5);
+//		resources.put(Suroviny.NASTROJ, 25);
+//		resources.put(Suroviny.KAMEN, 30);
+//		resources.put(Suroviny.UHLIE, 35);
 		
 		window = new MarketWindow(this);
 	}
 
 	//OTHERS
 	
-	public void appendNotice(String s){
+	public void appendNotice(String s){	//prilepí oznámenie
 		window.appendNotice(s);
 	}
 	
-	public void showWindow(){
+	public void showWindow(){	//ukáže okno
 		window.setVisible(true);
 	}
 
 	public void addResource(byte resource, int value){
-		if(resources.containsKey(resource))
-			resources.put(resource, resources.get(resource) + value);
-		else
-			resources.put(resource,value);
+		addResource(resource, value, false);
+	}
+	
+	public void addResource(byte resource, int value, boolean hideNotice){	//pridá suroviny
+		if(resources.containsKey(resource))	//ak obsahuje už surovinu
+			resources.put(resource, resources.get(resource) + value);	//zvaèší jej množstvo
+		else	//ináè
+			resources.put(resource,value);	//ju pridá
 		
-		window.updateValue(resource);
-		window.appendNotice(GOODES_RECEIVED, value, resource);
+		window.updateValue(resource);	//updatne okno
+		if(!hideNotice)
+			window.appendNotice(GOODES_RECEIVED, value, resource);	//prilepí správu o doruèení
 	}
 
-	public void wantBuy(byte type, int value) {
-		if(resources.get(type) >= value){
-			window.appendNotice(GOODS_SHIPPED, value, type);
-			addResource(type,-value);
+	public void wantBuy(byte type, int value) {	//zistí èi má dostatok surovin na sklade a ak nie tak si objedná suroviny podla potreby
+		if(resources.get(type) >= value){	//ak je viac surovín na sklade ako je objednaných
+			window.appendNotice(GOODS_SHIPPED, value, type);	//napíše správu o odoslaní surovín
+			addResource(type,-value);	//odráta suroviny zo skladu
 		}
-		else{
-			int missing = value - resources.get(type);
-			window.appendNotice(REQUEST_WAS_SENT, missing, type);
-			BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));
-			b.showWindow();
-			b.addQuest(type,Buildings.OBCHOD, missing);
+		else{	//ináè
+			int missing = value - resources.get(type);	//vypoèíta kolko surovín chýba
+			window.appendNotice(REQUEST_WAS_SENT, missing, type);	//napíše správu o odoslaní požiadavky na chýbajúce suroviny 
+			BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));	//najde budovu ktorá vyrába chýbajúcu surovinu
+			b.showWindow();	//zobrazí okno najdenej budovy
+			b.addQuest(type,Buildings.OBCHOD, missing);	//pridá quest danej budove
 		}
 	}
 
+	public String toFile() {
+		String res = "";
+		for(Entry<Byte, Integer> e : resources.entrySet()){
+			res += Buildings.OBCHOD+" "+e.getKey()+" "+e.getValue()+"\n";
+		}
+		return res;
+	}
+	
 	//GETTERS
 	
 	public HashMap<Byte, Integer> getResources() {
@@ -74,5 +88,9 @@ public class Market {
 	
 	public MarketWindow getWindow() {
 		return window;
+	}
+
+	public Village getVillage() {
+		return village;
 	}
 }

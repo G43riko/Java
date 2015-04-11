@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -28,8 +29,14 @@ public class PanelRight extends JPanel{
 		public void valueChanged(ListSelectionEvent e) {
 			if(!e.getValueIsAdjusting()){
 				Quest q = ((JList<Quest>)e.getSource()).getSelectedValue();
-				if(parent.getParrent().getQuests().contains(q))
-					parent.changeSelectedQuest(q);
+				if(parent.getParrent().getQuests().contains(q)){
+					if(parent.getParrent().getResources().canWork())
+						parent.changeSelectedQuest(q);
+					else{
+						JOptionPane.showMessageDialog(parent, "Nedostatok surovín!!.", "Strašný error mesidž",JOptionPane.WARNING_MESSAGE);
+						list.clearSelection();
+					}
+				}
 			}
 		}
 	};

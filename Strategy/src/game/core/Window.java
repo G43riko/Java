@@ -18,7 +18,7 @@ public class Window {
 	
 	//CREATORS
 	
-	public static Gui createWindow(CoreGame game){
+	public static Gui createWindow(CoreEngine game){
 		Gui gui = new Gui(game);
 		if(!MainStrategy.SHOW_GUI){
 			Display.setLocation(0, 0);
@@ -80,7 +80,7 @@ public class Window {
 	
 	//OTHRES
 	
-	private static void initFrame(CoreGame game) {
+	private static void initFrame(CoreEngine game) {
 		game.setResizable(true);
 		if(MainStrategy.FULLSCREEN){
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -5,7 +5,7 @@ import game.vilage.resources.ResourceBase;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.JPanel;
@@ -13,28 +13,15 @@ import javax.swing.JPanel;
 public class ResourcesPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<OtherResourceSelector> res = new ArrayList<OtherResourceSelector>();
+	private HashMap<Byte, OtherResourceViewer> res = new HashMap<Byte, OtherResourceViewer>(); 
+	private BasicBuilding parent;
 	
 	//CONSTRUCTORS
 	
 	public ResourcesPanel(BasicBuilding basicBuilding){
+		this.parent = basicBuilding;
 		init();
-		
-		ResourceBase resources = basicBuilding.getResources();
-		
-		for(Entry<Byte, Integer> e : resources.getAll().entrySet()){
-			int need = 0;
-			if(resources.getRequired().containsKey(e.getKey()))
-				need = resources.getRequired().get(e.getKey());
-			
-			int have = 0;
-			if(resources.getOwned().containsKey(e.getKey())){
-				have = resources.getOwned().get(e.getKey());
-			}
-			OtherResourceSelector ors = new OtherResourceSelector(e.getKey(),need, have, basicBuilding);
-			add(ors);
-			res.add(ors);
-		}
+		upateResources();
 	}
 	
 	//OTHERS
@@ -46,8 +33,18 @@ public class ResourcesPanel extends JPanel{
 	}
 	
 	public void upateResources() {
-		for(OtherResourceSelector ors : res){
-			ors.updateValue();
+		ResourceBase resources = parent.getResources();
+		
+		for(Entry<Byte, Integer> e : resources.getAll().entrySet()){	//prejde všetkými surovinamy
+			if(res.containsKey(e.getKey()))	//ak už je vypísaná
+				res.get(e.getKey()).updateValue();	//aktualizuje ju to
+			else{	//ináè
+				int need = resources.getRequired(e.getKey());
+				int have = resources.getOwned(e.getKey());
+				
+				res.put(e.getKey(),new OtherResourceViewer(e.getKey(),need, have, parent));	//vytvorí nový viewer a pridá ho do zoznamu viewerov
+				add(res.get(e.getKey()));	//aj do panelu
+			}
 		}
 	}
 

@@ -20,7 +20,7 @@ public class OBJLoader {
 		if(loadedModels.containsKey(fileName)){
 			return loadedModels.get(fileName);
 		}
-		
+		String line = "";
 		
 		FileReader fr = null;
 		try {
@@ -30,7 +30,7 @@ public class OBJLoader {
 			e.printStackTrace();
 		}
 		BufferedReader reader = new BufferedReader(fr);
-		String line;
+		
 		List<Vector3f> vertices = new ArrayList<Vector3f>();
 		List<Vector2f> textures = new ArrayList<Vector2f>();
 		List<Vector3f> normals = new ArrayList<Vector3f>();
@@ -86,6 +86,7 @@ public class OBJLoader {
 			}
 			reader.close();
 		}catch(Exception e){
+			System.out.println("line: "+line);
 			System.out.println("Nastala chyba pri èítaní zo súboru v "+fileName+" :  "+e);
 		}
 		verticesArray = new float[vertices.size()*3];

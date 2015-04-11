@@ -6,6 +6,7 @@ import game.Line;
 import game.component.GameComponent;
 import game.entity.Bullet;
 import game.entity.player.Player;
+import game.physics.Enviroment;
 import game.rendering.RenderingEngine;
 import game.rendering.model.Model;
 import game.util.Loader;
@@ -74,7 +75,7 @@ public class BasicEnemy extends GameComponent{
 		else{
 			move(direction.mul(new GVector3f(0, 1, 0)));
 			
-			direction = direction.add(Player.GRAVITY);
+			direction = direction.add(Enviroment.GRAVITY);
 			
 			if(direction.getY() < 0 && getPosition().getY() <= 2){
 				getPosition().setY(2);

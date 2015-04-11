@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import game.entity.player.Player;
+import game.physics.Enviroment;
 import game.rendering.RenderingEngine;
 import game.rendering.material.Material;
 import game.rendering.material.Texture2D;
@@ -279,7 +280,7 @@ public class Block extends BasicBlock{
 		if(!direction.isNull()){
 			relativePos = relativePos.add(direction);
 			if(direction.getY() > -Player.MAX_FALLING_SPEED);
-				direction = direction.add(Player.GRAVITY);
+				direction = direction.add(Enviroment.GRAVITY);
 			if(world != null && getPosition() != null && relativePos != null ){
 				Block imp = world.getBlock(getPosition().add(relativePos).sub(new GVector3f(0,Block.HEIGHT,0)));
 				if(imp != null && imp.isClickable()){

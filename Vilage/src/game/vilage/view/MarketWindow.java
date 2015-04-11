@@ -3,6 +3,10 @@ package game.vilage.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.SimpleDateFormat;
@@ -11,8 +15,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -31,6 +37,26 @@ public class MarketWindow extends Window{
 	private HashMap<Byte, MarketResourceSelector> resourcesSelectors = new HashMap<Byte, MarketResourceSelector>();
 	
 	//ACTIONS
+	
+	private MouseAdapter showPopUpMenu = new MouseAdapter(){
+		public void mouseReleased(MouseEvent e){
+	        if (e.isPopupTrigger())
+	            doPop(e);
+	    }
+
+	    private void doPop(MouseEvent e){
+	    	JMenuItem clearNoticesItem = new JMenuItem("Clear");
+	    	clearNoticesItem.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					text.setText("");
+				}
+	    	});
+	    	
+	    	JPopupMenu menu = new JPopupMenu();
+	    	menu.add(clearNoticesItem);
+	        menu.show(e.getComponent(), e.getX(), e.getY());
+	    }
+	};
 	
 	private WindowListener onExit = new WindowListener(){
 		public void windowActivated(WindowEvent e) {}
@@ -118,7 +144,7 @@ public class MarketWindow extends Window{
 		
 
 		text.setEditable(false);
-		
+		text.addMouseListener(showPopUpMenu);
 		return panel;
 	}
 	

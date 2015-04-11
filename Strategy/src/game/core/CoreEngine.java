@@ -2,17 +2,21 @@ package game.core;
 
 import java.util.ArrayList;
 
+import game.GameObjectPhysics;
 import game.component.Camera;
 import game.component.GameComponent;
 import game.gui.Gui;
 import game.main.MainStrategy;
+import game.object.GameObject;
 import game.rendering.RenderingEngine;
 import game.util.Loader;
 import game.util.MousePicker;
+import game.util.OBJLoader;
 import glib.util.GLog;
 
 import javax.swing.JFrame;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 public abstract class CoreEngine extends JFrame{
@@ -74,6 +78,12 @@ public abstract class CoreEngine extends JFrame{
 	}
 	
 	protected void input(){
+		if(Mouse.isButtonDown(0)){
+			GameObjectPhysics o = new GameObjectPhysics(OBJLoader.loadObjModel("sphere", loader));
+			o.setPosition(camera.getPosition());
+			o.setDirection(camera.getForward().mul(-1));
+			addToScene(o);
+		}
 		for(GameComponent g: scene){
 			g.input();
 		}

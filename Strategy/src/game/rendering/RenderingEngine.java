@@ -56,7 +56,7 @@ public final class RenderingEngine {
 	private GVector2f mousePos;
 	private GVector2f mouseDir;
 	private PointLight sun;
-	private List<PointLight> lights;
+	private List<PointLight> lights = new ArrayList<PointLight>();
 	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
 	private MousePicker mousePicker;

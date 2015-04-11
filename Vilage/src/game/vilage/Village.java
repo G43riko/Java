@@ -24,17 +24,6 @@ public class Village {
 		market = new Market(this);
 		market.showWindow();
 		
-		for(int i=0 ; i<5 ; i++){
-			try {
-				Thread.sleep(800);
-				market.appendNotice("èáv");
-				System.out.println("muhahaa");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 //		Model.loadData(this);
 //		building.get(Buildings.DREVORUBAC).showWindow();
 	}

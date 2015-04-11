@@ -230,6 +230,10 @@ public class GVector3f {
 	public GVector2f getZY() { return new GVector2f(z, y); }
 	public GVector2f getXZ() { return new GVector2f(x, z); }
 
+	public float average(){
+		return (x+y+z) / 3;
+	}
+	
 	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this; }
 	public GVector3f set(GVector3f r) { set(r.getX(), r.getY(), r.getZ()); return this; }
 	

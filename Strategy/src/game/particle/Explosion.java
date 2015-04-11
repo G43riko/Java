@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.component.GameComponent;
 import game.entity.player.Player;
+import game.physics.Enviroment;
 import game.rendering.RenderingEngine;
 import game.world.Block;
 import glib.util.vector.GVector3f;
@@ -47,7 +48,7 @@ public class Explosion extends GameComponent{
 		ArrayList<BlockPart> forRemove = new ArrayList<BlockPart>();
 		for(BlockPart b:blocks){
 			b.b.move(b.dir);
-			b.dir = b.dir.add(Player.GRAVITY);
+			b.dir = b.dir.add(Enviroment.GRAVITY);
 			b.b.rotate(b.rot);
 			b.life--;
 			b.b.setScale(b.b.getScale().sub(0.01f));

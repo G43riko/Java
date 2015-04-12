@@ -33,7 +33,7 @@ public class Gui extends JPanel{
 
 		public void init() {
 		
-		tmenu = new TMenu();
+		tmenu = new TMenu(this);
 		add(tmenu,BorderLayout.NORTH);
 		
 		bmenu = new BMenu();
@@ -50,6 +50,10 @@ public class Gui extends JPanel{
 	
 	public Canvas getCanvas() {
 		return canvas;
+	}
+
+	public RMenu getRmenu() {
+		return rmenu;
 	}
 
 }

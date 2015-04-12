@@ -1,5 +1,7 @@
 package game.gui.menu;
 
+import game.gui.Gui;
+import game.gui.windows.PhysicsWindow;
 import game.main.MainStrategy;
 import glib.util.GLog;
 
@@ -17,6 +19,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class TMenu extends JMenuBar{
 	private static final long serialVersionUID = 1L;
+	
+	private Gui gui;
 	private JMenu menuA;
 	private JMenu menuB;
 	private MouseListener onClick = new MouseListener(){
@@ -27,7 +31,8 @@ public class TMenu extends JMenuBar{
 		public void mouseReleased(MouseEvent e) {}
 	};
 	
- 	public TMenu(){
+ 	public TMenu(Gui gui){
+ 		this.gui = gui;
 		if(MainStrategy.OSLOOK){
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -41,27 +46,29 @@ public class TMenu extends JMenuBar{
 		initMenuB();
 	}
 
+ 	
 	private void initMenuB() {
 		menuB = new JMenu("View");
-		menuB.addMouseListener(onClick);
+//		menuB.addMouseListener(onClick);
 		add(menuB);
 		
-		initME();
+		initMaterialEditor();
+		initShowPhysics();
 	}
 	
 	private void initMenuA() {
 		menuA = new JMenu("Files");
-		menuA.addMouseListener(onClick);
+//		menuA.addMouseListener(onClick);
 		add(menuA);
 		
-		initNM();
-		initOM();
-		initSM();
-		initE();
+		initNewMap();
+		initOpenMap();
+		initSaveMap();
+		initExit();
 		
 	}
 	
-	private void initME(){
+	private void initMaterialEditor(){
 		JMenuItem menuItem = new JMenuItem("Material editor", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -71,8 +78,20 @@ public class TMenu extends JMenuBar{
 		menuB.add(menuItem);
 	}
 	
+	private void initShowPhysics() {
+		JMenuItem menuItem = new JMenuItem("zobraziù fyziku", KeyEvent.VK_T);
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("klikol si na showPhysics");
+//				gui.getRmenu().removeAll();
+				gui.getRmenu().add(new PhysicsWindow(gui.getRmenu()));
+				gui.getRmenu().updateUI();
+			}
+		});
+		menuB.add(menuItem);
+	}
 	
-	private void initE() {
+	private void initExit() {
 		JMenuItem menuItem = new JMenuItem("Exit", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +102,7 @@ public class TMenu extends JMenuBar{
 		menuA.add(menuItem);
 	}
 
-	private void initSM() {
+	private void initSaveMap() {
 		JMenuItem menuItem = new JMenuItem("Save Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +112,7 @@ public class TMenu extends JMenuBar{
 		menuA.add(menuItem);
 	}
 
-	private void initOM() {
+	private void initOpenMap() {
 		JMenuItem menuItem = new JMenuItem("Opem Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +122,7 @@ public class TMenu extends JMenuBar{
 		menuA.add(menuItem);
 	}
 
-	private void initNM(){
+	private void initNewMap(){
 		JMenuItem menuItem = new JMenuItem("New Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {

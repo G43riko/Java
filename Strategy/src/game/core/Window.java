@@ -19,7 +19,7 @@ public class Window {
 	//CREATORS
 	
 	public static Gui createWindow(CoreEngine game){
-		Gui gui = new Gui(game);
+		;
 		if(!MainStrategy.SHOW_GUI){
 			Display.setLocation(0, 0);
 			Display.setTitle(MainStrategy.TITLE);
@@ -28,9 +28,8 @@ public class Window {
 					Display.setDisplayMode(Display.getDesktopDisplayMode());
 					Display.setFullscreen(true);
 				}
-				else{
+				else
 					Display.setDisplayMode(new DisplayMode(MainStrategy.WIDTH, MainStrategy.HEIGHT));
-				}
 				Display.create();
 				Keyboard.create();
 				Mouse.create();
@@ -38,8 +37,10 @@ public class Window {
 			return null;
 		}
 		else{
+			Gui gui;
 			initFrame(game);
-			game.add(gui);
+			game.add(gui = new Gui(game));
+			game.setVisible(true);
 			try {
 				Display.setParent(gui.getCanvas());
 		        Display.create();
@@ -89,7 +90,6 @@ public class Window {
 			game.setExtendedState(Frame.MAXIMIZED_BOTH);
 			game.setUndecorated(true);
 		}
-		game.setVisible(true);
 		game.setTitle(MainStrategy.TITLE);
 		game.setSize(MainStrategy.WIDTH, MainStrategy.HEIGHT);
 		game.setDefaultCloseOperation(CoreGame.EXIT_ON_CLOSE);

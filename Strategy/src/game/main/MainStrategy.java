@@ -4,8 +4,8 @@ import game.core.CoreEngine;
 
 public class MainStrategy {
 	public final static boolean MIP_MAPPING = true;
-	public final static boolean FULLSCREEN = false;
-	public final static boolean SHOW_GUI = false;
+	public final static boolean FULLSCREEN = true;
+	public final static boolean SHOW_GUI = true;
 	public final static boolean ALLERTS = true;
 	public final static boolean OSLOOK = false;
 	public final static boolean VSYNC = true;

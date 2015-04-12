@@ -1,6 +1,9 @@
 package game;
 
+import java.util.ArrayList;
+
 import game.object.GameObject;
+import game.physics.Collisions;
 import game.physics.Enviroment;
 import game.physics.colliders.BasicCollider;
 import game.physics.colliders.SphereCollider;
@@ -8,8 +11,11 @@ import game.rendering.model.Model;
 import glib.util.vector.GVector3f;
 
 public class GameObjectPhysics extends GameObject{
-	private BasicCollider collider = new SphereCollider(this,1);
-	private float odrazivost = 0.8f;
+	private static ArrayList<GameObjectPhysics> objects = new ArrayList<GameObjectPhysics>();
+	
+	private BasicCollider collider;
+	private float odrazivost = 0.5f;
+	private float bouncingLimit = 0.02f;
 	private float weight = 1;
 	private GVector3f direction = new GVector3f();
 	
@@ -17,17 +23,34 @@ public class GameObjectPhysics extends GameObject{
 	
 	public GameObjectPhysics(Model model) {
 		super(model);
-		weight = (float)Math.random()*2;
-		setScale(new GVector3f((float)Math.random()+0.5f));
+		weight = (float)Math.random() * 2; //0 - 2
+		setScale(new GVector3f((float)Math.random()+0.5f));	//0.5 - 1.5
+		collider = new SphereCollider(this);
+		
+		objects.add(this);
 	}
 	
 	//OVERRIDES
 	
 	public void update() {
-		move(direction);
-		direction = direction.add(Enviroment.GRAVITY.mul(weight));
+		move(direction.mul(Enviroment.SPEED));
+		direction = direction.add(Enviroment.GRAVITY.mul(weight).mul(Enviroment.SPEED).mul(Enviroment.FRICTION));
 		collider.checkBorders(true);
 		
+		for(GameObjectPhysics g : objects){
+			if(g.equals(this))
+				continue;
+			GVector3f pos = g.getPosition();
+			if(Collisions.SphereSphereCollision(pos, ((SphereCollider)g.getCollider()).getRadius(), getPosition(), ((SphereCollider)collider).getRadius())){
+				GVector3f centerOfCollision = getPosition().add(pos).div(2);
+				
+//				g.setDirection(g.getDirection().Rotate((centerOfCollision.sub(pos)), 180).mul(g.getOdrazivost()));
+//				direction = direction.Rotate((centerOfCollision.sub(getPosition())), 180).mul(odrazivost);
+				
+				g.setDirection((g.getDirection().sub(getPosition().sub(centerOfCollision))).mul(g.getOdrazivost()));
+				direction = (direction.sub(pos.sub(centerOfCollision))).mul(odrazivost);
+			}
+		}
 	}
 
 	//OTHERS

@@ -8,6 +8,8 @@ import glib.util.vector.GVector3f;
 public class SphereCollider extends BasicCollider{
 	private float radius;
 	
+	//CONSTRUCTORS
+	
 	public SphereCollider(GameObjectPhysics object){
 		this(object,object.getScale().average());
 	}
@@ -17,20 +19,14 @@ public class SphereCollider extends BasicCollider{
 		this.radius = radius;
 	}
 	
+	//OTHERS
+	
 	public boolean collision(GameObjectPhysics object){
 		if(object.getCollider() instanceof SphereCollider){
 			return Collisions.SphereSphereCollision(object.getPosition(), ((SphereCollider)object.getCollider()).getRadius(), this.object.getPosition(), radius);
 		}
 		return false;
 		
-	}
-
-	public float getRadius() {
-		return radius;
-	}
-
-	public float getDownDist() {
-		return radius;
 	}
 
 	public boolean checkBorders(boolean changeDirection) {
@@ -87,5 +83,22 @@ public class SphereCollider extends BasicCollider{
 		}
 		
 		return false;
+	}
+
+	//GETTERS
+	
+	public float getRadius() {
+		return radius;
+	}
+
+	public float getDownDist() {
+		return radius;
+	}
+
+	
+	//SETTERS
+	
+	public void setRadius(float radius) {
+		this.radius = radius;
 	}
 }

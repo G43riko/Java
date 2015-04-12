@@ -1,5 +1,6 @@
 package game.gui.menu;
 
+import game.main.MainStrategy;
 import glib.util.GColor;
 
 import java.awt.Color;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 
 public class RMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private final static int width = 200;
+	private final static int width = MainStrategy.WIDTH/6;
 	private GColor bgColor = new GColor(1,0,1);
 	
 	public RMenu(){

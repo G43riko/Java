@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import org.engine.physics.Enviroment;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
@@ -13,7 +11,9 @@ import org.engine.util.Maths;
 import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.physics.physics.Enviroment;
 import org.strategy.entity.player.Player;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;

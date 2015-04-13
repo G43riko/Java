@@ -1,7 +1,7 @@
 package org.strategy.world;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

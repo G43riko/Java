@@ -1,9 +1,9 @@
 package org.engine.world;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

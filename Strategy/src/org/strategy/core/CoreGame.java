@@ -12,7 +12,6 @@ import org.engine.component.GameComponent;
 import org.engine.component.SkyBox;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.util.Loader;
 import org.engine.util.MousePicker;
@@ -22,6 +21,7 @@ import org.lwjgl.opengl.Display;
 import org.strategy.component.CameraStrategy;
 import org.strategy.entity.Bullet;
 import org.strategy.entity.player.Player;
+import org.strategy.rendering.RenderingEngine;
 import org.strategy.world.World;
 
 public abstract class CoreGame extends CoreEngine{
@@ -108,8 +108,8 @@ public abstract class CoreGame extends CoreEngine{
 			getRenderingEngine().getSelectBlock().reset();
 		}
 		if(Mouse.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
-			getMousePicker().update();
-			addToScene(new Bullet(player.getPosition(), player.getPosition().add(getMousePicker().getCurrentRay().mul(10)), world, player));
+			getCamera().getMousePicker().update();
+			addToScene(new Bullet(player.getPosition(), player.getPosition().add(getCamera().getMousePicker().getCurrentRay().mul(10)), world, player));
 		}
 	}
 

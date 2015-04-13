@@ -3,10 +3,10 @@ package org.physics.object;
 import java.util.ArrayList;
 
 import org.engine.object.GameObject;
-import org.engine.physics.Enviroment;
-import org.engine.physics.colliders.BasicCollider;
-import org.engine.physics.colliders.SphereCollider;
 import org.engine.rendeing.model.Model;
+import org.physics.physics.Enviroment;
+import org.physics.physics.collider.BasicCollider;
+import org.physics.physics.collider.SphereCollider;
 
 import glib.math.GColision;
 import glib.util.vector.GVector3f;

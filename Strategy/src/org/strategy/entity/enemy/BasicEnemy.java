@@ -3,14 +3,14 @@ package org.strategy.entity.enemy;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
-import org.engine.physics.Enviroment;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.engine.util.OBJLoader;
 import org.engine.world.Line;
+import org.physics.physics.Enviroment;
 import org.strategy.entity.Bullet;
 import org.strategy.entity.player.Player;
+import org.strategy.rendering.RenderingEngine;
 import org.strategy.world.World;
 
 import glib.shapes.threeDimensional.Box;

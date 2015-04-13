@@ -3,9 +3,9 @@ package org.strategy.particles;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
-import org.engine.physics.Enviroment;
-import org.engine.rendeing.RenderingEngine;
+import org.physics.physics.Enviroment;
 import org.strategy.entity.player.Player;
+import org.strategy.rendering.RenderingEngine;
 import org.strategy.world.Block;
 
 import glib.util.vector.GVector3f;

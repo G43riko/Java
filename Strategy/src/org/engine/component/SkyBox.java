@@ -1,10 +1,10 @@
 package org.engine.component;
 
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.strategy.component.CameraStrategy;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 
@@ -13,7 +13,7 @@ public class SkyBox extends GameComponent{
 	private Texture2D texture;
 	private Model model = getBox(1,1,1);
 	private CameraStrategy camera;
-	private float rotationSpeed = 0.001f;
+	private GVector3f rotationSpeed = new GVector3f(0, 0.001f, 0);
 	
 	//CONSTRUCTORS
 	
@@ -31,7 +31,7 @@ public class SkyBox extends GameComponent{
 	//OVERRIDES
 	
 	public void update(){
-		rotate(new GVector3f(0,rotationSpeed,0));
+		rotate(rotationSpeed);
 		setPosition(camera.getPosition());
 	}
 	
@@ -138,5 +138,10 @@ public class SkyBox extends GameComponent{
 	
 	public void setCamera(CameraStrategy camera) {
 		this.camera = camera;
+	}
+
+	
+	public void setRotationSpeed(GVector3f rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
 	}
 }

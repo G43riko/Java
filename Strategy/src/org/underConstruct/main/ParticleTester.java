@@ -1,9 +1,9 @@
 package org.underConstruct.main;
 
 import org.engine.particles.ParticleEmmiter;
-import org.engine.rendeing.RenderingEngine;
 import org.strategy.component.CameraStrategy;
 import org.strategy.core.CoreGame;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

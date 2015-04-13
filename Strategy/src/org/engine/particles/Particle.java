@@ -1,13 +1,13 @@
 package org.engine.particles;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.engine.util.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;

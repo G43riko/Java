@@ -1,4 +1,4 @@
-package org.engine.rendeing;
+package org.strategy.rendering;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -41,7 +41,7 @@ public final class RenderingEngine {
 	private CameraStrategy mainCamera;
 	private GVector3f ambient;
 	private GVector3f backgroundColor = new GVector3f();
-	private MousePicker mousePicker;
+	
 	
 	static{
 		shaders.put("entityShader", new EntityShader());
@@ -147,9 +147,9 @@ public final class RenderingEngine {
 //				if(search && mainCamera.intersect(block.getPosition().add(block.getPoint(i, 0)), 
 //				    	  						  block.getPosition().add(block.getPoint(i, 1)),  
 //				    	  						  block.getPosition().add(block.getPoint(i, 2)))){
-				mousePicker.update();
+				getMainCamera().getMousePicker().update();
 				if(search && GVector3f.intersectRayWithSquare(mainCamera.getPosition(), 
-															  mainCamera.getPosition().add(mousePicker.getCurrentRay().mul(1000)),
+															  mainCamera.getPosition().add(getMainCamera().getMousePicker().getCurrentRay().mul(1000)),
 															  block.getPosition().add(block.getPoint(i, 0)), 
 															  block.getPosition().add(block.getPoint(i, 1)),  
 															  block.getPosition().add(block.getPoint(i, 2)))){
@@ -172,8 +172,6 @@ public final class RenderingEngine {
 			return;
 		}
 		getShader("particleShader").bind();
-		
-		
 		
 		getShader("particleShader").updateUniform("color", particle.getColor());
 		
@@ -373,8 +371,6 @@ public final class RenderingEngine {
 	
 	public void setMainCamera(CameraStrategy mainCamera) {
 		this.mainCamera = mainCamera;
-		this.mousePicker = new MousePicker(mainCamera);
-		mousePicker.update();
 		
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
 			getShader(s.getKey()).bind();
@@ -489,5 +485,4 @@ public final class RenderingEngine {
 	public static GBasicShader getShader(String name){
 		return shaders.get(name);
 	}
-	
 }

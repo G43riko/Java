@@ -1,6 +1,7 @@
 package org.engine.component;
 
 import org.engine.util.Maths;
+import org.engine.util.MousePicker;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -17,6 +18,8 @@ public class Camera extends GameComponent {
 	protected float NEAR_PLANE = 0.1f;
 	protected float FAR_PLANE = 1000;
 	protected float ASPECT_RATIO;
+	
+	private MousePicker mousePicker;
 	
 	private GMatrix4f projectionMatrix;
 	private GVector3f forward;
@@ -91,6 +94,11 @@ public class Camera extends GameComponent {
 		move(up.mul(-1).mul(MOVE_SPEED));
 	}
 
+	//SETTERS
+	
+	public void setMousePicker(MousePicker mousePicker) {
+		this.mousePicker = mousePicker;
+	}
 	
 	//GETTERS
 	
@@ -98,7 +106,10 @@ public class Camera extends GameComponent {
 		return projectionMatrix;
 	}
 
-	
+	public MousePicker getMousePicker() {
+		return mousePicker;
+	}
+
 	public GVector3f getForward() {
 		return forward;
 	}

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
 import org.engine.light.PointLight;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
+import org.strategy.rendering.RenderingEngine;
 
 public class GameObjectWithLight extends GameComponent{
 	protected Model model;

@@ -1,10 +1,10 @@
 package org.engine.component;
 
-import org.engine.rendeing.RenderingEngine;
 import org.engine.util.Maths;
 import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;

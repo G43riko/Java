@@ -1,6 +1,6 @@
 package org.strategy.entity.player;
 
-import org.engine.physics.Enviroment;
+import org.physics.physics.Enviroment;
 import org.strategy.component.CameraStrategy;
 import org.strategy.main.StrategyGame;
 import org.strategy.world.Block;

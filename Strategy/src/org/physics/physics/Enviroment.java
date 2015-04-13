@@ -1,4 +1,4 @@
-package org.engine.physics;
+package org.physics.physics;
 
 import glib.util.vector.GVector3f;
 

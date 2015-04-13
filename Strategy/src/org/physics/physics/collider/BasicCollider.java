@@ -1,4 +1,4 @@
-package org.engine.physics.colliders;
+package org.physics.physics.collider;
 
 import org.physics.object.GameObjectPhysics;
 

@@ -7,13 +7,13 @@ import org.engine.component.SkyBox;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Material;
 import org.engine.util.Loader;
 import org.engine.util.OBJLoader;
 import org.engine.world.Plane;
 import org.engine.world.Terrain;
 import org.strategy.component.CameraStrategy;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.shapes.threeDimensional.Box;
 import glib.util.vector.GVector3f;

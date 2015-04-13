@@ -1,7 +1,7 @@
 package game.rendering.shader;
 
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.shader.GBasicShader;
+import org.strategy.rendering.RenderingEngine;
 
 public class EntityShader extends GBasicShader{
 

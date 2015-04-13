@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
 import org.json.JSONObject;
 import org.strategy.component.CameraStrategy;
 import org.strategy.particles.Explosion;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;

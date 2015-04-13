@@ -11,13 +11,13 @@ import javax.swing.JFrame;
 import org.MainStrategy;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.util.Loader;
 import org.engine.util.MousePicker;
 import org.engine.util.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.physics.object.GameObjectPhysics;
 import org.strategy.component.CameraStrategy;
+import org.strategy.rendering.RenderingEngine;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
@@ -27,7 +27,6 @@ public abstract class CoreEngine extends JFrame{
 	private RenderingEngine renderingEngine;
 	private Loader loader;
 	private CameraStrategy camera;
-	private MousePicker mousePicker;
 	protected boolean running;
 	
 	//CONSTRUCTORS
@@ -154,10 +153,10 @@ public abstract class CoreEngine extends JFrame{
 	}
 
 	public void setMousePicker(CameraStrategy camera){
-		mousePicker = new MousePicker(camera);
+		camera.setMousePicker( new MousePicker(camera));
 	}
 
-	public MousePicker getMousePicker() {
-		return mousePicker;
-	}
+//	public MousePicker getMousePicker() {
+//		return mousePicker;
+//	}
 }

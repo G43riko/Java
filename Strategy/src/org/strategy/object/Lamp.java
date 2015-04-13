@@ -1,10 +1,10 @@
 package org.strategy.object;
 
 import org.engine.light.PointLight;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Material;
 import org.engine.util.Loader;
 import org.engine.util.OBJLoader;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

@@ -13,10 +13,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.json.JSONObject;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

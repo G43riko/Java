@@ -1,9 +1,9 @@
 package org.strategy.world;
 
 import org.engine.component.GameComponent;
-import org.engine.rendeing.RenderingEngine;
 import org.json.JSONObject;
 import org.strategy.component.CameraStrategy;
+import org.strategy.rendering.RenderingEngine;
 
 import glib.util.vector.GVector3f;
 

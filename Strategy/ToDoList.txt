@@ -1,0 +1,70 @@
++add fullscreen options
++start using shaders
++draw simple line
++implements simple physics
++implements gravity
++fix the shader or normals
++texture load and add to opengl
++implements basic colisions 
++implement lighting
++create OBJloader
++particles look at camera
+-dynamic create model from points
++random terrain generator
++create model of terrain
++add support for older opengls
++add point light with attenuation
++create particles
++implement mouse picker
++make object to move camera by keyboard and mouse
++add sky box
++draw in canvas
+-multi view ports
+-optical flares
+-create universal rendering engine
+-implement normal maps
+-implement bumb maps
+-implement specular map
+-implement alpha map
++implement transparent textures 
+-make directional light really directional
+-implement spot light
+-implement basic pathfinding
+-implement dynamic shadows
+-implement terrain atlases
+-make support for more lights
+-add point-line and point-plane distance
+-add sphere-box collisions
+-add terrain collisions
++add look at 
+-implement bouncing limit
+-implement fructrum
+-add basic shapes
++add editing loaded textures
++implement vector-poligon collision
++make universal shader
++make realy usefull input
+-make stable gameloop
+-add timing and trafic controler window
+-add material editor window
+-add light editor window
+-add particles editor window
+-add physic editor window
+-implements bazier curves
+-add implement level of detail
++calc forward vector from camera 
+-add glow to material
+-implements physics to particles
+-make particles fallowing or running out from point
+-implement motion blur
+-immplement radial blur
+-implement ambient occlusion
+-implement depth of field
+-implement day and night cicle
+-for rotation use quaternios 
+-add 2D text
+-implement hud
+-add cilinder collider
+-implement antialiasin
+-implement multi texturing
+-implement reflectivity

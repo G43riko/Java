@@ -4,8 +4,6 @@ import glib.util.vector.GVector3f;
 
 import org.lwjgl.input.Keyboard;
 import org.strategy.component.CameraStrategy;
-import org.strategy.entity.player.Player;
-import org.strategy.main.StrategyGame;
 
 public class Movable extends GameComponent{
 	private boolean flyMode = true;
@@ -20,8 +18,6 @@ public class Movable extends GameComponent{
 	
 	private int turnRightKey = Keyboard.KEY_E;
 	private int turnLeftKey = Keyboard.KEY_Q;
-	
-	private int jumpKey = Keyboard.KEY_SPACE;
 	
 	private int upKey = Keyboard.KEY_SPACE;
 	private int downKey = Keyboard.KEY_LSHIFT;
@@ -111,5 +107,11 @@ public class Movable extends GameComponent{
 			camera.updateForward();
 			move = rotate = false;
 		}
+	}
+
+	//SETTERS
+	
+	public void setFlyMode(boolean flyMode) {
+		this.flyMode = flyMode;
 	}
 }

@@ -9,7 +9,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.engine.physics.Enviroment;
+import org.physics.physics.Enviroment;
 
 public class PhysicsWindow extends JPanel{
 	private static final long serialVersionUID = 1L;

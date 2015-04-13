@@ -1,6 +1,6 @@
 package org.engine.rendeing.shader;
 
-import org.engine.rendeing.RenderingEngine;
+import org.strategy.rendering.RenderingEngine;
 
 public class Shader extends GBasicShader{
 		

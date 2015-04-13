@@ -7,7 +7,7 @@ public class EntityShader extends GBasicShader{
 	//GETTERS
 	
 	public EntityShader() {
-		super("entityShader");
+		super("entityShaderOld");
 	}
 
 	//OTHERS

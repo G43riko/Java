@@ -247,7 +247,6 @@ public final class RenderingEngine {
 		
 		disableVertex(3);
 		
-		entityShader.updateUniform("fakeLight", false);
 	}
 	
 //	public void render(GameComponent component){

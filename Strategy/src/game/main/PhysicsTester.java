@@ -33,16 +33,19 @@ public class PhysicsTester extends CoreEngine{
 		
 //		addToScene(new GameObject(new Terrain(0,0,getLoader(),255).getModel()));
 		
-		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
+//		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		
 		
 //		addToScene(new GameObject(getLoader().loadToVAO(Box.getVertices(1, 1, 1), Box.getTextures(), Box.getNormals(), Box.getIndices()), new Material("texture.png")));
 		
+		
+		
 //		addToScene(new GameObject(OBJLoader.loadObjModel("sphere", getLoader())));
 		
-		addToScene(new GameObject(new Terrain(0,0,getLoader()).getModel()));
+//		addToScene(new GameObject(new Terrain(0,0,getLoader()).getModel()));
 		
 		addToScene(new Plane());
+		
 	}
 	
 }

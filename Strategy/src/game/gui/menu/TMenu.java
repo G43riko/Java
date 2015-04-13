@@ -4,7 +4,6 @@ import game.gui.Gui;
 import game.gui.windows.PhysicsWindow;
 import game.gui.windows.RenderingWindow;
 import game.gui.windows.SceneWindow;
-import game.main.MainStrategy;
 import glib.util.GLog;
 
 import java.awt.event.ActionEvent;
@@ -18,6 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import org.MainStrategy;
 
 public class TMenu extends JMenuBar{
 	private static final long serialVersionUID = 1L;

@@ -5,8 +5,9 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
-import org.engine.component.GameComponent;
+import org.engine.component.SkyBox;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
 import org.engine.particles.Particle;
@@ -14,58 +15,49 @@ import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.rendeing.shader.GBasicShader;
-import org.engine.rendeing.shader.Shader;
 import org.engine.util.Maths;
 import org.engine.util.MousePicker;
-import org.lwjgl.input.Mouse;
+import org.engine.world.Line;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.strategy.component.CameraStrategy;
+import org.strategy.entity.enemy.BasicEnemy;
+import org.strategy.entity.player.Player;
+import org.strategy.object.GameObjectWithLight;
+import org.strategy.world.Block;
 
-import game.Line;
-import game.component.CameraStrategy;
-import game.component.SkyBox;
-import game.entity.Bullet;
-import game.entity.enemy.BasicEnemy;
-import game.entity.player.Player;
-import game.object.GameObjectWithLight;
 import game.rendering.shader.EntityShader;
 import game.rendering.shader.ParticleShader;
 import game.rendering.shader.SkyShader;
-import game.world.Block;
 import glib.util.vector.GMatrix4f;
-import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public final class RenderingEngine {
-	public static final GBasicShader entityShader = new EntityShader();
-	public static final GBasicShader skyShader = new SkyShader();
-	public static final GBasicShader particleShader = new ParticleShader();
 	private static HashMap<String, GBasicShader> shaders = new HashMap<String, GBasicShader>(); 
-//	static{
-//		shaders.put("entityShader", new EntityShader());
-//		shaders.put("skyShader", new SkyShader());
-//		shaders.put("particleShader", new ParticleShader());
-//	}
-	public final static int MAX_LIGHTS = 4;
-	
+	private HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
+	public final static int MAX_LIGHTS = 8;
 	private CameraStrategy mainCamera;
-	private int view = 0;
-	private boolean specular;
-	private boolean texture;
-	private boolean light;
-	private boolean fog;
-	private HashMap<String, Boolean> variables = new HashMap<String, Boolean>(); 
 	private GVector3f ambient;
-	private GVector2f mousePos;
-	private GVector2f mouseDir;
+	private GVector3f backgroundColor = new GVector3f();
+	private MousePicker mousePicker;
+	
+	static{
+		shaders.put("entityShader", new EntityShader());
+		shaders.put("skyShader", new SkyShader());
+		shaders.put("particleShader", new ParticleShader());
+	}
+	
+	
+	private int view = 0;
+	private boolean texture;
+	 
 	private PointLight sun;
 	private List<PointLight> lights = new ArrayList<PointLight>();
 	private Texture2D normal = new Texture2D("normal.jpg");
 	private SelectBlock selectBlock = new SelectBlock();
-	private MousePicker mousePicker;
-	private GVector3f backgroundColor = new GVector3f();
+	
 	
 	public class SelectBlock{
 		private Block block = null;
@@ -102,28 +94,27 @@ public final class RenderingEngine {
 		glClearColor(backgroundColor.getX(), backgroundColor.getY(), backgroundColor.getZ(), 1f);
 		
 		setTexture(true);
-		setSpecular(false);
-		setLight(true);
-		setFog(false);
+		setVariable("specular", false);
+		setVariable("light", true);
+		setVariable("fog", true);
 		setAmbient(new GVector3f(1));
-		mousePos = new GVector2f(Mouse.getX(),Mouse.getY());
 	}
 	
 	//RENDERERS
-	
+
 	public void renderSky(SkyBox sky){
 		if(mainCamera == null || view == 4){
 			return;
 		}
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		skyShader.bind();
+		getShader("skyShader").bind();
 		
 		
 		if(view == 3){
-			skyShader.updateUniform("color", sky.getTexture().getAverageColor());
+			getShader("skyShader").updateUniform("color", sky.getTexture().getAverageColor());
 		}
 		
-		skyShader.updateUniform("transformationMatrix", sky.getTransformationMatrix());
+		getShader("skyShader").updateUniform("transformationMatrix", sky.getTransformationMatrix());
 		
 		sky.getTexture().bind();
 
@@ -137,12 +128,12 @@ public final class RenderingEngine {
 			return;
 		}
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		
-		entityShader.updateUniform("transformationMatrix", block.getTransformationMatrix());
+		getShader("entityShader").updateUniform("transformationMatrix", block.getTransformationMatrix());
 		
 		if(view == 3 || selectBlock.block == block){
-			entityShader.updateUniform("color", block.getMaterial().getDiffuse().getAverageColor());
+			getShader("entityShader").updateUniform("color", block.getMaterial().getDiffuse().getAverageColor());
 		}
 		
 		setMaterial(block.getMaterial());
@@ -180,16 +171,16 @@ public final class RenderingEngine {
 		if(mainCamera == null){
 			return;
 		}
-		particleShader.bind();
+		getShader("particleShader").bind();
 		
 		
 		
-		particleShader.updateUniform("color", particle.getColor());
+		getShader("particleShader").updateUniform("color", particle.getColor());
 		
 		if(particle.isFadding())
-			particleShader.updateUniform("alpha", particle.getAlpha());
+			getShader("particleShader").updateUniform("alpha", particle.getAlpha());
 		
-		particleShader.updateUniform("transformationMatrix",particle.getTransformationMatrix(mainCamera.getPosition()));
+		getShader("particleShader").updateUniform("transformationMatrix",particle.getTransformationMatrix(mainCamera.getPosition()));
 		
 		if(particle.getTexture() != null)
 			particle.getTexture().bind();
@@ -200,10 +191,10 @@ public final class RenderingEngine {
 	}
 	
 	public void renderLine(Line line) {
-		entityShader.bind();
-		entityShader.updateUniform("transformationMatrix", line.getTransformationMatrix());
-		entityShader.updateUniform("color", line.getColor());
-		entityShader.updateUniform("view", 3);
+		getShader("entityShader").bind();
+		getShader("entityShader").updateUniform("transformationMatrix", line.getTransformationMatrix());
+		getShader("entityShader").updateUniform("color", line.getColor());
+		getShader("entityShader").updateUniform("view", 3);
 		
 		GL30.glBindVertexArray(line.getModel().getVaoID());
 		
@@ -213,7 +204,7 @@ public final class RenderingEngine {
 		
 		GL20.glDisableVertexAttribArray(0);
 		
-		entityShader.updateUniform("view", view);
+		getShader("entityShader").updateUniform("view", view);
 	}
 
 	public void renderObjectWithLight(GameObjectWithLight object){
@@ -221,13 +212,13 @@ public final class RenderingEngine {
 			return;
 		
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		
-		entityShader.updateUniform("fakeLight", object.isFakeLight());
+		getShader("entityShader").updateUniform("fakeLight", object.isFakeLight());
 		
-		entityShader.updateUniform("transformationMatrix", object.getTransformationMatrix());
+		getShader("entityShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
 		
-		entityShader.updateUniform("color", new GVector3f(1,0,0));
+		getShader("entityShader").updateUniform("color", new GVector3f(1,0,0));
 		
 		setMaterial(object.getMaterial());
 		
@@ -235,16 +226,16 @@ public final class RenderingEngine {
 		
 		disableVertex(3);
 		
-		entityShader.updateUniform("fakeLight", false);
+		getShader("entityShader").updateUniform("fakeLight", false);
 	}
 	
 	public void renderObject(GameObject object){
 		if(mainCamera == null)
 			return;
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		
-		entityShader.updateUniform("transformationMatrix", object.getTransformationMatrix());
+		getShader("entityShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
 		
 		setMaterial(object.getMaterial());
 		
@@ -255,8 +246,8 @@ public final class RenderingEngine {
 	}
 	
 //	public void render(GameComponent component){
-//		entityShader.bind();
-//		entityShader.updateUniform("transformationMatrix", component.getTransformationMatrix());
+//		getShader("entityShader").bind();
+//		getShader("entityShader").updateUniform("transformationMatrix", component.getTransformationMatrix());
 //		setMaterial(component.getMaterial());
 //		prepareAndDraw(3, component.getModel());
 //		disableVertex(3);
@@ -267,11 +258,9 @@ public final class RenderingEngine {
 			return;
 		}
 		
-		entityShader.bind();
-		
-		entityShader.updateUniform("transformationMatrix", basicEnemy.getTransformationMatrix());
-		
-		entityShader.updateUniform("color", new GVector3f(1,0,0));
+		getShader("entityShader").bind();
+		getShader("entityShader").updateUniform("transformationMatrix", basicEnemy.getTransformationMatrix());
+		getShader("entityShader").updateUniform("color", new GVector3f(1,0,0));
 		
 		prepareAndDraw(3, basicEnemy.getModel());
 		
@@ -282,15 +271,8 @@ public final class RenderingEngine {
 	
 	public void prepare() {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		calcMouseDir();
 		setViewMatrix();
 		setEyePos();
-	}
-	
-	private void calcMouseDir(){
-		GVector2f actPos = new GVector2f(Mouse.getX(),Mouse.getY());
-		mouseDir =  actPos.sub(mousePos).div(5);
-		mousePos = actPos;
 	}
 	
 	private void prepareAndDraw(int i, Model model){
@@ -301,7 +283,6 @@ public final class RenderingEngine {
 		if(i>2)
 			GL20.glEnableVertexAttribArray(2);
 		
-//		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 	}
 	
@@ -315,36 +296,34 @@ public final class RenderingEngine {
 	}
 
 	public void cleanUp(){
-//		defaultShader.cleanUp();
-//		hudShader.cleanUp();
-		entityShader.cleanUp();
-		skyShader.cleanUp();
-		particleShader.cleanUp();
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			getShader(s.getKey()).cleanUp();
+		}
 	}
 	
 	public void updateLight(PointLight light, int i){
 		if(i<MAX_LIGHTS){
-			entityShader.updateUniform("lightPosition"+i, light.getPosition());
-			entityShader.updateUniform("lightColor"+i, light.getColor());
-			entityShader.updateUniform("attenuation"+i, light.getAttenuation());
-			entityShader.updateUniform("range"+i, light.getRange());
+			getShader("entityShader").updateUniform("lightPosition"+i, light.getPosition());
+			getShader("entityShader").updateUniform("lightColor"+i, light.getColor());
+			getShader("entityShader").updateUniform("attenuation"+i, light.getAttenuation());
+			getShader("entityShader").updateUniform("range"+i, light.getRange());
 		}
 	}
 	
 	public void addLight(PointLight light){
 		lights.add(light);
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		for(int i=0 ;i<MAX_LIGHTS ; i++){
 			if(i < lights.size()){
-				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
-				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
-				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+				getShader("entityShader").updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				getShader("entityShader").updateUniform("lightColor"+i, lights.get(i).getColor());
+				getShader("entityShader").updateUniform("attenuation"+i, lights.get(i).getAttenuation());
 			}
 			else{
-				entityShader.updateUniform("lightPosition"+i, new GVector3f());
-				entityShader.updateUniform("lightColor"+i, new GVector3f());
-				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+				getShader("entityShader").updateUniform("lightPosition"+i, new GVector3f());
+				getShader("entityShader").updateUniform("lightColor"+i, new GVector3f());
+				getShader("entityShader").updateUniform("attenuation"+i, new GVector3f(1,0,0));
 			}
 		}
 	}
@@ -352,27 +331,23 @@ public final class RenderingEngine {
 	public void addLight(ArrayList<PointLight> lights){
 		lights.addAll(lights);
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		for(int i=0 ;i<MAX_LIGHTS ; i++){
 			if(i < lights.size()){
-				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
-				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
-				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+				getShader("entityShader").updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				getShader("entityShader").updateUniform("lightColor"+i, lights.get(i).getColor());
+				getShader("entityShader").updateUniform("attenuation"+i, lights.get(i).getAttenuation());
 			}
 			else{
-				entityShader.updateUniform("lightPosition"+i, new GVector3f());
-				entityShader.updateUniform("lightColor"+i, new GVector3f());
-				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+				getShader("entityShader").updateUniform("lightPosition"+i, new GVector3f());
+				getShader("entityShader").updateUniform("lightColor"+i, new GVector3f());
+				getShader("entityShader").updateUniform("attenuation"+i, new GVector3f(1,0,0));
 			}
 		}
 	}
 
 	//GETTERS
 	
-	public static GBasicShader getEntityshader() {
-		return entityShader;
-	}
-
 	public CameraStrategy getMainCamera() {
 		return mainCamera;
 	}
@@ -383,15 +358,17 @@ public final class RenderingEngine {
 
 	//SETTERS
 
-	public void setFog(boolean fog) {
-		if(this.fog == fog)
+	public void setVariable(String name, boolean value){
+		if(variables.containsKey(name) && variables.get(name) == value)
 			return;
-		this.fog = fog;
-		entityShader.bind();
-		entityShader.updateUniform("fog", fog);
+		variables.put(name, value);
 		
-		skyShader.bind();
-		skyShader.updateUniform("fog", fog);
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			if(s.getValue().hasUniform(name)){
+				getShader(s.getKey()).bind();
+				getShader(s.getKey()).updateUniform(name, value);
+			}
+		}
 	}
 	
 	public void setMainCamera(CameraStrategy mainCamera) {
@@ -399,67 +376,43 @@ public final class RenderingEngine {
 		this.mousePicker = new MousePicker(mainCamera);
 		mousePicker.update();
 		
-		entityShader.bind();
-		entityShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
-		
-		skyShader.bind();
-		skyShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
-		
-		particleShader.bind();
-		particleShader.updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			getShader(s.getKey()).bind();
+			getShader(s.getKey()).updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+		}
 	}
 
 	public void setView(int view) {
 		if(this.view == view)
 			return;
-		else{
-			this.view = view;
+		
+		this.view = view;
 			
-			entityShader.bind();
-			entityShader.updateUniform("view", view);
-			
-			skyShader.bind();
-			skyShader.updateUniform("view", view);
-			
-			particleShader.bind();
-			particleShader.updateUniform("view", view);
-			
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			getShader(s.getKey()).bind();
+			getShader(s.getKey()).updateUniform("view", view);
 		}
+			
+		
 	}
 	
 	public void setTexture(boolean texture){
 		if(this.texture == texture)
 			return;
 		this.texture = texture;
-		entityShader.bind();
-		entityShader.updateUniform("texture", texture);
+		getShader("entityShader").bind();
+		getShader("entityShader").updateUniform("texture", texture);
 	}
 	
-	public void setSpecular(boolean specular){
-		if(this.specular == specular)
-			return;
-		this.specular = specular;
-		entityShader.bind();
-		entityShader.updateUniform("specular", specular);
-	}
-	
-	public void setLight(boolean light){
-		if(this.light == light)
-			return;
-		this.light = light;
-		entityShader.bind();
-		entityShader.updateUniform("light", light);
-	}
-
 	public void setSun(PointLight sun){
 		if(this.sun == sun)
 			return;
 		this.sun = sun;
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		
-		entityShader.updateUniform("lightPosition", sun.getPosition());
-		entityShader.updateUniform("lightColor", sun.getColor());
+		getShader("entityShader").updateUniform("lightPosition", sun.getPosition());
+		getShader("entityShader").updateUniform("lightColor", sun.getColor());
 	}
 	
 	public void setSelectBlock(SelectBlock selectBlock) {
@@ -471,17 +424,17 @@ public final class RenderingEngine {
 			return;
 		this.lights = lights;
 		
-		entityShader.bind();
+		getShader("entityShader").bind();
 		for(int i=0 ;i<MAX_LIGHTS ; i++){
 			if(i < lights.size()){
-				entityShader.updateUniform("lightPosition"+i, lights.get(i).getPosition());
-				entityShader.updateUniform("lightColor"+i, lights.get(i).getColor());
-				entityShader.updateUniform("attenuation"+i, lights.get(i).getAttenuation());
+				getShader("entityShader").updateUniform("lightPosition"+i, lights.get(i).getPosition());
+				getShader("entityShader").updateUniform("lightColor"+i, lights.get(i).getColor());
+				getShader("entityShader").updateUniform("attenuation"+i, lights.get(i).getAttenuation());
 			}
 			else{
-				entityShader.updateUniform("lightPosition"+i, new GVector3f());
-				entityShader.updateUniform("lightColor"+i, new GVector3f());
-				entityShader.updateUniform("attenuation"+i, new GVector3f(1,0,0));
+				getShader("entityShader").updateUniform("lightPosition"+i, new GVector3f());
+				getShader("entityShader").updateUniform("lightColor"+i, new GVector3f());
+				getShader("entityShader").updateUniform("attenuation"+i, new GVector3f(1,0,0));
 			}
 		}
 	}
@@ -491,20 +444,20 @@ public final class RenderingEngine {
 			System.out.println("nieje nastavená hlavná kamera");
 			return;
 		}
-		entityShader.bind();
-		entityShader.updateUniform("eyePos", mainCamera.getPosition());
+		getShader("entityShader").bind();
+		getShader("entityShader").updateUniform("eyePos", mainCamera.getPosition());
 	}
 	
 	public void setMaterial(Material mat){
-		entityShader.connectTextures();
+		getShader("entityShader").connectTextures();
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		mat.getDiffuse().bind();
 		
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		normal.bind();
 		
-		entityShader.updateUniform("shineDumper", mat.getSpecularPower());
-		entityShader.updateUniform("reflectivity", mat.getSpecularIntensity());
+		getShader("entityShader").updateUniform("shineDumper", mat.getSpecularPower());
+		getShader("entityShader").updateUniform("reflectivity", mat.getSpecularIntensity());
 	}
 	
 	public void setViewMatrix(){
@@ -512,16 +465,13 @@ public final class RenderingEngine {
 			System.out.println("nieje nastavená hlavná kamera");
 			return;
 		}
+		
 		GMatrix4f mat = Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera));
-		entityShader.bind();
-		entityShader.updateUniform("viewMatrix", mat);
 		
-		skyShader.bind();
-		skyShader.updateUniform("viewMatrix", mat);
-		
-		particleShader.bind();
-		particleShader.updateUniform("viewMatrix", mat);
-		
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			getShader(s.getKey()).bind();
+			getShader(s.getKey()).updateUniform("viewMatrix", mat);
+		}	
 	}
 	
 	public void setAmbient(GVector3f ambient) {
@@ -530,17 +480,13 @@ public final class RenderingEngine {
 		}
 		this.ambient = ambient;
 		
-		entityShader.bind();
-		entityShader.updateUniform("ambient", ambient);
-		
-		skyShader.bind();
-		skyShader.updateUniform("ambient",ambient);
-		
-		particleShader.bind();
-		particleShader.updateUniform("ambient",ambient);
+		for(Entry<String, GBasicShader> s : shaders.entrySet()){
+			getShader(s.getKey()).bind();
+			getShader(s.getKey()).updateUniform("ambient", ambient);
+		}	
 	}
 
-	public GBasicShader getShader(String name){
+	public static GBasicShader getShader(String name){
 		return shaders.get(name);
 	}
 	

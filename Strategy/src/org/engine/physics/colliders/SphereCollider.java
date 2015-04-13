@@ -1,7 +1,7 @@
 package org.engine.physics.colliders;
 
-import org.engine.object.GameObjectPhysics;
 import org.engine.physics.Enviroment;
+import org.physics.object.GameObjectPhysics;
 
 import glib.math.GColision;
 import glib.util.vector.GVector3f;

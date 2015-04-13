@@ -1,7 +1,6 @@
 package game.gui.menu;
 
 import game.gui.Gui;
-import game.main.MainStrategy;
 import glib.util.GColor;
 
 import java.awt.Color;
@@ -10,6 +9,8 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
+import org.MainStrategy;
 
 public class RMenu extends JPanel{
 	private static final long serialVersionUID = 1L;

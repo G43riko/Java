@@ -1,11 +1,11 @@
 package org.engine.component;
 
-import game.component.CameraStrategy;
-import game.entity.player.Player;
-import game.main.StrategyGame;
 import glib.util.vector.GVector3f;
 
 import org.lwjgl.input.Keyboard;
+import org.strategy.component.CameraStrategy;
+import org.strategy.entity.player.Player;
+import org.strategy.main.StrategyGame;
 
 public class Movable extends GameComponent{
 	private boolean flyMode = true;

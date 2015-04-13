@@ -1,19 +1,19 @@
 package org.engine.core;
 
-import game.core.CoreGame;
 import game.gui.Gui;
-import game.main.MainStrategy;
 
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 
+import org.MainStrategy;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector2f;
+import org.strategy.core.CoreGame;
 
 public class Window {
 	

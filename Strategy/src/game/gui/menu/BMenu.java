@@ -1,6 +1,5 @@
 package game.gui.menu;
 
-import game.main.MainStrategy;
 import glib.util.vector.GVector3f;
 
 import java.awt.BorderLayout;
@@ -16,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.MainStrategy;
 import org.engine.component.GameComponent;
 
 public class BMenu extends JPanel{

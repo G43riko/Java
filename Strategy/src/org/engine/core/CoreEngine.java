@@ -2,22 +2,22 @@ package org.engine.core;
 
 import java.util.ArrayList;
 
-import game.component.CameraStrategy;
 import game.gui.Gui;
 import game.gui.windows.MainWindow;
-import game.main.MainStrategy;
 import glib.util.GLog;
 
 import javax.swing.JFrame;
 
+import org.MainStrategy;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
-import org.engine.object.GameObjectPhysics;
 import org.engine.rendeing.RenderingEngine;
 import org.engine.util.Loader;
 import org.engine.util.MousePicker;
 import org.engine.util.OBJLoader;
 import org.lwjgl.opengl.Display;
+import org.physics.object.GameObjectPhysics;
+import org.strategy.component.CameraStrategy;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;

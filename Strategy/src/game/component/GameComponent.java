@@ -67,9 +67,6 @@ public abstract class GameComponent {
 	
 	public void render(RenderingEngine renderingEngine) {}
 	
-	public void lookAt(GVector3f pos){
-	}
-	
 	public void input() {}
 
 	public void update() {}
@@ -78,8 +75,7 @@ public abstract class GameComponent {
 		return null;
 	}
 	
-	public GMatrix4f lookAt(GVector3f eye, GVector3f target, GVector3f up)
-	{
+	public GMatrix4f lookAt(GVector3f eye, GVector3f target, GVector3f up){
 		GVector3f forward = target.sub(eye).Normalized();
 		GVector3f side = forward.cross(up).Normalized();
 		GMatrix4f m = new GMatrix4f().initIdentity();
@@ -104,6 +100,16 @@ public abstract class GameComponent {
 		return scale;
 	}
 	
+	public int getType() {
+		return type;
+	}
+	
+	public GMatrix4f getTransformationMatrix(){
+		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
+				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
+		return Maths.MatrixToGMatrix(trans);
+	}
+	
 	//SETTERS
 	
 	public void setPosition(GVector3f position) {
@@ -120,16 +126,5 @@ public abstract class GameComponent {
 	
 	public void setScale(float scale) {
 		this.scale = new GVector3f(scale, scale, scale);
-	}
-	
-	public int getType() {
-		return type;
-	}
-	
-	public GMatrix4f getTransformationMatrix(){
-		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
-				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
-		return Maths.MatrixToGMatrix(trans);
-	}
-	
+	}	
 }

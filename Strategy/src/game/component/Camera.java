@@ -10,31 +10,17 @@ import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
-public class Camera extends GameComponent{
-	private final static float ROTATION_SPEED = 0.6f;
-	private final static float MOVE_SPEED = 0.3f;
-	private final static GVector3f up = new GVector3f(0,1,0);
-	private float FOV = 70;
-	private float NEAR_PLANE = 0.1f;
-	private float FAR_PLANE = 1000;
-	private float ASPECT_RATIO;
+public class Camera extends BasicCamera{
 	public static float MAX_ANGLE;
-	private final static boolean VERTICAL = false; 
 	private boolean mouseLocked = false;
 	
 	private GVector2f centerPosition = new GVector2f(Display.getWidth()/2,Display.getHeight()/2);
-	private GVector3f forward;
-	private GMatrix4f projectionMatrix;
+	
 	
 	//CONSTRUCTORS
 	
 	public Camera() {
-		this(new GVector3f(0,1,5));
-	}
-	
-	public Camera(GVector3f position) {
-		super(position, GameComponent.CAMERA);
-		createProjectionMatrix();
+		super();
 		updateForward();
 	}
 	
@@ -44,39 +30,9 @@ public class Camera extends GameComponent{
 		float distance = getPosition().dist(o.getPosition());
 		
 		GVector3f toObject =  o.getPosition().sub(getPosition()).Normalized();
-		return distance > NEAR_PLANE && distance < FAR_PLANE && toObject.dot(forward)<-0.6 && (Math.exp(-Math.pow((distance * 0.02), 1.5)) > 0.0001);
+		return distance > NEAR_PLANE && distance < FAR_PLANE && toObject.dot(getForward())<-0.6 && (Math.exp(-Math.pow((distance * 0.02), 1.5)) > 0.0001);
 	}
 	
-	public void goForward(){
-		if(VERTICAL)
-			move(forward.mul(-MOVE_SPEED));
-		else
-			move(up.cross(forward).cross(up).mul(-MOVE_SPEED));
-	}
-	
-	public void goBack(){
-		if(VERTICAL)
-			move(forward.mul(MOVE_SPEED));
-		else
-			move(up.cross(forward).cross(up).mul(MOVE_SPEED));
-	}
-
-	public void goRight(){
-		move(up.cross(forward).mul(MOVE_SPEED));
-	}
-	
-	public void goLeft(){
-		move(up.cross(forward).mul(-MOVE_SPEED));
-	}
-	
-	public void goUp(){
-		move(up.mul(MOVE_SPEED));
-	}
-	
-	public void goDown(){
-		move(up.mul(-1).mul(MOVE_SPEED));
-	}
-
 	public void lockMouse(){
 		Mouse.setCursorPosition(centerPosition.getXi(),centerPosition.getYi());
 //		Mouse.setGrabbed(true);
@@ -88,23 +44,6 @@ public class Camera extends GameComponent{
 		mouseLocked = false;
 	}
 	
-	private void createProjectionMatrix(){
-		ASPECT_RATIO  = (float)Display.getWidth()/(float)Display.getHeight();
-		float y_scale = (1f / (float)Math.tan(Math.toRadians(FOV / 2f))) * ASPECT_RATIO;
-		float x_scale = y_scale/ASPECT_RATIO;
-		
-		float frustum_length = FAR_PLANE - NEAR_PLANE;
-		
-		Matrix4f mat = new Matrix4f();
-		mat.m00 = x_scale;
-		mat.m11 = y_scale;
-		mat.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
-		mat.m23 = -1;
-		mat.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
-		mat.m33 = 0;
-		projectionMatrix = Maths.MatrixToGMatrix(mat);
-	}
-
 	private void calcFrustum(){
 		float Hnear = 2 * (float)Math.tan(FOV / 2) * NEAR_PLANE;
 		float Wnear = Hnear * ASPECT_RATIO;
@@ -149,16 +88,6 @@ public class Camera extends GameComponent{
 		
 	}
 	
-	public void updateForward(){
-		double x = Math.cos(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
-		double y = Math.sin(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
-		double z = Math.sin(Math.toRadians(getPitch()));
-		forward = new GVector3f((float)y,(float)z,(float)x);
-//		System.out.println(forward);
-//		forward = getRotation().toRadians().eulerToDirectional();
-//		System.out.println(forward);
-	}
-
 	public boolean mouseMove() {
 		GVector2f deltaPos = new GVector2f();
 		deltaPos = new GVector2f(Mouse.getX(),Mouse.getY()).sub(centerPosition);
@@ -182,52 +111,6 @@ public class Camera extends GameComponent{
 
 	//GETTERS
 	
-	public GVector3f getForwardVector(){
-		if(VERTICAL)
-			return forward.mul(-MOVE_SPEED);
-		
-		return up.cross(forward).cross(up).mul(-MOVE_SPEED);
-	}
-	
-	public GVector3f getBackVector(){
-		if(VERTICAL)
-			return forward.mul(MOVE_SPEED);
-		
-		return up.cross(forward).cross(up).mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getRightVector(){
-		return up.cross(forward).mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getLeftVector(){
-		return up.cross(forward).mul(-MOVE_SPEED);
-	}
-	
-	public GVector3f getUpVector(){
-		return up.mul(MOVE_SPEED);
-	}
-	
-	public GVector3f getDownVector(){
-		return up.mul(-MOVE_SPEED);
-	}
-	
-	public float getPitch(){
-		return getRotation().getX();
-	}
-	
-	public float getYaw(){
-		return getRotation().getY();
-	}
-
-	public GMatrix4f getProjectionMatrix() {
-		return projectionMatrix;
-	}
-	
-	public GVector3f getForward() {
-		return forward;
-	}
-
 	public boolean isMouseLocked() {
 		return mouseLocked;
 	}

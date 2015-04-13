@@ -1,5 +1,6 @@
 package game.gui.menu;
 
+import game.gui.Gui;
 import game.main.MainStrategy;
 import glib.util.GColor;
 
@@ -15,19 +16,23 @@ public class RMenu extends JPanel{
 	private final static int width = MainStrategy.WIDTH/6;
 	private GColor bgColor = new GColor(1,0,1);
 	
+	//CONSTRUCTORS
+	
 	public RMenu(){
+		init();
+	}
+
+	//OTHERS
+	
+	public void init(){
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(width,width));
 		setBorder(BorderFactory.createLineBorder(Color.black,1,true));
 	}
-
-	public void init(){
-
-	}
+	
+	//GETTERS
 	
 	public GColor getBgColor() {
 		return bgColor;
 	}
-	
-
 }

@@ -18,6 +18,7 @@ public class GameObjectPhysics extends GameObject{
 	private float bouncingLimit = 0.02f;
 	private float weight = 1;
 	private GVector3f direction = new GVector3f();
+	private GVector3f rotSpeed = new GVector3f();
 	
 	//CONSTRUCTORS
 	
@@ -34,6 +35,8 @@ public class GameObjectPhysics extends GameObject{
 	
 	public void update() {
 		move(direction.mul(Enviroment.SPEED));
+		rotate(rotSpeed);
+		
 		direction = direction.add(Enviroment.GRAVITY.mul(weight).mul(Enviroment.SPEED).mul(Enviroment.FRICTION));
 		collider.checkBorders(true);
 		
@@ -47,8 +50,13 @@ public class GameObjectPhysics extends GameObject{
 //				g.setDirection(g.getDirection().Rotate((centerOfCollision.sub(pos)), 180).mul(g.getOdrazivost()));
 //				direction = direction.Rotate((centerOfCollision.sub(getPosition())), 180).mul(odrazivost);
 				
+				rotSpeed = getDirection();
+				g.setRotation(direction);
+				
 				g.setDirection((g.getDirection().sub(getPosition().sub(centerOfCollision))).mul(g.getOdrazivost()));
 				direction = (direction.sub(pos.sub(centerOfCollision))).mul(odrazivost);
+				
+				
 			}
 		}
 	}
@@ -77,6 +85,14 @@ public class GameObjectPhysics extends GameObject{
 
 	public float getOdrazivost() {
 		return odrazivost;
+	}
+
+	public GVector3f getRotSpeed() {
+		return rotSpeed;
+	}
+
+	public void setRotSpeed(GVector3f rotSpeed) {
+		this.rotSpeed = rotSpeed;
 	}
 	
 }

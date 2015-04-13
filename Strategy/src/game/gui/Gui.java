@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import game.core.CoreEngine;
-import game.core.CoreGame;
 import game.gui.menu.BMenu;
 import game.gui.menu.RMenu;
 import game.gui.menu.TMenu;
@@ -22,25 +21,31 @@ public class Gui extends JPanel{
 	private TMenu tmenu;
 	private RMenu rmenu;
 	private BMenu bmenu;
+	private CoreEngine coreEngine;
 	
-	public Gui(CoreEngine game) {
-		setLayout(new BorderLayout());
-		setBackground(Color.blue);
+	public Gui() {
+		this(null);
+	}
+	
+	public Gui(CoreEngine coreEngine) {
+		this.coreEngine = coreEngine;
 		init();
-		canvas = new Canvas();
-		add(canvas);
+		add(canvas = new Canvas());
+	}
+	
+	public void update(){
+		bmenu.update();
 	}
 
-		public void init() {
+	public void init() {
+		setLayout(new BorderLayout());
+		setBackground(Color.blue);
 		
-		tmenu = new TMenu(this);
-		add(tmenu,BorderLayout.NORTH);
+		add(tmenu = new TMenu(this), BorderLayout.NORTH);
 		
-		bmenu = new BMenu();
-		add(bmenu,BorderLayout.SOUTH);
+		add(bmenu = new BMenu(), BorderLayout.SOUTH);
 		
-		rmenu = new RMenu();
-		add(rmenu,BorderLayout.EAST);
+		add(rmenu = new RMenu(), BorderLayout.EAST);
 		
 		canvas = new Canvas();
 		canvas.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor"));
@@ -56,4 +61,11 @@ public class Gui extends JPanel{
 		return rmenu;
 	}
 
+	public CoreEngine getCoreEngine() {
+		return coreEngine;
+	}
+
+	public BMenu getBmenu() {
+		return bmenu;
+	}
 }

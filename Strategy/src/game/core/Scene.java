@@ -21,17 +21,16 @@ public class Scene {
 	
 	//ADDERS
 	
-	public void add(BasicEnemy e){
-		enemies.add(e);
+	public void add(GameComponent c){
+		if(c instanceof BasicEnemy)
+			enemies.add((BasicEnemy)c);
+		else if(c instanceof Bullet)
+			bullets.add((Bullet)c);
+		else 
+			others.add(c);
 	}
 	
-	public void add(Bullet b){
-		bullets.add(b);
-	}
-	
-	public void add(GameComponent g){
-		others.add(g);
-	}
+
 	
 	//OTHERS
 	

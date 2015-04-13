@@ -2,6 +2,8 @@ package game.gui.menu;
 
 import game.gui.Gui;
 import game.gui.windows.PhysicsWindow;
+import game.gui.windows.RenderingWindow;
+import game.gui.windows.SceneWindow;
 import game.main.MainStrategy;
 import glib.util.GLog;
 
@@ -46,14 +48,17 @@ public class TMenu extends JMenuBar{
 		initMenuB();
 	}
 
+ 	//INIT MENUS
  	
 	private void initMenuB() {
 		menuB = new JMenu("View");
-//		menuB.addMouseListener(onClick);
+		menuB.addMouseListener(onClick);
 		add(menuB);
 		
 		initMaterialEditor();
-		initShowPhysics();
+		initPhysicsEditor();
+		initSceneEditor();
+		initRenderingEditor();
 	}
 	
 	private void initMenuA() {
@@ -67,7 +72,22 @@ public class TMenu extends JMenuBar{
 		initExit();
 		
 	}
+
+	//INIT MENU B
 	
+	private void initSceneEditor() {
+		JMenuItem menuItem = new JMenuItem("zobraziù scÈnu", KeyEvent.VK_T);
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("klikol si na zobrazenie scÈny");
+				gui.getRmenu().removeAll();
+				gui.getRmenu().add(new SceneWindow(gui));
+				gui.getRmenu().updateUI();
+			}
+		});
+		menuB.add(menuItem);
+	}
+
 	private void initMaterialEditor(){
 		JMenuItem menuItem = new JMenuItem("Material editor", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
@@ -78,18 +98,32 @@ public class TMenu extends JMenuBar{
 		menuB.add(menuItem);
 	}
 	
-	private void initShowPhysics() {
+	private void initPhysicsEditor() {
 		JMenuItem menuItem = new JMenuItem("zobraziù fyziku", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("klikol si na showPhysics");
-//				gui.getRmenu().removeAll();
+				gui.getRmenu().removeAll();
 				gui.getRmenu().add(new PhysicsWindow(gui.getRmenu()));
 				gui.getRmenu().updateUI();
 			}
 		});
 		menuB.add(menuItem);
 	}
+	
+	private void initRenderingEditor() {
+		JMenuItem menuItem = new JMenuItem("zobraziù Rendering", KeyEvent.VK_T);
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				gui.getRmenu().removeAll();
+				gui.getRmenu().add(new RenderingWindow(gui.getRmenu()));
+				gui.getRmenu().updateUI();
+			}
+		});
+		menuB.add(menuItem);
+	}
+	
+	//INIT MENU A
 	
 	private void initExit() {
 		JMenuItem menuItem = new JMenuItem("Exit", KeyEvent.VK_T);

@@ -44,7 +44,7 @@ public abstract class CoreGame extends CoreEngine{
 	public void start(){
 		running = true;
 		
-		if(renderingEngine == null){
+		if(getRenderingEngine() == null){
 			GLog.write("nieje nastavený render engine");
 			return;
 		}
@@ -61,12 +61,10 @@ public abstract class CoreGame extends CoreEngine{
 	
 	private void mainLoop() {
 		
-		renderingEngine.prepare();
+		getRenderingEngine().prepare();
 		
 		ArrayList<GameComponent> toRemove = new ArrayList<GameComponent>();
-		int i=0;
 		for(GameComponent g: scene){
-			i++;
 			g.input();
 			g.update();
 			if(g instanceof Bullet){
@@ -74,22 +72,22 @@ public abstract class CoreGame extends CoreEngine{
 					toRemove.add(g);
 				}
 			}
-			g.render(renderingEngine);
+			g.render(getRenderingEngine());
 		}
 		scene.removeAll(toRemove);
 		
-		if(renderingEngine.getSelectBlock().getBlock() != null){
+		if(getRenderingEngine().getSelectBlock().getBlock() != null){
 			RenderingEngine.entityShader.bind();
 			RenderingEngine.entityShader.updateUniform("select", true);
-			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().add(0.01f));
-			renderingEngine.getSelectBlock().getBlock().render(renderingEngine);
-			renderingEngine.getSelectBlock().getBlock().setScale(renderingEngine.getSelectBlock().getBlock().getScale().sub(0.01f));
+			getRenderingEngine().getSelectBlock().getBlock().setScale(getRenderingEngine().getSelectBlock().getBlock().getScale().add(0.01f));
+			getRenderingEngine().getSelectBlock().getBlock().render(getRenderingEngine());
+			getRenderingEngine().getSelectBlock().getBlock().setScale(getRenderingEngine().getSelectBlock().getBlock().getScale().sub(0.01f));
 			RenderingEngine.entityShader.updateUniform("select", false);
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
 				if(Mouse.isButtonDown(1) && !clicks[1]){
-					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null)
-						world.remove(renderingEngine.getSelectBlock().getBlock());
+					if(world != null && getRenderingEngine()!= null && getRenderingEngine().getSelectBlock() !=null)
+						world.remove(getRenderingEngine().getSelectBlock().getBlock());
 					if(!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
 						clicks[1] = true;
 				}
@@ -97,8 +95,8 @@ public abstract class CoreGame extends CoreEngine{
 					clicks[1] = false;
 				
 				if(Mouse.isButtonDown(0) && !clicks[0]){
-					if(world != null && renderingEngine!= null && renderingEngine.getSelectBlock() !=null){
-						world.add(renderingEngine.getSelectBlock().getBlock(), renderingEngine.getSelectBlock().getSide(), player.getSelectBlock());
+					if(world != null && getRenderingEngine()!= null && getRenderingEngine().getSelectBlock() !=null){
+						world.add(getRenderingEngine().getSelectBlock().getBlock(), getRenderingEngine().getSelectBlock().getSide(), player.getSelectBlock());
 					}
 					clicks[0] = true;
 				}
@@ -106,11 +104,11 @@ public abstract class CoreGame extends CoreEngine{
 				if(!Mouse.isButtonDown(0))
 					clicks[0] = false;
 			}
-			renderingEngine.getSelectBlock().reset();
+			getRenderingEngine().getSelectBlock().reset();
 		}
 		if(Mouse.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
-			mousePicker.update();
-			addToScene(new Bullet(player.getPosition(), player.getPosition().add(mousePicker.getCurrentRay().mul(10)), world, player));
+			getMousePicker().update();
+			addToScene(new Bullet(player.getPosition(), player.getPosition().add(getMousePicker().getCurrentRay().mul(10)), world, player));
 		}
 	}
 
@@ -123,7 +121,7 @@ public abstract class CoreGame extends CoreEngine{
 			//normals
 			for(int i=0 ; i<5 ; i++){
 				if(Keyboard.isKeyDown(i+2)){
-					renderingEngine.setView(i);
+					getRenderingEngine().setView(i);
 				}
 			}
 			
@@ -137,11 +135,11 @@ public abstract class CoreGame extends CoreEngine{
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-			renderingEngine.setLight(true);
+			getRenderingEngine().setLight(true);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_O)){
-			renderingEngine.setLight(false);
+			getRenderingEngine().setLight(false);
 		}
 	}
 	
@@ -189,6 +187,6 @@ public abstract class CoreGame extends CoreEngine{
 //		l.add(r);
 //		l.add(g);
 //		l.add(b);
-		renderingEngine.setLights(l);
+		getRenderingEngine().setLights(l);
 	}
 }

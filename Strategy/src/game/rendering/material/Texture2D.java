@@ -1,6 +1,7 @@
 package game.rendering.material;
 
 import glib.util.Loader;
+import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import java.awt.Color;
@@ -27,14 +28,9 @@ public class Texture2D {
 	private class Data{
 		private Texture2D t;
 		private int count;
-		
-		public Data(Texture2D t){
-			this.t = t;
-			count = 1;
-		}
 	}
-	private static HashMap<String, Data> loadedTextures = new HashMap<String, Data>();
-	public static int maxSize;
+	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
+//	public static int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 	
 	public static final int FILTER_LINEAR = GL_LINEAR;
     public static final int FILTER_NEAREST = GL_NEAREST;
@@ -52,8 +48,7 @@ public class Texture2D {
     
     private int id;
     
-    private int width;
-	private int height;
+    private GVector2f size;
 	
 	private String fileName;
 	
@@ -66,9 +61,8 @@ public class Texture2D {
 		}
 		else{
 			addTextureToOpenGL(makeByteBufferFILE(fileName));
-			loadedTextures.put(fileName, new Data(this));
+			loadedTextures.put(fileName, this);
 		}
-		maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 	}
 	
 	public Texture2D(String fileName, URL url){
@@ -78,33 +72,33 @@ public class Texture2D {
 		}
 		else{
 			addTextureToOpenGL(makeByteBufferURL(url));
-			loadedTextures.put(fileName, new Data(this));
+			loadedTextures.put(fileName, this);
 		}
 	}
 	
-	public Texture2D(String fileName, Texture tex, GVector3f averageColor){
-		this.fileName = fileName;
-		if(loadedTextures.containsKey(fileName)){
-			loadOld(loadedTextures.get(fileName));
-		}
-		else{
-			this.id = tex.getTextureID();
-			this.width = tex.getImageWidth();
-			this.height = tex.getImageHeight();
-			this.averageColor = averageColor;
-			bind();
-			
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
-			
-			loadedTextures.put(fileName, new Data(this));
-		}
-	}
+//	public Texture2D(String fileName, Texture tex, GVector3f averageColor){
+//		this.fileName = fileName;
+//		if(loadedTextures.containsKey(fileName)){
+//			loadOld(loadedTextures.get(fileName));
+//		}
+//		else{
+//			this.id = tex.getTextureID();
+//			this.width = tex.getImageWidth();
+//			this.height = tex.getImageHeight();
+//			this.averageColor = averageColor;
+//			bind();
+//			
+//			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+//
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
+//
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+//			
+//			loadedTextures.put(fileName,this);
+//		}
+//	}
 	
 	//MAKERS
 	
@@ -113,12 +107,11 @@ public class Texture2D {
 			InputStream input = url.openStream();
 			PNGDecoder dec = new PNGDecoder(input);
 			
-			width = dec.getWidth();
-			height = dec.getHeight();
+			size = new GVector2f(dec.getWidth(), dec.getHeight());
 			
-			ByteBuffer buf = BufferUtils.createByteBuffer(BPP * width * height);
+			ByteBuffer buf = BufferUtils.createByteBuffer(BPP * size.getXi() * size.getYi());
 			
-			dec.decode(buf, width * BPP, PNGDecoder.RGBA);
+			dec.decode(buf, size.getXi() * BPP, PNGDecoder.RGBA);
 			
 			buf.flip();
 			
@@ -131,11 +124,10 @@ public class Texture2D {
 	public ByteBuffer makeByteBufferFILE(String fileName){
 		try{
 			BufferedImage image = ImageIO.read(Loader.loadFile("res/textures/"+fileName));
-			width = image.getWidth();
-			height = image.getHeight();
-			int[] pixels = image.getRGB(0, 0, width, height, null, 0, image.getWidth());
+			size = new GVector2f(image.getWidth(), image.getHeight());
+			int[] pixels = image.getRGB(0, 0, size.getXi(), size.getYi(), null, 0, image.getWidth());
 			
-			ByteBuffer buffer = BufferUtils.createByteBuffer(BPP * width * height);
+			ByteBuffer buffer = BufferUtils.createByteBuffer(BPP * size.getXi() * size.getYi());
 			
 			boolean hasAlpha = image.getColorModel().hasAlpha();
 			double red = 0;
@@ -143,13 +135,13 @@ public class Texture2D {
 			double blue = 0;
 			double num = 0;
 			
-			for(int y=0 ; y<height ; y++){
-				for(int x=0 ; x<height ; x++){
+			for(int y=0 ; y<size.getYi() ; y++){
+				for(int x=0 ; x<size.getYi() ; x++){
 					red += new Color(image.getRGB(x, y)).getRed();
 					green += new Color(image.getRGB(x, y)).getGreen();
 					blue += new Color(image.getRGB(x, y)).getBlue();
 					num++;
-					int pixel = pixels[y * width + x];
+					int pixel = pixels[y * size.getXi() + x];
 					buffer.put((byte)((pixel >> 16)&0xFF));
 					buffer.put((byte)((pixel >> 8)&0xFF));
 					buffer.put((byte)((pixel)&0xFF));
@@ -182,7 +174,7 @@ public class Texture2D {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 		
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.getXi(), size.getYi(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
 		
 		if(mipMapping){
 			GL30.glGenerateMipmap(GL_TEXTURE_2D);
@@ -191,19 +183,10 @@ public class Texture2D {
 		}
 	}
 	
-	public void finalize(){
-		if(loadedTextures.get(fileName).count == 1)
-			loadedTextures.remove(fileName);
-		else
-			loadedTextures.get(fileName).count--;
-	}
-	
-	private void loadOld(Data d){
-		id = d.t.getId();
-		width = d.t.getWidth();
-		height = d.t.getHeight();
-		averageColor = d.t.getAverageColor();
-		d.count++;
+	private void loadOld(Texture2D t){
+		id = t.getId();
+		size = t.getSize();
+		averageColor = t.getAverageColor();
 	}
 	
 	public void unbind(){
@@ -240,12 +223,8 @@ public class Texture2D {
 
 	public int getId(){return id; }
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
+	public GVector2f getSize() {
+		return size;
 	}
 
 	public String getFileName() {

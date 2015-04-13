@@ -1,5 +1,6 @@
 package game.util;
 
+import game.component.BasicCamera;
 import game.component.Camera;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
@@ -37,7 +38,7 @@ public class Maths {
 		return matrix;
 	};
 	
-	public static Matrix4f createViewMatrix(Camera camera){
+	public static Matrix4f createViewMatrix(BasicCamera camera){
 		Matrix4f viewMatrix = new Matrix4f();
 		viewMatrix.setIdentity();
 		Matrix4f.rotate((float)Math.toRadians(camera.getPitch()),new Vector3f(1,0,0) ,viewMatrix,viewMatrix);

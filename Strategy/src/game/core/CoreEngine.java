@@ -9,8 +9,6 @@ import game.component.Input;
 import game.gui.Gui;
 import game.gui.windows.MainWindow;
 import game.main.MainStrategy;
-import game.object.GameObject;
-import game.physics.Enviroment;
 import game.rendering.RenderingEngine;
 import game.util.Loader;
 import game.util.MousePicker;
@@ -18,20 +16,18 @@ import game.util.OBJLoader;
 import glib.util.GLog;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
 
-	protected Gui gui;
+	private Gui gui;
 	protected ArrayList<GameComponent> scene;
-	protected RenderingEngine renderingEngine;
-	protected Loader loader;
-	protected Camera camera;
-	protected MousePicker mousePicker;
+	private RenderingEngine renderingEngine;
+	private Loader loader;
+	private Camera camera;
+	private MousePicker mousePicker;
 	protected boolean running;
 	
 	//CONSTRUCTORS
@@ -73,6 +69,8 @@ public abstract class CoreEngine extends JFrame{
 		
 		while(running && !Display.isCloseRequested()){
 			input();
+			if(gui!=null)
+				gui.update();
 			update();
 			renderingEngine.prepare();
 			render();
@@ -115,6 +113,8 @@ public abstract class CoreEngine extends JFrame{
 		}
 	};
 	
+	//GOERS
+	
 	//GETTERS
 
 	public RenderingEngine getRenderingEngine() {
@@ -133,6 +133,9 @@ public abstract class CoreEngine extends JFrame{
 		return camera;
 	}
 
+	public ArrayList<GameComponent> getScene() {
+		return new ArrayList<GameComponent>(scene);
+	}
 
 	//SETTERS
 	
@@ -157,5 +160,7 @@ public abstract class CoreEngine extends JFrame{
 		mousePicker = new MousePicker(camera);
 	}
 
-
+	public MousePicker getMousePicker() {
+		return mousePicker;
+	}
 }

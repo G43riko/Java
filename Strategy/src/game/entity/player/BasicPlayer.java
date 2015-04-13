@@ -1,7 +1,5 @@
 package game.entity.player;
 
-import java.util.HashMap;
-
 import org.lwjgl.input.Keyboard;
 
 import game.component.Camera;

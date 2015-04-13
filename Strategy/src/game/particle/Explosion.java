@@ -2,10 +2,11 @@ package game.particle;
 
 import java.util.ArrayList;
 
-import game.component.GameComponent;
+import org.engine.component.GameComponent;
+import org.engine.physics.Enviroment;
+import org.engine.rendeing.RenderingEngine;
+
 import game.entity.player.Player;
-import game.physics.Enviroment;
-import game.rendering.RenderingEngine;
 import game.world.Block;
 import glib.util.vector.GVector3f;
 

@@ -9,7 +9,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import game.core.CoreEngine;
+import org.engine.core.CoreEngine;
+
 import game.gui.menu.BMenu;
 import game.gui.menu.RMenu;
 import game.gui.menu.TMenu;

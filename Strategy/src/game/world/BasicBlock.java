@@ -1,12 +1,12 @@
 package game.world;
 
 
+import org.engine.component.GameComponent;
+import org.engine.rendeing.material.Material;
+import org.engine.rendeing.model.Model;
+import org.engine.util.Loader;
 import org.json.JSONObject;
 
-import game.component.GameComponent;
-import game.rendering.material.Material;
-import game.rendering.model.Model;
-import game.util.Loader;
 import glib.util.vector.GVector3f;
 
 public class BasicBlock extends GameComponent{

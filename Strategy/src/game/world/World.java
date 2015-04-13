@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.engine.component.GameComponent;
+import org.engine.rendeing.RenderingEngine;
 import org.json.JSONObject;
 
-import game.component.Camera;
-import game.component.GameComponent;
+import game.component.CameraStrategy;
 import game.particle.Explosion;
-import game.rendering.RenderingEngine;
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
 
@@ -23,7 +23,7 @@ public class World extends GameComponent{
 	public static int NUM_X = 3;
 	public static int NUM_Z = 3;
 	public static float[][] map;
-	private Camera camera;
+	private CameraStrategy camera;
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>(); 
 	private boolean running;
 	private HashMap<String, Chunk3D> chunks = new HashMap<String, Chunk3D>();
@@ -289,7 +289,7 @@ public class World extends GameComponent{
 	
 	//SETTERS
 
-	public void setCamera(Camera camera) {
+	public void setCamera(CameraStrategy camera) {
 		this.camera = camera;
 	}
 	
@@ -319,7 +319,7 @@ public class World extends GameComponent{
 		this.running = running;
 	}
 
-	public Camera getCamera() {
+	public CameraStrategy getCamera() {
 		return camera;
 	}
 }

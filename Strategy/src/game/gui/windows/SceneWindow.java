@@ -12,15 +12,16 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import game.GameObjectPhysics;
-import game.component.GameComponent;
-import game.core.CoreEngine;
+import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
+import org.engine.light.DirectionalLight;
+import org.engine.light.PointLight;
+import org.engine.object.GameObject;
+import org.engine.object.GameObjectPhysics;
+
 import game.gui.Gui;
 import game.gui.menu.RMenu;
-import game.light.DirectionalLight;
-import game.light.PointLight;
 import game.main.MainStrategy;
-import game.object.GameObject;
 import game.object.GameObjectWithLight;
 import glib.util.GColor;
 

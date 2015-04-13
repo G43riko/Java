@@ -1,9 +1,9 @@
 package game.entity.player;
 
+import org.engine.component.GameComponent;
 import org.lwjgl.input.Keyboard;
 
-import game.component.Camera;
-import game.component.GameComponent;
+import game.component.CameraStrategy;
 import game.main.StrategyGame;
 import game.world.Block;
 import game.world.World;
@@ -11,7 +11,7 @@ import glib.util.vector.GVector3f;
 
 public class BasicPlayer extends GameComponent{
 	protected World world;
-	protected Camera camera;
+	protected CameraStrategy camera;
 	
 	protected GVector3f dir = new GVector3f();
 	

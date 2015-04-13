@@ -1,8 +1,9 @@
 package game.entity.player;
 
-import game.component.Camera;
+import org.engine.physics.Enviroment;
+
+import game.component.CameraStrategy;
 import game.main.StrategyGame;
-import game.physics.Enviroment;
 import game.world.Block;
 import game.world.World;
 import glib.math.GMath;
@@ -17,14 +18,14 @@ public class Player extends BasicPlayer{
 	
 	//CONSTRUCTORS
 	
-	public Player(GVector3f position, World world, Camera camera){
+	public Player(GVector3f position, World world, CameraStrategy camera){
 		super(position);
 		this.world = world;
 		this.camera = camera;
 		camera.setPosition(position);
 	}
 	
-	public Player(World world, Camera camera){
+	public Player(World world, CameraStrategy camera){
 		super(null);
 		setPosition(camera.getPosition());
 		this.world = world;

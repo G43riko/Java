@@ -2,15 +2,16 @@ package game.entity.enemy;
 
 import java.util.ArrayList;
 
+import org.engine.component.GameComponent;
+import org.engine.physics.Enviroment;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.model.Model;
+import org.engine.util.Loader;
+import org.engine.util.OBJLoader;
+
 import game.Line;
-import game.component.GameComponent;
 import game.entity.Bullet;
 import game.entity.player.Player;
-import game.physics.Enviroment;
-import game.rendering.RenderingEngine;
-import game.rendering.model.Model;
-import game.util.Loader;
-import game.util.OBJLoader;
 import game.world.World;
 import glib.shapes.threeDimensional.Box;
 import glib.util.vector.GVector3f;

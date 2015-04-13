@@ -1,17 +1,17 @@
 package game.main;
 
+import org.engine.light.PointLight;
+import org.engine.particles.ParticleEmmiter;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.util.Loader;
 import org.json.JSONObject;
 
-import game.component.Camera;
+import game.component.CameraStrategy;
 import game.component.SkyBox;
 import game.core.CoreGame;
 import game.entity.enemy.BasicEnemy;
 import game.entity.player.Player;
-import game.light.PointLight;
 import game.object.Lamp;
-import game.particle.ParticleEmmiter;
-import game.rendering.RenderingEngine;
-import game.util.Loader;
 import game.world.World;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
@@ -28,7 +28,7 @@ public class StrategyGame extends CoreGame{
 //		setWorld(new World());
 		setWorld(new World("sandBox"));
 //		setWorld(new World("mainWorld.gw"));
-		setCamera(new Camera());
+		setCamera(new CameraStrategy());
 		getCamera().setPosition(getWorld().getMaxSize().div(new GVector3f(2,1,2)));
 		setPlayer(new Player(getWorld(), getCamera()));
 		getWorld().setCamera(getCamera());

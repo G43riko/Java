@@ -1,10 +1,10 @@
 package game.world;
 
+import org.engine.component.GameComponent;
+import org.engine.rendeing.RenderingEngine;
 import org.json.JSONObject;
 
-import game.component.Camera;
-import game.component.GameComponent;
-import game.rendering.RenderingEngine;
+import game.component.CameraStrategy;
 import glib.util.vector.GVector3f;
 
 public class Chunk3D extends GameComponent{
@@ -80,7 +80,7 @@ public class Chunk3D extends GameComponent{
 		}
 	}
 	
-	private boolean isVisible(Block b, Camera camera) {
+	private boolean isVisible(Block b, CameraStrategy camera) {
 		if(!camera.isVisible(b))
 			return false;
 		return true;

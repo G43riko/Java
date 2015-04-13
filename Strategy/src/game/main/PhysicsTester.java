@@ -2,17 +2,18 @@ package game.main;
 
 import java.util.ArrayList;
 
-import game.component.Camera;
-import game.component.Movable;
+import org.engine.component.Movable;
+import org.engine.core.CoreEngine;
+import org.engine.light.PointLight;
+import org.engine.object.GameObject;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.material.Material;
+import org.engine.util.Loader;
+import org.engine.util.OBJLoader;
+
+import game.component.CameraStrategy;
 import game.component.SkyBox;
-import game.core.CoreEngine;
-import game.light.PointLight;
-import game.object.GameObject;
 import game.object.world.Plane;
-import game.rendering.RenderingEngine;
-import game.rendering.material.Material;
-import game.util.Loader;
-import game.util.OBJLoader;
 import game.world.Terrain;
 import glib.shapes.threeDimensional.Box;
 import glib.util.vector.GVector3f;
@@ -22,7 +23,7 @@ public class PhysicsTester extends CoreEngine{
 	
 	public void init() {
 		setRenderingEngine(new RenderingEngine());
-		setCamera(new Camera());
+		setCamera(new CameraStrategy());
 		setLoader(new Loader());
 		setMousePicker(getCamera());
 		

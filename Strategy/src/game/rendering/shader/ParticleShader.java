@@ -1,5 +1,7 @@
 package game.rendering.shader;
 
+import org.engine.rendeing.shader.GBasicShader;
+
 public class ParticleShader extends GBasicShader{
 	public ParticleShader() {
 		super("particleShader");

@@ -1,10 +1,11 @@
 package game.core;
 
-import game.component.GameComponent;
 import game.entity.Bullet;
 import game.entity.enemy.BasicEnemy;
 
 import java.util.ArrayList;
+
+import org.engine.component.GameComponent;
 
 public class Scene {
 	private ArrayList<BasicEnemy> enemies;

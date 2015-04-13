@@ -1,9 +1,10 @@
 package game.object.world;
 
-import game.object.GameObject;
-import game.rendering.material.Material;
-import game.rendering.model.Model;
-import game.util.Loader;
+import org.engine.object.GameObject;
+import org.engine.rendeing.material.Material;
+import org.engine.rendeing.model.Model;
+import org.engine.util.Loader;
+
 import glib.util.vector.GVector2f;
 
 public class Plane extends GameObject{

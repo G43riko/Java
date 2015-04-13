@@ -1,7 +1,5 @@
 package game.world;
 
-import game.rendering.model.Model;
-import game.util.Loader;
 import glib.math.GMath;
 import glib.util.noise.PerlinNoise;
 import glib.util.noise.ProceduralTerrain;
@@ -13,6 +11,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.engine.rendeing.model.Model;
+import org.engine.util.Loader;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Terrain {

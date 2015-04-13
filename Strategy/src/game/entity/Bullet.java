@@ -1,10 +1,11 @@
 package game.entity;
 
+import org.engine.component.GameComponent;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.model.Model;
+import org.engine.util.Loader;
+
 import game.Line;
-import game.component.GameComponent;
-import game.rendering.RenderingEngine;
-import game.rendering.model.Model;
-import game.util.Loader;
 import game.world.Block;
 import game.world.World;
 import glib.util.vector.GVector3f;

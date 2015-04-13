@@ -1,7 +1,8 @@
 package game.world;
 
-import game.component.GameComponent;
-import game.rendering.RenderingEngine;
+import org.engine.component.GameComponent;
+import org.engine.rendeing.RenderingEngine;
+
 import glib.util.vector.GVector3f;
 
 public class Chunk2D extends GameComponent{

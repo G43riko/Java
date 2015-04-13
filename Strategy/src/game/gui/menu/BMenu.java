@@ -1,6 +1,5 @@
 package game.gui.menu;
 
-import game.component.GameComponent;
 import game.main.MainStrategy;
 import glib.util.vector.GVector3f;
 
@@ -16,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import org.engine.component.GameComponent;
 
 public class BMenu extends JPanel{
 	private static final long serialVersionUID = 1L;

@@ -1,6 +1,6 @@
 package game.main;
 
-import game.core.CoreEngine;
+import org.engine.core.CoreEngine;
 
 public class MainStrategy {
 	public final static boolean MIP_MAPPING = true;

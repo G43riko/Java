@@ -3,13 +3,13 @@ package game.gui.windows;
 import java.awt.Dimension;
 import java.util.Hashtable;
 
-import game.physics.Enviroment;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.engine.physics.Enviroment;
 
 public class PhysicsWindow extends JPanel{
 	private static final long serialVersionUID = 1L;

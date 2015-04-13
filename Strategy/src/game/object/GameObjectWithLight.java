@@ -2,11 +2,11 @@ package game.object;
 
 import java.util.ArrayList;
 
-import game.component.GameComponent;
-import game.light.PointLight;
-import game.rendering.RenderingEngine;
-import game.rendering.material.Material;
-import game.rendering.model.Model;
+import org.engine.component.GameComponent;
+import org.engine.light.PointLight;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.material.Material;
+import org.engine.rendeing.model.Model;
 
 public class GameObjectWithLight extends GameComponent{
 	protected Model model;

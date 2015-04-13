@@ -1,9 +1,10 @@
 package game.main;
 
-import game.component.Camera;
+import org.engine.particles.ParticleEmmiter;
+import org.engine.rendeing.RenderingEngine;
+
+import game.component.CameraStrategy;
 import game.core.CoreGame;
-import game.particle.ParticleEmmiter;
-import game.rendering.RenderingEngine;
 import glib.util.vector.GVector3f;
 
 public class ParticleTester extends CoreGame{
@@ -11,7 +12,7 @@ public class ParticleTester extends CoreGame{
 
 	public void init() {
 		setRenderingEngine(new RenderingEngine());
-		setCamera(new Camera());
+		setCamera(new CameraStrategy());
 		ParticleEmmiter e = new ParticleEmmiter(new GVector3f(0,-1,-5), "smoke.gp");
 //		e.saveToFile("smoke.gp");
 		addToScene(e);

@@ -1,10 +1,11 @@
 package game.object;
 
-import game.light.PointLight;
-import game.rendering.RenderingEngine;
-import game.rendering.material.Material;
-import game.util.Loader;
-import game.util.OBJLoader;
+import org.engine.light.PointLight;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.material.Material;
+import org.engine.util.Loader;
+import org.engine.util.OBJLoader;
+
 import glib.util.vector.GVector3f;
 
 public class Lamp extends GameObjectWithLight{

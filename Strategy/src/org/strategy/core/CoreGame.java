@@ -3,7 +3,6 @@ package org.strategy.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.gui.Gui;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
@@ -13,15 +12,12 @@ import org.engine.component.SkyBox;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
 import org.engine.rendeing.material.Texture2D;
-import org.engine.util.Loader;
-import org.engine.util.MousePicker;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.strategy.component.CameraStrategy;
 import org.strategy.entity.Bullet;
 import org.strategy.entity.player.Player;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;
 
 public abstract class CoreGame extends CoreEngine{
@@ -43,14 +39,14 @@ public abstract class CoreGame extends CoreEngine{
 	//OTHERS
 	
 	public void start(){
-		running = true;
+		setRunning(true);
 		
 		if(getRenderingEngine() == null){
 			GLog.write("nieje nastavený render engine");
 			return;
 		}
 		
-		while(running && !Display.isCloseRequested()){
+		while(isRunning() && !Display.isCloseRequested()){
 //			double time = System.currentTimeMillis();
 			input();
 			mainLoop();
@@ -78,12 +74,12 @@ public abstract class CoreGame extends CoreEngine{
 		scene.removeAll(toRemove);
 		
 		if(getRenderingEngine().getSelectBlock().getBlock() != null){
-			RenderingEngine.getShader("entityShader").bind();
-			RenderingEngine.getShader("entityShader").updateUniform("select", true);
+			RenderingEngineStrategy.getShader("entityShader").bind();
+			RenderingEngineStrategy.getShader("entityShader").updateUniform("select", true);
 			getRenderingEngine().getSelectBlock().getBlock().setScale(getRenderingEngine().getSelectBlock().getBlock().getScale().add(0.01f));
 			getRenderingEngine().getSelectBlock().getBlock().render(getRenderingEngine());
 			getRenderingEngine().getSelectBlock().getBlock().setScale(getRenderingEngine().getSelectBlock().getBlock().getScale().sub(0.01f));
-			RenderingEngine.getShader("entityShader").updateUniform("select", false);
+			RenderingEngineStrategy.getShader("entityShader").updateUniform("select", false);
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
 				if(Mouse.isButtonDown(1) && !clicks[1]){

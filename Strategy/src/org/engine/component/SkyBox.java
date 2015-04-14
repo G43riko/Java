@@ -4,7 +4,7 @@ import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.strategy.component.CameraStrategy;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
@@ -35,7 +35,7 @@ public class SkyBox extends GameComponent{
 		setPosition(camera.getPosition());
 	}
 	
-	public void render(RenderingEngine renderer){
+	public void render(RenderingEngineStrategy renderer){
 		renderer.renderSky(this);
 	}
 	

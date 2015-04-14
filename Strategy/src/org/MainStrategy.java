@@ -1,6 +1,7 @@
 package org;
 
 import org.engine.core.CoreEngine;
+import org.physics.main.PhysicsTester;
 import org.strategy.main.StrategyGame;
 
 public class MainStrategy {
@@ -18,8 +19,8 @@ public class MainStrategy {
 	public static int HEIGHT = 720;
 	
 	public static void main(String[] args) {
-		CoreEngine game = new StrategyGame();
-//		CoreEngine game = new PhysicsTester();
+//		CoreEngine game = new StrategyGame();
+		CoreEngine game = new PhysicsTester();
 //		CoreEngine game = new ParticleTester();
 		
 		game.createWindow(game);

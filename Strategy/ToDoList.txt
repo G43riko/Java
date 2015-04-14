@@ -1,32 +1,56 @@
 +add fullscreen options
 +start using shaders
++edit glsg variables from java
 +draw simple line
 +implements simple physics
 +implements gravity
 +fix the shader or normals
 +texture load and add to opengl
-+implements basic colisions 
++implements basic colisions
 +implement lighting
 +create OBJloader
 +particles look at camera
--dynamic create model from points
 +random terrain generator
 +create model of terrain
-+add support for older opengls
 +add point light with attenuation
++implement rotate camera by mouse(yaw, pitch, roll
++make easy way to switch project
 +create particles
 +implement mouse picker
 +make object to move camera by keyboard and mouse
++calc average color from texture
++add option to disable textures and use colors
 +add sky box
 +draw in canvas
++implement vector-poligon collision
++calc forward vector from camera
++implement transparent textures
++make universal shader
++make realy usefull input
++add look at
++fix exporning resources to runnable jar
++create universal rendering engine
+-implement basic type of views(grayscale, depth, height)
+-add option to change rendering options  
+-reorganize shaders
+-implement shadow on particles
+-add support for older opengls
+-add sound support
+-make sound 3D
+-change sound pitch or speed
+-dynamic create model from points
 -multi view ports
 -optical flares
--create universal rendering engine
+-add editing option for loaded textures
 -implement normal maps
 -implement bumb maps
 -implement specular map
 -implement alpha map
-+implement transparent textures 
+-implement normal calculator
+-implement delta calculator
+-add method to round terrain
+-add show/hide gui option
+-make viewport resizable 
 -make directional light really directional
 -implement spot light
 -implement basic pathfinding
@@ -36,35 +60,41 @@
 -add point-line and point-plane distance
 -add sphere-box collisions
 -add terrain collisions
-+add look at 
+-implement simple way to remove object when they need it 
 -implement bouncing limit
 -implement fructrum
 -add basic shapes
-+add editing loaded textures
-+implement vector-poligon collision
-+make universal shader
-+make realy usefull input
 -make stable gameloop
 -add timing and trafic controler window
 -add material editor window
 -add light editor window
 -add particles editor window
 -add physic editor window
--implements bazier curves
+-implement bazier curves
 -add implement level of detail
-+calc forward vector from camera 
+-create default color selector
+-create predefined type of particles(fire, dust..)
 -add glow to material
--implements physics to particles
--make particles fallowing or running out from point
+-implement physics to particles
+-implement adductor and retractor to particles
 -implement motion blur
--immplement radial blur
+-implement radial blur
 -implement ambient occlusion
+-simplified particles and particle class
 -implement depth of field
--implement day and night cicle
--for rotation use quaternios 
+-implement day and night circle
+-for rotation use quaternions
 -add 2D text
+-add 3D text
+-implement infinity lights possibles
+-automatic update position in object viewer
+-fix sphere-sphere collisions
 -implement hud
--add cilinder collider
--implement antialiasin
+-start object rotate after collision
+-implement slider for loading
+-use one instance of loader to load models
+-fix the exporting libraries and another projects to runnable jar
+-add cillinder collider
+-implement antialiasing
 -implement multi texturing
 -implement reflectivity

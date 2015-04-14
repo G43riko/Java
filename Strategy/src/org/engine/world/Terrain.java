@@ -1,6 +1,5 @@
 package org.engine.world;
 
-import glib.math.GMath;
 import glib.util.noise.PerlinNoise;
 import glib.util.noise.ProceduralTerrain;
 import glib.util.noise.SimplexNoise;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.engine.component.GameComponent;
 import org.physics.physics.Enviroment;
 import org.strategy.entity.player.Player;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.Block;
 
 import glib.util.vector.GVector3f;
@@ -60,7 +60,7 @@ public class Explosion extends GameComponent{
 		blocks.removeAll(forRemove);
 	}
 	
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		for(BlockPart b:blocks){
 			b.b.render(renderingEngine);
 		}

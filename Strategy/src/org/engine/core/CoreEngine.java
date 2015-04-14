@@ -17,17 +17,17 @@ import org.engine.util.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.physics.object.GameObjectPhysics;
 import org.strategy.component.CameraStrategy;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
 
 	private Gui gui;
 	protected ArrayList<GameComponent> scene;
-	private RenderingEngine renderingEngine;
+	private RenderingEngineStrategy renderingEngine;
 	private Loader loader;
 	private CameraStrategy camera;
-	protected boolean running;
+	private boolean running;
 	
 	//CONSTRUCTORS
 	
@@ -112,11 +112,9 @@ public abstract class CoreEngine extends JFrame{
 		}
 	};
 	
-	//GOERS
-	
 	//GETTERS
 
-	public RenderingEngine getRenderingEngine() {
+	public RenderingEngineStrategy getRenderingEngine() {
 		return renderingEngine;
 	}
 
@@ -136,6 +134,10 @@ public abstract class CoreEngine extends JFrame{
 		return new ArrayList<GameComponent>(scene);
 	}
 
+	public boolean isRunning() {
+		return running;
+	}
+	
 	//SETTERS
 	
 	public void setCamera(CameraStrategy camera) {
@@ -148,13 +150,19 @@ public abstract class CoreEngine extends JFrame{
 		this.loader = loader;
 	}
 
-	protected void setRenderingEngine(RenderingEngine renderingEngine) {
+	protected void setRenderingEngine(RenderingEngineStrategy renderingEngine) {
 		this.renderingEngine = renderingEngine;
 	}
 
 	public void setMousePicker(CameraStrategy camera){
 		camera.setMousePicker( new MousePicker(camera));
 	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	
 
 //	public MousePicker getMousePicker() {
 //		return mousePicker;

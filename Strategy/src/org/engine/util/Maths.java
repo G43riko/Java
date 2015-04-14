@@ -7,7 +7,6 @@ import org.engine.component.Camera;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.strategy.component.CameraStrategy;
 
 
 public class Maths {

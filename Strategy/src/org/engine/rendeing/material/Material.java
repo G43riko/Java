@@ -24,7 +24,7 @@ public class Material {
 		this(new Texture2D(name),new Texture2D(normal),1,8);
 	}
 	public Material(Texture2D diffuse, int specularIntensity, int specularPower) {
-		this(diffuse,null,specularIntensity,specularPower);
+		this(diffuse,new Texture2D(DEFAULT_NORMAL),specularIntensity,specularPower);
 	}
 	
 	public Material(Texture2D diffuse, Texture2D normal, int specularIntensity, int specularPower) {

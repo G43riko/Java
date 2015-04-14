@@ -10,7 +10,7 @@ import org.engine.world.Line;
 import org.physics.physics.Enviroment;
 import org.strategy.entity.Bullet;
 import org.strategy.entity.player.Player;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;
 
 import glib.shapes.threeDimensional.Box;
@@ -122,7 +122,7 @@ public class BasicEnemy extends GameComponent{
 		
 	}
 	
-	public void render(RenderingEngine renderingEngine){
+	public void render(RenderingEngineStrategy renderingEngine){
 		renderingEngine.renderEnemy(this);
 		line.render(renderingEngine);
 //		renderingEngine.renderLine(dir);

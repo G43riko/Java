@@ -16,7 +16,7 @@ public class GameObjectPhysics extends GameObject{
 	
 	private BasicCollider collider;
 	private float odrazivost = 0.5f;
-	private float bouncingLimit = 0.02f;
+//	private float bouncingLimit = 0.02f;
 	private float weight = 1;
 	private GVector3f direction = new GVector3f();
 	private GVector3f rotSpeed = new GVector3f();
@@ -42,14 +42,17 @@ public class GameObjectPhysics extends GameObject{
 		collider.checkBorders(true);
 		
 		for(GameObjectPhysics g : objects){
-			if(g.equals(this))
+			if(g.equals(this) )
 				continue;
 			GVector3f pos = g.getPosition();
 			if(GColision.sphereSphereCollision(pos, ((SphereCollider)g.getCollider()).getRadius(), getPosition(), ((SphereCollider)collider).getRadius())){
 				GVector3f centerOfCollision = getPosition().add(pos).div(2);
-				
 //				g.setDirection(g.getDirection().Rotate((centerOfCollision.sub(pos)), 180).mul(g.getOdrazivost()));
 //				direction = direction.Rotate((centerOfCollision.sub(getPosition())), 180).mul(odrazivost);
+				
+//				System.out.println("COLLISION: center:"+centerOfCollision+" ");
+//				System.out.println("A: pos:"+getPosition()+" dir: "+direction+" center-pos: "+(centerOfCollision.sub(getPosition())));
+//				System.out.println("B: pos:"+pos+" dir: "+g.getDirection()+" center-pos: "+(centerOfCollision.sub(pos)));
 				
 				rotSpeed = getDirection();
 				g.setRotation(direction);
@@ -57,6 +60,9 @@ public class GameObjectPhysics extends GameObject{
 				g.setDirection((g.getDirection().sub(getPosition().sub(centerOfCollision))).mul(g.getOdrazivost()));
 				direction = (direction.sub(pos.sub(centerOfCollision))).mul(odrazivost);
 				
+				
+//				move(direction.mul(Enviroment.SPEED));
+//				g.move(g.getDirection().mul(Enviroment.SPEED));
 				
 			}
 		}

@@ -3,7 +3,7 @@ package org.engine.object;
 import org.engine.component.GameComponent;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 public class GameObject extends GameComponent{
 	protected Model model;
@@ -21,7 +21,7 @@ public class GameObject extends GameComponent{
 	
 	//OVERRIDES
 	
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		renderingEngine.renderObject(this);
 	}
 	

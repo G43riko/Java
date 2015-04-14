@@ -18,17 +18,17 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.PNGDecoder;
-import org.newdawn.slick.opengl.Texture;
 
 public class Texture2D {
-	private class Data{
-		private Texture2D t;
-		private int count;
-	}
+	
+//	private class Data{
+//		private Texture2D t;
+//		private int count;
+//	}
+	
 	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
 //	public static int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 	

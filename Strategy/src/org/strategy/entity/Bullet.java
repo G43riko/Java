@@ -4,7 +4,7 @@ import org.engine.component.GameComponent;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.engine.world.Line;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.Block;
 import org.strategy.world.World;
 

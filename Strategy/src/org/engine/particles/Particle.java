@@ -7,7 +7,7 @@ import org.engine.util.Loader;
 import org.engine.util.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;
@@ -67,7 +67,7 @@ public class Particle extends GameComponent{
 			dead = true;
 	};
 	
-	public void render(RenderingEngine renderingEngine){
+	public void render(RenderingEngineStrategy renderingEngine){
 		renderingEngine.renderParticle(this);
 	}
 	
@@ -86,8 +86,8 @@ public class Particle extends GameComponent{
 				 		  maxX,maxY,
 				 		  maxX,minY};
 		
-		int[] indices ={3,1,0,	
-						2,1,3};
+		int[] indices ={0,1,3,	
+						3,1,2};
 		
 //		float[] normals = {0.0000f,  0.0000f, -1.0000f,
 //				 		   0.0000f,  0.0000f, -1.0000f,

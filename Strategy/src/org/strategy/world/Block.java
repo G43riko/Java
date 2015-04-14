@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.physics.physics.Enviroment;
 import org.strategy.entity.player.Player;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.math.GMath;
 import glib.util.vector.GMatrix4f;
@@ -272,7 +272,7 @@ public class Block extends BasicBlock{
 		return "typ: "+blockDatas.get(type).getString("name");
 	}
 
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		renderingEngine.renderBlock(this);
 	}
 

@@ -7,13 +7,14 @@ import org.engine.component.SkyBox;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
+import org.engine.particles.ParticleEmmiter;
 import org.engine.rendeing.material.Material;
 import org.engine.util.Loader;
 import org.engine.util.OBJLoader;
 import org.engine.world.Plane;
 import org.engine.world.Terrain;
 import org.strategy.component.CameraStrategy;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.shapes.threeDimensional.Box;
 import glib.util.vector.GVector3f;
@@ -22,7 +23,7 @@ public class PhysicsTester extends CoreEngine{
 	private static final long serialVersionUID = 1L;
 	
 	public void init() {
-		setRenderingEngine(new RenderingEngine());
+		setRenderingEngine(new RenderingEngineStrategy());
 		setCamera(new CameraStrategy());
 		setLoader(new Loader());
 		setMousePicker(getCamera());
@@ -36,6 +37,8 @@ public class PhysicsTester extends CoreEngine{
 		
 		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		
+		
+		addToScene(new ParticleEmmiter(new GVector3f(0,1,5)));
 		
 //		addToScene(new GameObject(getLoader().loadToVAO(Box.getVertices(1, 1, 1), Box.getTextures(), Box.getNormals(), Box.getIndices()), new Material("texture.png")));
 		

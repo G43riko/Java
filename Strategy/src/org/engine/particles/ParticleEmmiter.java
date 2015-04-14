@@ -16,7 +16,7 @@ import org.engine.component.GameComponent;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.json.JSONObject;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
@@ -206,7 +206,7 @@ public class ParticleEmmiter extends GameComponent{
 		}
 	}
 	
-	public void render(RenderingEngine renderingEngine){
+	public void render(RenderingEngineStrategy renderingEngine){
 		glDisable(GL_DEPTH_TEST);
 		
 //		for(Particle p : particles){

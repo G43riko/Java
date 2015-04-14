@@ -1,7 +1,7 @@
 package org.strategy.world;
 
 import org.engine.component.GameComponent;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
@@ -39,7 +39,7 @@ public class Chunk2D extends GameComponent{
 	
 	//OVERRIDES
 	
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
 				blocks[i][j].render(renderingEngine);

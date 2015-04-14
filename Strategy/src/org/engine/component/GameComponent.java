@@ -4,7 +4,7 @@ import org.engine.util.Maths;
 import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
@@ -65,7 +65,7 @@ public abstract class GameComponent {
 		rotation = rotation.add(vec);
 	}
 	
-	public void render(RenderingEngine renderingEngine) {}
+	public void render(RenderingEngineStrategy renderingEngine) {}
 	
 	public void input() {}
 

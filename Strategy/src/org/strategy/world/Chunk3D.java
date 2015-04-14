@@ -1,9 +1,10 @@
 package org.strategy.world;
 
+import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.json.JSONObject;
 import org.strategy.component.CameraStrategy;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
@@ -66,7 +67,7 @@ public class Chunk3D extends GameComponent{
 		return o;
 	}
 
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
 				for(int k=0 ; k<NUM_Z ; k++){
@@ -80,8 +81,8 @@ public class Chunk3D extends GameComponent{
 		}
 	}
 	
-	private boolean isVisible(Block b, CameraStrategy camera) {
-		if(!camera.isVisible(b))
+	private boolean isVisible(Block b, Camera camera) {
+		if(!((CameraStrategy)camera).isVisible(b))
 			return false;
 		return true;
 	}

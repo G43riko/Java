@@ -10,7 +10,7 @@ import org.strategy.core.CoreGame;
 import org.strategy.entity.enemy.BasicEnemy;
 import org.strategy.entity.player.Player;
 import org.strategy.object.Lamp;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;
 
 import glib.util.GLog;
@@ -23,7 +23,7 @@ public class StrategyGame extends CoreGame{
 	public void init(){
 		GLog.sleep(100);
 		
-		setRenderingEngine(new RenderingEngine());
+		setRenderingEngine(new RenderingEngineStrategy());
 		
 //		setWorld(new World());
 		setWorld(new World("sandBox"));

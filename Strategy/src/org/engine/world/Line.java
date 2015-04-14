@@ -3,7 +3,7 @@ package org.engine.world;
 import org.engine.component.GameComponent;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
@@ -25,7 +25,7 @@ public class Line extends GameComponent{
 		this.color = new GVector3f();
 	}
 	
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		renderingEngine.renderLine(this);
 	}
 

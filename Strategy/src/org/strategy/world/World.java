@@ -14,7 +14,7 @@ import org.engine.component.GameComponent;
 import org.json.JSONObject;
 import org.strategy.component.CameraStrategy;
 import org.strategy.particles.Explosion;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.noise.PerlinNoise;
 import glib.util.vector.GVector3f;
@@ -202,7 +202,7 @@ public class World extends GameComponent{
 
 	//OVERRIDES
 	
-	public void render(RenderingEngine renderingEngine) {
+	public void render(RenderingEngineStrategy renderingEngine) {
 		NUMBER_OF_RENDERED_BLOCK = 0;
 //		double time = System.currentTimeMillis();
 		for(Entry<String, Chunk3D> e : chunks.entrySet()) {

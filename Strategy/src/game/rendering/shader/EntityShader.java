@@ -1,7 +1,7 @@
 package game.rendering.shader;
 
 import org.engine.rendeing.shader.GBasicShader;
-import org.strategy.rendering.RenderingEngine;
+import org.strategy.rendering.RenderingEngineStrategy;
 
 public class EntityShader extends GBasicShader{
 
@@ -48,7 +48,7 @@ public class EntityShader extends GBasicShader{
 		uniforms.put("fakeLight", super.getUniformLocation("fakeLight"));
 		uniforms.put("fog", super.getUniformLocation("fog"));
 		
-		for(int i=0 ; i<RenderingEngine.MAX_LIGHTS ; i++){
+		for(int i=0 ; i<RenderingEngineStrategy.MAX_LIGHTS ; i++){
 			uniforms.put("lightPosition"+i, super.getUniformLocation("lightPosition["+i+"]"));
 			uniforms.put("lightColor"+i, super.getUniformLocation("lightColor["+i+"]"));
 			uniforms.put("attenuation"+i, super.getUniformLocation("attenuation["+i+"]"));

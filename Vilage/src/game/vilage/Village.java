@@ -7,7 +7,7 @@ import game.vilage.buldings.Buildings;
 import game.vilage.buldings.Carpenter;
 import game.vilage.buldings.LumberJack;
 import game.vilage.buldings.Market;
-import game.vilage.files.Model;
+import game.vilage.files.FileReader;
 
 public class Village {
 	
@@ -24,7 +24,7 @@ public class Village {
 		market = new Market(this);
 		market.showWindow();
 		
-//		Model.loadData(this);
+		FileReader.loadData(this);
 //		building.get(Buildings.DREVORUBAC).showWindow();
 	}
 	
@@ -39,7 +39,7 @@ public class Village {
 	}
 
 	public void saveData() {
-		Model.saveData(this);
+		FileReader.saveData(this);
 	}
 
 	//GETTERS

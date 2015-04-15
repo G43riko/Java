@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 
 import util.ResourceLoader;
 
-public class Model {
+public class FileReader {
 	private static InputStream loadData(String fileName){
 		InputStream input = ResourceLoader.class.getResourceAsStream(fileName);	//pohlad· subor kde by sa mal nach·dzaù
 		if(input == null){	//ak ho nen·jde

@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public abstract class Buildings {
 	public final static byte OBCHOD = 4;
-	
+
 	public final static byte FARMA = 1;
 	public final static byte MLYNA = 2;
 	public final static byte PEKAREN = 3;

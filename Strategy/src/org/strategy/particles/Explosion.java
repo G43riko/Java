@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
 import org.physics.physics.Enviroment;
-import org.strategy.entity.player.Player;
 import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.Block;
 

@@ -32,18 +32,24 @@ public class GVector3f {
 		this.y = y;
 		this.z = z;
 	}
-	
-	public GVector3f randomize(double angle){
-		float ang = (float)(angle/1.5);
-		return this.add(new GVector3f((float)(ang*Math.random()-ang/2),
-									  (float)(ang*Math.random()-ang/2),
-									  (float)(ang*Math.random()-ang/2)));
+		
+	public GVector3f(GVector2f v, float z){
+		this.x = v.getX();
+		this.y = v.getY();
+		this.z = z;
 	}
 	
 	public GVector3f(GVector3f v){
 		this.x = v.getX();
 		this.y = v.getY();
 		this.z = v.getZ();
+	}
+	
+	public GVector3f randomize(double angle){
+		float ang = (float)(angle/1.5);
+		return this.add(new GVector3f((float)(ang*Math.random()-ang/2),
+									  (float)(ang*Math.random()-ang/2),
+									  (float)(ang*Math.random()-ang/2)));
 	}
 	
 	public float getLength(){

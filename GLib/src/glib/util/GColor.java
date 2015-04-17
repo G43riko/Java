@@ -7,8 +7,8 @@ import java.awt.Color;
 public class GColor extends Color{
 	private static final long serialVersionUID = 1L;
 	
-	public GColor(Color color){
-		this(color.getRed(),color.getGreen(), color.getBlue(), color.getAlpha());
+	public GColor(int i){
+		super(i);
 	}
 	
 	public GColor(float r, float g, float b) {
@@ -21,6 +21,16 @@ public class GColor extends Color{
 	
 	public GColor(GVector3f vec) {
 		super((int)vec.getX(), (int)vec.getY(), (int)vec.getZ());
+	}
+	
+	public static GColor average(GColor... colors){
+		GVector3f average = new GVector3f();
+		for(GColor c : colors){
+			average = average.add(new GVector3f(c.getRed(), c.getGreen(), c.getBlue()));
+		}
+		average = average.div(colors.length);
+		
+		return new GColor(average);
 	}
 	
 	public GColor getSimilarInstance(float value, boolean severally){

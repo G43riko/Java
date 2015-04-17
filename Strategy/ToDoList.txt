@@ -28,6 +28,7 @@
 +make universal shader
 +make realy usefull input
 +add look at
++implement hud
 +fix exporning resources to runnable jar
 +create universal rendering engine
 -implement basic type of views(grayscale, depth, height)
@@ -86,10 +87,10 @@
 -for rotation use quaternions
 -add 2D text
 -add 3D text
+-add water rendering
 -implement infinity lights possibles
 -automatic update position in object viewer
 -fix sphere-sphere collisions
--implement hud
 -start object rotate after collision
 -implement slider for loading
 -use one instance of loader to load models

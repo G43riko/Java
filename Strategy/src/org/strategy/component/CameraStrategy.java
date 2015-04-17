@@ -2,13 +2,9 @@ package org.strategy.component;
 
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
-import org.engine.util.Maths;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Matrix4f;
-import org.strategy.world.Chunk3D;
 
-import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 

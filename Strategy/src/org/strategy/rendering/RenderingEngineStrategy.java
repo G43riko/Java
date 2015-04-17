@@ -23,11 +23,7 @@ import org.strategy.world.Block;
 import glib.util.vector.GVector3f;
 
 public final class RenderingEngineStrategy extends RenderingEngine{
-	
-	
-	
 	private int view = 0;
-	private boolean texture;
 	 
 	private PointLight sun;
 	private SelectBlock selectBlock = new SelectBlock();
@@ -50,15 +46,6 @@ public final class RenderingEngineStrategy extends RenderingEngine{
 			block = null;
 			dist = -1;
 		}
-	}
-	
-	//CONSTRUCTORS
-	
-	public RenderingEngineStrategy(){ 
-		setTexture(true);
-		setVariable("specular", false);
-		setVariable("light", true);
-		setVariable("fog", false);
 	}
 	
 	//RENDERERS
@@ -252,14 +239,6 @@ public final class RenderingEngineStrategy extends RenderingEngine{
 			getShader(s.getKey()).bind();
 			getShader(s.getKey()).updateUniform("view", view);
 		}
-	}
-	
-	public void setTexture(boolean texture){
-		if(this.texture == texture)
-			return;
-		this.texture = texture;
-		getShader("entityShader").bind();
-		getShader("entityShader").updateUniform("texture", texture);
 	}
 	
 	public void setSun(PointLight sun){

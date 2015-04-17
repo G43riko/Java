@@ -2,9 +2,7 @@ package org.strategy.main;
 
 import org.engine.component.SkyBox;
 import org.engine.light.PointLight;
-import org.engine.particles.ParticleEmmiter;
 import org.engine.util.Loader;
-import org.json.JSONObject;
 import org.strategy.component.CameraStrategy;
 import org.strategy.core.CoreGame;
 import org.strategy.entity.enemy.BasicEnemy;

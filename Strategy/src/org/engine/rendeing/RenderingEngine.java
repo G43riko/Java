@@ -23,11 +23,13 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.engine.component.Camera;
+import org.engine.gui.Hud;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
 import org.engine.rendeing.shader.GBasicShader;
+import org.engine.rendeing.shader.HudShader;
 import org.engine.util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -51,6 +53,7 @@ public class RenderingEngine {
 		shaders.put("entityShader", new EntityShader());
 		shaders.put("skyShader", new SkyShader());
 		shaders.put("particleShader", new ParticleShader());
+		shaders.put("guiShader", new HudShader());
 	}
 	
 	//CONSTRUCTOR
@@ -68,11 +71,17 @@ public class RenderingEngine {
 		glClearColor(backgroundColor.getX(), backgroundColor.getY(), backgroundColor.getZ(), 1f);
 		
 		setAmbient(new GVector3f(1));
+		
+		setTexture(true);
+		
+		setVariable("specular", false);
+		setVariable("light", true);
+		setVariable("fog", false);
+		setVariable("hud", true);
 	}
 	
 	//RENDERERS
 	
-
 	public void renderObject(GameObject object){
 		if(getMainCamera() == null)
 			return;
@@ -89,6 +98,28 @@ public class RenderingEngine {
 		
 	}
 	
+	public void renderHud(Hud hud){
+		if(!variables.containsKey("hud") || !variables.get("hud"))
+			return;
+		
+		shaders.get("guiShader").bind();
+		GL30.glBindVertexArray(hud.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		//render
+		
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			hud.getTexture().bind();
+			
+			shaders.get("guiShader").updateUniform("transformationMatrix", hud.getTransformationMatrix());
+			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, hud.getModel().getVertexCount());
+		
+//		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
 	
 	//OTHERS
 
@@ -147,6 +178,14 @@ public class RenderingEngine {
 	
 	//SETTERS
 	
+	public void setTexture(boolean texture){
+		if(variables.containsKey("texture") && variables.get("texture") == texture)
+			return;
+		variables.put("texture", texture);
+		getShader("entityShader").bind();
+		getShader("entityShader").updateUniform("texture", texture);
+	}
+	
 	public void setVariable(String name, boolean value){
 		if(variables.containsKey(name) && variables.get(name) == value)
 			return;
@@ -164,8 +203,10 @@ public class RenderingEngine {
 		this.mainCamera = mainCamera;
 		
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			getShader(s.getKey()).bind();
-			getShader(s.getKey()).updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+			if(s.getValue().hasUniform("projectionMatrix")){
+				getShader(s.getKey()).bind();
+				getShader(s.getKey()).updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+			}
 		}
 	}
 	
@@ -185,9 +226,11 @@ public class RenderingEngine {
 		this.ambient = ambient;
 		
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			getShader(s.getKey()).bind();
-			getShader(s.getKey()).updateUniform("ambient", ambient);
-		}	
+			if(s.getValue().hasUniform("ambient")){
+				getShader(s.getKey()).bind();
+				getShader(s.getKey()).updateUniform("ambient", ambient);
+			}
+		}
 	}
 
 	public void setViewMatrix(){
@@ -197,10 +240,19 @@ public class RenderingEngine {
 		}
 		GMatrix4f mat = Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera));
 		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			getShader(s.getKey()).bind();
-			getShader(s.getKey()).updateUniform("viewMatrix", mat);
-		}	
+			if(s.getValue().hasUniform("viewMatrix")){
+				getShader(s.getKey()).bind();
+				getShader(s.getKey()).updateUniform("viewMatrix", mat);
+			}
+		}
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	public void setMaterial(Material mat){

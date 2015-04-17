@@ -1,6 +1,7 @@
 package org.engine.util;
 
 import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import org.engine.component.Camera;
@@ -26,6 +27,7 @@ public class Maths {
 										  new Vector3f(rotation.getX(), rotation.getY(), rotation.getZ()), 
 										  new Vector3f(scale.getX(), scale.getY(), scale.getZ()));
 	};
+	
 	public static Matrix4f createTransformationMatrix(Vector3f position, Vector3f rotation, Vector3f scale){
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
@@ -37,6 +39,18 @@ public class Maths {
 		return matrix;
 	};
 	
+	public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+		Matrix4f.translate(translation, matrix, matrix);
+		Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
+		return matrix;
+	}
+	
+	public static Matrix4f createTransformationMatrix(GVector2f translation, GVector2f scale) {
+		return createTransformationMatrix(new Vector2f(translation.getX(), translation.getY()), new Vector2f(scale.getX(), scale.getY()));
+	}
+
 	public static Matrix4f createViewMatrix(Camera camera){
 		Matrix4f viewMatrix = new Matrix4f();
 		viewMatrix.setIdentity();
@@ -46,14 +60,6 @@ public class Maths {
 		Vector3f negativeCameraPos = new Vector3f(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 		Matrix4f.translate(negativeCameraPos,viewMatrix,viewMatrix);
 		return viewMatrix;
-	}
-	
-	public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
-		Matrix4f matrix = new Matrix4f();
-		matrix.setIdentity();
-		Matrix4f.translate(translation, matrix, matrix);
-		Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
-		return matrix;
 	}
 	
 	public static GMatrix4f MatrixToGMatrix(Matrix4f a){

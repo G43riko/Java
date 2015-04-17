@@ -15,10 +15,12 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.MainStrategy;
+import org.underConstruct.gui.windows.TextureWindow;
 
 public class TMenu extends JMenuBar{
 	private static final long serialVersionUID = 1L;
@@ -93,6 +95,8 @@ public class TMenu extends JMenuBar{
 		JMenuItem menuItem = new JMenuItem("Material editor", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+//				JOptionPane.showConfirmDialog(new TextureWindow("texture.png"), gui);
+				JOptionPane.showMessageDialog(gui,new TextureWindow("texture.png"), "Material editor", JOptionPane.PLAIN_MESSAGE);
 				GLog.write("klikol si na zobrazenie editora materiálov","menu");
 			}
 		});

@@ -1,11 +1,13 @@
-#version 130
+#version 140
 
-in vec2 pass_textureCoords;
+in vec2 textureCoords;
 
 out vec4 out_Color;
 
-uniform sampler2D textureSampler;
+uniform sampler2D guiTexture;
 
-void main(){
-	out_Color =  texture(textureSampler, pass_textureCoords);
+void main(void){
+
+	out_Color = texture(guiTexture,textureCoords);
+
 }

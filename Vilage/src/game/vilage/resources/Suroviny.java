@@ -53,7 +53,7 @@ public final class Suroviny {
 	private static void setResourcesAndProducers(){
 		resourcesAndProducers.put(DREVO, Buildings.DREVORUBAC);
 		resourcesAndProducers.put(OBILIE, Buildings.FARMA);
-		resourcesAndProducers.put(MUKA, Buildings.MLYNA);
+		resourcesAndProducers.put(MUKA, Buildings.MLYN);
 		resourcesAndProducers.put(CHLIEB, Buildings.PEKAREN);
 		resourcesAndProducers.put(KAMEN, Buildings.KAMENOLOM);
 		resourcesAndProducers.put(MASO, Buildings.CHATRC_LOVCA);

@@ -48,7 +48,6 @@ public class TextureWindow extends JPanel{
 	
 	private GVector4f minimum = new GVector4f(0, 0, 0, 0);
 	private GVector4f maximum = new GVector4f(255, 255, 255, 255);
-	
 	private GVector4f colors = new GVector4f(0,0,0,0);
 
 	private TextureWindow toto;

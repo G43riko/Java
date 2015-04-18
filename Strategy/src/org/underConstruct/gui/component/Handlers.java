@@ -24,7 +24,6 @@ public class Handlers {
 				GColor c = new GColor(image.getRGB(i, j));
 				int averageColor = (c.getRed() + c.getGreen() + c.getBlue()) / 3;
 				image.setRGB(i, j, new GColor(averageColor, averageColor, averageColor).getRGB());
-//				image.setRGB(i, j, new GColor(aver.add(averageColor).div(2)).getRGB());
 			}
 		}
 	}
@@ -56,7 +55,6 @@ public class Handlers {
 	}
 	
 	public void maxAndMin(BufferedImage image, GVector4f maximum, GVector4f minimum){
-		System.out.println(maximum+" "+minimum);
 		for(int i=0 ; i<image.getWidth() ; i++){
 			for(int j=0 ; j<image.getHeight() ; j++){
 				GColor c = new GColor(image.getRGB(i, j));

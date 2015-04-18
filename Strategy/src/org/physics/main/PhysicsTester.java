@@ -38,7 +38,7 @@ public class PhysicsTester extends CoreEngine{
 		
 //		addToScene(new GameObject(new Terrain(0,0,getLoader(),255).getModel()));
 		
-//		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
+		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		
 		
 		

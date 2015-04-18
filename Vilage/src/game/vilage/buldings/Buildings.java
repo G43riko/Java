@@ -8,7 +8,6 @@ public abstract class Buildings {
 	public final static byte OBCHOD = 4;
 
 	public final static byte FARMA = 1;
-	public final static byte MLYNA = 2;
 	public final static byte PEKAREN = 3;
 	public final static byte CHATRC_LOVCA = 5;
 	public final static byte CHOVATEL_ZVIERAT = 6;

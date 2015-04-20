@@ -1,9 +1,6 @@
 package main.both.core;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
-
-import main.both.components.Bomb;
 import main.both.components.MyPlayer;
 
 

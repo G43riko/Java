@@ -9,7 +9,6 @@ import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL20;
 
 public class Shader {

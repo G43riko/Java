@@ -1,9 +1,5 @@
 package models;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL30;
-
 /*
  * Obsahuje iba udaje o tvare modelu
  */

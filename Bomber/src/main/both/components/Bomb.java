@@ -20,7 +20,7 @@ public class Bomb extends GameComponent{
 	
 	public void render(Graphics2D g2){
 		g2.setColor(Color.BLACK);
-		g2.fillRect((int)(x*Map.block-player.offset.getX()),(int)(y*Map.block-player.offset.getY()),Map.block,Map.block);
+		g2.fillRect((int)(x*Map.block-Player.offset.getX()),(int)(y*Map.block-Player.offset.getY()),Map.block,Map.block);
 		
 //		for(int i=1 ; i<=dist ; i++){
 //			if(Map.mapa[x][y+i]==0){

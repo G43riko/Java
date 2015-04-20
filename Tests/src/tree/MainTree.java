@@ -14,11 +14,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 public class MainTree extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTree tree;
 	
 	public MainTree() {
 		setSize(new Dimension(800,600));
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Game engine");
 		createNodes(top);
 		tree = new JTree(top);
@@ -46,7 +50,7 @@ public class MainTree extends JFrame{
 	
 	public MainTree(int i) {
 		setSize(new Dimension(1280,720));
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JSplitPane mainSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		JScrollPane materialView = new JScrollPane();

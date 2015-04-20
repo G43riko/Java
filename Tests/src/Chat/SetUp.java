@@ -15,6 +15,10 @@ import java.awt.event.MouseEvent;
 
 public class SetUp extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public JTextField textField_IP,textField_PORT,textField_LOGIN;
 

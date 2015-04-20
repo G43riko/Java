@@ -7,14 +7,9 @@ import main.Loader;
 import models.RawModel;
 import models.TexturedModel;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import entities.Entity;
 import shapes.threeDimensional.Box;
-import shapes.twoDimensional.Rectangle;
 import textures.ModelTexture;
-import utils.FileLoader;
-import utils.OBJLoader;
 
 
 public class Block extends Entity{

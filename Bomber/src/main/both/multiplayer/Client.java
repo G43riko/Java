@@ -11,7 +11,6 @@ import java.net.UnknownHostException;
 
 import main.MainBomber;
 import main.both.components.Map;
-import main.both.components.Player;
 import main.both.components.PlayerForDraw;
 import main.both.core.Game;
 import main.both.core.utils.Logs;

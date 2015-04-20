@@ -114,30 +114,6 @@ public final class RenderingEngineStrategy extends RenderingEngine{
 			
 		disableVertex(3);
 	}
-
-	public void renderParticle(Particle particle) {
-		if(getMainCamera() == null){
-			return;
-		}
-		getShader("particleShader").bind();
-		
-		getShader("particleShader").updateUniform("color", particle.getColor());
-		
-		if(particle.isFadding())
-			getShader("particleShader").updateUniform("alpha", particle.getAlpha());
-		
-		getShader("particleShader").updateUniform("transformationMatrix",particle.getTransformationMatrix(getMainCamera().getPosition()));
-		
-		if(particle.getTexture() != null){
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			particle.getTexture().bind();
-		}
-		
-		
-		prepareAndDraw(2,particle.getModel());
-		
-		disableVertex(2);
-	}
 	
 	public void renderLine(Line line) {
 		getShader("entityShader").bind();

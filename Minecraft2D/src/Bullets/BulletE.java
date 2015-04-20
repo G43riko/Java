@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 import Components.Block;
 import Main.Main;
-import Particles.Explosion;
 import Particles.Firework;
 import Utils.Helpers;
 

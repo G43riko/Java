@@ -3,14 +3,8 @@ package entities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
-import javax.swing.text.Position;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector3f;
-
-import terrains.Block;
-import main.Main;
 
 public class Camera extends BasicEntity {
 	public static final float ROTATION_SPEED = 2;

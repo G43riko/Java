@@ -1,20 +1,18 @@
 package Chat;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Client extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String login,ip,port;
 	private Socket clientSocket;
 	

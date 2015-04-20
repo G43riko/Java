@@ -7,8 +7,6 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -18,6 +16,10 @@ import main2.server.MainBomberServer;
 
 
 public class TempWindow extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static KeyEvents keyboard = new KeyEvents();
 	private static int width;
 	private static int height;

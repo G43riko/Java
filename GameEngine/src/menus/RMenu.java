@@ -8,28 +8,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-
-import renderers.Renderer;
 import terrains.Block;
-import static org.lwjgl.opengl.GL20.*;
-import main.Game;
 import main.Main;
 
 public class RMenu extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JCheckBox a;
 	private JCheckBox b;
 	private JCheckBox c;
@@ -46,7 +38,7 @@ public class RMenu extends JPanel{
 	public JSlider BGGreen;
 	public JSlider BGBlue;
 	
-	private JComboBox typeOfView;
+	private JComboBox<String> typeOfView;
 	
 	private Minimap minimap;
 	
@@ -59,7 +51,7 @@ public class RMenu extends JPanel{
 		add(minimap);
 		
 		String[] views = { "Clasic view", "Depth", "Normals", "HeightMap", "GreyScale", "inverse", "untextured"};
-		typeOfView = new JComboBox(views);
+		typeOfView = new JComboBox<String>(views);
 		typeOfView.setSelectedIndex(0);
 		add(typeOfView);
 		
@@ -71,7 +63,7 @@ public class RMenu extends JPanel{
 		return typeOfView.getSelectedIndex();
 	}
 	
-	public JComboBox getTypeOfViewSelector(){
+	public JComboBox<String> getTypeOfViewSelector(){
 		return typeOfView;
 	}
 	

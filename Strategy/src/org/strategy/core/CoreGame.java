@@ -61,7 +61,7 @@ public abstract class CoreGame extends CoreEngine{
 		getRenderingEngine().prepare();
 		
 		ArrayList<GameComponent> toRemove = new ArrayList<GameComponent>();
-		for(GameComponent g: scene){
+		for(GameComponent g: getScene()){
 			g.input();
 			g.update();
 			if(g instanceof Bullet){
@@ -71,7 +71,7 @@ public abstract class CoreGame extends CoreEngine{
 			}
 			g.render(getRenderingEngine());
 		}
-		scene.removeAll(toRemove);
+		getSceneObject().removeAll(toRemove);
 		
 		if(getRenderingEngine().getSelectBlock().getBlock() != null){
 			RenderingEngineStrategy.getShader("entityShader").bind();

@@ -20,7 +20,11 @@ import java.awt.GridLayout;
  
 public class TreeDemo extends JPanel
                       implements TreeSelectionListener {
-    private JEditorPane htmlPane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JEditorPane htmlPane;
     private JTree tree;
     private URL helpURL;
     private static boolean DEBUG = false;

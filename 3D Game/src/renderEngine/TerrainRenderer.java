@@ -3,8 +3,6 @@ package renderEngine;
 import java.util.List;
 
 import models.RawModel;
-import models.TexturedModel;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -14,10 +12,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import shaders.TerrainShader;
 import terrains.Terrain;
-import textures.ModelTexture;
 import textures.TerrainTexturePack;
 import toolBox.Maths;
-import entities.Entity;
 
 public class TerrainRenderer {
 	private TerrainShader shader;

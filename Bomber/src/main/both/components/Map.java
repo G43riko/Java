@@ -73,7 +73,7 @@ public class Map extends GameComponent{
 				switch(mapa[i][j]){
 					case 1:
 						g2.setColor(Color.BLUE);
-						g2.fillRect((int)(i*block - player.offset.getX()), (int)(j*block - player.offset.getY()), block, block);
+						g2.fillRect((int)(i*block - Player.offset.getX()), (int)(j*block - Player.offset.getY()), block, block);
 						break;
 					case 0:
 						break;

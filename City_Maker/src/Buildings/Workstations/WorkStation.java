@@ -2,7 +2,6 @@ package Buildings.Workstations;
 
 import Buildings.Building;
 
-import Buildings.BuildingsDo;
 import Peoples.Clovek;
 
 public class WorkStation extends Building {

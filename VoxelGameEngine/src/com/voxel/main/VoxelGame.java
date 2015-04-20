@@ -4,7 +4,6 @@ package com.voxel.main;
 import glib.util.vector.GVector3f;
 
 import com.voxel.component.light.DirectionalLight;
-import com.voxel.component.light.PointLight;
 import com.voxel.component.viewAndMovement.Camera;
 import com.voxel.component.viewAndMovement.FreeLook;
 import com.voxel.component.viewAndMovement.FreeMove;

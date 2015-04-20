@@ -1,8 +1,6 @@
 package main;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import entities.Camera;
 import entities.Selector;
 

@@ -5,20 +5,15 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
@@ -29,14 +24,11 @@ import renderers.Renderer;
 import rendering.RenderingEngine;
 import shaders.StaticShader;
 import shapes.threeDimensional.Box;
-import shapes.twoDimensional.Rectangle;
 import terrains.Block2;
 import terrains.Map;
 import terrains.Terrain;
 import textures.ModelTexture;
-import utils.FileLoader;
 import utils.Logs;
-import utils.OBJLoader;
 import lights.Light;
 import menus.RMenu;
 import menus.BMenu;
@@ -45,6 +37,10 @@ import models.RawModel;
 import models.TexturedModel;
 
 public class Game extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static boolean mipMapping = true;
 	public static boolean isLoading = false;
 	

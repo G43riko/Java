@@ -7,21 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import java.awt.ScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTable;
 import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.Component;
 
 public class BrowserJava extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_3;
 	private JTextField textField;

@@ -37,6 +37,7 @@ public abstract class GameComponent {
 	public final static int GAME_OBJECT = 19;
 	public final static int PLANE = 20;
 	public final static int MOVABLE = 21;
+	public final static int WATER = 22;
 	
 	// CONSTRUCTORS;
 	

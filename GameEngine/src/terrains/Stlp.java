@@ -2,13 +2,9 @@ package terrains;
 
 import java.util.ArrayList;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
-
-import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camerka;
-import main.Game;
 import renderers.Renderer;
 import shaders.StaticShader;
 

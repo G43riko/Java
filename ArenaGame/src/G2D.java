@@ -1,8 +1,4 @@
 import glib.util.GColor;
-import glib.util.noise.PerlinNoise;
-import glib.util.noise.SimplexNoise;
-import glib.util.vector.GVector2f;
-
 import java.awt.Color;
 import java.awt.Graphics;
 

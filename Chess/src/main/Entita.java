@@ -1,10 +1,8 @@
 package main;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Entita {
 

@@ -1,13 +1,9 @@
 package main.both.components;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-
 import main.MainBomber;
 import main.both.Constants;
 import main.both.core.utils.Logs;
 import main.both.core.utils.Vector2f;
-import main.both.multiplayer.Client;
 
 public class MyPlayer extends Player{
 	//defaultné klávesy 

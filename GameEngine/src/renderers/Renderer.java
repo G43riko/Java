@@ -1,8 +1,6 @@
 package renderers;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -11,12 +9,9 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
-import terrains.Map;
 import textures.ModelTexture;
 import utils.Maths;
 import entities.BasicEntity;
-import entities.Camera;
-import entities.Camerka;
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;

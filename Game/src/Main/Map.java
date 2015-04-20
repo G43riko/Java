@@ -1,7 +1,5 @@
 package Main;
 
-import java.util.Arrays;
-
 public class Map {
 	private Block[][] mapa;
 	public static float blockX=1, blockY=1;

@@ -2,7 +2,6 @@ package menus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -20,6 +19,10 @@ import terrains.Block;
 import entities.Camerka;
 
 public class BMenu extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel cameraWindow;
 	private JPanel blockWindow;
 	private JLabel[] blockData;

@@ -1,7 +1,5 @@
 package Shapes;
 
-import java.awt.Color;
-
 import Goniometry.Vector3f;
 
 public class Box3f {

@@ -4,21 +4,11 @@ import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
 import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
 
-import java.awt.Color;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;	
-import org.lwjgl.util.vector.Vector3f;
-
-import stolen.Entity;
 import stolen.Loader;
-import stolen.ModelTexture;
-import stolen.OBJLoader;
-import stolen.RawModel;
-import stolen.TexturedModel;
 import entities.Camera;
 import entities.Selector;
-import maps.Block;
 
 public class Game {
 	public static int width = 1280;

@@ -2,7 +2,6 @@ package main.game.core;
 
 import main.game.Bomberman;
 import main.both.core.Game;
-import main.both.core.utils.Logs;
 import main.both.core.utils.Time;
 import main.both.core.utils.Window;
 import main.both.rendering.RenderEngine;

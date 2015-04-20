@@ -17,6 +17,7 @@ public class FileLoader {
 			while((line = reader.readLine()) != null){
 				i++;
 				if(i==target){
+					reader.close();
 					return line;
 				}
 			}

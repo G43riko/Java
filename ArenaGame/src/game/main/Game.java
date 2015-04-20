@@ -12,9 +12,7 @@ import game.units.UnitA;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.List;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 public class Game {
 	private Window window = null;

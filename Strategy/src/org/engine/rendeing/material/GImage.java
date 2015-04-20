@@ -15,9 +15,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Hashtable;
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,14 +24,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.physics.physics.Enviroment;
-
 public class GImage extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 	private BufferedImage defaultImage;
 	private JPanel topView;
@@ -182,13 +180,13 @@ public class GImage extends JFrame{
 		image.setRGB(x, y, c.getRGB());
 	}
 	
-	private void changeColor(int minX, int minY, int maxX, int maxY, Color c){
-		for(int i=minX ; i<maxX ; i++){
-			for(int j=minY ; j<maxY ; j++){
-				changeColor(i,j,c);
-			}
-		}
-	}	
+//	private void changeColor(int minX, int minY, int maxX, int maxY, Color c){
+//		for(int i=minX ; i<maxX ; i++){
+//			for(int j=minY ; j<maxY ; j++){
+//				changeColor(i,j,c);
+//			}
+//		}
+//	}	
 	
 	private void setLiminance(int value){
 		for(int i=0 ; i<image.getWidth() ; i++){
@@ -253,36 +251,36 @@ public class GImage extends JFrame{
 		}
 	}
 	
-	private void changeColors(String s){
-		for(int i=0 ; i<image.getWidth() ; i++){
-			for(int j=0 ; j<image.getHeight() ; j++){
-				Color c = new Color(image.getRGB(i, j));
-				GVector3f n = new GVector3f();
-				switch(s){
-					case "rbg":
-						n = new GVector3f(c.getRed(),c.getBlue() , c.getGreen() );
-						break;
-					case "rgb":
-						n = new GVector3f(c.getRed(), c.getGreen() ,c.getBlue() );
-						break;
-					case "brg":
-						n = new GVector3f(c.getBlue(), c.getRed(), c.getGreen() );
-						break;
-					case "bgr":
-						n = new GVector3f(c.getBlue() , c.getGreen(), c.getRed() );
-						break;
-					case "gbr":
-						n = new GVector3f(c.getGreen(), c.getBlue(), c.getRed() );
-						break;
-					case "grb":
-						n = new GVector3f( c.getGreen(), c.getRed(), c.getBlue() );
-						break;
-				}
-				
-				changeColor(i,j,new Color(n.getXi(), n.getYi(), n.getZi()));
-			}
-		}
-	}
+//	private void changeColors(String s){
+//		for(int i=0 ; i<image.getWidth() ; i++){
+//			for(int j=0 ; j<image.getHeight() ; j++){
+//				Color c = new Color(image.getRGB(i, j));
+//				GVector3f n = new GVector3f();
+//				switch(s){
+//					case "rbg":
+//						n = new GVector3f(c.getRed(),c.getBlue() , c.getGreen() );
+//						break;
+//					case "rgb":
+//						n = new GVector3f(c.getRed(), c.getGreen() ,c.getBlue() );
+//						break;
+//					case "brg":
+//						n = new GVector3f(c.getBlue(), c.getRed(), c.getGreen() );
+//						break;
+//					case "bgr":
+//						n = new GVector3f(c.getBlue() , c.getGreen(), c.getRed() );
+//						break;
+//					case "gbr":
+//						n = new GVector3f(c.getGreen(), c.getBlue(), c.getRed() );
+//						break;
+//					case "grb":
+//						n = new GVector3f( c.getGreen(), c.getRed(), c.getBlue() );
+//						break;
+//				}
+//				
+//				changeColor(i,j,new Color(n.getXi(), n.getYi(), n.getZi()));
+//			}
+//		}
+//	}
 	
 	private void changeColors(int s){
 		for(int i=0 ; i<image.getWidth() ; i++){
@@ -469,6 +467,6 @@ public class GImage extends JFrame{
 	//MAIN
 	
 	public static void main(String[] args){
-		GImage img = new GImage("texture.png");
+		new GImage("texture.png");
 	}
 }

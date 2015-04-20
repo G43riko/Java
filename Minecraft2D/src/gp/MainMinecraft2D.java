@@ -1,7 +1,5 @@
 package gp;
 
-import org.newdawn.slick.*;
-
 public class MainMinecraft2D/* extends BasicGame*/{
 
 //	public MainMinecraft2D(String title) {

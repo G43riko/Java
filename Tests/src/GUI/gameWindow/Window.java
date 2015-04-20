@@ -1,6 +1,5 @@
 package GUI.gameWindow;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -11,9 +10,14 @@ import javax.swing.JSplitPane;
 
 public class Window extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Window(){
 		setSize(new Dimension(1280,720));
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JSplitPane mainSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JSplitPane topSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		JScrollPane materialView = new JScrollPane();

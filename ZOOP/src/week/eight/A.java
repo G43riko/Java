@@ -11,9 +11,6 @@ public class A {
 		pocet--;
 	}
 	
-	private class nieco{
-		public String meno;
-	}
 	
 	public static void main(String args[]){
 		for(int i=0 ; i<29999 ; i++){

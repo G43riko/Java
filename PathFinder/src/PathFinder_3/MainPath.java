@@ -1,7 +1,6 @@
 package PathFinder_3;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class MainPath {
 	public static ArrayList<Point> points = new ArrayList<Point>();

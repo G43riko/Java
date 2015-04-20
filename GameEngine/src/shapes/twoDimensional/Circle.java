@@ -1,8 +1,5 @@
 package shapes.twoDimensional;
 
-import main.Loader;
-import models.RawModel;
-
 public class Circle {
 	private static float[] getVertices(float dist,int num,float x, float y){
 		float[] vertices = new float[(num+1)*3];

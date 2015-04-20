@@ -3,10 +3,7 @@ package terrains;
 import object.GameObject2;
 import main.Game2;
 import models.RawModel;
-import models.TexturedModel;
-import renderers.Renderer;
 import rendering.RenderingEngine;
-import shaders.StaticShader;
 import shapes.threeDimensional.Box;
 import textures.ModelTexture;
 

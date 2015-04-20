@@ -7,7 +7,6 @@ import main.both.components.Map;
 import main.both.components.MyPlayer;
 import main.both.core.Game;
 import main.both.core.GameObject;
-import main.both.core.utils.Logs;
 import main.both.core.utils.Window;
 import main.both.multiplayer.OtherPlayer;
 import main.both.multiplayer.Server;

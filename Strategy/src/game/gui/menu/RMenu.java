@@ -1,6 +1,5 @@
 package game.gui.menu;
 
-import game.gui.Gui;
 import glib.util.GColor;
 
 import java.awt.Color;

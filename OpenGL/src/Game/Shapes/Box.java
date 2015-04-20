@@ -6,10 +6,6 @@ import org.newdawn.slick.opengl.Texture;
 
 import java.awt.Color;
 
-import org.newdawn.slick.opengl.Texture;
-
-import Game.RenderUtil;
-
 public class Box {
 	private float x;
 	private float y;

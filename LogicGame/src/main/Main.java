@@ -2,11 +2,6 @@ package main;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JFrame;
 
 

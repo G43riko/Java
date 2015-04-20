@@ -7,8 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector2f;
 
-import com.g43riko.MainVoxel;
-
 public class Window {
 	private static int fps;
 	public static void createWindow(String title, int width, int height, int fps){

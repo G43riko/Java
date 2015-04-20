@@ -3,7 +3,6 @@ package main.both.components;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import main.both.Bomberman;
 import main.both.core.Game;
 
 public class Log extends GameComponent{

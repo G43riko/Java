@@ -1,7 +1,6 @@
 package main.both.core;
 
 import main.both.Bomberman;
-import main.both.core.utils.Logs;
 import main.both.core.utils.Time;
 import main.both.core.utils.Window;
 import main.both.rendering.RenderEngine;

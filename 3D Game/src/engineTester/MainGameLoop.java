@@ -1,9 +1,5 @@
 package engineTester;
 
-import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
-import static org.lwjgl.opengl.GL11.GL_LINE;
-import static org.lwjgl.opengl.GL11.glPolygonMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +13,9 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
-import renderEngine.EntityRenderer;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
-import shaders.StaticShader;
 import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;

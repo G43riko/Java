@@ -3,7 +3,6 @@ package main.both.components;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import main.MainBomber;
 import main.both.core.utils.Vector2f;
 
 public class Player extends GameComponent{

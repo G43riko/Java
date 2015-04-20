@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import com.g43riko.object.GameObject;
 import com.g43riko.rendering.RenderingEngine;
-import com.g43riko.rendering.shader.DefaultShader;
 
 public abstract class CoreGame {
 	private boolean isRunning;

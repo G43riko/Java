@@ -14,7 +14,6 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.MainStrategy;
 import org.engine.component.GameComponent;
-import org.engine.core.CoreEngine;
 import org.engine.light.DirectionalLight;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
@@ -22,7 +21,6 @@ import org.physics.object.GameObjectPhysics;
 import org.strategy.object.GameObjectWithLight;
 
 import game.gui.Gui;
-import game.gui.menu.RMenu;
 import glib.util.GColor;
 
 public class SceneWindow extends JPanel{

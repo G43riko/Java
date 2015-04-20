@@ -55,7 +55,7 @@ public class UnitA extends Unit {
 
 	public void draw(Graphics g) {
 		g.setColor(this.color);
-		g.fillArc((int)this.x, (int)this.y, this.radius*2, this.radius*2, 0,360);
+		g.fillArc((int)this.x, (int)this.y, Unit.radius*2, Unit.radius*2, 0,360);
 	};
 	
 	public static UnitA createUnitA(String meno){

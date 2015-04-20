@@ -3,8 +3,6 @@ package Game;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
-import org.lwjgl.util.vector.Vector3f;
-
 public class Camera {
 	private float x;
 	private float y;

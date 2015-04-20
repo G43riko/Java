@@ -11,7 +11,6 @@ import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.Loader;
-import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 

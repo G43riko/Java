@@ -1,18 +1,13 @@
 package main.both.multiplayer;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import main.both.components.GameComponent;
 import main.both.components.Player;
-import main.both.core.utils.Logs;
-import main.both.core.utils.Vector2f;
 
 public class OtherPlayer extends Player{
 	private Socket socket;

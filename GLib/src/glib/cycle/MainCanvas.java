@@ -3,9 +3,6 @@ package glib.cycle;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import glib.util.GColor;
-import glib.util.noise.PerlinNoise;
-import glib.util.noise.SimplexNoise;
 import glib.util.vector.GVector2f;
 
 

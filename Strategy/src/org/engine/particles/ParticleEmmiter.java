@@ -42,6 +42,7 @@ public class ParticleEmmiter extends GameComponent{
 	private float speedRandomnes = 0.01f;
 	private float colorRandomness = 0f;
 	private float sizeRandomness = 1f;
+
 	private float lifeRandomness = 20;
 	private float directionRandomness = 180;
 	
@@ -242,6 +243,10 @@ public class ParticleEmmiter extends GameComponent{
 
 	public boolean isDwindle() {
 		return dwindle;
+	}
+	
+	public ArrayList<Particle> getParticles() {
+		return particles;
 	}
 
 	public boolean isFadding() {

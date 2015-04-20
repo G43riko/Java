@@ -14,6 +14,10 @@ import terrains.Block;
 
 
 public class Minimap extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Canvas canvas;
 	private Block[][] minimap = null;;
 	

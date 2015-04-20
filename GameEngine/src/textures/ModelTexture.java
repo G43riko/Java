@@ -12,8 +12,6 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import utils.FileLoader;
-
 public class ModelTexture {
 	private int textureID;
 	private float shineDamper = 1;

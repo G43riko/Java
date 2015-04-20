@@ -26,11 +26,14 @@ import org.engine.component.Camera;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
+import org.engine.particles.Particle;
+import org.engine.particles.ParticleEmmiter;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
 import org.engine.rendeing.shader.GBasicShader;
-import org.engine.rendeing.shader.HudShader;
+import org.engine.rendeing.shader.named.HudShader;
 import org.engine.util.Maths;
+import org.engine.water.Water;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -82,6 +85,64 @@ public class RenderingEngine {
 	
 	//RENDERERS
 	
+	public void renderParticle(Particle particle) {
+		if(getMainCamera() == null){
+			return;
+		}
+		getShader("particleShader").bind();
+		
+		getShader("particleShader").updateUniform("color", particle.getColor());
+		
+		if(particle.isFadding())
+			getShader("particleShader").updateUniform("alpha", particle.getAlpha());
+		
+		getShader("particleShader").updateUniform("transformationMatrix",particle.getTransformationMatrix(getMainCamera().getPosition()));
+		
+		if(particle.getTexture() != null){
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			particle.getTexture().bind();
+		}
+		
+		
+		prepareAndDraw(2,particle.getModel());
+		
+		disableVertex(2);
+	}
+	
+	public void renderParticle(ArrayList<ParticleEmmiter> particles) {
+		if(getMainCamera() == null){
+			return;
+		}
+		getShader("particleShader").bind();
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		
+		for(ParticleEmmiter pe : particles){
+			for(Particle p : pe.getParticles()){
+				
+				getShader("particleShader").updateUniform("color", p.getColor());
+				
+				if(p.isFadding())
+					getShader("particleShader").updateUniform("alpha", p.getAlpha());
+				
+				getShader("particleShader").updateUniform("transformationMatrix",p.getTransformationMatrix(getMainCamera().getPosition()));
+				
+				if(p.getTexture() != null)
+					p.getTexture().bind();
+				
+				
+				GL30.glBindVertexArray(p.getModel().getVaoID());
+				
+				
+				GL11.glDrawElements(GL11.GL_TRIANGLES, p.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+			}
+		}
+		disableVertex(2);
+	}
+	
 	public void renderObject(GameObject object){
 		if(getMainCamera() == null)
 			return;
@@ -95,7 +156,38 @@ public class RenderingEngine {
 		prepareAndDraw(3, object.getModel());
 		
 		disableVertex(3);
+	}
+	
+	public void renderObject(ArrayList<GameObject> objects){
+		if(getMainCamera() == null)
+			return;
 		
+		getShader("entityShader").bind();
+
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
+		
+		
+		for(GameObject o : objects){
+			getShader("entityShader").updateUniform("transformationMatrix", o.getTransformationMatrix());
+			setMaterial(o.getMaterial());
+			GL30.glBindVertexArray(o.getModel().getVaoID());
+			GL11.glDrawElements(GL11.GL_TRIANGLES, o.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+		}
+		
+		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
+		
+		GL30.glBindVertexArray(0);
+	}
+	
+	public void renderWater(Water water){
+		getShader("waterShader").bind();
+		
+		GL30.glBindVertexArray(water.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
 	}
 	
 	public void renderHud(Hud hud){
@@ -116,6 +208,27 @@ public class RenderingEngine {
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, hud.getModel().getVertexCount());
 		
 //		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+	
+	public void renderHud(ArrayList<Hud> hud){
+		if(!variables.containsKey("hud") || !variables.get("hud"))
+			return;
+		
+		shaders.get("guiShader").bind();
+		GL20.glEnableVertexAttribArray(0);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		
+		for(Hud h : hud){
+			GL30.glBindVertexArray(h.getModel().getVaoID());
+			h.getTexture().bind();
+			shaders.get("guiShader").updateUniform("transformationMatrix", h.getTransformationMatrix());
+			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, h.getModel().getVertexCount());
+		}
+		
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);

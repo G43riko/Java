@@ -18,13 +18,16 @@ import org.lwjgl.opengl.Display;
 import org.physics.object.GameObjectPhysics;
 import org.strategy.component.CameraStrategy;
 import org.strategy.rendering.RenderingEngineStrategy;
+import org.underConstruct.core.Scene;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
 
 	private Gui gui;
-	protected ArrayList<GameComponent> scene;
+//	protected ArrayList<GameComponent> scene;
+	private Scene scene;
 	private RenderingEngineStrategy renderingEngine;
+
 	private Loader loader;
 	private CameraStrategy camera;
 	private boolean running;
@@ -32,7 +35,8 @@ public abstract class CoreEngine extends JFrame{
 	//CONSTRUCTORS
 	
 	public CoreEngine(){
-		scene = new ArrayList<GameComponent>();
+//		scene = new ArrayList<GameComponent>();
+		scene = new Scene();
 		running = false;
 	}
 	
@@ -95,19 +99,33 @@ public abstract class CoreEngine extends JFrame{
 		}
 		
 		Input.update();
-		for(GameComponent g: scene){
+		for(GameComponent g: scene.getScene()){
 			g.input();
 		}
 	};
 	
 	protected void update(){
-		for(GameComponent g: scene){
+		for(GameComponent g: scene.getScene()){
 			g.update();
 		}
 	};
 	
 	protected void render(){
-		for(GameComponent g: scene){
+//		for(GameComponent g: scene.getGameObjects()){
+//			g.render(renderingEngine);
+//		}
+		renderingEngine.renderObject(scene.getGameObjects());
+//		for(GameComponent g: scene.getHuds()){
+//			g.render(renderingEngine);
+//		}
+		renderingEngine.renderHud(scene.getHuds());
+		
+//		for(GameComponent g: scene.getParticles()){
+//			g.render(renderingEngine);
+//		}
+		renderingEngine.renderParticle(scene.getParticles());
+		
+		for(GameComponent g: scene.getOthers()){
 			g.render(renderingEngine);
 		}
 	};
@@ -130,12 +148,20 @@ public abstract class CoreEngine extends JFrame{
 		return camera;
 	}
 
-	public ArrayList<GameComponent> getScene() {
-		return new ArrayList<GameComponent>(scene);
-	}
+//	public ArrayList<GameComponent> getScene() {
+//		return new ArrayList<GameComponent>(scene);
+//	}
 
 	public boolean isRunning() {
 		return running;
+	}
+
+	public ArrayList<GameComponent> getScene() {
+		return scene.getScene();
+	}
+	
+	public Scene getSceneObject() {
+		return scene;
 	}
 	
 	//SETTERS

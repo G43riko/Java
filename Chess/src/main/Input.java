@@ -1,7 +1,5 @@
 package main;
 
-import maps.Block;
-
 import org.lwjgl.input.Keyboard;
 
 import entities.Camera;

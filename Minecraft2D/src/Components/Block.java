@@ -2,7 +2,6 @@ package Components;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.RescaleOp;
 import java.util.Arrays;
 
 import javax.swing.ImageIcon;

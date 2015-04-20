@@ -1,9 +1,5 @@
 package com.g43riko.object;
 
-import static org.lwjgl.opengl.GL11.*;
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
-
 import com.g43riko.Util.Loader;
 import com.g43riko.rendering.RawModel;
 import com.g43riko.rendering.RenderingEngine;

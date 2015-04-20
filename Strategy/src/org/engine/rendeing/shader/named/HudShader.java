@@ -1,4 +1,6 @@
-package org.engine.rendeing.shader;
+package org.engine.rendeing.shader.named;
+
+import org.engine.rendeing.shader.GBasicShader;
 
 public class HudShader extends GBasicShader{
 

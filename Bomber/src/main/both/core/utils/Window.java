@@ -18,6 +18,10 @@ import main.both.core.KeyEvents;
 import main.both.rendering.RenderEngine;
 
 public class Window extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static KeyEvents keyboard = new KeyEvents();
 	private static int width;
 	private static int height;
@@ -50,7 +54,7 @@ public class Window extends JFrame{
 		canvas.addKeyListener(keyboard);
 		add(canvas);
 		pack();
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	

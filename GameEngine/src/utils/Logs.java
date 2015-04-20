@@ -1,16 +1,8 @@
 package utils;
 
-import static org.lwjgl.opengl.GL11.glEnable;
-
 import java.awt.Font;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 

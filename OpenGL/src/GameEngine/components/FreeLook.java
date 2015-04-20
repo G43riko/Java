@@ -62,7 +62,6 @@
 package GameEngine.components;
 
 import GameEngine.core.Input;
-import GameEngine.core.util.Quaternion;
 import GameEngine.core.util.Vector2f;
 import GameEngine.core.util.Vector3f;
 import GameEngine.rendering.Window;

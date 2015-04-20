@@ -2,10 +2,8 @@ package Game;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.lwjgl.LWJGLException;

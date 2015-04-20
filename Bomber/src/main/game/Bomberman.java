@@ -8,10 +8,8 @@ import main.both.components.MyPlayer;
 import main.both.components.PlayerForDraw;
 import main.both.core.Game;
 import main.both.core.GameObject;
-import main.both.core.utils.Logs;
 import main.both.core.utils.Window;
 import main.both.multiplayer.Client;
-import main.both.multiplayer.OtherPlayer;
 import main.both.multiplayer.Server;
 
 public class Bomberman extends Game{

@@ -9,6 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class WindowTwo extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JTextField a;
 	public JTextField b;
 	private WindowOne j;
@@ -17,7 +21,7 @@ public class WindowTwo extends JFrame{
 		this.j = j;
 		setTitle("Okno1");
 		setSize(400, 400);
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		
 		setLocation(410, 0);

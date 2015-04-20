@@ -7,13 +7,12 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
-import game.rendering.shader.EntityShader;
-import game.rendering.shader.ParticleShader;
-import game.rendering.shader.SkyShader;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
@@ -31,7 +30,12 @@ import org.engine.particles.ParticleEmmiter;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
 import org.engine.rendeing.shader.GBasicShader;
+import org.engine.rendeing.shader.named.EntityShader;
 import org.engine.rendeing.shader.named.HudShader;
+import org.engine.rendeing.shader.named.ParticleShader;
+import org.engine.rendeing.shader.named.ShadowMapShader;
+import org.engine.rendeing.shader.named.SkyShader;
+import org.engine.rendeing.shader.named.WaterShader;
 import org.engine.util.Maths;
 import org.engine.water.Water;
 import org.lwjgl.opengl.GL11;
@@ -57,6 +61,8 @@ public class RenderingEngine {
 		shaders.put("skyShader", new SkyShader());
 		shaders.put("particleShader", new ParticleShader());
 		shaders.put("guiShader", new HudShader());
+		shaders.put("waterShader", new WaterShader());
+		shaders.put("shadowMapShader", new ShadowMapShader());
 	}
 	
 	//CONSTRUCTOR
@@ -120,6 +126,8 @@ public class RenderingEngine {
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		
+		glDisable(GL_DEPTH_TEST);
+		
 		for(ParticleEmmiter pe : particles){
 			for(Particle p : pe.getParticles()){
 				
@@ -140,6 +148,9 @@ public class RenderingEngine {
 				GL11.glDrawElements(GL11.GL_TRIANGLES, p.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 			}
 		}
+		
+		glEnable(GL_DEPTH_TEST);
+		
 		disableVertex(2);
 	}
 	
@@ -161,33 +172,45 @@ public class RenderingEngine {
 	public void renderObject(ArrayList<GameObject> objects){
 		if(getMainCamera() == null)
 			return;
-		
 		getShader("entityShader").bind();
 
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
-		
-		
 		for(GameObject o : objects){
 			getShader("entityShader").updateUniform("transformationMatrix", o.getTransformationMatrix());
 			setMaterial(o.getMaterial());
-			GL30.glBindVertexArray(o.getModel().getVaoID());
-			GL11.glDrawElements(GL11.GL_TRIANGLES, o.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+			prepareAndDraw(3, o.getModel());
 		}
 		
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
-		
-		GL30.glBindVertexArray(0);
+		disableVertex(3);
 	}
 	
 	public void renderWater(Water water){
 		getShader("waterShader").bind();
 		
 		GL30.glBindVertexArray(water.getModel().getVaoID());
+		
 		GL20.glEnableVertexAttribArray(0);
+		
+		GMatrix4f modelMatrix = water.getTransformationMatrix();
+		getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, water.getModel().getVertexCount());
+        
+        GL20.glDisableVertexAttribArray(0);
+        GL30.glBindVertexArray(0);
+	}
+	
+	public void renderWater(ArrayList<Water> waters){
+		getShader("waterShader").bind();
+		GL30.glBindVertexArray(Water.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		
+		for(Water water : waters){
+			GMatrix4f modelMatrix = water.getTransformationMatrix();
+			getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
+	        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, Water.getModel().getVertexCount());
+		}
+        
+        GL20.glDisableVertexAttribArray(0);
+        GL30.glBindVertexArray(0);
 	}
 	
 	public void renderHud(Hud hud){
@@ -208,6 +231,27 @@ public class RenderingEngine {
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, hud.getModel().getVertexCount());
 		
 //		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+	
+	public void renderHud(ArrayList<Hud> hud, int texture){
+		if(!variables.containsKey("hud") || !variables.get("hud"))
+			return;
+		shaders.get("guiShader").bind();
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		
+		for(Hud h : hud){
+			GL30.glBindVertexArray(h.getModel().getVaoID());
+			GL20.glEnableVertexAttribArray(0);
+//			h.getTexture().bind();
+			glBindTexture(GL_TEXTURE_2D, texture);
+			shaders.get("guiShader").updateUniform("transformationMatrix", h.getTransformationMatrix());
+			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, h.getModel().getVertexCount());
+		}
+		
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
@@ -218,12 +262,12 @@ public class RenderingEngine {
 			return;
 		
 		shaders.get("guiShader").bind();
-		GL20.glEnableVertexAttribArray(0);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		for(Hud h : hud){
 			GL30.glBindVertexArray(h.getModel().getVaoID());
+			GL20.glEnableVertexAttribArray(0);
 			h.getTexture().bind();
 			shaders.get("guiShader").updateUniform("transformationMatrix", h.getTransformationMatrix());
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, h.getModel().getVertexCount());
@@ -314,11 +358,14 @@ public class RenderingEngine {
 	
 	public void setMainCamera(CameraStrategy mainCamera) {
 		this.mainCamera = mainCamera;
-		
+		setProjectionMatrix(mainCamera.getProjectionMatrix());
+	}
+	
+	public void setProjectionMatrix(GMatrix4f matrix){
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
 			if(s.getValue().hasUniform("projectionMatrix")){
 				getShader(s.getKey()).bind();
-				getShader(s.getKey()).updateUniform("projectionMatrix", mainCamera.getProjectionMatrix());
+				getShader(s.getKey()).updateUniform("projectionMatrix", matrix);
 			}
 		}
 	}
@@ -370,11 +417,16 @@ public class RenderingEngine {
 
 	public void setMaterial(Material mat){
 		getShader("entityShader").connectTextures();
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		mat.getDiffuse().bind();
 		
-		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		mat.getNormal().bind();
+		if(mat.getDiffuse() != null){
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			mat.getDiffuse().bind();
+		}
+		
+		if(mat.getNormal() != null){
+			GL13.glActiveTexture(GL13.GL_TEXTURE1);
+			mat.getNormal().bind();
+		}
 		
 		getShader("entityShader").updateUniform("shineDumper", mat.getSpecularPower());
 		getShader("entityShader").updateUniform("reflectivity", mat.getSpecularIntensity());

@@ -3,10 +3,10 @@ package org.strategy.entity.enemy;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
+import org.engine.physics.Enviroment;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
 import org.engine.world.Line;
-import org.physics.physics.Enviroment;
 import org.strategy.entity.Bullet;
 import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;

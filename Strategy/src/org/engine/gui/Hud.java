@@ -46,5 +46,11 @@ public class Hud extends GameComponent{
 	public Texture2D getTexture() {
 		return texture;
 	}
+
+	//SETTERS
+	
+	public void setTexture(Texture2D texture) {
+		this.texture = texture;
+	}
 	
 }

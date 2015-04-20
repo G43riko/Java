@@ -8,10 +8,10 @@ import glib.util.vector.GVector3f;
 
 import org.MainStrategy;
 import org.engine.component.GameComponent;
-import org.engine.component.SkyBox;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
 import org.engine.rendeing.material.Texture2D;
+import org.engine.world.SkyBox;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -61,7 +61,7 @@ public abstract class CoreGame extends CoreEngine{
 		getRenderingEngine().prepare();
 		
 		ArrayList<GameComponent> toRemove = new ArrayList<GameComponent>();
-		for(GameComponent g: getScene()){
+		for(GameComponent g: getSceneObject().getScene()){
 			g.input();
 			g.update();
 			if(g instanceof Bullet){
@@ -71,7 +71,7 @@ public abstract class CoreGame extends CoreEngine{
 			}
 			g.render(getRenderingEngine());
 		}
-		getSceneObject().removeAll(toRemove);
+		getScene().removeAll(toRemove);
 		
 		if(getRenderingEngine().getSelectBlock().getBlock() != null){
 			RenderingEngineStrategy.getShader("entityShader").bind();

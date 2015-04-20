@@ -1,8 +1,8 @@
 package org.strategy.main;
 
-import org.engine.component.SkyBox;
 import org.engine.light.PointLight;
 import org.engine.util.Loader;
+import org.engine.world.SkyBox;
 import org.strategy.component.CameraStrategy;
 import org.strategy.core.CoreGame;
 import org.strategy.entity.enemy.BasicEnemy;

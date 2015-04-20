@@ -3,13 +3,13 @@ package org.strategy.world;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.engine.physics.Enviroment;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Maths;
 import org.json.JSONObject;
 import org.lwjgl.util.vector.Matrix4f;
-import org.physics.physics.Enviroment;
 import org.strategy.entity.player.Player;
 import org.strategy.rendering.RenderingEngineStrategy;
 

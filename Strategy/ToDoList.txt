@@ -29,6 +29,7 @@
 +make realy usefull input
 +add look at
 +implement hud
++create collor picker
 +fix exporning resources to runnable jar
 +create universal rendering engine
 -implement basic type of views(grayscale, depth, height)

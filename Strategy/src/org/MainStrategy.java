@@ -1,7 +1,7 @@
 package org;
 
 import org.engine.core.CoreEngine;
-import org.physics.main.PhysicsTester;
+import org.engine.main.MainTester;
 import org.strategy.main.StrategyGame;
 
 public class MainStrategy {
@@ -20,7 +20,7 @@ public class MainStrategy {
 	
 	public static void main(String[] args) {
 //		CoreEngine game = new StrategyGame();
-		CoreEngine game = new PhysicsTester();
+		CoreEngine game = new MainTester();
 //		CoreEngine game = new ParticleTester();
 		
 		game.createWindow(game);

@@ -6,25 +6,29 @@ public class Material {
 	private Texture2D diffuse;
 	private Texture2D normal;
 //	private Texture2D bump = null;
+//	private Texture2D dudv = null;
 //	private Texture2D ambientOcclusion = null;
 	
 	private float specularIntensity;
 	private float specularPower;
 	
 	//CONSTRUCTORS
+	public Material(Texture2D texture) {
+		this(texture, null, 1, 8);
+	}
 	
 	public Material(){
 		this(new Texture2D(DEFAULT_DIFFUSE),new Texture2D(DEFAULT_NORMAL),1,8);
 	}
 	
 	public Material(String name){
-		this(new Texture2D(name),new Texture2D(DEFAULT_NORMAL),1,8);
+		this(new Texture2D(name), null, 1, 8);
 	}
 	public Material(String name, String normal){
-		this(new Texture2D(name),new Texture2D(normal),1,8);
+		this(new Texture2D(name), null, 1, 8);
 	}
 	public Material(Texture2D diffuse, int specularIntensity, int specularPower) {
-		this(diffuse,new Texture2D(DEFAULT_NORMAL),specularIntensity,specularPower);
+		this(diffuse, null, specularIntensity, specularPower);
 	}
 	
 	public Material(Texture2D diffuse, Texture2D normal, int specularIntensity, int specularPower) {
@@ -35,7 +39,7 @@ public class Material {
 	}
 
 	//GETTERS
-	
+
 	public Texture2D getDiffuse() {return diffuse;}
 	public Texture2D getNormal() {return normal;}
 	

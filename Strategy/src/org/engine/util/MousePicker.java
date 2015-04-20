@@ -24,6 +24,7 @@ public class MousePicker {
 	}
 
 	public GVector3f getCurrentRay() {
+		update();
 		return currentRay;
 	}
 	

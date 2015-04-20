@@ -3,7 +3,7 @@ package org.strategy.particles;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
-import org.physics.physics.Enviroment;
+import org.engine.physics.Enviroment;
 import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.Block;
 

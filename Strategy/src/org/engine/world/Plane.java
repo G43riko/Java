@@ -8,7 +8,11 @@ import org.engine.util.Loader;
 import glib.util.vector.GVector2f;
 
 public class Plane extends GameObject{
-	private static float size = 1000; 
+	private static float size = 1000;
+	
+	public Plane(Material mat) {
+		super(getTop(new GVector2f(size,size)),mat);
+	}
 	
 	public Plane() {
 		super(getTop(new GVector2f(size,size)), new Material("texture.png"));

@@ -46,7 +46,7 @@ public class Texture2D {
     private int filtering = FILTER_NEAREST;
     private int wrapMode = WRAP_REPEAT;
     
-    private int id;
+  private int id;
     
     private GVector2f size;
 	
@@ -63,6 +63,17 @@ public class Texture2D {
 			addTextureToOpenGL(makeByteBufferFILE(fileName));
 			loadedTextures.put(fileName, this);
 		}
+	}
+	
+	public Texture2D(String fileName, int id){
+		this(fileName, id, new GVector2f());
+	}
+	
+	public Texture2D(String fileName, int id, GVector2f size){
+		this.fileName = fileName;
+		this.id = id;
+		this.size = size;
+		this.averageColor = new GVector3f(1);
 	}
 	
 	public Texture2D(String fileName, URL url){

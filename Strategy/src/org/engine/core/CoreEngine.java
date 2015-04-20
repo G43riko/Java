@@ -2,8 +2,9 @@ package org.engine.core;
 
 import java.util.ArrayList;
 
-import game.gui.Gui;
-import game.gui.windows.MainWindow;
+
+
+
 import glib.util.GLog;
 
 import javax.swing.JFrame;
@@ -11,18 +12,22 @@ import javax.swing.JFrame;
 import org.MainStrategy;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
+import org.engine.gui.Gui;
+import org.engine.object.GameObjectPhysics;
+import org.engine.rendeing.RenderingEngine;
+import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.util.Loader;
 import org.engine.util.MousePicker;
 import org.engine.util.OBJLoader;
 import org.lwjgl.opengl.Display;
-import org.physics.object.GameObjectPhysics;
 import org.strategy.component.CameraStrategy;
 import org.strategy.rendering.RenderingEngineStrategy;
-import org.underConstruct.core.Scene;
 
 public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
 
+	private ToFrameBufferRendering frameRender; 
+	
 	private Gui gui;
 //	protected ArrayList<GameComponent> scene;
 	private Scene scene;
@@ -64,6 +69,7 @@ public abstract class CoreEngine extends JFrame{
 
 	public void start(){
 		running = true;
+
 		
 		if(renderingEngine == null){
 			GLog.write("nieje nastavený render engine");
@@ -86,17 +92,12 @@ public abstract class CoreEngine extends JFrame{
 		if(Input.getMouseDown(0)){
 			GameObjectPhysics o = new GameObjectPhysics(OBJLoader.loadObjModel("sphere", loader));
 			o.setPosition(camera.getPosition());
-			o.setDirection(camera.getForward().mul(-1));
+//			o.setDirection(camera.getForward().mul(-1));
+			o.setDirection(camera.getMousePicker().getCurrentRay());
 			addToScene(o);
 		}
 
-		if(Input.getKeyDown(Input.KEY_5)){
-			JFrame p = new MainWindow();
-			
-			p.setLocation(Display.getX() + Display.getWidth() + 15, Display.getY());
-//			p.add(new PhysicsWindow());
-			p.setVisible(true);
-		}
+		
 		
 		Input.update();
 		for(GameComponent g: scene.getScene()){
@@ -105,28 +106,42 @@ public abstract class CoreEngine extends JFrame{
 	};
 	
 	protected void update(){
-		for(GameComponent g: scene.getScene()){
-			g.update();
+		
+		ArrayList<GameComponent> scena = scene.getScene();
+		for(int i=0 ; i<scena.size() ; i++){
+			GameComponent e = scena.get(i);
+			e.update();
+			if(e.isDead()){
+				scene.remove(e);
+				i--;
+			}
 		}
+		
+//		for(GameComponent g: scene.getScene()){
+//			g.update();
+//		}
 	};
 	
-	protected void render(){
-//		for(GameComponent g: scene.getGameObjects()){
-//			g.render(renderingEngine);
-//		}
-		renderingEngine.renderObject(scene.getGameObjects());
-//		for(GameComponent g: scene.getHuds()){
-//			g.render(renderingEngine);
-//		}
-		renderingEngine.renderHud(scene.getHuds());
-		
-//		for(GameComponent g: scene.getParticles()){
-//			g.render(renderingEngine);
-//		}
+	private void finalRender(){
+		renderingEngine.renderObject(scene.getObjects());
+		renderingEngine.renderWater(scene.getWaters());
 		renderingEngine.renderParticle(scene.getParticles());
-		
 		for(GameComponent g: scene.getOthers()){
 			g.render(renderingEngine);
+		}
+	}
+	
+	protected void render(){
+		
+		if(frameRender != null)
+			frameRender.startRenderToFrameBuffer();
+		
+		finalRender();
+		
+		if(frameRender != null){
+			frameRender.stopRenderToFrameBuffer();
+			finalRender();
+			renderingEngine.renderHud(scene.getHuds());
 		}
 	};
 	
@@ -147,10 +162,6 @@ public abstract class CoreEngine extends JFrame{
 	public CameraStrategy getCamera() {
 		return camera;
 	}
-
-//	public ArrayList<GameComponent> getScene() {
-//		return new ArrayList<GameComponent>(scene);
-//	}
 
 	public boolean isRunning() {
 		return running;
@@ -186,6 +197,14 @@ public abstract class CoreEngine extends JFrame{
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	public void setFrameRender(ToFrameBufferRendering frameRender) {
+		this.frameRender = frameRender;
+	}
+
+	public ToFrameBufferRendering getFrameRender() {
+		return frameRender;
 	}
 
 	

@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.engine.component.SkyBox;
 import org.engine.light.PointLight;
-import org.engine.particles.Particle;
 import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.shader.GBasicShader;
 import org.engine.world.Line;
+import org.engine.world.SkyBox;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -54,6 +53,7 @@ public final class RenderingEngineStrategy extends RenderingEngine{
 		if(getMainCamera() == null || view == 4){
 			return;
 		}
+		
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		getShader("skyShader").bind();
 		

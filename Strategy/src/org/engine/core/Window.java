@@ -1,12 +1,11 @@
 package org.engine.core;
 
-import game.gui.Gui;
-
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 
 import org.MainStrategy;
+import org.engine.gui.Gui;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -31,6 +30,7 @@ public class Window {
 				}
 				else
 					Display.setDisplayMode(new DisplayMode(MainStrategy.WIDTH, MainStrategy.HEIGHT));
+				
 				Display.create();
 				Keyboard.create();
 				Mouse.create();

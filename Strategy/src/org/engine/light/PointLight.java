@@ -4,25 +4,28 @@ import org.engine.component.GameComponent;
 
 import glib.util.vector.GVector3f;
 
-public class PointLight extends GameComponent{
-	private GVector3f color;
+public class PointLight extends BasicLight{
 	private GVector3f attenuation;
 	private float range;
 	
 	//CONSTRUCTORS
 	
 	public PointLight(GVector3f position) {
-		this(position, new GVector3f(1), new GVector3f(1,0,0));
+		this(position, new GVector3f(1), new GVector3f(1,0,0), GameComponent.POINTLIGHT);
 	}
 	
 	public PointLight(GVector3f position, GVector3f color){
-		this(position, color, new GVector3f(1,0,0));
+		this(position, color, new GVector3f(1,0,0), GameComponent.POINTLIGHT);
 	}
 	
 	public PointLight(GVector3f position, GVector3f color, GVector3f attenuation) {
-		super(position, GameComponent.POINTLIGHT);
-		this.color = color;
+		this(position,color,attenuation,GameComponent.POINTLIGHT);
+	}
+	
+	public PointLight(GVector3f position, GVector3f color, GVector3f attenuation, int type) {
+		super(position, type);
 		this.attenuation = attenuation;
+		this.color = color;
 		this.range = calcRange(attenuation);
 	}
 

@@ -31,15 +31,18 @@ public class Quests {
 		resourcesAndQuests.put(Suroviny.NASTROJ, VYTVORIT_NASTROJ);
 		resourcesAndQuests.put(Suroviny.OBILIE, ZOZAT_OBYLIE);
 		resourcesAndQuests.put(Suroviny.MUKA, POMLIET_OBYLIE);
+		
 		resourcesAndQuests.put(Suroviny.CHLIEB, UPIECT_CHLIEB);
 		resourcesAndQuests.put(Suroviny.KAMEN, VYTAZIT_KAMEN);
 		resourcesAndQuests.put(Suroviny.MASO, SKOLIT_ZVIERA);
 		resourcesAndQuests.put(Suroviny.VLNA, OSTRIHAT_OVECKU);
+		
 		resourcesAndQuests.put(Suroviny.UHLIE, VYTAZIT_UHLIE);
 		resourcesAndQuests.put(Suroviny.ZELEZNA_RUDA, VYTAZIT_ZELEZNU_RUDU);
 		resourcesAndQuests.put(Suroviny.ZELEZO, VYTAVIT_ZELEZO);
 		resourcesAndQuests.put(Suroviny.PIVO, UVARIT_PIVO);
 		resourcesAndQuests.put(Suroviny.KLOBASA, VYROBIT_KLOBASU);
+		
 		resourcesAndQuests.put(Suroviny.SATY, UPLIEST_SATY);
 		resourcesAndQuests.put(Suroviny.RYBA, ULOVIT_RYBU);
 	}

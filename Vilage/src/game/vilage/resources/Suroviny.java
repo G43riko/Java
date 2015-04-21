@@ -1,6 +1,6 @@
 package game.vilage.resources;
 
-import game.vilage.buldings.Buildings;
+import game.vilage.files.FileReader;
 
 import java.util.HashMap;
 
@@ -25,8 +25,9 @@ public final class Suroviny {
 	public final static byte RYBA = 16;
 	
 	static{
-		setResourcesAndProducers();
-		setNames();
+		FileReader.getResourceDatas(resourcesNames, resourcesAndProducers);
+//		setResourcesAndProducers();
+//		setNames();
 	}
 	
 	public static HashMap<Byte, Integer> getAllDefault(){
@@ -51,39 +52,39 @@ public final class Suroviny {
 	}
 	
 	private static void setResourcesAndProducers(){
-		resourcesAndProducers.put(DREVO, Buildings.DREVORUBAC);
-		resourcesAndProducers.put(OBILIE, Buildings.FARMA);
-		resourcesAndProducers.put(MUKA, Buildings.MLYN);
-		resourcesAndProducers.put(CHLIEB, Buildings.PEKAREN);
-		resourcesAndProducers.put(KAMEN, Buildings.KAMENOLOM);
-		resourcesAndProducers.put(MASO, Buildings.CHATRC_LOVCA);
-		resourcesAndProducers.put(NASTROJ, Buildings.TESAR);
-		resourcesAndProducers.put(UHLIE, Buildings.UHELNA_BANA);
-		resourcesAndProducers.put(ZELEZNA_RUDA, Buildings.KOVAC);
-		resourcesAndProducers.put(ZELEZO, Buildings.ZELEZNA_BANA);
-		resourcesAndProducers.put(PIVO, Buildings.PIVOVAR);
-		resourcesAndProducers.put(KLOBASA, Buildings.MASIAR);
-		resourcesAndProducers.put(VLNA, Buildings.CHOVATEL_ZVIERAT);
-		resourcesAndProducers.put(RYBA, Buildings.RYBAR);
-		resourcesAndProducers.put(SATY, Buildings.KRAJCIR);
+//		resourcesAndProducers.put(DREVO, Buildings.DREVORUBAC);
+//		resourcesAndProducers.put(OBILIE, Buildings.FARMA);
+//		resourcesAndProducers.put(MUKA, Buildings.MLYN);
+//		resourcesAndProducers.put(CHLIEB, Buildings.PEKAREN);
+//		resourcesAndProducers.put(KAMEN, Buildings.KAMENOLOM);
+//		resourcesAndProducers.put(MASO, Buildings.CHATRC_LOVCA);
+//		resourcesAndProducers.put(NASTROJ, Buildings.TESAR);
+//		resourcesAndProducers.put(UHLIE, Buildings.UHELNA_BANA);
+//		resourcesAndProducers.put(ZELEZNA_RUDA, Buildings.KOVAC);
+//		resourcesAndProducers.put(ZELEZO, Buildings.ZELEZNA_BANA);
+//		resourcesAndProducers.put(PIVO, Buildings.PIVOVAR);
+//		resourcesAndProducers.put(KLOBASA, Buildings.MASIAR);
+//		resourcesAndProducers.put(VLNA, Buildings.CHOVATEL_ZVIERAT);
+//		resourcesAndProducers.put(RYBA, Buildings.RYBAR);
+//		resourcesAndProducers.put(SATY, Buildings.KRAJCIR);
 	}
 	
 	private static void setNames(){
-		resourcesNames.put(DREVO, "Drevo");
-		resourcesNames.put(OBILIE, "Obilie");
-		resourcesNames.put(MUKA, "Múka");
-		resourcesNames.put(CHLIEB, "Chlieb");
-		resourcesNames.put(KAMEN, "Kameò");
-		resourcesNames.put(MASO, "Mäso");
-		resourcesNames.put(NASTROJ, "Nástroje");
-		resourcesNames.put(UHLIE, "Uhlie");
-		resourcesNames.put(ZELEZNA_RUDA, "Železná ruda");
-		resourcesNames.put(ZELEZO, "Železo");
-		resourcesNames.put(PIVO, "Pivo");
-		resourcesNames.put(KLOBASA, "Klobása");
-		resourcesNames.put(VLNA, "Vlna");
-		resourcesNames.put(SATY, "Šaty");
-		resourcesNames.put(RYBA, "Ryba");
+//		resourcesNames.put(DREVO, "Drevo");
+//		resourcesNames.put(OBILIE, "Obilie");
+//		resourcesNames.put(MUKA, "Múka");
+//		resourcesNames.put(CHLIEB, "Chlieb");
+//		resourcesNames.put(KAMEN, "Kameò");
+//		resourcesNames.put(MASO, "Mäso");
+//		resourcesNames.put(NASTROJ, "Nástroje");
+//		resourcesNames.put(UHLIE, "Uhlie");
+//		resourcesNames.put(ZELEZNA_RUDA, "Železná ruda");
+//		resourcesNames.put(ZELEZO, "Železo");
+//		resourcesNames.put(PIVO, "Pivo");
+//		resourcesNames.put(KLOBASA, "Klobása");
+//		resourcesNames.put(VLNA, "Vlna");
+//		resourcesNames.put(SATY, "Šaty");
+//		resourcesNames.put(RYBA, "Ryba");
 	}
 	
 	public static byte getBuildingFromProduct(byte product){

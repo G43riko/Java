@@ -17,6 +17,8 @@ import java.util.Map.Entry;
 import util.ResourceLoader;
 
 public class FileReader {
+	private static HashMap<Byte, String> loadedBuildings = loadBuildingDatas();
+	
 	private static InputStream loadData(String fileName){
 		InputStream input = ResourceLoader.class.getResourceAsStream(fileName);	//pohladá subor kde by sa mal nachádza
 		if(input == null){	//ak ho nenájde
@@ -30,7 +32,7 @@ public class FileReader {
 		HashMap<Byte, Integer> result = new HashMap<Byte, Integer>();
 		
 		try {
-			BufferedReader reader =  new BufferedReader(new InputStreamReader(loadData("data.txt"), "UTF-8"));	//otvorı súbor
+			BufferedReader reader =  new BufferedReader(new InputStreamReader(loadData("data.vlg"), "UTF-8"));	//otvorı súbor
 			while((line = reader.readLine()) != null){	//pokial sa dá zo súboru èíta a neobsahuje len prázdne riadky
 				String[] currentLine = line.split(" ");	//rozdelíme riadok na podla medzier
 				
@@ -50,7 +52,7 @@ public class FileReader {
 	}
 
 	private static void saveData(String data){
-		File fileToSave = new File("res/data.txt");
+		File fileToSave = new File("res/data.vlg");
 		PrintStream file = null;
 		try {
 			file = new PrintStream(fileToSave);
@@ -70,5 +72,60 @@ public class FileReader {
 		}
 		data += village.getMarket().toFile();
 		saveData(data);
+	}
+
+	public static void getResourceDatas(HashMap<Byte, String> names, HashMap<Byte, Byte> producers){
+		String line = null;
+		try {
+			BufferedReader reader =  new BufferedReader(new InputStreamReader(loadData("resources.vlg"), "UTF-8"));	//otvorı súbor
+			while((line = reader.readLine()) != null){	//pokial sa dá zo súboru èíta a neobsahuje len prázdne riadky
+				String[] currentLine = line.split("-");	//rozdelíme riadok na podla medzier
+				byte resource = Byte.parseByte(currentLine[0].trim());
+				names.put(resource, String.valueOf(currentLine[1].trim()));
+				producers.put(resource, Byte.parseByte(currentLine[2].trim()));
+				
+			}
+			reader.close();	//zavrieme súbor
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+	
+	private static HashMap<Byte, String> loadBuildingDatas(){
+		HashMap<Byte, String> res = new HashMap<Byte, String>();
+		String line = null;
+		try {
+			BufferedReader reader =  new BufferedReader(new InputStreamReader(loadData("buildings.vlg"), "UTF-8"));	//otvorı súbor
+			while((line = reader.readLine()) != null){	//pokial sa dá zo súboru èíta a neobsahuje len prázdne riadky
+				String[] currentLine = line.split("-");	//rozdelíme riadok na podla medzier
+				byte building = Byte.parseByte(currentLine[0].trim());
+				res.put(building, line);
+			}
+			reader.close();	//zavrieme súbor
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		return res;
+	}
+
+	public static void getBuildingData(byte type, String name, HashMap<Byte, Integer> requiered, HashMap<Byte, Integer> produced){
+		try{
+		String line = loadedBuildings.get(type);
+		String[] currentLine = line.split("-");	//rozdelíme riadok na podla medzier
+		name = String.valueOf(currentLine[1].trim());
+		
+		String[] subpart = currentLine[2].split(":");
+		produced.put(Byte.parseByte(subpart[0].trim()), Integer.parseInt(subpart[1].trim()));
+		subpart = currentLine[3].split(",");
+		for(String produce : subpart){
+			String[] need = produce.split(":");
+			requiered.put(Byte.parseByte(need[0].trim()), Integer.parseInt(need[1].trim()));
+		}
+		}
+		catch(NumberFormatException e){
+			return;
+		}
 	}
 }

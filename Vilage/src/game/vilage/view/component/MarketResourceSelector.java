@@ -36,7 +36,7 @@ public class MarketResourceSelector extends JPanel{
 	
 	private ChangeListener changeValueEvent = new ChangeListener(){
 		public void stateChanged(ChangeEvent e) {
-			button.setVisible((int)((JSpinner)e.getSource()).getValue() > 0 );
+			button.setEnabled((int)((JSpinner)e.getSource()).getValue() > 0 );
 		}
 	};
 	
@@ -59,7 +59,7 @@ public class MarketResourceSelector extends JPanel{
 	
 	private void init(){
 		button.addActionListener(buyEvent);
-		button.setVisible(false);
+//		button.setVisible(false);
 		
 		value.setPreferredSize(new Dimension(40,20));
 		value.addChangeListener(changeValueEvent);
@@ -71,7 +71,7 @@ public class MarketResourceSelector extends JPanel{
 	
 	private void makeEnable(boolean val){
 		value.setEnabled(val);
-		button.setVisible(val);
+		button.setEnabled(val);
 	}
 	
 	public void update(int maximum){

@@ -125,7 +125,7 @@ public class MarketWindow extends Window{
 	//GETTERS
 
 	public JPanel getResouceSelectors(){
-		JPanel panel = new JPanel(new GridLayout(4,1));
+		JPanel panel = new JPanel(new GridLayout(5,1));
 		
 		for(Entry<Byte, Integer> e : market.getResources().entrySet()){
 			resourcesSelectors.put(e.getKey(), new MarketResourceSelector(e.getKey(), e.getValue(), market));

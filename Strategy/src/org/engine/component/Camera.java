@@ -9,8 +9,7 @@ import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
 public class Camera extends GameComponent {
-	protected final static float ROTATION_SPEED = 0.6f;
-	protected final static float MOVE_SPEED = 0.3f;
+	
 	protected final static GVector3f up = new GVector3f(0,1,0);
 	protected final static boolean VERTICAL = false; 
 	
@@ -61,39 +60,6 @@ public class Camera extends GameComponent {
 		forward = new GVector3f((float)y,(float)z,(float)x);
 	}
 	
-	//GOERS
-	
-
-	public void goForward(){
-		if(VERTICAL)
-			move(getForward().mul(-MOVE_SPEED));
-		else
-			move(up.cross(getForward()).cross(up).mul(-MOVE_SPEED));
-	}
-	
-	public void goBack(){
-		if(VERTICAL)
-			move(getForward().mul(MOVE_SPEED));
-		else
-			move(up.cross(getForward()).cross(up).mul(MOVE_SPEED));
-	}
-
-	public void goRight(){
-		move(up.cross(getForward()).mul(MOVE_SPEED));
-	}
-	
-	public void goLeft(){
-		move(up.cross(getForward()).mul(-MOVE_SPEED));
-	}
-	
-	public void goUp(){
-		move(up.mul(MOVE_SPEED));
-	}
-	
-	public void goDown(){
-		move(up.mul(-1).mul(MOVE_SPEED));
-	}
-
 	//SETTERS
 	
 	public void setMousePicker(MousePicker mousePicker) {
@@ -129,31 +95,31 @@ public class Camera extends GameComponent {
 	
 	public GVector3f getForwardVector(){
 		if(VERTICAL)
-			return forward.mul(-MOVE_SPEED);
+			return forward.mul(-1).Normalized();
 		
-		return up.cross(forward).cross(up).mul(-MOVE_SPEED);
+		return up.cross(forward).cross(up).mul(-1).Normalized();
 	}
 	
 	public GVector3f getBackVector(){
 		if(VERTICAL)
-			return forward.mul(MOVE_SPEED);
+			return forward.Normalized();
 		
-		return up.cross(forward).cross(up).mul(MOVE_SPEED);
+		return up.cross(forward).cross(up).Normalized();
 	}
 	
 	public GVector3f getRightVector(){
-		return up.cross(forward).mul(MOVE_SPEED);
+		return up.cross(forward).Normalized();
 	}
 	
 	public GVector3f getLeftVector(){
-		return up.cross(forward).mul(-MOVE_SPEED);
+		return up.cross(forward).mul(-1).Normalized();
 	}
 	
 	public GVector3f getUpVector(){
-		return up.mul(MOVE_SPEED);
+		return up.Normalized();
 	}
 	
 	public GVector3f getDownVector(){
-		return up.mul(-MOVE_SPEED);
+		return up.mul(-1).Normalized();
 	}
 }

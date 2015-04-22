@@ -1,12 +1,18 @@
 package org.engine.component;
 
+import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import org.lwjgl.input.Keyboard;
-import org.strategy.component.CameraStrategy;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 public class Movable extends GameComponent{
 	private boolean flyMode = true;
+	private boolean mouseLocked = false;
+	
+	private boolean move;
+	private boolean rotate;
 	
 	private int unlockMouseKey = Keyboard.KEY_K;
 	private int lockMouseKey = Keyboard.KEY_L;
@@ -22,17 +28,17 @@ public class Movable extends GameComponent{
 	private int upKey = Keyboard.KEY_SPACE;
 	private int downKey = Keyboard.KEY_LSHIFT;
 	
-	private CameraStrategy camera;
+	private Camera camera;
 	
-	private boolean move;
-	private boolean rotate;
+	private float moveSpeed = 0.3f;
+	private float rotSpeed = 0.6f;
 	
-	private float moveSpeed = 1;
-	private float rotSpeed = 1;
+	
+	private GVector2f centerPosition = new GVector2f(Display.getWidth()/2,Display.getHeight()/2);
 	
 	//CONSTRUCTORS
 	
-	public Movable(CameraStrategy camera){
+	public Movable(Camera camera){
 		super(GameComponent.MOVABLE);
 		this.camera = camera;
 	}
@@ -62,12 +68,14 @@ public class Movable extends GameComponent{
 		}
 		if(flyMode){
 			if(Keyboard.isKeyDown(upKey)){
-				camera.goUp();
+//				camera.goUp();
+				camera.move(camera.getUpVector().mul(moveSpeed));
 				move = true;
 			}
 			
 			if(Keyboard.isKeyDown(downKey)){
-				camera.goDown();
+				camera.move(camera.getDownVector().mul(moveSpeed));
+//				camera.goDown();
 				move = true;
 			}
 		}
@@ -92,15 +100,15 @@ public class Movable extends GameComponent{
 		 */
 		
 		if(Keyboard.isKeyDown(lockMouseKey)){
-			camera.lockMouse();
+			lockMouse();
 		}
 		
 		if(Keyboard.isKeyDown(unlockMouseKey)){
-			camera.unlockMouse();
+			unlockMouse();
 		}
 		
-		if(camera.isMouseLocked()){
-			rotate = camera.mouseMove() || rotate;
+		if(mouseLocked){
+			rotate = mouseMove() || rotate;
 		}
 		
 		if(move || rotate){
@@ -109,6 +117,42 @@ public class Movable extends GameComponent{
 		}
 	}
 
+	//OTHERS
+
+	public boolean mouseMove() {
+		GVector2f deltaPos = new GVector2f();
+		deltaPos = new GVector2f(Mouse.getX(),Mouse.getY()).sub(centerPosition);
+		
+		boolean rotY = deltaPos.getX() !=0;
+		boolean rotX = deltaPos.getY() !=0;
+
+		if(rotX){
+			camera.getRotation().setX(camera.getRotation().getX() - (deltaPos.getY() * rotSpeed/2));
+		}
+		if(rotY){
+			camera.getRotation().setY(camera.getRotation().getY() + (deltaPos.getX() * rotSpeed/2));
+		}
+		
+		if(rotY || rotX){
+			Mouse.setCursorPosition((int)centerPosition.getX(), (int)centerPosition.getY());
+			return true;
+		}
+		return false;
+	}
+
+	
+	public void lockMouse(){
+		Mouse.setCursorPosition(centerPosition.getXi(),centerPosition.getYi());
+//		Mouse.setGrabbed(true);
+		mouseLocked = true;
+	}
+	
+	public void unlockMouse(){
+		Mouse.setGrabbed(false);
+		mouseLocked = false;
+	}
+	
+	
 	//SETTERS
 	
 	public void setFlyMode(boolean flyMode) {

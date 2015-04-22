@@ -11,8 +11,10 @@ import glib.util.vector.GVector3f;
 public class CameraStrategy extends Camera{
 	public static float MAX_ANGLE;
 	private boolean mouseLocked = false;
-	
+	private final static float ROTATION_SPEED = 0.6f;
+	private final static float MOVE_SPEED = 0.3f;
 	private GVector2f centerPosition = new GVector2f(Display.getWidth()/2,Display.getHeight()/2);
+	
 	
 	
 	//CONSTRUCTORS
@@ -107,6 +109,39 @@ public class CameraStrategy extends Camera{
 		return false;
 	}
 
+	//GOERS
+	
+	public void goForward(){
+		if(VERTICAL)
+			move(getForward().mul(-MOVE_SPEED));
+		else
+			move(up.cross(getForward()).cross(up).mul(-MOVE_SPEED));
+	}
+	
+	public void goBack(){
+		if(VERTICAL)
+			move(getForward().mul(MOVE_SPEED));
+		else
+			move(up.cross(getForward()).cross(up).mul(MOVE_SPEED));
+	}
+
+	public void goRight(){
+		move(up.cross(getForward()).mul(MOVE_SPEED));
+	}
+	
+	public void goLeft(){
+		move(up.cross(getForward()).mul(-MOVE_SPEED));
+	}
+	
+	public void goUp(){
+		move(up.mul(MOVE_SPEED));
+	}
+	
+	public void goDown(){
+		move(up.mul(-1).mul(MOVE_SPEED));
+	}
+
+	
 	//GETTERS
 	
 	public boolean isMouseLocked() {

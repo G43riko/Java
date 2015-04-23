@@ -28,6 +28,8 @@ public class Terrain {
 	private float z;
 	private Model model;
 	
+	//CONSTRUCTORS
+	
 	public Terrain(float gridX, float gridZ, Loader loader, String heighMap){
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
@@ -41,7 +43,7 @@ public class Terrain {
 	}
 	
 	public Terrain(float gridX, float gridZ, Loader loader){
-		this(gridX,gridZ,loader,255);
+		this(gridX,gridZ,loader,-1);
 	}
 	
 	public Terrain(float gridX, float gridZ, Loader loader, int type){
@@ -61,6 +63,8 @@ public class Terrain {
 				this.model = generateTerrain(loader, SimplexNoise.generateSimplexNoise(SIZE, SIZE));
 		}
 	}
+	
+	//GENERATORS
 	
 	private Model generateTerrain(Loader loader, String heightMap){
 		BufferedImage image = null;
@@ -151,6 +155,8 @@ public class Terrain {
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	
+	//CALCULATORS
+	
 	private Vector3f calculateNormal(int x, int z, BufferedImage image){
 		float heightL = getHeight(x-1, z, image);
 		float heightR = getHeight(x+1, z, image);
@@ -170,6 +176,8 @@ public class Terrain {
 		normal.normalise();
 		return normal;
 	}
+	
+	//GETTERS
 	
 	private float getHeight(int x, int z, float[][] map){
 		if(x<0 || z<0 || x>=map.length || z>=map[x].length){

@@ -1,6 +1,7 @@
 package org.strategy.entity;
 
 import org.engine.component.GameComponent;
+import org.engine.util.Loader;
 import org.engine.world.Line;
 import org.strategy.world.Block;
 import org.strategy.world.World;
@@ -16,8 +17,8 @@ public class Bullet extends Line{
 	 
 	//CONSTRUCTORS
 	
-	public Bullet(GVector3f a, GVector3f b, World world, GameComponent parent) {
-		super(a,b);
+	public Bullet(GVector3f a, GVector3f b, World world, GameComponent parent, Loader loader) {
+		super(a, b, loader);
 		this.world = world;
 		this.parent = parent;
 		life = 300;

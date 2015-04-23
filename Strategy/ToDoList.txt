@@ -1,11 +1,11 @@
 +add fullscreen options
 +start using shaders
-+edit glsg variables from java
++edit GLSL variables from java
 +draw simple line
 +implements simple physics
 +implements gravity
 +fix the shader or normals
-+texture load and add to opengl
++texture load and add to OpenGLs
 +implements basic colisions
 +implement lighting
 +create OBJloader
@@ -18,28 +18,31 @@
 +create particles
 +implement mouse picker
 +make object to move camera by keyboard and mouse
-+calc average color from texture
++calculate average color from texture
 +add option to disable textures and use colors
 +add sky box
 +draw in canvas
-+implement vector-poligon collision
-+calc forward vector from camera
++implement vector-polygon collision
++calculate forward vector from camera
 +implement transparent textures
 +make universal shader
-+make realy usefull input
++make really useful input
 +add look at
-+implement hud
-+create collor picker
-+fix exporning resources to runnable jar
++add movableTPS
++implement HUD
++create color picker
++fix exporting resources to runnable jar
 +create universal rendering engine
 -implement basic type of views(grayscale, depth, height)
 -add option to change rendering options  
 -reorganize shaders
 -implement shadow on particles
--add support for older opengls
+-add support for older opengl
 -add sound support
 -make sound 3D
 -change sound pitch or speed
+-make movableTPS smoother
+-make actionMode im movableTPS
 -dynamic create model from points
 -multi view ports
 -optical flares
@@ -51,7 +54,7 @@
 -implement normal calculator
 -implement delta calculator
 -add method to round terrain
--add show/hide gui option
+-add show/hide GUI option
 -make viewport resizable 
 -make directional light really directional
 -implement spot light
@@ -67,7 +70,7 @@
 -implement fructrum
 -add basic shapes
 -make stable gameloop
--add timing and trafic controler window
+-add timing and traffic controller window
 -add material editor window
 -add light editor window
 -add particles editor window
@@ -96,7 +99,7 @@
 -implement slider for loading
 -use one instance of loader to load models
 -fix the exporting libraries and another projects to runnable jar
--add cillinder collider
--implement antialiasing
+-add cylinder collider
+-implement anti aliasing
 -implement multi texturing
 -implement reflectivity

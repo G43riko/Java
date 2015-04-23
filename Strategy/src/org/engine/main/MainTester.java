@@ -1,15 +1,21 @@
 package org.engine.main;
 
-import org.engine.component.Movable;
+import org.engine.component.MovableFPS;
+import org.engine.component.MovableTPS;
 import org.engine.core.CoreEngine;
+import org.engine.entity.BasicPlayer;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
+import org.engine.object.GameObject;
 import org.engine.rendeing.ToFrameBufferRendering;
+import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.util.Loader;
+import org.engine.util.OBJLoader;
 import org.engine.water.Water;
 import org.engine.world.Plane;
 import org.engine.world.SkyBox;
+import org.lwjgl.opengl.Display;
 import org.strategy.component.CameraStrategy;
 import org.strategy.rendering.RenderingEngineStrategy;
 
@@ -29,7 +35,8 @@ public class MainTester extends CoreEngine{
 		
 		addToScene(new SkyBox(getCamera()));
 		
-		addToScene(new Movable(getCamera()));
+//		addToScene(new MovableFPS(getCamera()));
+//		setCenter(getCamera());
 		
 //		addToScene(new GameObject(new Terrain(0,0,getLoader(),255).getModel()));
 		
@@ -42,14 +49,34 @@ public class MainTester extends CoreEngine{
 //		addToScene(new GameObject(OBJLoader.loadObjModel("sphere", getLoader())));
 		
 //		addToScene(new GameObject(new Terrain(0,0,getLoader()).getModel()));
-
+		
+		
+		crateTPSgame();
+		
+		addCursor("cursor.png",0.9f);
 		addToScene(new Hud(getFrameRender().getTexture(), new GVector2f(0.5f,0.5f), new GVector2f(0.25f, 0.25f)));
+		
 		
 		addToScene(new Water(new GVector3f(1,1,1), getLoader()));
 		
 		addToScene(new Plane());
 		
 		
+	}
+	
+	//TEMPERARY
+
+	private void crateTPSgame(){
+		BasicPlayer player = new BasicPlayer(new GameObject(OBJLoader.loadObjModel("person", getLoader()), new Material("playerTexture.png")));
+		addToScene(player);
+		addToScene(new MovableTPS(getCamera(), player));
+		setCenter(player);
+	}
+	
+	private void addCursor(String name, float size){
+		float offsetY = 0.2f;
+		GVector2f s =  new GVector2f(0.05 * size, 0.05 * size / (float)Display.getHeight() * (float)Display.getWidth());
+		addToScene(new Hud(new Texture2D(name), new GVector2f(0,offsetY),s));
 	}
 	
 }

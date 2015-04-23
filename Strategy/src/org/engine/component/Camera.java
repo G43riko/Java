@@ -10,7 +10,7 @@ import glib.util.vector.GVector3f;
 
 public class Camera extends GameComponent {
 	
-	protected final static GVector3f up = new GVector3f(0,1,0);
+	public final static GVector3f UP = new GVector3f(0,1,0);
 	protected final static boolean VERTICAL = false; 
 	
 	protected float FOV = 70;
@@ -97,29 +97,29 @@ public class Camera extends GameComponent {
 		if(VERTICAL)
 			return forward.mul(-1).Normalized();
 		
-		return up.cross(forward).cross(up).mul(-1).Normalized();
+		return UP.cross(forward).cross(UP).mul(-1).Normalized();
 	}
 	
 	public GVector3f getBackVector(){
 		if(VERTICAL)
 			return forward.Normalized();
 		
-		return up.cross(forward).cross(up).Normalized();
+		return UP.cross(forward).cross(UP).Normalized();
 	}
 	
 	public GVector3f getRightVector(){
-		return up.cross(forward).Normalized();
+		return UP.cross(forward).Normalized();
 	}
 	
 	public GVector3f getLeftVector(){
-		return up.cross(forward).mul(-1).Normalized();
+		return UP.cross(forward).mul(-1).Normalized();
 	}
 	
 	public GVector3f getUpVector(){
-		return up.Normalized();
+		return UP.Normalized();
 	}
 	
 	public GVector3f getDownVector(){
-		return up.mul(-1).Normalized();
+		return UP.mul(-1).Normalized();
 	}
 }

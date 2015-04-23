@@ -4,7 +4,7 @@ import glib.util.vector.GVector3f;
 
 public class Enviroment {
 	public static float SPEED = 1;
-	public static float FRICTION = 0.9f;
+	public final static float FRICTION = 0.9f;
 	public static GVector3f GRAVITY = new GVector3f(0,-0.03f,0);
 	
 	public final static float MIN_X = -50;

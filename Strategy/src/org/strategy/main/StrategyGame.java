@@ -40,7 +40,7 @@ public class StrategyGame extends CoreGame{
 		BasicEnemy e;
 		GVector3f worldSize = getWorld().getMaxSize();
 		for(int i=0 ; i<1 ; i++){
-			e = new BasicEnemy(getWorld());
+			e = new BasicEnemy(getWorld(), getLoader());
 			e.setPosition(new GVector3f(Math.random()*(worldSize.getX()-3),2, Math.random()*(worldSize.getZ()-3)));
 			e.setTarget(getPlayer());
 			e.setBulletColor(new GVector3f(Math.random(), Math.random(), Math.random()));

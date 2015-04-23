@@ -115,30 +115,30 @@ public class CameraStrategy extends Camera{
 		if(VERTICAL)
 			move(getForward().mul(-MOVE_SPEED));
 		else
-			move(up.cross(getForward()).cross(up).mul(-MOVE_SPEED));
+			move(UP.cross(getForward()).cross(UP).mul(-MOVE_SPEED));
 	}
 	
 	public void goBack(){
 		if(VERTICAL)
 			move(getForward().mul(MOVE_SPEED));
 		else
-			move(up.cross(getForward()).cross(up).mul(MOVE_SPEED));
+			move(UP.cross(getForward()).cross(UP).mul(MOVE_SPEED));
 	}
 
 	public void goRight(){
-		move(up.cross(getForward()).mul(MOVE_SPEED));
+		move(UP.cross(getForward()).mul(MOVE_SPEED));
 	}
 	
 	public void goLeft(){
-		move(up.cross(getForward()).mul(-MOVE_SPEED));
+		move(UP.cross(getForward()).mul(-MOVE_SPEED));
 	}
 	
 	public void goUp(){
-		move(up.mul(MOVE_SPEED));
+		move(UP.mul(MOVE_SPEED));
 	}
 	
 	public void goDown(){
-		move(up.mul(-1).mul(MOVE_SPEED));
+		move(UP.mul(-1).mul(MOVE_SPEED));
 	}
 
 	

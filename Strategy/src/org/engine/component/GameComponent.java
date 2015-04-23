@@ -79,17 +79,6 @@ public abstract class GameComponent {
 		return null;
 	}
 	
-	public GMatrix4f lookAt(GVector3f eye, GVector3f target, GVector3f up){
-		GVector3f forward = target.sub(eye).Normalized();
-		GVector3f side = forward.cross(up).Normalized();
-		GMatrix4f m = new GMatrix4f().initIdentity();
-		m.set(0, 0, side.getX());	m.set(0, 1, up.getX());	m.set(0, 2, -forward.getX());
-		m.set(1, 0, side.getY());	m.set(1, 1, up.getY());	m.set(1, 2, -forward.getY());
-		m.set(2, 0, side.getZ());	m.set(2, 1, up.getZ());	m.set(2, 2, -forward.getZ());
-		m.set(0, 3, -eye.getX());	m.set(1, 3, -eye.getY());m.set(2, 3, -eye.getX());
-		return m;
-	}
-	
 	//GETTERS
 	
 	public GVector3f getPosition() {

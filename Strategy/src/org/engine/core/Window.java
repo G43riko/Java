@@ -66,7 +66,7 @@ public class Window {
 		}
 	}
 	
-	public static void createWindow(int width, int height, String title,boolean fullscreen){
+	public static void createWindow(String title,boolean fullscreen){
 		Display.setTitle(title);
 		try{
 			Display.setDisplayMode(Display.getDesktopDisplayMode());

@@ -75,16 +75,6 @@ public class GameObjectPhysics extends GameObject{
 		return collider;
 	}
 
-	//SETTERS
-	
-	public void setCollider(BasicCollider collider) {
-		this.collider = collider;
-	}
-
-	public void setDirection(GVector3f direction) {
-		this.direction = direction;
-	}
-
 	public GVector3f getDirection() {
 		return direction;
 	}
@@ -95,6 +85,16 @@ public class GameObjectPhysics extends GameObject{
 
 	public GVector3f getRotSpeed() {
 		return rotSpeed;
+	}
+
+	//SETTERS
+	
+	public void setCollider(BasicCollider collider) {
+		this.collider = collider;
+	}
+
+	public void setDirection(GVector3f direction) {
+		this.direction = direction;
 	}
 
 	public void setRotSpeed(GVector3f rotSpeed) {

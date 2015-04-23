@@ -240,6 +240,11 @@ public class RenderingEngine {
 		if(!variables.containsKey("hud") || !variables.get("hud"))
 			return;
 		shaders.get("guiShader").bind();
+
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
@@ -261,10 +266,13 @@ public class RenderingEngine {
 		if(!variables.containsKey("hud") || !variables.get("hud"))
 			return;
 		
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		shaders.get("guiShader").bind();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		
 		for(Hud h : hud){
 			GL30.glBindVertexArray(h.getModel().getVaoID());
 			GL20.glEnableVertexAttribArray(0);

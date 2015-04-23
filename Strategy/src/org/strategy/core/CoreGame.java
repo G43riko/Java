@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import glib.util.GLog;
-import glib.util.vector.GVector3f;
 
 import org.MainStrategy;
 import org.engine.component.GameComponent;
@@ -105,7 +104,7 @@ public abstract class CoreGame extends CoreEngine{
 		}
 		if(Mouse.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_LMENU)){
 			getCamera().getMousePicker().update();
-			addToScene(new Bullet(player.getPosition(), player.getPosition().add(getCamera().getMousePicker().getCurrentRay().mul(10)), world, player));
+			addToScene(new Bullet(getPlayer().getPosition(), getPlayer().getPosition().add(getCamera().getMousePicker().getCurrentRay().mul(10)), getWorld(), getPlayer(), getLoader()));
 		}
 	}
 
@@ -175,9 +174,9 @@ public abstract class CoreGame extends CoreEngine{
 
 	public void setSun(PointLight sun) {
 		this.sun = sun;
-		PointLight r = new PointLight(new GVector3f(16,30,4 ),new GVector3f(1,0,0), new GVector3f(1, 0.04f, 0.008f));
-		PointLight g = new PointLight(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1, 0.04f, 0.008f));
-		PointLight b = new PointLight(new GVector3f(6 ,34,28),new GVector3f(0,0,1), new GVector3f(1, 0.02f, 0.008f));
+//		PointLight r = new PointLight(new GVector3f(16,30,4 ),new GVector3f(1,0,0), new GVector3f(1, 0.04f, 0.008f));
+//		PointLight g = new PointLight(new GVector3f(22,32,28),new GVector3f(0,1,0), new GVector3f(1, 0.04f, 0.008f));
+//		PointLight b = new PointLight(new GVector3f(6 ,34,28),new GVector3f(0,0,1), new GVector3f(1, 0.02f, 0.008f));
 //		getRenderingEngine().setSun(sun);
 		List<PointLight> l = new ArrayList<PointLight>();
 		l.add(sun);

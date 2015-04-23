@@ -216,6 +216,7 @@ public class ParticleEmmiter extends GameComponent{
 		for(int i=particles.size()-1 ; i>=0 ; i--){
 			particles.get(i).render(renderingEngine);
 		}
+		
 		glEnable(GL_DEPTH_TEST);
 	}
 

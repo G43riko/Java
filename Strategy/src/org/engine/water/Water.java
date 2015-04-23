@@ -28,7 +28,6 @@ public class Water extends GameComponent{
 	//OTHERS
 	
 	private void setUpVAO(Loader loader) {
-        // Just x and z vectex positions here, y is set to 0 in v.shader
         float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
         model = loader.loadToVAO(vertices);
     }

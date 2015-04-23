@@ -10,8 +10,13 @@ public class GVector2f {
 	};
 	
 	public GVector2f(float x, float y){
-		this.x=x;
-		this.y=y;
+		this.x = x;
+		this.y = y;
+	};
+	
+	public GVector2f(double x, double y){
+		this.x = (float)x;
+		this.y = (float)y;
 	};
 	
 	public GVector2f(GVector2f v){

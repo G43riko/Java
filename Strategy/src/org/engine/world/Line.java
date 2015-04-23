@@ -16,12 +16,12 @@ public class Line extends GameComponent{
 	
 	//CONSTRUCTORS
 	
-	public Line(GVector3f a, GVector3f b) {
+	public Line(GVector3f a, GVector3f b, Loader loader) {
 		super(GameComponent.LINE);
 		setPosition(a);
 		this.a = a;
 		this.b = b;
-		this.model = createModel();
+		this.model = createModel(loader);
 		this.color = new GVector3f();
 	}
 	
@@ -31,12 +31,12 @@ public class Line extends GameComponent{
 
 	//CREATORS
 	
-	private Model createModel(){
+	private Model createModel(Loader loader){
 		float[] position = new float[]{0, 0, 0,
 									   a.getXi()-b.getXi(), a.getYi()-b.getYi(), a.getZi()-b.getZi()};
 
 		int[] indices = new int[]{0, 1};
-		return new Loader().loadToVAO(position, indices);
+		return loader.loadToVAO(position, indices);
 	}
 	
 	//GETTERS

@@ -5,16 +5,19 @@ import java.util.ArrayList;
 
 
 
+
+
 import glib.util.GLog;
 
 import javax.swing.JFrame;
 
 import org.MainStrategy;
+import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
+import org.engine.entity.BasicPlayer;
 import org.engine.gui.Gui;
 import org.engine.object.GameObjectPhysics;
-import org.engine.rendeing.RenderingEngine;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.util.Loader;
 import org.engine.util.MousePicker;
@@ -29,7 +32,6 @@ public abstract class CoreEngine extends JFrame{
 	private ToFrameBufferRendering frameRender; 
 	
 	private Gui gui;
-//	protected ArrayList<GameComponent> scene;
 	private Scene scene;
 	private RenderingEngineStrategy renderingEngine;
 
@@ -37,10 +39,10 @@ public abstract class CoreEngine extends JFrame{
 	private CameraStrategy camera;
 	private boolean running;
 	
+	
 	//CONSTRUCTORS
 	
 	public CoreEngine(){
-//		scene = new ArrayList<GameComponent>();
 		scene = new Scene();
 		running = false;
 	}
@@ -89,16 +91,7 @@ public abstract class CoreEngine extends JFrame{
 	}
 	
 	protected void input(){
-		if(Input.getMouseDown(0)){
-			GameObjectPhysics o = new GameObjectPhysics(OBJLoader.loadObjModel("sphere", loader));
-			o.setPosition(camera.getPosition());
-//			o.setDirection(camera.getForward().mul(-1));
-			o.setDirection(camera.getMousePicker().getCurrentRay());
-			addToScene(o);
-		}
-
-		
-		
+		tempInput();
 		Input.update();
 		for(GameComponent g: scene.getScene()){
 			g.input();
@@ -209,7 +202,26 @@ public abstract class CoreEngine extends JFrame{
 
 	
 
-//	public MousePicker getMousePicker() {
-//		return mousePicker;
-//	}
+	//TEMPORARY
+
+	private GameComponent center; 
+	
+	private void tempInput(){
+		if(Input.getMouseDown(0)){
+			GameObjectPhysics o = new GameObjectPhysics(OBJLoader.loadObjModel("sphere", loader));
+			o.setPosition(center.getPosition().getInstance());
+			if(center instanceof BasicPlayer){
+				o.setDirection(((BasicPlayer)center).getForward().mul(-1));
+				o.getPosition().addToY(10);
+			}
+			else if(center instanceof Camera)
+				o.setDirection(((Camera)center).getForward().mul(-1));
+			addToScene(o);
+		}
+	}
+	
+	public void setCenter(GameComponent center) {
+		this.center = center;
+	}
+	
 }

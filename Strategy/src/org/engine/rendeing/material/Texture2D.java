@@ -23,14 +23,7 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.PNGDecoder;
 
 public class Texture2D {
-	
-//	private class Data{
-//		private Texture2D t;
-//		private int count;
-//	}
-	
 	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
-//	public static int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 	
 	public static final int FILTER_LINEAR = GL_LINEAR;
     public static final int FILTER_NEAREST = GL_NEAREST;
@@ -56,9 +49,8 @@ public class Texture2D {
 	
 	public Texture2D(String fileName){
 		this.fileName = fileName;
-		if(loadedTextures.containsKey(fileName)){
+		if(loadedTextures.containsKey(fileName))
 			loadOld(loadedTextures.get(fileName));
-		}
 		else{
 			addTextureToOpenGL(makeByteBufferFILE(fileName));
 			loadedTextures.put(fileName, this);
@@ -78,9 +70,8 @@ public class Texture2D {
 	
 	public Texture2D(String fileName, URL url){
 		this.fileName = fileName;
-		if(loadedTextures.containsKey(fileName)){
+		if(loadedTextures.containsKey(fileName))
 			loadOld(loadedTextures.get(fileName));
-		}
 		else{
 			addTextureToOpenGL(makeByteBufferURL(url));
 			loadedTextures.put(fileName, this);
@@ -141,10 +132,10 @@ public class Texture2D {
 			ByteBuffer buffer = BufferUtils.createByteBuffer(BPP * size.getXi() * size.getYi());
 			
 			boolean hasAlpha = image.getColorModel().hasAlpha();
-			double red = 0;
-			double green = 0;
-			double blue = 0;
-			double num = 0;
+			float red = 0;
+			float green = 0;
+			float blue = 0;
+			float num = 0;
 			
 			for(int y=0 ; y<size.getYi() ; y++){
 				for(int x=0 ; x<size.getYi() ; x++){
@@ -163,11 +154,11 @@ public class Texture2D {
 						buffer.put((byte)(0xFF));
 				}
 			}
-			averageColor = new GVector3f(red/num/255, green/num/255, blue/num/255);
+			averageColor = new GVector3f(red, green, blue).div(num/255);
 			buffer.flip();
 			return buffer;
 		}
-		catch(Exception e){ System.err.println(e); System.out.println("obrázok "+fileName+" sa nepodarilo naèíta"); }
+		catch(Exception e){System.out.println("obrázok "+fileName+" sa nepodarilo naèíta"); }
 		return null;
 	}
 	

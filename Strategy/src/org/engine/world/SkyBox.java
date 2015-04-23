@@ -134,15 +134,17 @@ public class SkyBox extends GameComponent{
 		return model;
 	}
 
-	
 	//SETTERS
 	
 	public void setCamera(CameraStrategy camera) {
 		this.camera = camera;
 	}
-
 	
 	public void setRotationSpeed(GVector3f rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
+	}
+
+	public void setTexture(Texture2D texture) {
+		this.texture = texture;
 	}
 }

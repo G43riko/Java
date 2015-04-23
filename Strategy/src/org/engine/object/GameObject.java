@@ -9,6 +9,8 @@ public class GameObject extends GameComponent{
 	protected Model model;
 	protected Material material;
 
+	//CONSTRUCTORS
+	
 	public GameObject(Model model){
 		this(model,new Material("texture.png"));
 	}

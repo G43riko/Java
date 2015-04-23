@@ -7,8 +7,6 @@ import org.engine.gui.Hud;
 import org.engine.object.GameObject;
 import org.engine.particles.ParticleEmmiter;
 import org.engine.water.Water;
-import org.strategy.entity.Bullet;
-import org.strategy.entity.enemy.BasicEnemy;
 
 public class Scene {
 	private ArrayList<GameObject> objects;
@@ -29,18 +27,6 @@ public class Scene {
 	
 	//ADDERS
 	
-//	public void add(GameObject c){
-//		objects.add(c);
-//	}
-//	
-//	public void add(Hud c){
-//		huds.add(c);
-//	}
-//	
-//	public void add(ParticleEmmiter c){
-//		particles.add(c);
-//	}
-	
 	public void add(GameComponent c){
 		if(c instanceof GameObject)
 			objects.add((GameObject)c);
@@ -53,21 +39,9 @@ public class Scene {
 		else
 			others.add(c);
 	}
+
+	//REMOVERS
 	
-	
-//	public void add(GameComponent c){
-//		if(c instanceof GameObject)
-//			objects.add((GameObject)c);
-//		else if(c instanceof Hud)
-//			huds.add((Hud)c);
-//		else if(c instanceof ParticleEmmiter)
-//			particles.add((ParticleEmmiter)c);
-//		else
-//			others.add(c);
-//	}
-	
-//	//REMOVERS
-//	
 	public void remove(GameComponent e){
 		if(objects.contains(e))
 			objects.remove(e);
@@ -80,25 +54,14 @@ public class Scene {
 		else if(others.contains(e))
 			others.remove(e);
 	}
-//	
-//	public void removeAll(ArrayList<GameComponent> e){
-//		huds.removeAll(e);
-//		particles.removeAll(e);
-//		objects.removeAll(e);
-//		others.removeAll(e);
-//	}
-//	
-//	public void remove(Hud b){
-//		huds.remove(b);
-//	}
-//	
-//	public void remove(ParticleEmmiter g){
-//		particles.remove(g);
-//	}
-//	
-//	public void remove(GameComponent g){
-//		others.remove(g);
-//	}
+	
+	public void removeAll(ArrayList<GameComponent> e){
+		huds.removeAll(e);
+		particles.removeAll(e);
+		objects.removeAll(e);
+		others.removeAll(e);
+		waters.removeAll(e);
+	}
 	
 	//GETTERS
 	

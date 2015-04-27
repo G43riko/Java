@@ -27,7 +27,6 @@ public class MarketResourceSelector extends JPanel{
 	private Market market;
 	
 	//ACTIONS
-	
 	private ActionListener buyEvent = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			market.wantBuy(type, (int)value.getValue());
@@ -42,6 +41,11 @@ public class MarketResourceSelector extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param type
+	 * @param max
+	 * @param market
+	 */
 	public MarketResourceSelector(byte type, int max, Market market){
 		this.market = market;
 		this.type = type;
@@ -57,6 +61,9 @@ public class MarketResourceSelector extends JPanel{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		button.addActionListener(buyEvent);
 //		button.setVisible(false);
@@ -69,11 +76,17 @@ public class MarketResourceSelector extends JPanel{
 		add(button);
 	}
 	
+	/**
+	 * @param val
+	 */
 	private void makeEnable(boolean val){
 		value.setEnabled(val);
 		button.setEnabled(val);
 	}
 	
+	/**
+	 * @param maximum
+	 */
 	public void update(int maximum){
 		max.setText(String.valueOf(maximum));
 		value.setValue(0);

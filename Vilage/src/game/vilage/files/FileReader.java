@@ -19,6 +19,10 @@ import util.ResourceLoader;
 public class FileReader {
 	private static HashMap<Byte, String> loadedBuildings = loadBuildingDatas();
 	
+	/**
+	 * @param fileName
+	 * @return
+	 */
 	private static InputStream loadData(String fileName){
 		InputStream input = ResourceLoader.class.getResourceAsStream(fileName);	//pohlad· subor kde by sa mal nach·dzaù
 		if(input == null){	//ak ho nen·jde
@@ -27,6 +31,10 @@ public class FileReader {
 		return input;	//vr·ti Ëo sa naölo
 	}
 	
+	/**
+	 * @param village
+	 * @return
+	 */
 	public static HashMap<Byte, Integer> loadData(Village village){
 		String line = null;
 		HashMap<Byte, Integer> result = new HashMap<Byte, Integer>();
@@ -51,6 +59,9 @@ public class FileReader {
 		return result;
 	}
 
+	/**
+	 * @param data
+	 */
 	private static void saveData(String data){
 		File fileToSave = new File("res/data.vlg");
 		PrintStream file = null;
@@ -65,6 +76,9 @@ public class FileReader {
 		file.close();
 	}
 	
+	/**
+	 * @param village
+	 */
 	public static void saveData(Village village) {
 		String data = "";
 		for(Entry<Byte, BasicBuilding> e : village.getBuildings().entrySet()){
@@ -74,6 +88,10 @@ public class FileReader {
 		saveData(data);
 	}
 
+	/**
+	 * @param names
+	 * @param producers
+	 */
 	public static void getResourceDatas(HashMap<Byte, String> names, HashMap<Byte, Byte> producers){
 		String line = null;
 		try {
@@ -92,6 +110,9 @@ public class FileReader {
 		}
 	}
 	
+	/**
+	 * @return
+	 */
 	private static HashMap<Byte, String> loadBuildingDatas(){
 		HashMap<Byte, String> res = new HashMap<Byte, String>();
 		String line = null;
@@ -110,6 +131,12 @@ public class FileReader {
 		return res;
 	}
 
+	/**
+	 * @param type
+	 * @param name
+	 * @param requiered
+	 * @param produced
+	 */
 	public static void getBuildingData(byte type, String name, HashMap<Byte, Integer> requiered, HashMap<Byte, Integer> produced){
 		try{
 		String line = loadedBuildings.get(type);

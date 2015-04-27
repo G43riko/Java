@@ -43,6 +43,9 @@ public class PanelRight extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param parent
+	 */
 	public PanelRight(OtherWindow parent){
 		this.parent = parent;
 		init();
@@ -50,6 +53,9 @@ public class PanelRight extends JPanel{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
 		list = new JList<Quest>(listModel = new DefaultListModel<Quest>());
@@ -61,14 +67,23 @@ public class PanelRight extends JPanel{
 		add(list);
 	}
 	
+	/**
+	 * @param q
+	 */
 	public void addQuest(Quest q){
 		listModel.addElement(q);
 	}
 	
+	/**
+	 * @param q
+	 */
 	public void removeQuest(Quest q){
 		listModel.removeElement(q);
 	}
 
+	/**
+	 * 
+	 */
 	public void clear() {
 		listModel.removeAllElements();
 		ides.clear();

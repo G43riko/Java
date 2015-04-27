@@ -19,6 +19,9 @@ public class Market {
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param village
+	 */
 	public Market(Village village){
 		this.village = village;
 		resources = Suroviny.getAllDefault();
@@ -35,18 +38,33 @@ public class Market {
 
 	//OTHERS
 	
+	/**
+	 * @param s
+	 */
 	public void appendNotice(String s){	//prilepí oznámenie
 		window.appendNotice(s);
 	}
 	
+	/**
+	 * 
+	 */
 	public void showWindow(){	//ukáže okno
 		window.setVisible(true);
 	}
 
+	/**
+	 * @param resource
+	 * @param value
+	 */
 	public void addResource(byte resource, int value){
 		addResource(resource, value, false);
 	}
 	
+	/**
+	 * @param resource
+	 * @param value
+	 * @param hideNotice
+	 */
 	public void addResource(byte resource, int value, boolean hideNotice){	//pridá suroviny
 		if(resources.containsKey(resource))	//ak obsahuje už surovinu
 			resources.put(resource, resources.get(resource) + value);	//zvaèší jej množstvo
@@ -58,6 +76,10 @@ public class Market {
 			window.appendNotice(GOODES_RECEIVED, value, resource);	//prilepí správu o doruèení
 	}
 
+	/**
+	 * @param type
+	 * @param value
+	 */
 	public void wantBuy(byte type, int value) {	//zistí èi má dostatok surovin na sklade a ak nie tak si objedná suroviny podla potreby
 		if(resources.get(type) >= value){	//ak je viac surovín na sklade ako je objednaných
 			window.appendNotice(GOODS_SHIPPED, value, type);	//napíše správu o odoslaní surovín
@@ -72,6 +94,9 @@ public class Market {
 		}
 	}
 
+	/**
+	 * @return
+	 */
 	public String toFile() {
 		String res = "";
 		for(Entry<Byte, Integer> e : resources.entrySet()){
@@ -82,14 +107,23 @@ public class Market {
 	
 	//GETTERS
 	
+	/**
+	 * @return
+	 */
 	public HashMap<Byte, Integer> getResources() {
 		return resources;
 	}
 	
+	/**
+	 * @return
+	 */
 	public MarketWindow getWindow() {
 		return window;
 	}
 
+	/**
+	 * @return
+	 */
 	public Village getVillage() {
 		return village;
 	}

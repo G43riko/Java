@@ -1,17 +1,18 @@
-package org.engine.component;
+package org.engine.component.movement;
 
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
+import org.engine.component.Camera;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class MovableFPS extends BasicMovable{
+public class FPS extends BasicMovement{
 	private boolean flyMode = true;
 	
 	//CONSTRUCTORS
 	
-	public MovableFPS(Camera camera){
+	public FPS(Camera camera){
 		super(camera);
 		
 		keys.put("up", Keyboard.KEY_SPACE);

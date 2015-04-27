@@ -16,7 +16,6 @@ import glib.util.vector.GVector3f;
 
 
 public class Particle extends GameComponent{
-	
 	private ParticleEmmiter parent;
 	
 	private GVector3f direction;

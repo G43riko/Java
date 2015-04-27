@@ -210,7 +210,6 @@ public final class RenderingEngineStrategy extends RenderingEngine{
 			return;
 		
 		this.view = view;
-			
 		for(Entry<String, GBasicShader> s : shaders.entrySet()){
 			getShader(s.getKey()).bind();
 			getShader(s.getKey()).updateUniform("view", view);

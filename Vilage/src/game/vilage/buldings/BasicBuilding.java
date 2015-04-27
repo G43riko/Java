@@ -13,6 +13,10 @@ import game.vilage.resources.ResourceBase;
 import game.vilage.resources.Suroviny;
 import game.vilage.view.OtherWindow;
 
+/**
+ * @author Gabriel
+ *
+ */
 public abstract class BasicBuilding {
 	protected ResourceBase resources;
 	protected Village village;
@@ -21,7 +25,10 @@ public abstract class BasicBuilding {
 	protected ArrayList<Quest> quests = new ArrayList<Quest>(); 
 	
 	//CONSTRUCTORS
-	
+	/**
+	 * @param village
+	 * @param type
+	 */
 	public BasicBuilding(Village village, byte type){
 		this.village = village;
 		this.type = type;
@@ -32,16 +39,28 @@ public abstract class BasicBuilding {
 	
 	//ADDERS
 	
+	/**
+	 * @param res
+	 */
 	public void addResource(HashMap<Byte, Integer> res){	//pridá hashMapu surovín do skladu
 		for(Entry<Byte, Integer> e : res.entrySet())	//prejde kadou surovinou
 			resources.addResource(e.getKey(), e.getValue());	//pridá kadú jednu surovinu do skladu
 	}
 	
+	/**
+	 * @param type
+	 * @param value
+	 */
 	public void addResource(byte type, int value){	//pridí konkrétnu surovinu
 		resources.addResource(type, value);	//prída surovinu
 		window.updateResourcePanel();	//aktualizuje poèet surovín v okne
 	}
 
+	/**
+	 * @param type
+	 * @param from
+	 * @param value
+	 */
 	public void addQuest(byte type, byte from, int value){
 		while(value > 0){	//pokial neni vyprodukované mnostvo vaèšie alebo rovné ako potrebné mnostvo;
 			for(Entry<Byte, Integer> e : resources.getProduce().entrySet()){	//pre kadú z vyprodukovanıch surovín
@@ -55,10 +74,18 @@ public abstract class BasicBuilding {
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	public void showWindow(){	//zobrazí okno budovy
 		window.setVisible(true);
 	}
 
+	/**
+	 * @param success
+	 * @param subQuest
+	 * @param subEvent
+	 */
 	public void finishSubQuest(boolean success, byte subQuest, byte subEvent) {	//skonèí subquest
 		if(success)	//ak dokonèil s úspechom
 			village.appentNotice(sign()+"podarilo sa splni úlohu: "+SubQuests.getName(subQuest)+"");	//napíše e to vyšlo
@@ -66,10 +93,16 @@ public abstract class BasicBuilding {
 			village.appentNotice(sign()+"nepodarilo sa splni úlohu: "+SubQuests.getName(subQuest)+" z dôvodu: "+SubEvents.getName(subEvent));	//napíš e to nevyšlo a dôvod
 	}
 	
+	/**
+	 * @return
+	 */
 	public String sign(){	//vríti meno budovy
 		return Buildings.getName(type)+": ";	
 	}
 
+	/**
+	 * @param finishedQuest
+	 */
 	public void finishQuest(int finishedQuest) {	//skonèí subquest
 		resources.build();	//vyprodukuje èo by mal vyprodukova
 		window.updateResourcePanel();
@@ -85,6 +118,9 @@ public abstract class BasicBuilding {
 		quests.remove(q);//vymae quest zo zoznamu questov
 	}
 
+	/**
+	 * @return
+	 */
 	public String toFile() {
 		String res = "";
 		for(Entry<Byte, Integer> e : resources.getOwned().entrySet()){
@@ -95,18 +131,31 @@ public abstract class BasicBuilding {
 	
 	//GETTERS
 	
+	/**
+	 * @return
+	 */
 	public Village getVillage() {
 		return village;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Quest> getQuests() {
 		return quests;
 	}
 
+	/**
+	 * @return
+	 */
 	public ResourceBase getResources() {
 		return resources;
 	}
 
+	/**
+	 * @param type
+	 * @param value
+	 */
 	public void wantBuy(byte type, int value) {
 		village.appentNotice(sign()+"bola odoslaná iados o doruèenie "+value+" ks tovaru: "+Suroviny.getName(type));
 		BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));
@@ -114,6 +163,9 @@ public abstract class BasicBuilding {
 		b.addQuest(type,this.type, value);
 	}
 
+	/**
+	 * @return
+	 */
 	public byte getType() {
 		return type;
 	}

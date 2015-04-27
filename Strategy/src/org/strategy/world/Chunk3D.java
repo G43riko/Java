@@ -1,5 +1,10 @@
 package org.strategy.world;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.json.JSONObject;
@@ -68,16 +73,24 @@ public class Chunk3D extends GameComponent{
 	}
 
 	public void render(RenderingEngineStrategy renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					Block b = blocks[i][j][k];
-					if(b!=null && b.isActive() && b.getType()>0 && isVisible(b,renderingEngine.getMainCamera())){
-						World.NUMBER_OF_RENDERED_BLOCK++;
-						b.render(renderingEngine);
-					}
-				}
-			}
+		foreachBlocks(a -> {a.render(renderingEngine); World.NUMBER_OF_RENDERED_BLOCK++;} 
+					 ,a -> a!=null && a.isActive() && a.getType()>0 && isVisible(a, renderingEngine.getMainCamera()));
+	}
+	
+	private void foreachBlocks(Consumer<? super Block> action){
+		foreachBlocks(action,null);
+	}
+	
+	private void foreachBlocks(Consumer<? super Block> action, Predicate<? super Block> contidion){
+		Stream<Block> s = Arrays.stream(blocks).flatMap(
+				x -> Arrays.stream(x).flatMap(
+						y->Arrays.stream(y)));
+		
+		if(contidion==null){
+			s.forEach(action);
+		}
+		else{
+			s.filter(contidion).forEach(action);
 		}
 	}
 	
@@ -88,16 +101,7 @@ public class Chunk3D extends GameComponent{
 	}
 
 	public void update(){
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					Block b = blocks[i][j][k];
-					if(b!=null && b.isActive() && b.getType()>0){
-						b.update();
-					}
-				}
-			}
-		}
+		foreachBlocks((a -> a.update()), (a -> a!=null && a.isActive() && a.getType() > 0));
 	}
 	
 	//NEIGHBOARDS
@@ -254,17 +258,7 @@ public class Chunk3D extends GameComponent{
 	}
 	
 	public void setWorld(World world){
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Y ; j++){
-				for(int k=0 ; k<NUM_Z ; k++){
-					Block b = blocks[i][j][k];
-					if(b==null){
-						return;
-					}
-					b.setWorld(world);
-				}
-			}
-		}
+		foreachBlocks(b -> b.setWorld(world), b -> b != null);
 	}
 	
 	public void setSide(int i, int j, int k){

@@ -37,6 +37,9 @@ public class PanelBottom extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param parent
+	 */
 	public PanelBottom(OtherWindow parent){
 		this.parent = parent;
 		init();
@@ -44,17 +47,27 @@ public class PanelBottom extends JPanel{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 	
+	/**
+	 * @param s
+	 * @return
+	 */
 	private SubQuestSelector addSubQuest(SubQuestSelector s){
 		add(s);
 		subQuests.add(s);
 		return s;
 	}
 
+	/**
+	 * @param box
+	 */
 	public void showNext(SubQuestSelector box) {
 		for(SubQuestSelector subQuest : subQuests)
 			if(subQuest.equals(box)){
@@ -67,10 +80,19 @@ public class PanelBottom extends JPanel{
 			}
 	}
 
+	/**
+	 * 
+	 */
 	private void finishQuest() {
 		parent.finishQuest(actQuest);
 	}
 	
+	/**
+	 * @param type
+	 * @param subQuest
+	 * @param subEvent
+	 * @param index
+	 */
 	public void finishSubQuest(byte type, byte subQuest, byte subEvent, int index) {	//dokonèí nejaký subquest
 		parent.getParrent().finishSubQuest(type == SUCCESS, subQuest, subEvent);	//inrmuje rodièa o skonèení subquestu
 		if(type == SUCCESS){	//ak skonèil úspechom
@@ -92,6 +114,9 @@ public class PanelBottom extends JPanel{
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void clear() {
 		for(SubQuestSelector box : subQuests){
 			box.removeAll();
@@ -102,6 +127,9 @@ public class PanelBottom extends JPanel{
 
 	//SETTERS
 	
+	/**
+	 * @param actQuest
+	 */
 	public void setActQuest(Quest actQuest) {	//nastavý sa aktualny quest
 		this.actQuest = parent.getParrent().getQuests().indexOf(actQuest);	//priradí sa id aktualneho questu
 		removeAll();	//vymaže sa všetko èo tu bolo predtým

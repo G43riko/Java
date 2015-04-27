@@ -39,6 +39,7 @@ public class MarketWindow extends Window{
 	//ACTIONS
 	
 	private MouseAdapter showPopUpMenu = new MouseAdapter(){
+		@Override
 		public void mouseReleased(MouseEvent e){
 	        if (e.isPopupTrigger())
 	            doPop(e);
@@ -77,6 +78,9 @@ public class MarketWindow extends Window{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param market
+	 */
 	public MarketWindow(Market market) {
 		this.market = market;
 		this.window = this;
@@ -85,6 +89,9 @@ public class MarketWindow extends Window{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		setTitle("Medieaval Online Shop");
 		setLayout(new BorderLayout());
@@ -97,6 +104,11 @@ public class MarketWindow extends Window{
 	}
 	
 	
+	/**
+	 * @param type
+	 * @param value
+	 * @param resource
+	 */
 	public void appendNotice(int type, int value, byte resource){	//podla typu oznámenie vytvorý string
 		switch(type){	//vyberie si aktualny typ oznámenie
 			case Market.GOODS_SHIPPED:
@@ -113,17 +125,26 @@ public class MarketWindow extends Window{
 		}
 	}
 	
+	/**
+	 * @param s
+	 */
 	public void appendNotice(String s){	//prilepí string
 		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));	//pridá aktualny èas
 		text.append(s+" o: "+time+"\n");	//prilepí text
 	}
 	
+	/**
+	 * @param type
+	 */
 	public void updateValue(byte type){	//aktualizuje panel s konkrétnou surovinou
 		resourcesSelectors.get(type).update(market.getResources().get(type));
 	}
 
 	//GETTERS
 
+	/**
+	 * @return
+	 */
 	public JPanel getResouceSelectors(){
 		JPanel panel = new JPanel(new GridLayout(5,1));
 		
@@ -137,6 +158,9 @@ public class MarketWindow extends Window{
 		return panel;
 	}
 	
+	/**
+	 * @return
+	 */
 	public JScrollPane getBottomPanel(){
 		panel = new JScrollPane(text = new JTextArea());
 		panel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

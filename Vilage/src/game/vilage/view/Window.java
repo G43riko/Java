@@ -13,6 +13,9 @@ public abstract class Window extends JFrame{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * 
+	 */
 	public Window(){
 		initFrame();
 		lastWindow = this;
@@ -20,6 +23,9 @@ public abstract class Window extends JFrame{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void initFrame(){
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(new Dimension(800,600));

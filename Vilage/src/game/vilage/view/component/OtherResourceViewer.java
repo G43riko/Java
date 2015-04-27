@@ -29,6 +29,12 @@ public class OtherResourceViewer extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param type
+	 * @param need
+	 * @param have
+	 * @param parent
+	 */
 	public OtherResourceViewer(byte type, int need, int have, BasicBuilding parent){
 		this.parent = parent;
 		this.type = type;
@@ -47,6 +53,9 @@ public class OtherResourceViewer extends JPanel{
 
 	//OTHERS
 
+	/**
+	 * 
+	 */
 	public void updateValue() {
 		if(parent.getResources().getOwned().containsKey(type))
 			owned.setText(String.valueOf(parent.getResources().getOwned().get(type)));
@@ -54,18 +63,27 @@ public class OtherResourceViewer extends JPanel{
 		buy.setVisible(parent.getResources().getOwned(type) < parent.getResources().getRequired(type));
 	}
 	
+	/**
+	 * 
+	 */
 	public void clear(){
 		removeAll();
 	}
 	
 	//GETTERS
 	
+	/**
+	 * @return
+	 */
 	public byte getType() {
 		return type;
 	}
 	
 	//SETTERS
 	
+	/**
+	 * @param val
+	 */
 	public void setValue(int val){
 		owned.setText(val+"");
 	}

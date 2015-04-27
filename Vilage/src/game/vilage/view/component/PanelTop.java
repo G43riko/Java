@@ -22,12 +22,18 @@ public class PanelTop extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * 
+	 */
 	public PanelTop(){
 		init();
 	}
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -46,6 +52,9 @@ public class PanelTop extends JPanel{
 		setVisible(false);
 	}
 	
+	/**
+	 * @param actProgress
+	 */
 	public void upadeProgress(int actProgress) {
 		progressBar.setValue(actProgress);
 		progressBar.setString(actProgress+" / "+progressBar.getMaximum());
@@ -53,6 +62,9 @@ public class PanelTop extends JPanel{
 	
 	//SETTERS
 	
+	/**
+	 * @param q
+	 */
 	public void setActQuest(Quest q){
 		setVisible(true);
 		heading.setText(q.getTitle());

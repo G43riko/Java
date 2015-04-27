@@ -60,9 +60,7 @@ public class Explosion extends GameComponent{
 	}
 	
 	public void render(RenderingEngineStrategy renderingEngine) {
-		for(BlockPart b:blocks){
-			b.b.render(renderingEngine);
-		}
+		blocks.forEach(b -> b.b.render(renderingEngine));
 	}
 
 	//GETTERS

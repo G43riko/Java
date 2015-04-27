@@ -47,6 +47,11 @@ public class SubQuestSelector extends JPanel{
 	
 	//CONSTRUCTORS
 
+	/**
+	 * @param subQuest
+	 * @param parent
+	 * @param selectedValue
+	 */
 	public SubQuestSelector(byte subQuest, PanelBottom parent, int selectedValue){
 		this.parent = parent;
 		this.subQuest = subQuest;
@@ -59,6 +64,9 @@ public class SubQuestSelector extends JPanel{
 	
 	//OTHERS
 	
+	/**
+	 * @param selectedValue
+	 */
 	private void init(int selectedValue){
 		add(new JLabel(SubQuests.getName(subQuest)));	//prída názov subquestu
 		
@@ -80,6 +88,9 @@ public class SubQuestSelector extends JPanel{
 	}
 	
 	
+	/**
+	 * @param value
+	 */
 	public void makeEnable(boolean value){
 		selectButton.setVisible(value);
 		selectRandomButton.setVisible(value);
@@ -88,6 +99,9 @@ public class SubQuestSelector extends JPanel{
 
 	//GETTERS
 	
+	/**
+	 * @return
+	 */
 	public int getSelectedIndex(){
 		return list.getSelectedIndex();
 	}

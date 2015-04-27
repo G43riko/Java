@@ -1,12 +1,14 @@
 package org.engine.main;
 
-import org.engine.component.MovableFPS;
-import org.engine.component.MovableTPS;
+import org.engine.component.movement.BasicMovement;
+import org.engine.component.movement.FPS;
+import org.engine.component.movement.TPS;
 import org.engine.core.CoreEngine;
 import org.engine.entity.BasicPlayer;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
+import org.engine.particles.ParticleEmmiter;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
@@ -32,17 +34,16 @@ public class MainTester extends CoreEngine{
 		setMousePicker(getCamera());
 		setFrameRender(new ToFrameBufferRendering());
 		
+		crateTPSgame();
+//		setMovementType(new FPS(getCamera()));
 		
 		addToScene(new SkyBox(getCamera()));
-		
-//		addToScene(new MovableFPS(getCamera()));
-//		setCenter(getCamera());
 		
 //		addToScene(new GameObject(new Terrain(0,0,getLoader(),255).getModel()));
 		
 		getRenderingEngine().addLight(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		
-//		addToScene(new ParticleEmmiter(new GVector3f(0,1,5)));
+//		addToScene(new ParticleEmmiter(new GVector3f(0,2,5)));
 		
 //		addToScene(new GameObject(getLoader().loadToVAO(Box.getVertices(1, 1, 1), Box.getTextures(), Box.getNormals(), Box.getIndices()), new Material("texture.png")));
 		
@@ -51,11 +52,8 @@ public class MainTester extends CoreEngine{
 //		addToScene(new GameObject(new Terrain(0,0,getLoader()).getModel()));
 		
 		
-		crateTPSgame();
 		
-		addCursor("cursor.png",0.9f);
 		addToScene(new Hud(getFrameRender().getTexture(), new GVector2f(0.5f,0.5f), new GVector2f(0.25f, 0.25f)));
-		
 		
 		addToScene(new Water(new GVector3f(1,1,1), getLoader()));
 		
@@ -69,8 +67,9 @@ public class MainTester extends CoreEngine{
 	private void crateTPSgame(){
 		BasicPlayer player = new BasicPlayer(new GameObject(OBJLoader.loadObjModel("person", getLoader()), new Material("playerTexture.png")));
 		addToScene(player);
-		addToScene(new MovableTPS(getCamera(), player));
-		setCenter(player);
+		setMovementType(new TPS(getCamera(), player));
+		addCursor("cursor.png",0.9f);
+		
 	}
 	
 	private void addCursor(String name, float size){

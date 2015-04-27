@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 
 public class ToFrameBufferRendering {
-//	private int colorTextureID;
 	private Texture2D texture;
 	private int framebufferID;
 	private int depthRenderBufferID;

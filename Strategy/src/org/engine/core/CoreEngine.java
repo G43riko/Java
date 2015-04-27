@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 
 
+
+
 import glib.util.GLog;
 
 import javax.swing.JFrame;
@@ -15,8 +17,12 @@ import org.MainStrategy;
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
+import org.engine.component.movement.BasicMovement;
+import org.engine.component.movement.FPS;
+import org.engine.component.movement.TPS;
 import org.engine.entity.BasicPlayer;
 import org.engine.gui.Gui;
+import org.engine.object.GameObject;
 import org.engine.object.GameObjectPhysics;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.util.Loader;
@@ -118,10 +124,10 @@ public abstract class CoreEngine extends JFrame{
 	private void finalRender(){
 		renderingEngine.renderObject(scene.getObjects());
 		renderingEngine.renderWater(scene.getWaters());
+		
+		scene.getObjects().forEach(a -> a.render(renderingEngine));
+		
 		renderingEngine.renderParticle(scene.getParticles());
-		for(GameComponent g: scene.getOthers()){
-			g.render(renderingEngine);
-		}
 	}
 	
 	protected void render(){
@@ -200,10 +206,18 @@ public abstract class CoreEngine extends JFrame{
 		return frameRender;
 	}
 
-	
-
 	//TEMPORARY
 
+	public void setMovementType(BasicMovement b) {
+		addToScene(b);
+		if(b instanceof FPS){
+			setCenter(getCamera());
+		}
+		else if(b instanceof TPS){
+			setCenter(((TPS)b).getPlayer());
+		}
+	}
+	
 	private GameComponent center; 
 	
 	private void tempInput(){
@@ -220,7 +234,7 @@ public abstract class CoreEngine extends JFrame{
 		}
 	}
 	
-	public void setCenter(GameComponent center) {
+	private void setCenter(GameComponent center) {
 		this.center = center;
 	}
 	

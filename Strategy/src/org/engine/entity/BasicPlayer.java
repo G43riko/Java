@@ -3,20 +3,25 @@ package org.engine.entity;
 import glib.util.vector.GVector3f;
 
 import org.engine.component.Camera;
-import org.engine.component.GameComponent;
 import org.engine.object.GameObject;
+import org.engine.rendeing.material.Material;
+import org.engine.rendeing.model.Model;
 import org.strategy.rendering.RenderingEngineStrategy;
 
-public class BasicPlayer extends GameComponent{
+public class BasicPlayer extends GameObject{
 
 	private GVector3f forward;
-	private GameObject object;
+	
+	public GVector3f lookingAt;
 	
 	//CONSTRUCTORS
 	
+	public BasicPlayer(Model model, Material material) {
+		super(model, material);
+	}
+	
 	public BasicPlayer(GameObject o) {
-		super(GameComponent.PLAYER);
-		object = o;
+		super(o.getModel(), o.getMaterial());
 	}
 
 	//OTHERS
@@ -30,27 +35,9 @@ public class BasicPlayer extends GameComponent{
 	
 	//OVERRIDES
 	
-	public void setPosition(GVector3f position) {
-		super.setPosition(position);
-		object.setPosition(position);
-	}
-	public void setRotation(GVector3f rotation) {
-		super.setRotation(rotation);
-		object.setRotation(rotation);
-	}
-	public void move(GVector3f vec) {
-		super.move(vec);
-		object.move(vec);
-	}
-	
-	public void rotate(GVector3f vec) {
-		super.rotate(vec);
-		object.rotate(vec);
-	}
-	
-	
 	public void render(RenderingEngineStrategy renderingEngine) {
-		object.render(renderingEngine);
+		
+		renderingEngine.renderObject(this);
 	}
 
 	//GETTERS
@@ -58,6 +45,7 @@ public class BasicPlayer extends GameComponent{
 	public GVector3f getForward() {
 		return forward;
 	}
+	
 	public GVector3f getRight(){
 		return Camera.UP.cross(forward).Normalized();
 	}

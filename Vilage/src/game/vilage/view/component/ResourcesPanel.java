@@ -18,6 +18,9 @@ public class ResourcesPanel extends JPanel{
 	
 	//CONSTRUCTORS
 	
+	/**
+	 * @param basicBuilding
+	 */
 	public ResourcesPanel(BasicBuilding basicBuilding){
 		this.parent = basicBuilding;
 		init();
@@ -26,12 +29,18 @@ public class ResourcesPanel extends JPanel{
 	
 	//OTHERS
 	
+	/**
+	 * 
+	 */
 	private void init(){
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(40,40));
 		setVisible(true);
 	}
 	
+	/**
+	 * 
+	 */
 	public void upateResources() {
 		ResourceBase resources = parent.getResources();
 		

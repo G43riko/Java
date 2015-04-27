@@ -1,14 +1,15 @@
-package org.engine.component;
+package org.engine.component.movement;
 
 import glib.math.GMath;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
+import org.engine.component.Camera;
 import org.engine.entity.BasicPlayer;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class MovableTPS extends BasicMovable{
+public class TPS extends BasicMovement{
 	private float distanceFromPlayer = 50;
 	private float angleAroundPlayer = 0;
 	private float offsetY = 10;
@@ -24,7 +25,7 @@ public class MovableTPS extends BasicMovable{
 	
 	private BasicPlayer player;
 
-	public MovableTPS(Camera camera, BasicPlayer player) {
+	public TPS(Camera camera, BasicPlayer player) {
 		super(camera);
 		this.player = player;
 		player.updateForward();
@@ -101,16 +102,33 @@ public class MovableTPS extends BasicMovable{
 			distanceFromPlayer = GMath.between(distanceFromPlayer, minimalZoomDistance, maximalZoomDistance);
 		
 		if(Mouse.isButtonDown(1) || mouseLocked){
+			//VERTICAL
 			float  pitchChange = Mouse.getDY() * 0.1f;
 			camera.getRotation().addToX(-pitchChange);
 
-
+			
+			//HORIZONTAL
 			float  angleChange = Mouse.getDX() * 0.1f;
-			angleAroundPlayer -= angleChange;
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+				player.getRotation().addToY(-angleChange);
+				angleAroundPlayer = 0;
+				rotate = true;
+			}
+			else
+				angleAroundPlayer -= angleChange;
+			
 			
 			if(camera.getPitch() > maximalPitch || camera.getPitch() < minimalPitch)
 				camera.getRotation().setX(GMath.between(camera.getPitch(), minimalPitch, maximalPitch));
 		}
 		
+	}
+
+	
+	//GETTERS
+	
+	public BasicPlayer getPlayer() {
+		return player;
 	}
 }

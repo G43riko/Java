@@ -1,14 +1,16 @@
-package org.engine.component;
+package org.engine.component.movement;
 
 import java.util.HashMap;
 
 import glib.util.vector.GVector2f;
 
+import org.engine.component.Camera;
+import org.engine.component.GameComponent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-public class BasicMovable extends GameComponent{
+public class BasicMovement extends GameComponent{
 	
 	protected HashMap<String, Integer> keys = new HashMap<String, Integer>(); 
 
@@ -27,7 +29,7 @@ public class BasicMovable extends GameComponent{
 	protected float moveSpeed = 0.3f;
 	protected float rotSpeed = 0.6f;
 	
-	public BasicMovable(Camera camera) {
+	public BasicMovement(Camera camera) {
 		super(GameComponent.MOVABLE);
 		this.camera = camera;
 		

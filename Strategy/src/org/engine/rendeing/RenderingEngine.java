@@ -122,36 +122,37 @@ public class RenderingEngine {
 		getShader("particleShader").bind();
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		
 		glDisable(GL_DEPTH_TEST);
 		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+		
 		for(ParticleEmmiter pe : particles){
-			for(Particle p : pe.getParticles()){
-				
+//			for(Particle p : pe.getParticles()){
+			for(int i=pe.getParticles().size()-1 ; i>=0 ; i--){
+				Particle p = pe.getParticles().get(i);
 				getShader("particleShader").updateUniform("color", p.getColor());
 				
 				if(p.isFadding())
 					getShader("particleShader").updateUniform("alpha", p.getAlpha());
 				
 				getShader("particleShader").updateUniform("transformationMatrix",p.getTransformationMatrix(getMainCamera().getPosition()));
-				
+
 				if(p.getTexture() != null)
 					p.getTexture().bind();
 				
 				
 				GL30.glBindVertexArray(p.getModel().getVaoID());
 				
+				GL20.glEnableVertexAttribArray(0);
+				GL20.glEnableVertexAttribArray(1);
 				
 				GL11.glDrawElements(GL11.GL_TRIANGLES, p.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
 			}
 		}
 		
-		glEnable(GL_DEPTH_TEST);
-		
 		disableVertex(2);
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	public void renderObject(GameObject object){
@@ -186,13 +187,13 @@ public class RenderingEngine {
 	public void renderWater(Water water){
 		getShader("waterShader").bind();
 		
-		GL30.glBindVertexArray(water.getModel().getVaoID());
+		GL30.glBindVertexArray(Water.getModel().getVaoID());
 		
 		GL20.glEnableVertexAttribArray(0);
 		
 		GMatrix4f modelMatrix = water.getTransformationMatrix();
 		getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, water.getModel().getVertexCount());
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, Water.getModel().getVertexCount());
         
         GL20.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
@@ -316,9 +317,7 @@ public class RenderingEngine {
 	
 	
 	public void cleanUp(){
-		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			getShader(s.getKey()).cleanUp();
-		}
+		shaders.forEach((key, value)->value.cleanUp());
 	}
 	
 	//ADDERS

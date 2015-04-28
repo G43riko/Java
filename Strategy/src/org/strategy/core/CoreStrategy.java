@@ -2,10 +2,12 @@ package org.strategy.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import glib.util.GLog;
 
 import org.MainStrategy;
+import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.engine.core.CoreEngine;
 import org.engine.light.PointLight;
@@ -14,24 +16,26 @@ import org.engine.world.SkyBox;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.strategy.component.CameraStrategy;
 import org.strategy.entity.Bullet;
 import org.strategy.entity.player.Player;
 import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;
 
-public abstract class CoreGame extends CoreEngine{
+public abstract class CoreStrategy extends CoreEngine{
 	private static final long serialVersionUID = 1L;
 	
 	private SkyBox skyBox;
 	private Player player;
 	private World world;
 	private PointLight sun;
+	private CameraStrategy camera;
 
 	private boolean[] clicks = new boolean[2];
 	
 	//CONSTRUCTORS
 	
-	public CoreGame(){
+	public CoreStrategy(){
 		Texture2D.setMipMapping(MainStrategy.MIP_MAPPING);
 	}
 	
@@ -55,22 +59,21 @@ public abstract class CoreGame extends CoreEngine{
 		}
 	}
 	
+	private void doForAll(GameComponent g){
+		g.input();
+		g.update();
+		g.render(getRenderingEngine());
+	}
+	
 	private void mainLoop() {
 		
 		getRenderingEngine().prepare();
 		
-		ArrayList<GameComponent> toRemove = new ArrayList<GameComponent>();
-		for(GameComponent g: getSceneObject().getScene()){
-			g.input();
-			g.update();
-			if(g instanceof Bullet){
-				if(((Bullet)g).isDead()){
-					toRemove.add(g);
-				}
-			}
-			g.render(getRenderingEngine());
-		}
-		getScene().removeAll(toRemove);
+		getSceneObject().getScene().stream().forEach(e -> doForAll(e));
+		getSceneObject().getScene().removeAll(getSceneObject().getScene().stream()
+																		 .filter(a -> a instanceof Bullet && ((Bullet)a).isDead())
+																		 .collect(Collectors.toList()));
+
 		
 		if(getRenderingEngine().getSelectBlock().getBlock() != null){
 			RenderingEngineStrategy.getShader("entityShader").bind();
@@ -153,6 +156,11 @@ public abstract class CoreGame extends CoreEngine{
 		return world;
 	}
 
+	@Override
+	public Camera getCamera() {
+		return camera;
+	}
+	
 	//SETTERS
 	
 	public void setSkyBox(SkyBox skyBox) {

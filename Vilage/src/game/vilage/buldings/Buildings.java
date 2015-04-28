@@ -1,8 +1,6 @@
 package game.vilage.buldings;
 
 import game.vilage.files.FileReader;
-import game.vilage.resources.Suroviny;
-
 import java.util.HashMap;
 
 public abstract class Buildings {
@@ -35,7 +33,6 @@ public abstract class Buildings {
 	public static HashMap<Byte, Integer> getProduced(byte type){
 		HashMap<Byte, Integer> result = new HashMap<Byte, Integer>();
 		FileReader.getBuildingData(type, "meno", new HashMap<Byte, Integer>(), result);
-		System.out.println(type+" "+result);
 		return result;
 	}
 	

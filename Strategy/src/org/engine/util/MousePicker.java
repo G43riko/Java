@@ -1,5 +1,6 @@
 package org.engine.util;
 
+import org.engine.component.Camera;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
@@ -15,9 +16,9 @@ public class MousePicker {
 	
 	private GMatrix4f projectionMatrix;
 	private GMatrix4f viewMatrix;
-	private CameraStrategy camera;
+	private Camera camera;
 	
-	public MousePicker(CameraStrategy camera) {
+	public MousePicker(Camera camera) {
 		this.projectionMatrix = camera.getProjectionMatrix();
 		this.camera = camera;
 		this.viewMatrix  = Maths.MatrixToGMatrix(Maths.createViewMatrix(camera));

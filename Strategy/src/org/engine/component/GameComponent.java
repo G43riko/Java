@@ -17,6 +17,7 @@ public abstract class GameComponent {
 	private int type;
 	
 	private boolean dead;
+	private boolean active;
 	
 	public final static int CAMERA = 1;
 	public final static int SKY_BOX = 3;
@@ -127,5 +128,13 @@ public abstract class GameComponent {
 
 	public void setDead(boolean dead) {
 		this.dead = dead;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}	
 }

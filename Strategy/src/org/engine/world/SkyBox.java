@@ -1,10 +1,10 @@
 package org.engine.world;
 
+import org.engine.component.Camera;
 import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
-import org.engine.util.Loader;
-import org.strategy.component.CameraStrategy;
 import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
@@ -13,20 +13,21 @@ public class SkyBox extends GameComponent{
 	private static int size = (int)(Math.sqrt(1000 * 1000 / 4));
 	private Texture2D texture;
 	private Model model = getBox(1,1,1);
-	private CameraStrategy camera;
+	private Camera camera;
 	private GVector3f rotationSpeed = new GVector3f(0, 0.001f, 0);
 	
 	//CONSTRUCTORS
 	
-	public SkyBox(CameraStrategy camera) {
+	public SkyBox(Camera camera) {
 		this(camera, "skyHD2.jpg");
 	}
 	
-	public SkyBox(CameraStrategy camera, String fileName) {
+	public SkyBox(Camera camera, String fileName) {
 		super(GameComponent.SKY_BOX);
 		texture = new Texture2D(fileName);
 		setScale(new GVector3f(size));
 		this.camera = camera;
+//		System.out.println(this);
 	}
 	
 	//OVERRIDES
@@ -123,7 +124,7 @@ public class SkyBox extends GameComponent{
 						23,21,20,
 						22,21,23};
 		
-		return new Loader().loadToVAO(vertices, texture, indices);
+		return CoreEngine.getLoader().loadToVAO(vertices, texture, indices);
 	}
 
 	public Texture2D getTexture() {
@@ -136,7 +137,7 @@ public class SkyBox extends GameComponent{
 
 	//SETTERS
 	
-	public void setCamera(CameraStrategy camera) {
+	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
 	

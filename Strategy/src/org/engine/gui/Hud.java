@@ -4,6 +4,7 @@ import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 
 import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
@@ -11,7 +12,7 @@ import org.engine.util.Maths;
 import org.strategy.rendering.RenderingEngineStrategy;
 
 public class Hud extends GameComponent{
-	private final static Model MODEL = new Loader().loadToVAO(new float[]{-1,1,-1,-1,1,1,1,-1});
+	private final static Model MODEL = CoreEngine.getLoader().loadToVAO(new float[]{-1,1,-1,-1,1,1,1,-1});
 	private Texture2D texture;
 	
 	private GVector2f position;

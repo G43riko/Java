@@ -1,5 +1,6 @@
 package org.engine.world;
 
+import org.engine.core.CoreEngine;
 import org.engine.object.GameObject;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
@@ -37,7 +38,7 @@ public class Plane extends GameObject{
 				 		   0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f};
 		
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 
 	

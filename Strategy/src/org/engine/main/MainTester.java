@@ -1,18 +1,15 @@
 package org.engine.main;
 
-import org.engine.component.movement.BasicMovement;
-import org.engine.component.movement.FPS;
+import org.engine.component.Camera;
 import org.engine.component.movement.TPS;
 import org.engine.core.CoreEngine;
 import org.engine.entity.BasicPlayer;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
-import org.engine.particles.ParticleEmmiter;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
-import org.engine.util.Loader;
 import org.engine.util.OBJLoader;
 import org.engine.water.Water;
 import org.engine.world.Plane;
@@ -29,9 +26,9 @@ public class MainTester extends CoreEngine{
 	
 	public void init() {
 		setRenderingEngine(new RenderingEngineStrategy());
-		setCamera(new CameraStrategy());
-		setLoader(new Loader());
+		setCamera(new Camera());
 		setMousePicker(getCamera());
+		
 		setFrameRender(new ToFrameBufferRendering());
 		
 		crateTPSgame();

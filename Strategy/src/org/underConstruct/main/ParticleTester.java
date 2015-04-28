@@ -2,12 +2,12 @@ package org.underConstruct.main;
 
 import org.engine.particles.ParticleEmmiter;
 import org.strategy.component.CameraStrategy;
-import org.strategy.core.CoreGame;
+import org.strategy.core.CoreStrategy;
 import org.strategy.rendering.RenderingEngineStrategy;
 
 import glib.util.vector.GVector3f;
 
-public class ParticleTester extends CoreGame{
+public class ParticleTester extends CoreStrategy{
 	private static final long serialVersionUID = 1L;
 
 	public void init() {

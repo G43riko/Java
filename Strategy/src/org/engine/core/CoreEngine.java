@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 
 
+import java.util.stream.Collectors;
+
 import glib.util.GLog;
 
 import javax.swing.JFrame;
@@ -22,7 +24,6 @@ import org.engine.component.movement.FPS;
 import org.engine.component.movement.TPS;
 import org.engine.entity.BasicPlayer;
 import org.engine.gui.Gui;
-import org.engine.object.GameObject;
 import org.engine.object.GameObjectPhysics;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.util.Loader;
@@ -36,13 +37,12 @@ public abstract class CoreEngine extends JFrame{
 	protected static final long serialVersionUID = 1L;
 
 	private ToFrameBufferRendering frameRender; 
-	
 	private Gui gui;
 	private Scene scene;
 	private RenderingEngineStrategy renderingEngine;
 
-	private Loader loader;
-	private CameraStrategy camera;
+	private static Loader loader = new Loader();
+	private Camera camera;
 	private boolean running;
 	
 	
@@ -99,33 +99,22 @@ public abstract class CoreEngine extends JFrame{
 	protected void input(){
 		tempInput();
 		Input.update();
-		for(GameComponent g: scene.getScene()){
-			g.input();
-		}
+		scene.getScene().stream().forEach(a -> a.input());
 	};
 	
 	protected void update(){
+
+		scene.removeAll(scene.getScene().stream().peek(a->a.update()).filter(a->a.isDead()).collect(Collectors.toList()));
 		
-		ArrayList<GameComponent> scena = scene.getScene();
-		for(int i=0 ; i<scena.size() ; i++){
-			GameComponent e = scena.get(i);
-			e.update();
-			if(e.isDead()){
-				scene.remove(e);
-				i--;
-			}
-		}
-		
-//		for(GameComponent g: scene.getScene()){
-//			g.update();
-//		}
+//		scene.getScene().stream().forEach(a -> a.update());
+//		scene.removeAll(scene.getScene().stream().filter(e -> e.isDead()).collect(Collectors.toList()));
 	};
 	
 	private void finalRender(){
 		renderingEngine.renderObject(scene.getObjects());
 		renderingEngine.renderWater(scene.getWaters());
 		
-		scene.getObjects().forEach(a -> a.render(renderingEngine));
+		scene.getOthers().forEach(a -> a.render(renderingEngine));
 		
 		renderingEngine.renderParticle(scene.getParticles());
 	}
@@ -137,11 +126,12 @@ public abstract class CoreEngine extends JFrame{
 		
 		finalRender();
 		
-		if(frameRender != null){
-			frameRender.stopRenderToFrameBuffer();
-			finalRender();
-			renderingEngine.renderHud(scene.getHuds());
-		}
+		if(frameRender == null)
+			return;
+		
+		frameRender.stopRenderToFrameBuffer();
+		finalRender();
+		renderingEngine.renderHud(scene.getHuds());
 	};
 	
 	//GETTERS
@@ -154,11 +144,7 @@ public abstract class CoreEngine extends JFrame{
 		return gui;
 	}
 
-	public Loader getLoader() {
-		return loader;
-	}
-	
-	public CameraStrategy getCamera() {
+	public Camera getCamera() {
 		return camera;
 	}
 
@@ -174,23 +160,24 @@ public abstract class CoreEngine extends JFrame{
 		return scene;
 	}
 	
+	public static Loader getLoader() {
+		return loader;
+	}
+	
+	
 	//SETTERS
 	
-	public void setCamera(CameraStrategy camera) {
+	public void setCamera(Camera camera) {
 		addToScene(camera);
 		this.camera = camera;
 		renderingEngine.setMainCamera(camera);
 	}
 	
-	public void setLoader(Loader loader) {
-		this.loader = loader;
-	}
-
 	protected void setRenderingEngine(RenderingEngineStrategy renderingEngine) {
 		this.renderingEngine = renderingEngine;
 	}
 
-	public void setMousePicker(CameraStrategy camera){
+	public void setMousePicker(Camera camera){
 		camera.setMousePicker( new MousePicker(camera));
 	}
 
@@ -237,5 +224,6 @@ public abstract class CoreEngine extends JFrame{
 	private void setCenter(GameComponent center) {
 		this.center = center;
 	}
+
 	
 }

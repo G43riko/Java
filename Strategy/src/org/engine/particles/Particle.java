@@ -1,6 +1,7 @@
 package org.engine.particles;
 
 import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
@@ -93,7 +94,7 @@ public class Particle extends GameComponent{
 //				 		   0.0000f,  0.0000f, -1.0000f,
 //				 		   0.0000f,  0.0000f, -1.0000f};
 		
-		return new Loader().loadToVAO(vertices, texture, indices);
+		return CoreEngine.getLoader().loadToVAO(vertices, texture, indices);
 	}
 
  	// setters

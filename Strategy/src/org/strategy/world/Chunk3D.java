@@ -77,9 +77,9 @@ public class Chunk3D extends GameComponent{
 					 ,a -> a!=null && a.isActive() && a.getType()>0 && isVisible(a, renderingEngine.getMainCamera()));
 	}
 	
-	private void foreachBlocks(Consumer<? super Block> action){
-		foreachBlocks(action,null);
-	}
+//	private void foreachBlocks(Consumer<? super Block> action){
+//		foreachBlocks(action,null);
+//	}
 	
 	private void foreachBlocks(Consumer<? super Block> action, Predicate<? super Block> contidion){
 		Stream<Block> s = Arrays.stream(blocks).flatMap(
@@ -124,16 +124,6 @@ public class Chunk3D extends GameComponent{
 			b.setNeighboard(2, blocks[i][j-1][k]);
 		if(k > 0)
 			b.setNeighboard(5, blocks[i][j][k-1]);
-		
-//		if(i==0 && neighboards[3] != null )
-//			b.setNeighboard(3, neighboards[3].getBlock(NUM_X-1, j, k));
-//		if(i+1 == NUM_X && neighboards[1] != null)
-//			b.setNeighboard(1, neighboards[1].getBlock(0, j, k));
-//		
-//		if(k==0 && neighboards[2] != null)
-//			b.setNeighboard(4, neighboards[2].getBlock(i, j, NUM_Z-1));
-//		if(k+1 == NUM_Z && neighboards[0] != null)
-//			b.setNeighboard(5, neighboards[0].getBlock(i, j,0));
 	}
 	
 	public void setNeighboardsAround(int i, int j, int k){
@@ -155,7 +145,7 @@ public class Chunk3D extends GameComponent{
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
 				for(int k=0 ; k<NUM_Z ; k++){
-					setNeighboards(i, j, k);	
+					setNeighboards(i, j, k);
 				}
 			}
 		}
@@ -334,6 +324,10 @@ public class Chunk3D extends GameComponent{
 			return x>=0 && z>=0 && y>=0 && y<NUM_Y && x<NUM_X && z<NUM_Z && blocks[x][y][z]!=null;
 		else
 			return x>=0 && z>=0 && y>=0 && y<NUM_Y && x<NUM_X && z<NUM_Z;
+	}
+
+	public boolean canRender(Camera camera) {
+		return getPosition().add(new GVector3f(Chunk3D.NUM_X*Block.WIDTH ,0,Chunk3D.NUM_Z*Block.DEPTH)).dist(camera.getPosition()) < 120;
 	}
 	
 }

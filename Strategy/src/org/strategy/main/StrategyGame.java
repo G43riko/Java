@@ -4,7 +4,7 @@ import org.engine.light.PointLight;
 import org.engine.util.Loader;
 import org.engine.world.SkyBox;
 import org.strategy.component.CameraStrategy;
-import org.strategy.core.CoreGame;
+import org.strategy.core.CoreStrategy;
 import org.strategy.entity.enemy.BasicEnemy;
 import org.strategy.entity.player.Player;
 import org.strategy.object.Lamp;
@@ -14,7 +14,7 @@ import org.strategy.world.World;
 import glib.util.GLog;
 import glib.util.vector.GVector3f;
 
-public class StrategyGame extends CoreGame{
+public class StrategyGame extends CoreStrategy{
 	private static final long serialVersionUID = 1L;
 	public static final boolean FLY_MODE = true;
 	
@@ -25,12 +25,10 @@ public class StrategyGame extends CoreGame{
 		
 //		setWorld(new World());
 		setWorld(new World("sandBox"));
-//		setWorld(new World("mainWorld.gw"));
 		setCamera(new CameraStrategy());
 		getCamera().setPosition(getWorld().getMaxSize().div(new GVector3f(2,1,2)));
-		setPlayer(new Player(getWorld(), getCamera()));
-		getWorld().setCamera(getCamera());
-		setLoader(new Loader());
+		setPlayer(new Player(getWorld(), (CameraStrategy)getCamera()));
+		getWorld().setCamera((CameraStrategy)getCamera());
 		setSkyBox(new SkyBox(getCamera()));
 		setSun(new PointLight(new GVector3f(100, 100, 100), new GVector3f(1)));
 		setMousePicker(getCamera());

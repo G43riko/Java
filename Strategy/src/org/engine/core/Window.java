@@ -12,7 +12,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector2f;
-import org.strategy.core.CoreGame;
+import org.strategy.core.CoreStrategy;
 
 public class Window {
 	
@@ -93,7 +93,7 @@ public class Window {
 		}
 		game.setTitle(MainStrategy.TITLE);
 		game.setSize(MainStrategy.WIDTH, MainStrategy.HEIGHT);
-		game.setDefaultCloseOperation(CoreGame.EXIT_ON_CLOSE);
+		game.setDefaultCloseOperation(CoreStrategy.EXIT_ON_CLOSE);
 	}
 
 	public static void render(){

@@ -3,6 +3,7 @@ package org.strategy.entity.enemy;
 import java.util.ArrayList;
 
 import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
 import org.engine.physics.Enviroment;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
@@ -19,7 +20,7 @@ public class BasicEnemy extends GameComponent{
 	public final static int HEIGHT = 1;
 	public final static int DEPTH = 1;
 	private GVector3f direction;
-	private Model model = new Loader().loadToVAO(Box.getVertices(WIDTH, HEIGHT, DEPTH), Box.getTextures(), Box.getNormals(), Box.getIndices());
+	private Model model = CoreEngine.getLoader().loadToVAO(Box.getVertices(WIDTH, HEIGHT, DEPTH), Box.getTextures(), Box.getNormals(), Box.getIndices());
 	private World world;
 	private float speed = 0.2f;
 	private float jumpPower = 0.4f;

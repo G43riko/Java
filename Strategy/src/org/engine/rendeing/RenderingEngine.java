@@ -19,8 +19,6 @@ import glib.util.vector.GVector3f;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
-
 import org.engine.component.Camera;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
@@ -200,6 +198,9 @@ public class RenderingEngine {
 	}
 	
 	public void renderWater(ArrayList<Water> waters){
+		if(waters.size()==0)
+			return;
+		
 		getShader("waterShader").bind();
 		GL30.glBindVertexArray(Water.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -355,26 +356,26 @@ public class RenderingEngine {
 			return;
 		variables.put(name, value);
 		
-		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			if(s.getValue().hasUniform(name)){
-				getShader(s.getKey()).bind();
-				getShader(s.getKey()).updateUniform(name, value);
+		shaders.forEach((key,val) -> {
+			if(val.hasUniform(name)){
+				val.bind();
+				val.updateUniform(name, value);
 			}
-		}
+		});
 	}
 	
-	public void setMainCamera(CameraStrategy mainCamera) {
+	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
 		setProjectionMatrix(mainCamera.getProjectionMatrix());
 	}
 	
 	public void setProjectionMatrix(GMatrix4f matrix){
-		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			if(s.getValue().hasUniform("projectionMatrix")){
-				getShader(s.getKey()).bind();
-				getShader(s.getKey()).updateUniform("projectionMatrix", matrix);
+		shaders.forEach((key,val) -> {
+			if(val.hasUniform("projectionMatrix")){
+				val.bind();
+				val.updateUniform("projectionMatrix", matrix);
 			}
-		}
+		});
 	}
 	
 	public void setEyePos(){
@@ -392,12 +393,12 @@ public class RenderingEngine {
 		}
 		this.ambient = ambient;
 		
-		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			if(s.getValue().hasUniform("ambient")){
-				getShader(s.getKey()).bind();
-				getShader(s.getKey()).updateUniform("ambient", ambient);
+		shaders.forEach((key,val) -> {
+			if(val.hasUniform("ambient")){
+				val.bind();
+				val.updateUniform("ambient", ambient);
 			}
-		}
+		});
 	}
 
 	public void setViewMatrix(){
@@ -405,21 +406,13 @@ public class RenderingEngine {
 			System.out.println("nieje nastavená hlavná kamera");
 			return;
 		}
-		GMatrix4f mat = Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera));
 		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		
-		for(Entry<String, GBasicShader> s : shaders.entrySet()){
-			if(s.getValue().hasUniform("viewMatrix")){
-				getShader(s.getKey()).bind();
-				getShader(s.getKey()).updateUniform("viewMatrix", mat);
+		shaders.forEach((key,val) -> {
+			if(val.hasUniform("viewMatrix")){
+				val.bind();
+				val.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
 			}
-		}
-		
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
+		});
 	}
 
 	public void setMaterial(Material mat){

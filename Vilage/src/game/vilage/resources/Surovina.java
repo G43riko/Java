@@ -1,5 +1,17 @@
 package game.vilage.resources;
 
 public class Surovina {
-	private String názov;
+	private String name;
+
+	//GETTERS
+	
+	public String getName() {
+		return name;
+	}
+
+	//SETTERS
+	
+	public void setName(String nazov) {
+		this.name = nazov;
+	}
 }

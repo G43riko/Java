@@ -2,6 +2,7 @@ package org.strategy.world;
 
 
 import org.engine.component.GameComponent;
+import org.engine.core.CoreEngine;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
 import org.engine.util.Loader;
@@ -86,7 +87,7 @@ public class BasicBlock extends GameComponent{
 				 		   0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f};
 		
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	public static Model getLeft(){
@@ -107,7 +108,7 @@ public class BasicBlock extends GameComponent{
 				 		   1.0000f,  0.0000f,  0.0000f,
 				 		   1.0000f,  0.0000f,  0.0000f,
 				 		   1.0000f,  0.0000f,  0.0000f};
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	public static Model getForward(){
@@ -128,7 +129,7 @@ public class BasicBlock extends GameComponent{
 				 		   0.0000f,  0.0000f,  -1.0000f,
 				 		   0.0000f,  0.0000f,  -1.0000f,
 				 		   0.0000f,  0.0000f,  -1.0000f};
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	public static Model getBack(){
@@ -149,7 +150,7 @@ public class BasicBlock extends GameComponent{
 				 		   0.0000f,  0.0000f,  1.0000f,
 				 		   0.0000f,  0.0000f,  1.0000f,
 				 		   0.0000f,  0.0000f,  1.0000f};
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	public static Model getRight(){
@@ -170,7 +171,7 @@ public class BasicBlock extends GameComponent{
 				 		   -1.0000f,  0.0000f,  0.0000f,
 				 		   -1.0000f,  0.0000f,  0.0000f,
 				 		   -1.0000f,  0.0000f,  0.0000f};
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	public static Model getBottom(){
@@ -191,7 +192,7 @@ public class BasicBlock extends GameComponent{
 				 		   0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f};
-		return new Loader().loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 
 	public boolean isActive() {

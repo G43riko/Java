@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.engine.component.GameComponent;
@@ -37,8 +36,6 @@ public class World extends GameComponent{
 		super(GameComponent.WORLD);
 		
 		map = PerlinNoise.GeneratePerlinNoise(PerlinNoise.generateWhiteNoise(Chunk3D.NUM_X * NUM_X, Chunk3D.NUM_Z * NUM_Z), 6, 0.7f, true);
-		
-		
 		
 		create();
 		setNeighboards();
@@ -125,7 +122,6 @@ public class World extends GameComponent{
 	}
 	
 	private boolean exist(int i, int j){
-//		return i>=0 && j>=0 && i<NUM_X && j < NUM_Z;
 		return chunks.containsKey(i+"-"+j);
 	}
 
@@ -205,19 +201,9 @@ public class World extends GameComponent{
 	
 	public void render(RenderingEngineStrategy renderingEngine) {
 		NUMBER_OF_RENDERED_BLOCK = 0;
-//		double time = System.currentTimeMillis();
-		
-		for(Entry<String, Chunk3D> e : chunks.entrySet()) {
-			Chunk3D c = e.getValue();
-			if(c.getPosition().add(new GVector3f(Chunk3D.NUM_X*Block.WIDTH ,0,Chunk3D.NUM_Z*Block.DEPTH)).dist(renderingEngine.getMainCamera().getPosition()) < 120)
-				c.render(renderingEngine);
-		}
+		chunks.forEach((a, b) -> {if(b.canRender(renderingEngine.getMainCamera()))b.render(renderingEngine);});
 		
 		explosions.forEach(e -> e.render(renderingEngine));
-		
-//		System.out.println(System.currentTimeMillis()-time);
-//		System.out.println(NUMBER_OF_RENDERED_BLOCK);
-//		System.out.println(explosions.size());
 	}
 	
 	public JSONObject toJSON(){
@@ -241,14 +227,7 @@ public class World extends GameComponent{
 	public void update(){
 		chunks.forEach((a,b) -> b.update());
 		
-		for(int i=0 ; i<explosions.size() ; i++){
-			Explosion e = explosions.get(i);
-			e.update();
-			if(e.getBlocks().size()==0)
-				explosions.remove(e);
-		}
-		explosions.parallelStream().forEach((e) -> (e.update()));
-		explosions.removeAll(explosions.parallelStream().filter(a->a.getBlocks().size()==0).collect(Collectors.toList()));
+		explosions = explosions.stream().filter(a -> !a.isEmpty()).peek(a -> a.update()).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	//GETTERS

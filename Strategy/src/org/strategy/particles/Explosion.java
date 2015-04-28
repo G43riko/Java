@@ -1,6 +1,7 @@
 package org.strategy.particles;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.engine.component.GameComponent;
 import org.engine.physics.Enviroment;
@@ -45,18 +46,15 @@ public class Explosion extends GameComponent{
 	//OVERRIDES
 	
 	public void update(){
-		ArrayList<BlockPart> forRemove = new ArrayList<BlockPart>();
+		
 		for(BlockPart b:blocks){
 			b.b.move(b.dir);
 			b.dir = b.dir.add(Enviroment.GRAVITY);
 			b.b.rotate(b.rot);
 			b.life--;
 			b.b.setScale(b.b.getScale().sub(0.01f));
-			if(b.life<=0 || b.b.getScale().isNegative()){
-				forRemove.add(b);
-			}
 		}
-		blocks.removeAll(forRemove);
+		blocks.removeAll(blocks.stream().filter(b -> b.life<=0 || b.b.getScale().isNegative()).collect(Collectors.toList()));
 	}
 	
 	public void render(RenderingEngineStrategy renderingEngine) {
@@ -65,8 +63,12 @@ public class Explosion extends GameComponent{
 
 	//GETTERS
 	
-	public ArrayList<BlockPart> getBlocks() {
-		return blocks;
+	public boolean isEmpty(){
+		return blocks.size()==0;
 	}
+	
+//	public ArrayList<BlockPart> getBlocks() {
+//		return blocks;
+//	}
 	
 }

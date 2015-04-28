@@ -1,6 +1,7 @@
 package org.engine.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.engine.component.GameComponent;
 import org.engine.gui.Hud;
@@ -19,7 +20,7 @@ public class Scene {
 		scene.remove(g);
 	}
 	
-	public void removeAll(ArrayList<GameComponent> g){
+	public void removeAll(List<GameComponent> g){
 		scene.removeAll(g);
 	}
 	

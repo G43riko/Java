@@ -62,6 +62,10 @@ public abstract class GameComponent {
 
 	//OTHERS
 	
+	public void render(RenderingEngineStrategy renderingEngine){};
+	public void input(){};
+	public void update(){};
+	
 	public void move(GVector3f vec){
 		position = position.add(vec);
 	}
@@ -70,12 +74,6 @@ public abstract class GameComponent {
 		rotation = rotation.add(vec);
 	}
 	
-	public void render(RenderingEngineStrategy renderingEngine) {}
-	
-	public void input() {}
-
-	public void update() {}
-
 	public JSONObject toJSON(){
 		return null;
 	}

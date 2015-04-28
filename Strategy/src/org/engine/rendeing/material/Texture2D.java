@@ -39,7 +39,7 @@ public class Texture2D {
     private int filtering = FILTER_NEAREST;
     private int wrapMode = WRAP_REPEAT;
     
-  private int id;
+    private int id;
     
     private GVector2f size;
 	

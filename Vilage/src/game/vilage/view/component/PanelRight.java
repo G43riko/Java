@@ -54,7 +54,7 @@ public class PanelRight extends JPanel{
 	//OTHERS
 	
 	/**
-	 * 
+	 * inicializuje pravý panel
 	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
@@ -68,17 +68,17 @@ public class PanelRight extends JPanel{
 	}
 	
 	/**
-	 * @param q
+	 * @param quest
 	 */
-	public void addQuest(Quest q){
-		listModel.addElement(q);
+	public void addQuest(Quest quest){
+		listModel.addElement(quest);
 	}
 	
 	/**
-	 * @param q
+	 * @param quest
 	 */
-	public void removeQuest(Quest q){
-		listModel.removeElement(q);
+	public void removeQuest(Quest quest){
+		listModel.removeElement(quest);
 	}
 
 	/**

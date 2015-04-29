@@ -1,5 +1,7 @@
 package game.vilage.view.component;
 
+import game.vilage.Village;
+import game.vilage.buldings.BasicBuilding;
 import game.vilage.buldings.Buildings;
 import game.vilage.quests.Quest;
 import game.vilage.quests.SubQuests;
@@ -7,8 +9,6 @@ import game.vilage.view.OtherWindow;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -23,17 +23,10 @@ public class PanelBottom extends JPanel{
 	public final static byte SUCCESS = 1;
 	
 	private OtherWindow parent;
-	
+	private BasicBuilding grandParrent;
+	private Village grandGrandParrent;
 	private int actQuest;
 	private ArrayList<SubQuestSelector> subQuests = new ArrayList<SubQuestSelector>();
-	
-	//ACTIONS
-	
-	ActionListener finishQuest = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0) {
-			finishQuest();
-		}
-	};
 	
 	//CONSTRUCTORS
 	
@@ -42,13 +35,15 @@ public class PanelBottom extends JPanel{
 	 */
 	public PanelBottom(OtherWindow parent){
 		this.parent = parent;
+		this.grandParrent = parent.getParrent();
+		this.grandGrandParrent = grandParrent.getVillage();
 		init();
 	}
 	
 	//OTHERS
 	
 	/**
-	 * 
+	 * inicializuje spodný panel
 	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
@@ -56,86 +51,99 @@ public class PanelBottom extends JPanel{
 	}
 	
 	/**
-	 * @param s
+	 * @param newSubQuest
 	 * @return
 	 */
-	private SubQuestSelector addSubQuest(SubQuestSelector s){
-		add(s);
-		subQuests.add(s);
-		return s;
+	private SubQuestSelector addSubQuest(SubQuestSelector newSubQuest){
+		add(newSubQuest);
+		subQuests.add(newSubQuest);
+		return newSubQuest;
 	}
 
 	/**
+	 * zobrazí další box so subQuestom v poradí
+	 * alebo
+	 * dokonèí quest
 	 * @param box
 	 */
 	public void showNext(SubQuestSelector box) {
-		for(SubQuestSelector subQuest : subQuests)
-			if(subQuest.equals(box)){
-				subQuest.makeEnable(false);
-				int i = subQuests.indexOf(subQuest);
-				if(i+1 < subQuests.size())
-					subQuests.get(i+1).makeEnable(true);
-				else
-					finishQuest();
-			}
+		subQuests.stream().filter(subQuest -> subQuest.equals(box)).forEach(subQuest -> {
+			subQuest.makeEnable(false);
+			int i = subQuests.indexOf(subQuest);
+			if(i+1 < subQuests.size())
+				subQuests.get(i+1).makeEnable(true);
+			else
+				finishQuest();
+		});
 	}
 
 	/**
-	 * 
+	 *	oznámi rodièovy dokonèenie questu
 	 */
 	private void finishQuest() {
 		parent.finishQuest(actQuest);
 	}
 	
 	/**
+	 * funkcia ktorá spraví všetko potrebné po dokonèení subQuestu
 	 * @param type
 	 * @param subQuest
 	 * @param subEvent
 	 * @param index
 	 */
 	public void finishSubQuest(byte type, byte subQuest, byte subEvent, int index) {	//dokonèí nejaký subquest
-		parent.getParrent().finishSubQuest(type == SUCCESS, subQuest, subEvent);	//inrmuje rodièa o skonèení subquestu
-		if(type == SUCCESS){	//ak skonèil úspechom
-			Quest q = parent.getParrent().getQuests().get(actQuest);	//najde sa aktualny quest
-			q.getSubQestsProgress().put(subQuest, index);	//zmení sa hodnota splnených subquestov
-			q.completeSubQuest();	//zvaèší sa poèet splnených subquestov
-			parent.getTopPanel().upadeProgress(q.getCompletedSubQuests());	//updatne sa progressbar
+		boolean result = type == SUCCESS;
+		grandParrent.finishSubQuest(result, subQuest, subEvent);	//inrmuje rodièa o skonèení subquestu
+		
+		Quest actualQuest = grandParrent.getQuests().get(actQuest);	//najde sa aktualny quest 
+		
+		if(result){	//ak skonèil úspechom
+			actualQuest.getSubQestsProgress().put(subQuest, index);	//zmení sa hodnota splnených subquestov
+			actualQuest.completeSubQuest();	//zvaèší sa poèet splnených subquestov
+			parent.getTopPanel().upadeProgress(actualQuest.getCompletedSubQuests());	//updatne sa progressbar
 		}
 		else{	//ináè
+			StringBuilder message = new StringBuilder();
 			if(JOptionPane.showConfirmDialog(this, "Quest sa nepodaril.\n Chceš to skúsi znovu?","Neúspech",0) == JOptionPane.NO_OPTION){	//ak nechce skúsi znovu
-				Quest q = parent.getParrent().getQuests().get(actQuest);	//najde sa quest
-				String msg = parent.getParrent().sign()+"nesplnil misiu: "+q.getTitle()+" pre: "+Buildings.getName(q.getFrom());	//napíše spravu o neuspechu
-				parent.getParrent().getVillage().appentNotice(msg);	//prilepí spravu o neuspechu
-				parent.getParrent().getQuests().remove(actQuest);//odstráni quest
+				
+				message.append(grandParrent.sign()+"nesplnil misiu: ");
+				message.append(actualQuest.getTitle());
+				message.append(" pre: "+Buildings.getName(actualQuest.getFrom()));
+				
+				grandGrandParrent.appentNotice(message.toString());	//prilepí spravu o neuspechu
+				grandParrent.getQuests().remove(actQuest);//odstráni quest
 				parent.dispose();	//zavrie okno
 			}
-			else	//ak chce skusi znovu
-				parent.getParrent().getVillage().appentNotice(parent.getParrent().sign()+"skúša znovu ulohu: "+SubQuests.getName(subQuest));	//napíše o tom správu	
+			else{	//ak chce skusi znovu
+				message.append(grandParrent.sign()+"skúša znovu ulohu: "+SubQuests.getName(subQuest));
+				grandGrandParrent.appentNotice(message.toString());	//napíše o tom správu
+			}
 		}
 	}
 
 	/**
-	 * 
+	 * vymaže celý spodný panel
 	 */
 	private void clear() {
-		for(SubQuestSelector box : subQuests){
+		subQuests.stream().forEach(box -> {
 			box.removeAll();
 			remove(box);
-		}
+		});
 		subQuests.clear();
 	}
 
 	//SETTERS
 	
 	/**
+	 * nastavý sa aktualny quest
 	 * @param actQuest
 	 */
-	public void setActQuest(Quest actQuest) {	//nastavý sa aktualny quest
-		this.actQuest = parent.getParrent().getQuests().indexOf(actQuest);	//priradí sa id aktualneho questu
+	public void setActQuest(Quest actQuest){
+		this.actQuest = grandParrent.getQuests().indexOf(actQuest);	//priradí sa id aktualneho questu
 		removeAll();	//vymaže sa všetko èo tu bolo predtým
 		clear();	//vymažú sa všetky subquesty
 		
-		boolean isEnable = true;	
+		boolean isEnable = true;
 		for(Entry<Byte, Integer> e : actQuest.getSubQestsProgress().entrySet()){	//popridáva subquesty a nastaví im vyditelnost podla aktualneho pokroku		
 			if(e.getValue() > 0 && isEnable)
 				addSubQuest(new SubQuestSelector(e.getKey(),this,e.getValue())).makeEnable(false);
@@ -151,7 +159,7 @@ public class PanelBottom extends JPanel{
 		
 		//pridá sa tlaèítko na rýchle dokonèenie questu 
 		JButton b = new JButton("dokonèi");
-		b.addActionListener(finishQuest);
+		b.addActionListener(a -> finishQuest());
 		add(b);
 		repaint();
 	}

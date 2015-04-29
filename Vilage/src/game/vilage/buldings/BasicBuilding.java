@@ -25,6 +25,7 @@ public abstract class BasicBuilding {
 	protected ArrayList<Quest> quests = new ArrayList<Quest>(); 
 	
 	//CONSTRUCTORS
+	
 	/**
 	 * @param village
 	 * @param type
@@ -75,7 +76,7 @@ public abstract class BasicBuilding {
 	//OTHERS
 	
 	/**
-	 * 
+	 * make window visible 
 	 */
 	public void showWindow(){	//zobrazÌ okno budovy
 		window.setVisible(true);
@@ -106,27 +107,27 @@ public abstract class BasicBuilding {
 	public void finishQuest(int finishedQuest) {	//skonËÌ subquest
 		resources.build();	//vyprodukuje Ëo by mal vyprodukovaù
 		window.updateResourcePanel();
-		Quest q = quests.get(finishedQuest);	//najkde dokonËen˝ quest v zozname questov
-		village.appentNotice(sign()+"bola odoslan· poloûka: "+Suroviny.getName(q.getResourceType())+" "+q.getValue()+"ks");	//prilepÌ info o uspechu
+		Quest quest = quests.get(finishedQuest);	//najkde dokonËen˝ quest v zozname questov
+		village.appentNotice(sign()+"bola odoslan· poloûka: "+Suroviny.getName(quest.getResourceType())+" "+quest.getValue()+"ks");	//prilepÌ info o uspechu
 		
-		if(q.getFrom() == Buildings.OBCHOD)	//ak quest priöiel z obchodu
-			village.getMarket().addResource(q.getResourceType(), q.getValue());	//poöle suroviny do obchodu
+		if(quest.getFrom() == Buildings.OBCHOD)	//ak quest priöiel z obchodu
+			village.getMarket().addResource(quest.getResourceType(), quest.getValue());	//poöle suroviny do obchodu
 		else{	//in·Ë
-			BasicBuilding b = village.getBuilding(q.getFrom());	//najde budovu s ktorej priöiel quest
-			b.addResource(q.getResourceType(), q.getValue());	//poöle danej budove suroviny
+			BasicBuilding building = village.getBuilding(quest.getFrom());	//najde budovu s ktorej priöiel quest
+			building.addResource(quest.getResourceType(), quest.getValue());	//poöle danej budove suroviny
 		}
-		quests.remove(q);//vymaûe quest zo zoznamu questov
+		quests.remove(quest);//vymaûe quest zo zoznamu questov
 	}
 
 	/**
 	 * @return
 	 */
 	public String toFile() {
-		String res = "";
-		for(Entry<Byte, Integer> e : resources.getOwned().entrySet()){
-			res += type+" "+e.getKey()+" "+e.getValue()+"\n";
-		}
-		return res;
+		StringBuilder result = new StringBuilder();
+		resources.getOwned().forEach((key, value) -> 
+			result.append(type+" "+key+" "+value+"\n")
+		);
+		return result.toString();
 	}
 	
 	//GETTERS
@@ -158,9 +159,9 @@ public abstract class BasicBuilding {
 	 */
 	public void wantBuy(byte type, int value) {
 		village.appentNotice(sign()+"bola odoslan· ûiadosù o doruËenie "+value+" ks tovaru: "+Suroviny.getName(type));
-		BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));
-		b.showWindow();
-		b.addQuest(type,this.type, value);
+		BasicBuilding building = village.getBuilding(Suroviny.getBuildingFromProduct(type));
+		building.showWindow();
+		building.addQuest(type,this.type, value);
 	}
 
 	/**

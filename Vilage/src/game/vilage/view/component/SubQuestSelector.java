@@ -1,7 +1,5 @@
 package game.vilage.view.component;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import game.vilage.quests.SubEvents;
@@ -22,31 +20,9 @@ public class SubQuestSelector extends JPanel{
 	private List<Byte> subEvents;
 	private SubQuestSelector toto;
 	private byte subQuest;
-
-	//ACTIONS
-	
-	private	ActionListener selectValue = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			if(list.getSelectedIndex()+1 == list.getItemCount()){	//ak bola oznaèená možnost splnenia subquestu
-				parent.finishSubQuest(PanelBottom.SUCCESS, subQuest, (byte)0, list.getSelectedIndex());	//oznámi sa rodièovy že sa splnil quest
-				parent.showNext(toto);	//povolý manipulácia s dalším subquestom
-			}
-			else if(list.getSelectedIndex() > 0)	//ináè ak bola vybraná možnos neuspechu questu
-				parent.finishSubQuest(PanelBottom.FAILURE, subQuest, subEvents.get(list.getSelectedIndex()-1), list.getSelectedIndex());	//povie sa to rodièovy
-		}
-	};
-	
-	private	ActionListener selectRandomValue = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			int num = list.getItemCount() - 1;
-			num = (int)(Math.random() * num) + 1;
-			list.setSelectedIndex(num);
-			selectButton.doClick();
-		}
-	};
 	
 	//CONSTRUCTORS
-
+	
 	/**
 	 * @param subQuest
 	 * @param parent
@@ -63,6 +39,27 @@ public class SubQuestSelector extends JPanel{
 	}
 	
 	//OTHERS
+	/**
+	 * select random value after click on button
+	 */
+	private void selectRandomValue(){
+		int num = list.getItemCount() - 1;
+		num = (int)(Math.random() * num) + 1;
+		list.setSelectedIndex(num);
+		selectButton.doClick();
+	}
+	
+	/**
+	 * select actual value
+	 */
+	private void selectValue(){
+		if(list.getSelectedIndex()+1 == list.getItemCount()){	//ak bola oznaèená možnost splnenia subquestu
+			parent.finishSubQuest(PanelBottom.SUCCESS, subQuest, (byte)0, list.getSelectedIndex());	//oznámi sa rodièovy že sa splnil quest
+			parent.showNext(toto);	//povolý manipulácia s dalším subquestom
+		}
+		else if(list.getSelectedIndex() > 0)	//ináè ak bola vybraná možnos neuspechu questu
+			parent.finishSubQuest(PanelBottom.FAILURE, subQuest, subEvents.get(list.getSelectedIndex()-1), list.getSelectedIndex());	//povie sa to rodièovy
+	}
 	
 	/**
 	 * @param selectedValue
@@ -81,14 +78,15 @@ public class SubQuestSelector extends JPanel{
 		list.setSelectedIndex(selectedValue);	//nastavý sa vybraná možnos podla aktualneho stavu questu
 		
 		add(selectButton = new JButton("potvrdi"));	//pridá sa tlaèítko potvrdi
-		selectButton.addActionListener(selectValue);	//pridí sa k tlaèítku actionListener
+		selectButton.addActionListener(a -> selectValue());	//pridí sa k tlaèítku actionListener
 		
 		add(selectRandomButton = new JButton("Lucky day"));	//pridá sa tlaèítko náhodný výber
-		selectRandomButton.addActionListener(selectRandomValue);	//pridí sa k tlaèítku actionListener
+		selectRandomButton.addActionListener(a -> selectRandomValue());	//pridí sa k tlaèítku actionListener
 	}
 	
 	
 	/**
+	 * make button enable or disable
 	 * @param value
 	 */
 	public void makeEnable(boolean value){

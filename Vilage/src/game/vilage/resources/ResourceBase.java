@@ -43,18 +43,10 @@ public class ResourceBase {
 				owned.put(key, owned.get(key)-value);
 		});
 		
-//		for(Entry<Byte, Integer> e : required.entrySet())
-//			if(owned.containsKey(e.getKey()))
-//				owned.put(e.getKey(), owned.get(e.getKey()) - e.getValue());
-		
 		required.forEach((key,value) ->{
 			if(produce.containsKey(key))
 				addResource(key,value);
 		});
-		
-//		for(Entry<Byte, Integer> e : produce.entrySet())
-//			if(produce.containsKey(e.getKey()))
-//				addResource(e.getKey(), e.getValue());
 	}
 
 	//GETTERS

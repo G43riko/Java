@@ -32,7 +32,7 @@ public class PanelTop extends JPanel{
 	//OTHERS
 	
 	/**
-	 * 
+	 * inicializuje horný panel
 	 */
 	private void init(){
 		setPreferredSize(new Dimension(200,200));
@@ -63,14 +63,14 @@ public class PanelTop extends JPanel{
 	//SETTERS
 	
 	/**
-	 * @param q
+	 * @param quest
 	 */
-	public void setActQuest(Quest q){
+	public void setActQuest(Quest quest){
 		setVisible(true);
-		heading.setText(q.getTitle());
-		startTime.setText("Štart o: "+new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(q.getTime())));
-		progressBar.setMaximum(q.getSubQestsProgress().size());
-		progressBar.setValue(q.getCompletedSubQuests());
-		progressBar.setString(q.getCompletedSubQuests()+" / "+progressBar.getMaximum());
+		heading.setText(quest.getTitle());
+		startTime.setText("Štart o: "+new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(quest.getTime())));
+		progressBar.setMaximum(quest.getSubQestsProgress().size());
+		progressBar.setValue(quest.getCompletedSubQuests());
+		progressBar.setString(quest.getCompletedSubQuests()+" / "+progressBar.getMaximum());
 	}
 }

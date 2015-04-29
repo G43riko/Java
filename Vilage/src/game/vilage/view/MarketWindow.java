@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.xml.ws.Action;
 
 import game.vilage.buldings.Buildings;
 import game.vilage.buldings.Market;
@@ -38,7 +39,10 @@ public class MarketWindow extends Window{
 	
 	//ACTIONS
 	
+	
 	private MouseAdapter showPopUpMenu = new MouseAdapter(){
+		@Action
+		
 		@Override
 		public void mouseReleased(MouseEvent e){
 	        if (e.isPopupTrigger())
@@ -60,6 +64,7 @@ public class MarketWindow extends Window{
 	};
 	
 	private WindowListener onExit = new WindowListener(){
+		@Action
 		public void windowActivated(WindowEvent e) {}
 		public void windowClosed(WindowEvent e) {}
 		public void windowClosing(WindowEvent e) {	//metoda pri zatváraní okna
@@ -79,7 +84,7 @@ public class MarketWindow extends Window{
 	//CONSTRUCTORS
 	
 	/**
-	 * @param market
+	 * @param Market market
 	 */
 	public MarketWindow(Market market) {
 		this.market = market;
@@ -90,7 +95,8 @@ public class MarketWindow extends Window{
 	//OTHERS
 	
 	/**
-	 * 
+	 * @param void
+	 * @return void
 	 */
 	private void init(){
 		setTitle("Medieaval Online Shop");
@@ -105,11 +111,12 @@ public class MarketWindow extends Window{
 	
 	
 	/**
+	 * podla typu oznámenie vytvorý string
 	 * @param type
 	 * @param value
 	 * @param resource
 	 */
-	public void appendNotice(int type, int value, byte resource){	//podla typu oznámenie vytvorý string
+	public void appendNotice(int type, int value, byte resource){	
 		switch(type){	//vyberie si aktualny typ oznámenie
 			case Market.GOODS_SHIPPED:
 				appendNotice("Market: Bola odoslaná položka: "+Suroviny.getName(resource)+" "+value+" ks");
@@ -126,24 +133,27 @@ public class MarketWindow extends Window{
 	}
 	
 	/**
+	 * prilepí oznámenie
 	 * @param s
 	 */
-	public void appendNotice(String s){	//prilepí string
+	public void appendNotice(String s){
 		String time = new SimpleDateFormat("HH:mm  d.M.Y").format(new Date(System.currentTimeMillis()));	//pridá aktualny èas
 		text.append(s+" o: "+time+"\n");	//prilepí text
 	}
 	
 	/**
+	 * aktualizuje panel s konkrétnou surovinou
 	 * @param type
 	 */
-	public void updateValue(byte type){	//aktualizuje panel s konkrétnou surovinou
+	public void updateValue(byte type){
 		resourcesSelectors.get(type).update(market.getResources().get(type));
 	}
 
 	//GETTERS
 
 	/**
-	 * @return
+	 * vráti selector surovín
+	 * @return JPanel
 	 */
 	public JPanel getResouceSelectors(){
 		JPanel panel = new JPanel(new GridLayout(5,1));
@@ -159,7 +169,8 @@ public class MarketWindow extends Window{
 	}
 	
 	/**
-	 * @return
+	 * vráti spodný panel
+	 * @return JScrollPane
 	 */
 	public JScrollPane getBottomPanel(){
 		panel = new JScrollPane(text = new JTextArea());

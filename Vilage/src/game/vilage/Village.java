@@ -22,7 +22,7 @@ public class Village {
 		market = new Market(this);
 		market.showWindow();
 		
-		FileReader.loadData(this);
+		FileReader.loadData(this);	//naèíta dáta
 	}
 	
 	//OTHERS
@@ -35,7 +35,7 @@ public class Village {
 		buildings.get(type).showWindow();
 	}
 
-	public void saveData() {
+	public void saveData() {	//uloží akutalny stav dedinky do suboru
 		FileReader.saveData(this);
 	}
 

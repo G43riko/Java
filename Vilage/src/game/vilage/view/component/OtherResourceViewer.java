@@ -9,6 +9,7 @@ import game.vilage.resources.Suroviny;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.xml.ws.Action;
 
 public class OtherResourceViewer extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -22,6 +23,7 @@ public class OtherResourceViewer extends JPanel{
 	//ACTIONS
 	
 	private ActionListener buyEvent = new ActionListener(){
+		@Action
 		public void actionPerformed(ActionEvent e) {
 			parent.wantBuy(type, Integer.parseInt(required.getText()) - Integer.parseInt(owned.getText()));
 		}
@@ -45,7 +47,9 @@ public class OtherResourceViewer extends JPanel{
 		add(required = new JLabel(String.valueOf(need)));
 		
 		buy = new JButton("Dok˙più");
+		
 		buy.addActionListener(buyEvent);
+		
 		buy.setVisible(have < need);
 		
 		add(buy);
@@ -54,7 +58,7 @@ public class OtherResourceViewer extends JPanel{
 	//OTHERS
 
 	/**
-	 * 
+	 * uptadne poËet surovÌn
 	 */
 	public void updateValue() {
 		if(parent.getResources().getOwned().containsKey(type))
@@ -64,7 +68,7 @@ public class OtherResourceViewer extends JPanel{
 	}
 	
 	/**
-	 * 
+	 * remove all elements
 	 */
 	public void clear(){
 		removeAll();
@@ -73,7 +77,7 @@ public class OtherResourceViewer extends JPanel{
 	//GETTERS
 	
 	/**
-	 * @return
+	 * @return byte type
 	 */
 	public byte getType() {
 		return type;

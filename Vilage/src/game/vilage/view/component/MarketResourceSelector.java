@@ -14,6 +14,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.xml.ws.Action;
 
 public class MarketResourceSelector extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -28,12 +29,14 @@ public class MarketResourceSelector extends JPanel{
 	
 	//ACTIONS
 	private ActionListener buyEvent = new ActionListener(){
+		@Action
 		public void actionPerformed(ActionEvent e) {
 			market.wantBuy(type, (int)value.getValue());
 		}
 	};
 	
 	private ChangeListener changeValueEvent = new ChangeListener(){
+		@Action
 		public void stateChanged(ChangeEvent e) {
 			button.setEnabled((int)((JSpinner)e.getSource()).getValue() > 0 );
 		}
@@ -62,7 +65,7 @@ public class MarketResourceSelector extends JPanel{
 	//OTHERS
 	
 	/**
-	 * 
+	 *inicializuje panel so surovinamy
 	 */
 	private void init(){
 		button.addActionListener(buyEvent);
@@ -77,14 +80,15 @@ public class MarketResourceSelector extends JPanel{
 	}
 	
 	/**
+	 * sfunkèní tlaèíko
 	 * @param val
 	 */
 	private void makeEnable(boolean val){
 		value.setEnabled(val);
 		button.setEnabled(val);
 	}
-	
 	/**
+	 * updatne poèet surovín
 	 * @param maximum
 	 */
 	public void update(int maximum){

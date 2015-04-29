@@ -6,14 +6,13 @@ import game.vilage.resources.ResourceBase;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
 public class ResourcesPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<Byte, OtherResourceViewer> res = new HashMap<Byte, OtherResourceViewer>(); 
+	private HashMap<Byte, OtherResourceViewer> resources = new HashMap<Byte, OtherResourceViewer>(); 
 	private BasicBuilding parent;
 	
 	//CONSTRUCTORS
@@ -30,7 +29,7 @@ public class ResourcesPanel extends JPanel{
 	//OTHERS
 	
 	/**
-	 * 
+	 * inicializuje panel zo surovinamy
 	 */
 	private void init(){
 		setLayout(new FlowLayout());
@@ -39,22 +38,21 @@ public class ResourcesPanel extends JPanel{
 	}
 	
 	/**
-	 * 
+	 * updatne penyli zo surovinamy
 	 */
 	public void upateResources() {
-		ResourceBase resources = parent.getResources();
-		
-		for(Entry<Byte, Integer> e : resources.getAll().entrySet()){	//prejde všetkými surovinamy
-			if(res.containsKey(e.getKey()))	//ak už je vypísaná
-				res.get(e.getKey()).updateValue();	//aktualizuje ju to
+		ResourceBase resourcesBase = parent.getResources();
+		resourcesBase.getAll().forEach((key, value) -> {
+			if(resources.containsKey(key))	//ak už je vypísaná
+				resources.get(key).updateValue();	//aktualizuje ju to
 			else{	//ináè
-				int need = resources.getRequired(e.getKey());
-				int have = resources.getOwned(e.getKey());
-				
-				res.put(e.getKey(),new OtherResourceViewer(e.getKey(),need, have, parent));	//vytvorí nový viewer a pridá ho do zoznamu viewerov
-				add(res.get(e.getKey()));	//aj do panelu
+				int need = resourcesBase.getRequired(key);
+				int have = resourcesBase.getOwned(key);
+				OtherResourceViewer newViewer = new OtherResourceViewer(key,need, have, parent);	//vytvorí nový viewer 
+				resources.put(key, newViewer);	//pridá ho do zoznamu viewerov
+				add(newViewer);	//aj do panelu
 			}
-		}
+		});
 	}
 
 }

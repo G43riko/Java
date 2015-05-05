@@ -1,6 +1,7 @@
 package org.engine.core;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class Scene {
 		scene.remove(gameComponent);
 	}
 	
-	public void removeAll(ArrayList<GameComponent> gameComponents){
+	public void removeAll(List<GameComponent> gameComponents){
 		scene.removeAll(gameComponents);
 	}
 	

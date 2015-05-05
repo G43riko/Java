@@ -15,12 +15,10 @@ public class Material {
 	
 	//CONSTRUCTORS
 	
-	@ConstructorProperties({"fileName"})
 	public Material(String fileName){
 		diffuse = new Texture2D(fileName);
 	}
 	
-	@ConstructorProperties({"diffuse"})
 	public Material(Texture2D diffuse){
 		this.diffuse = diffuse;
 	}

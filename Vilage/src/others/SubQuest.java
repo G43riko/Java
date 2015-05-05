@@ -1,4 +1,4 @@
-package game.vilage.quests;
+package others;
 
 public class SubQuest {
 	public final static int SUCCES = 1;

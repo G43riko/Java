@@ -1,7 +1,7 @@
 package game.vilage.view.component;
 
 import game.vilage.buldings.Market;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.xml.ws.Action;
 
 public class MarketResourceSelector extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -29,14 +28,14 @@ public class MarketResourceSelector extends JPanel{
 	
 	//ACTIONS
 	private ActionListener buyEvent = new ActionListener(){
-		@Action
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			market.wantBuy(type, (int)value.getValue());
 		}
 	};
 	
 	private ChangeListener changeValueEvent = new ChangeListener(){
-		@Action
+		@Override
 		public void stateChanged(ChangeEvent e) {
 			button.setEnabled((int)((JSpinner)e.getSource()).getValue() > 0 );
 		}
@@ -52,14 +51,14 @@ public class MarketResourceSelector extends JPanel{
 	public MarketResourceSelector(byte type, int max, Market market){
 		this.market = market;
 		this.type = type;
-		this.name = new JLabel(Suroviny.getName(type));
+		this.name = new JLabel(Resources.getName(type));
 		this.max = new JLabel(String.valueOf(max));
 		button = new JButton("kúpi");
 		value = new JSpinner(new SpinnerNumberModel(0,mininmum,max*2+20,1));
 
 		init();
 		
-		makeEnable(type == Suroviny.DREVO || type == Suroviny.NASTROJ);	//povolı iba kúpu surovín ktoré sú dokonèené
+		makeEnable(type == Resources.DREVO || type == Resources.NASTROJ);	//povolı iba kúpu surovín ktoré sú dokonèené
 	}
 	
 	//OTHERS

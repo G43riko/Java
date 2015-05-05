@@ -16,6 +16,10 @@ import java.util.Map.Entry;
 
 import util.ResourceLoader;
 
+/**
+ * @author Gabriel
+ *
+ */
 public class FileReader {
 	private static HashMap<Byte, String> loadedBuildings = loadBuildingDatas();
 	

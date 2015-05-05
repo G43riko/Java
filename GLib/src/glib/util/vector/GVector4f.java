@@ -12,7 +12,12 @@ public class GVector4f {
 		this.z = z;
 		this.w = w;
 	}
-
+	
+	public void addToX(float value){ x += value;}
+	public void addToY(float value){ y += value;}
+	public void addToZ(float value){ z += value;}
+	public void addToW(float value){ w += value;}
+	
 	public float getX() {return x;}
 	public float getY() {return y;}
 	public float getZ() {return z;}

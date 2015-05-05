@@ -25,7 +25,7 @@ import javax.xml.ws.Action;
 
 import game.vilage.buldings.Buildings;
 import game.vilage.buldings.Market;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 import game.vilage.view.component.MarketResourceSelector;
 
 public class MarketWindow extends Window{
@@ -41,8 +41,6 @@ public class MarketWindow extends Window{
 	
 	
 	private MouseAdapter showPopUpMenu = new MouseAdapter(){
-		@Action
-		
 		@Override
 		public void mouseReleased(MouseEvent e){
 	        if (e.isPopupTrigger())
@@ -119,13 +117,13 @@ public class MarketWindow extends Window{
 	public void appendNotice(int type, int value, byte resource){	
 		switch(type){	//vyberie si aktualny typ ozn·menie
 			case Market.GOODS_SHIPPED:
-				appendNotice("Market: Bola odoslan· poloûka: "+Suroviny.getName(resource)+" "+value+" ks");
+				appendNotice("Market: Bola odoslan· poloûka: "+Resources.getName(resource)+" "+value+" ks");
 				break;
 			case Market.REQUEST_WAS_SENT:
-				appendNotice("Market: éiadosù o : "+Suroviny.getName(resource)+" "+value+" ks  bola odoslan· k: "+Buildings.getName(Suroviny.getBuildingFromProduct(resource)));
+				appendNotice("Market: éiadosù o : "+Resources.getName(resource)+" "+value+" ks  bola odoslan· k: "+Buildings.getName(Resources.getBuildingFromProduct(resource)));
 				break;
 			case Market.GOODES_RECEIVED:
-				appendNotice("Market: Bolo doruËen˝ch "+value+" ks  suroviny "+Suroviny.getName(resource));
+				appendNotice("Market: Bolo doruËen˝ch "+value+" ks  suroviny "+Resources.getName(resource));
 				break;
 			default:
 				appendNotice("System: Lutujeme ale nastala straön· chyba:");

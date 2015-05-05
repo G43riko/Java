@@ -5,6 +5,7 @@ import glib.util.vector.GVector2f;
 import org.engine.rendeing.material.Texture2D;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL14;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLContext;
 
 import static org.lwjgl.opengl.GL11.*;

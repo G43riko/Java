@@ -10,7 +10,8 @@ public class Plane {
 	}
 	
 	public static int[] getIndices(){
-		return new int[]{0,1,3, 3,1,2};
+		return new int[]{3,1,0,
+						 2,1,3};
 	}
 	
 	public static float[] getTextures(float width, float height){
@@ -22,7 +23,7 @@ public class Plane {
 		return texture;
 	}
 	
-	public static float[] getNormal(){
+	public static float[] getNormals(){
 		float[] normals = new float[]{0.0f, 1,0f, 0.0f,
 									  0.0f, 1,0f, 0.0f,
 									  0.0f, 1,0f, 0.0f,

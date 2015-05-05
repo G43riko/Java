@@ -1,9 +1,31 @@
 package game.vilage.buldings;
 
-import game.vilage.files.FileReader;
+import game.vilage.resources.Resources;
+
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Gabriel
+ *
+ */
 public abstract class Buildings {
+	
+	/**
+	 * vnorená trieda ktorá uskladnuje dáta o budovách
+	 */
+	private static class BuildingData{
+		private String name;
+		private HashMap<Byte, Integer> produce = new HashMap<Byte, Integer>();
+		private HashMap<Byte, Integer> requiere = new HashMap<Byte, Integer>();
+		
+		private BuildingData(String name, HashMap<Byte, Integer> produce, HashMap<Byte, Integer> requiere) {
+			this.name = name;
+			this.produce = produce;
+			this.requiere = requiere;
+		}
+	}
+	
 	public final static byte OBCHOD = 4;
 
 	public final static byte FARMA = 1;
@@ -23,25 +45,54 @@ public abstract class Buildings {
 	public final static byte MLYN = 17;
 	public final static byte KRAJCIR = 18;
 
+	private static HashMap<Byte, BuildingData> datas = new HashMap<Byte, BuildingData>(); 
 	
+	static{	
+		HashMap<Byte, Integer> products = new HashMap<Byte, Integer>();
+		HashMap<Byte, Integer> requiereds = new HashMap<Byte, Integer>();
+		
+		datas.put(OBCHOD, new BuildingData("Obchod", products, requiereds));
+		
+		products = new HashMap<Byte, Integer>();
+		products.put(Resources.OBILIE,4);
+		requiereds = new HashMap<Byte, Integer>();
+		requiereds.put(Resources.NASTROJ,4);
+		datas.put(FARMA, new BuildingData("Farma", products, requiereds));
+		
+		products = new HashMap<Byte, Integer>();
+		products.put(Resources.DREVO, 5);
+		requiereds = new HashMap<Byte, Integer>();
+		requiereds.put(Resources.NASTROJ, 3);
+		datas.put(DREVORUBAC, new BuildingData("Drevorubaè", products, requiereds));
+		
+		products = new HashMap<Byte, Integer>();
+		products.put(Resources.NASTROJ, 8);
+		requiereds = new HashMap<Byte, Integer>();
+		requiereds.put(Resources.DREVO, 3);
+		datas.put(TESAR, new BuildingData("Tesár", products, requiereds));
+		
+	}
 	public static String getName(byte type){
-		String name = null;
-		FileReader.getBuildingData(type, name, new HashMap<Byte, Integer>(), new HashMap<Byte, Integer>());
-		return name;
+		if(datas.containsKey(type))
+			return datas.get(type).name;
+		
+		return "Neznáma budova";
 	}
 	
 	public static HashMap<Byte, Integer> getProduced(byte type){
-		HashMap<Byte, Integer> result = new HashMap<Byte, Integer>();
-		FileReader.getBuildingData(type, "meno", new HashMap<Byte, Integer>(), result);
-		return result;
+		if(datas.containsKey(type))
+			return datas.get(type).produce;
+		
+		return null;
 	}
 	
 	public static HashMap<Byte, Integer> getRequired(byte type){
-		HashMap<Byte, Integer> result = new HashMap<Byte, Integer>();
-		FileReader.getBuildingData(type, "meno", result, new HashMap<Byte, Integer>());
-		return result;
+		if(datas.containsKey(type))
+			return datas.get(type).requiere;
+		
+		return null;
 	}
-	
+
 //	public static String getName(byte type){
 //		switch(type){
 //			case TAVIC: return "Taviè";

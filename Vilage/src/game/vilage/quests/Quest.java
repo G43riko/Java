@@ -1,7 +1,7 @@
 package game.vilage.quests;
 
 import game.vilage.buldings.Buildings;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class Quest {
 		}
 		times.add(time);
 		
-		this.description = "odoslaù " + value + " ks " + Suroviny.getName(resourceType) + " do: " + Buildings.getName(from);
+		this.description = "odoslaù " + value + " ks " + Resources.getName(resourceType) + " do: " + Buildings.getName(from);
 		List<Byte> subQuests = SubQuests.getSubquestsFromQuest(questType);
 		for(byte subQuest : subQuests){
 			subQestsProgress.put(subQuest, 0);

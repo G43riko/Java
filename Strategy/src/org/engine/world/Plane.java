@@ -4,7 +4,6 @@ import org.engine.core.CoreEngine;
 import org.engine.object.GameObject;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.model.Model;
-import org.engine.util.Loader;
 
 import glib.util.vector.GVector2f;
 

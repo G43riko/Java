@@ -19,6 +19,7 @@ import glib.util.vector.GVector3f;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.engine.component.Camera;
 import org.engine.gui.Hud;
 import org.engine.light.PointLight;
@@ -40,7 +41,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.strategy.component.CameraStrategy;
 
 public class RenderingEngine {
 	public final static int MAX_LIGHTS = 8;
@@ -292,7 +292,7 @@ public class RenderingEngine {
 
 	public void prepare() {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		setViewMatrix();
+		setViewMatrix(Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
 		setEyePos();
 	}
 	
@@ -316,6 +316,9 @@ public class RenderingEngine {
 		GL30.glBindVertexArray(0);
 	}
 	
+	public void updateCamera(){
+		setProjectionMatrix(mainCamera.getProjectionMatrix());
+	}
 	
 	public void cleanUp(){
 		shaders.forEach((key, value)->value.cleanUp());
@@ -366,7 +369,7 @@ public class RenderingEngine {
 	
 	public void setMainCamera(Camera mainCamera) {
 		this.mainCamera = mainCamera;
-		setProjectionMatrix(mainCamera.getProjectionMatrix());
+		updateCamera();
 	}
 	
 	public void setProjectionMatrix(GMatrix4f matrix){
@@ -401,7 +404,7 @@ public class RenderingEngine {
 		});
 	}
 
-	public void setViewMatrix(){
+	public void setViewMatrix(GMatrix4f matrix){
 		if(mainCamera == null){
 			System.out.println("nieje nastavená hlavná kamera");
 			return;
@@ -410,7 +413,7 @@ public class RenderingEngine {
 		shaders.forEach((key,val) -> {
 			if(val.hasUniform("viewMatrix")){
 				val.bind();
-				val.updateUniform("viewMatrix", Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
+				val.updateUniform("viewMatrix", matrix);
 			}
 		});
 	}

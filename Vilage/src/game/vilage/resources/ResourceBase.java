@@ -17,7 +17,11 @@ public class ResourceBase {
 	}
 	
 	//OTHERS
-	
+	/**
+	 * pripoèíta suroviny
+	 * @param resource
+	 * @param value
+	 */
 	public void addResource(byte resource, int value){
 		if(owned.containsKey(resource))
 			owned.put(resource, owned.get(resource) + value);
@@ -25,6 +29,11 @@ public class ResourceBase {
 			owned.put(resource,value);
 	}
 	
+	
+	/**
+	 * skontroluje èi môe budova pracova
+	 * @return if building can work
+	 */
 	public boolean canWork(){
 		for(Entry<Byte, Integer> e : required.entrySet()){
 			if(!owned.containsKey(e.getKey()))
@@ -35,9 +44,12 @@ public class ResourceBase {
 		
 		return true;
 	}
-
+	
+	/**
+	 * odpoèíta suroviny ktoré sa pri vırobe spotrebuju. 
+	 * pripoèíta suroviny ktoré sa pri vırobe vytvoria
+	 */
 	public void build(){
-		
 		required.forEach((key,value) ->{
 			if(owned.containsKey(key))
 				owned.put(key, owned.get(key)-value);
@@ -52,19 +64,22 @@ public class ResourceBase {
 	//GETTERS
 	
 	public int getOwned(byte type){
-		int have = 0;
 		if(owned.containsKey(type))
-			have = owned.get(type);
-		return have;
+			return owned.get(type);
+		
+		return 0;
 	}
 	
 	public int getRequired(byte type){
-		int need = 0;
 		if(required.containsKey(type))
-			need = required.get(type);
-		return need;
+			return required.get(type);
+		return 0;
 	}
 	
+	/**
+	 * vypoèíta aké surovinı chıbajú a kolko
+	 * @return missing resources
+	 */
 	public HashMap<Byte, Integer> getMissingResources(){
 		HashMap<Byte, Integer> missing = new HashMap<Byte, Integer>();
 		

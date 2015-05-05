@@ -62,6 +62,17 @@ public class Maths {
 		return viewMatrix;
 	}
 	
+	public static GMatrix4f createViewMatrix(GVector3f position, GVector3f rotation){
+		Matrix4f viewMatrix = new Matrix4f();
+		viewMatrix.setIdentity();
+		Matrix4f.rotate((float)Math.toRadians(rotation.getX()),new Vector3f(1,0,0) ,viewMatrix,viewMatrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.getY()),new Vector3f(0,1,0) ,viewMatrix,viewMatrix);
+		Vector3f cameraPos = new Vector3f(position.getX(),position.getY(),position.getZ());
+		Vector3f negativeCameraPos = new Vector3f(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+		Matrix4f.translate(negativeCameraPos,viewMatrix,viewMatrix);
+		return MatrixToGMatrix(viewMatrix);
+	}
+	
 	public static GMatrix4f MatrixToGMatrix(Matrix4f a){
 		GMatrix4f mat = new GMatrix4f();
 		mat.set(0, 0, a.m00);

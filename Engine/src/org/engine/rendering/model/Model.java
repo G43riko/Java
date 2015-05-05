@@ -5,13 +5,14 @@ import java.beans.ConstructorProperties;
 public class Model {
 	private int vaoID;
 	private int vertexCount;
+	private int pointCount;
 
 	//CONSTRUCTORS
 	
-	@ConstructorProperties({"vao", "vertex"})
-	public Model(int vao, int vertex){
+	public Model(int vao, int vertex, int pointCount){
 		vaoID = vao;
 		vertexCount = vertex;
+		this.pointCount = pointCount;
 	}
 
 	//GETTERS
@@ -22,5 +23,9 @@ public class Model {
 
 	public int getVertexCount() {
 		return vertexCount;
+	}
+
+	public int getPointCount() {
+		return pointCount;
 	}
 }

@@ -10,7 +10,7 @@ import game.vilage.quests.Quests;
 import game.vilage.quests.SubEvents;
 import game.vilage.quests.SubQuests;
 import game.vilage.resources.ResourceBase;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 import game.vilage.view.OtherWindow;
 
 /**
@@ -33,7 +33,16 @@ public abstract class BasicBuilding {
 	public BasicBuilding(Village village, byte type){
 		this.village = village;
 		this.type = type;
-		resources = new ResourceBase(Buildings.getRequired(type),Buildings.getProduced(type));
+		HashMap<Byte, Integer> need = Buildings.getRequired(type);
+		HashMap<Byte, Integer> make = Buildings.getProduced(type);
+		
+		if(need == null || make == null){
+			village.appentNotice("ERROR: pre budovu "+Buildings.getName(type)+" sa nepodarilo naËÌtaö suroviny!");
+			make = new HashMap<Byte, Integer>();
+			need = new HashMap<Byte, Integer>();
+		}
+		
+		resources = new ResourceBase(need, make);
 		window = new OtherWindow(this);
 		window.init();
 	}
@@ -108,7 +117,7 @@ public abstract class BasicBuilding {
 		resources.build();	//vyprodukuje Ëo by mal vyprodukovaù
 		window.updateResourcePanel();
 		Quest quest = quests.get(finishedQuest);	//najkde dokonËen˝ quest v zozname questov
-		village.appentNotice(sign()+"bola odoslan· poloûka: "+Suroviny.getName(quest.getResourceType())+" "+quest.getValue()+"ks");	//prilepÌ info o uspechu
+		village.appentNotice(sign()+"bola odoslan· poloûka: "+Resources.getName(quest.getResourceType())+" "+quest.getValue()+"ks");	//prilepÌ info o uspechu
 		
 		if(quest.getFrom() == Buildings.OBCHOD)	//ak quest priöiel z obchodu
 			village.getMarket().addResource(quest.getResourceType(), quest.getValue());	//poöle suroviny do obchodu
@@ -154,14 +163,20 @@ public abstract class BasicBuilding {
 	}
 
 	/**
-	 * @param type
+	 * @param typeOfResource
 	 * @param value
 	 */
-	public void wantBuy(byte type, int value) {
-		village.appentNotice(sign()+"bola odoslan· ûiadosù o doruËenie "+value+" ks tovaru: "+Suroviny.getName(type));
-		BasicBuilding building = village.getBuilding(Suroviny.getBuildingFromProduct(type));
+	public void wantBuy(byte typeOfResource, int value) {
+		byte buildingType = Resources.getBuildingFromProduct(typeOfResource);
+		if(buildingType == 0){
+			village.appentNotice("ERROR: nepodarilo sa zistiù vyrobcu suroviny: "+Resources.getName(typeOfResource));
+			return;
+		}
+		
+		BasicBuilding building = village.getBuilding(buildingType);
+		village.appentNotice(sign()+"bola odoslan· ûiadosù o doruËenie "+value+" ks tovaru: "+Resources.getName(typeOfResource));
 		building.showWindow();
-		building.addQuest(type,this.type, value);
+		building.addQuest(typeOfResource,this.type, value);
 	}
 
 	/**

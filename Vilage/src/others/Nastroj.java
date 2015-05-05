@@ -1,6 +1,5 @@
-package game.vilage.resources.named;
+package others;
 
-import game.vilage.resources.Surovina;
 
 public class Nastroj extends Surovina{
 	public Nastroj(){

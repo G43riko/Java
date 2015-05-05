@@ -3,6 +3,8 @@ package org.engine.core;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import org.MainStrategy;
 import org.engine.gui.Gui;
@@ -19,7 +21,6 @@ public class Window {
 	//CREATORS
 	
 	public static Gui createWindow(CoreEngine game){
-		;
 		if(!MainStrategy.SHOW_GUI){
 			Display.setLocation(0, 0);
 			Display.setTitle(MainStrategy.TITLE);

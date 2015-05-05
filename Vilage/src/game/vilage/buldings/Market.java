@@ -1,7 +1,7 @@
 package game.vilage.buldings;
 
 import game.vilage.Village;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 import game.vilage.view.MarketWindow;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class Market {
 	
 	public Market(Village village){
 		this.village = village;
-		resources = Suroviny.getAllDefault();
+		resources = Resources.getAllDefault();
 		
 //		resources.put(Suroviny.CHLIEB, 20);
 //		resources.put(Suroviny.DREVO, 40);
@@ -80,17 +80,23 @@ public class Market {
 	 * @param type
 	 * @param value
 	 */
-	public void wantBuy(byte type, int value) {	//zistí èi má dostatok surovin na sklade a ak nie tak si objedná suroviny podla potreby
-		if(resources.get(type) >= value){	//ak je viac surovín na sklade ako je objednanıch
-			window.appendNotice(GOODS_SHIPPED, value, type);	//napíše správu o odoslaní surovín
-			addResource(type,-value);	//odráta suroviny zo skladu
+	public void wantBuy(byte typeOfResource, int value) {	//zistí èi má dostatok surovin na sklade a ak nie tak si objedná suroviny podla potreby
+		if(resources.get(typeOfResource) >= value){	//ak je viac surovín na sklade ako je objednanıch
+			window.appendNotice(GOODS_SHIPPED, value, typeOfResource);	//napíše správu o odoslaní surovín
+			addResource(typeOfResource,-value);	//odráta suroviny zo skladu
 		}
 		else{	//ináè
-			int missing = value - resources.get(type);	//vypoèíta kolko surovín chıba
-			window.appendNotice(REQUEST_WAS_SENT, missing, type);	//napíše správu o odoslaní poiadavky na chıbajúce suroviny 
-			BasicBuilding b = village.getBuilding(Suroviny.getBuildingFromProduct(type));	//najde budovu ktorá vyrába chıbajúcu surovinu
+			int missing = value - resources.get(typeOfResource);	//vypoèíta kolko surovín chıba
+			byte buildingType = Resources.getBuildingFromProduct(typeOfResource);
+			if(buildingType == 0){
+				village.appentNotice("ERROR: nepodarilo sa zisti vyrobcu suroviny: "+Resources.getName(typeOfResource));
+				return;
+			}
+			
+			window.appendNotice(REQUEST_WAS_SENT, missing, typeOfResource);	//napíše správu o odoslaní poiadavky na chıbajúce suroviny 
+			BasicBuilding b = village.getBuilding(buildingType);	//najde budovu ktorá vyrába chıbajúcu surovinu
 			b.showWindow();	//zobrazí okno najdenej budovy
-			b.addQuest(type,Buildings.OBCHOD, missing);	//pridá quest danej budove
+			b.addQuest(typeOfResource,Buildings.OBCHOD, missing);	//pridá quest danej budove
 		}
 	}
 

@@ -68,4 +68,11 @@ public class Gui extends JPanel{
 	public BMenu getBmenu() {
 		return bmenu;
 	}
+
+	public void hideAll() {
+		tmenu.setVisible(tmenu.isVisible() == false);
+		bmenu.setVisible(bmenu.isVisible() == false);
+		rmenu.setVisible(rmenu.isVisible() == false);
+		
+	}
 }

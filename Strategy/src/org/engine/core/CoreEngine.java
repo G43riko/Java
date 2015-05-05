@@ -1,17 +1,10 @@
 package org.engine.core;
 
 import java.util.ArrayList;
-
-
-
-
-
-
-
-
 import java.util.stream.Collectors;
 
 import glib.util.GLog;
+import glib.util.vector.GVector3f;
 
 import javax.swing.JFrame;
 
@@ -27,10 +20,15 @@ import org.engine.gui.Gui;
 import org.engine.object.GameObjectPhysics;
 import org.engine.rendeing.ToFrameBufferRendering;
 import org.engine.util.Loader;
+import org.engine.util.Maths;
 import org.engine.util.MousePicker;
 import org.engine.util.OBJLoader;
+import org.engine.world.Line;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import org.strategy.component.CameraStrategy;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import org.strategy.rendering.RenderingEngineStrategy;
 
 public abstract class CoreEngine extends JFrame{
@@ -103,11 +101,15 @@ public abstract class CoreEngine extends JFrame{
 	};
 	
 	protected void update(){
-
-		scene.removeAll(scene.getScene().stream().peek(a->a.update()).filter(a->a.isDead()).collect(Collectors.toList()));
-		
-//		scene.getScene().stream().forEach(a -> a.update());
-//		scene.removeAll(scene.getScene().stream().filter(e -> e.isDead()).collect(Collectors.toList()));
+		scene.removeAll(scene.getScene().stream()
+										.peek(a->a.update())
+										.filter(a->a.isDead())
+										.collect(Collectors.toList()));
+		if(Display.wasResized()){
+			camera.createProjectionMatrix();
+			renderingEngine.updateCamera();
+			GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		}
 	};
 	
 	private void finalRender(){
@@ -120,18 +122,22 @@ public abstract class CoreEngine extends JFrame{
 	}
 	
 	protected void render(){
-		
-		if(frameRender != null)
+
+		if(frameRender != null){
 			frameRender.startRenderToFrameBuffer();
-		
+			renderingEngine.setViewMatrix(Maths.createViewMatrix(new GVector3f(0,5,-20), new GVector3f(0,(System.currentTimeMillis()/10)%360,0)));
+		}
 		finalRender();
-		
+
 		if(frameRender == null)
 			return;
 		
 		frameRender.stopRenderToFrameBuffer();
+		
+		renderingEngine.setViewMatrix(Maths.MatrixToGMatrix(Maths.createViewMatrix(camera)));
 		finalRender();
 		renderingEngine.renderHud(scene.getHuds());
+		
 	};
 	
 	//GETTERS
@@ -218,6 +224,15 @@ public abstract class CoreEngine extends JFrame{
 			else if(center instanceof Camera)
 				o.setDirection(((Camera)center).getForward().mul(-1));
 			addToScene(o);
+		}
+		if(Input.getMouseDown(1)){
+			camera.calcFrustum().stream().forEach(a -> {
+				addToScene(new Line(camera.getPosition(), camera.getPosition().add(a.mul(100)),getLoader()));
+			});
+		}
+		
+		if(Input.getKeyDown(Keyboard.KEY_H)){
+			gui.hideAll();
 		}
 	}
 	

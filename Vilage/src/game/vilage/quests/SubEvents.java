@@ -1,11 +1,12 @@
 package game.vilage.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import util.MultiHashMap;
+
 public class SubEvents {
-	private static HashMap<Byte, List<Byte>> subEventsToSubQuest = new HashMap<Byte, List<Byte>>();
+//	private static HashMap<Byte, List<Byte>> subEventsToSubQuest = new HashMap<Byte, List<Byte>>();
+	private static MultiHashMap<Byte, Byte> subEventsToSubQuest = new MultiHashMap<Byte, Byte>();
 	
 	public final static byte REZNE_PORANENIE = 1;
 	public final static byte STRATENIE_SA_V_LESE = 2;
@@ -26,8 +27,6 @@ public class SubEvents {
 	public final static byte MODEL_SA_NEPODOBA_NA_NAKRES = 18;
 	public final static byte ZNICENIE_MODELU = 14;
 	
-//	public final static byte ZNICENIE_MODELU = 20;
-	
 	public final static byte ODOSLANIE_NA_ZLU_ADRESU = 15;
 	public final static byte ODOSLANIE_ZLEJ_OBJEDNAVKY = 16;
 	
@@ -37,85 +36,59 @@ public class SubEvents {
 	}
 	
 	private static void setSubEventsToSubQuests(){
-		List<Byte> list = new ArrayList<Byte>();
-		list.add(ODOSLANIE_NA_ZLU_ADRESU);
-		list.add(ODOSLANIE_ZLEJ_OBJEDNAVKY);
-		subEventsToSubQuest.put(SubQuests.ODOSLAT_OBJEDNAVKU, list);
+		subEventsToSubQuest.add(SubQuests.ODOSLAT_OBJEDNAVKU,ODOSLANIE_NA_ZLU_ADRESU);
+		subEventsToSubQuest.add(SubQuests.ODOSLAT_OBJEDNAVKU,ODOSLANIE_ZLEJ_OBJEDNAVKY);
 		
 		//DREVORUBAC
 		
-		list = new ArrayList<Byte>();
-		list.add(REZNE_PORANENIE);
-		subEventsToSubQuest.put(SubQuests.NABRUSIT_SEKERU, list);
+		subEventsToSubQuest.add(SubQuests.NABRUSIT_SEKERU,REZNE_PORANENIE);
 		
-		list = new ArrayList<Byte>();
-		list.add(STRATENIE_SA_V_LESE);
-		list.add(UTOK_VLKA);
-		list.add(UTOK_DIVIAKA);
-		list.add(POZIAR);
-		subEventsToSubQuest.put(SubQuests.IST_DO_LESA, list);
+		subEventsToSubQuest.add(SubQuests.IST_DO_LESA,STRATENIE_SA_V_LESE);
+		subEventsToSubQuest.add(SubQuests.IST_DO_LESA,UTOK_VLKA);
+		subEventsToSubQuest.add(SubQuests.IST_DO_LESA,UTOK_DIVIAKA);
+		subEventsToSubQuest.add(SubQuests.IST_DO_LESA,POZIAR);
 		
-		list = new ArrayList<Byte>();
-		list.add(STRATENIE_SA_V_LESE);
-		list.add(UTOK_VLKA);
-		list.add(UTOK_DIVIAKA);
-		list.add(POZIAR);
-		subEventsToSubQuest.put(SubQuests.NAJST_VHODNY_STROM, list);
+		subEventsToSubQuest.add(SubQuests.NAJST_VHODNY_STROM,STRATENIE_SA_V_LESE);
+		subEventsToSubQuest.add(SubQuests.NAJST_VHODNY_STROM,UTOK_VLKA);
+		subEventsToSubQuest.add(SubQuests.NAJST_VHODNY_STROM,UTOK_DIVIAKA);
+		subEventsToSubQuest.add(SubQuests.NAJST_VHODNY_STROM,POZIAR);
 		
-		list = new ArrayList<Byte>();
-		list.add(UTOK_VLKA);
-		list.add(UTOK_DIVIAKA);
-		list.add(POZIAR);
-		list.add(ZAVALENIE_STROMOM);
-		list.add(SECNE_PORANENIE);
-		list.add(ZLOMENA_SEKERA);
-		subEventsToSubQuest.put(SubQuests.ZOTAT_STROM, list);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,UTOK_VLKA);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,UTOK_DIVIAKA);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,POZIAR);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,ZAVALENIE_STROMOM);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,SECNE_PORANENIE);
+		subEventsToSubQuest.add(SubQuests.ZOTAT_STROM,ZLOMENA_SEKERA);
 		
-		list = new ArrayList<Byte>();
-		list.add(STRATENIE_SA_V_LESE);
-		list.add(UTOK_VLKA);
-		list.add(UTOK_DIVIAKA);
-		list.add(POZIAR);
-		subEventsToSubQuest.put(SubQuests.DOTIAHNUT_STROM, list);
+		subEventsToSubQuest.add(SubQuests.DOTIAHNUT_STROM,STRATENIE_SA_V_LESE);
+		subEventsToSubQuest.add(SubQuests.DOTIAHNUT_STROM,UTOK_VLKA);
+		subEventsToSubQuest.add(SubQuests.DOTIAHNUT_STROM,UTOK_DIVIAKA);
+		subEventsToSubQuest.add(SubQuests.DOTIAHNUT_STROM,POZIAR);
 		
-		list = new ArrayList<Byte>();
-		list.add(SECNE_PORANENIE);
-		subEventsToSubQuest.put(SubQuests.ROZSEKAT_STROM, list);
+		subEventsToSubQuest.add(SubQuests.ROZSEKAT_STROM,SECNE_PORANENIE);
 		
 		//TESAR
 		
-		list = new ArrayList<Byte>();
-		list.add(ZLODEJI);
-		list.add(ZLOMENY_NASTROJ);
-		subEventsToSubQuest.put(SubQuests.PRIPRAVIT_NASTROJE, list);
+		subEventsToSubQuest.add(SubQuests.PRIPRAVIT_NASTROJE,ZLODEJI);
+		subEventsToSubQuest.add(SubQuests.PRIPRAVIT_NASTROJE,ZLOMENY_NASTROJ);
 		
-		list = new ArrayList<Byte>();
-		list.add(ZIADNY_NASTROJ_NA_PISANIE);
-		subEventsToSubQuest.put(SubQuests.VYTVORIT_NAKRES, list);
+		subEventsToSubQuest.add(SubQuests.VYTVORIT_NAKRES,ZIADNY_NASTROJ_NA_PISANIE);
 		
-		list = new ArrayList<Byte>();
-		list.add(ZLOMENY_NASTROJ);
-		list.add(KONCTRUKCIA_NESEDI);
-		list.add(KONSTRUKCIA_SA_NEPODOBA_NA_NAKRES);
-		list.add(ZNIECENIE_KONSTRUKCIE);
-		subEventsToSubQuest.put(SubQuests.VYTVORI_KONSTRUKCIU, list);
+		subEventsToSubQuest.add(SubQuests.VYTVORI_KONSTRUKCIU,ZLOMENY_NASTROJ);
+		subEventsToSubQuest.add(SubQuests.VYTVORI_KONSTRUKCIU,KONCTRUKCIA_NESEDI);
+		subEventsToSubQuest.add(SubQuests.VYTVORI_KONSTRUKCIU,KONSTRUKCIA_SA_NEPODOBA_NA_NAKRES);
+		subEventsToSubQuest.add(SubQuests.VYTVORI_KONSTRUKCIU,ZNIECENIE_KONSTRUKCIE);
 		
-		list = new ArrayList<Byte>();
-		list.add(ZLOMENY_NASTROJ);
-		list.add(MODEL_NESEDI_KU_KONSTRUKCII);
-		list.add(MODEL_SA_NEPODOBA_NA_NAKRES);
-		list.add(ZNIECENIE_KONSTRUKCIE);
-		subEventsToSubQuest.put(SubQuests.VYTVORIT_MODEL, list);
+		subEventsToSubQuest.add(SubQuests.VYTVORIT_MODEL,ZLOMENY_NASTROJ);
+		subEventsToSubQuest.add(SubQuests.VYTVORIT_MODEL,MODEL_NESEDI_KU_KONSTRUKCII);
+		subEventsToSubQuest.add(SubQuests.VYTVORIT_MODEL,MODEL_SA_NEPODOBA_NA_NAKRES);
+		subEventsToSubQuest.add(SubQuests.VYTVORIT_MODEL,ZNIECENIE_KONSTRUKCIE);
 		
-		list = new ArrayList<Byte>();
-		list.add(ZLOMENY_NASTROJ);
-		list.add(ZNICENIE_MODELU);
-		subEventsToSubQuest.put(SubQuests.DOLADIT_DETAILY, list);
+		subEventsToSubQuest.add(SubQuests.DOLADIT_DETAILY,ZLOMENY_NASTROJ);
+		subEventsToSubQuest.add(SubQuests.DOLADIT_DETAILY,ZNICENIE_MODELU);
 		
-		list = new ArrayList<Byte>();
-		list.add(ZLOMENY_NASTROJ);
-		list.add(ZNICENIE_MODELU);
-		subEventsToSubQuest.put(SubQuests.NALAKOVAT, list);
+		subEventsToSubQuest.add(SubQuests.NALAKOVAT,ZLOMENY_NASTROJ);
+		subEventsToSubQuest.add(SubQuests.NALAKOVAT,ZNICENIE_MODELU);
 	}
 
 	public static List<Byte> getSubEventsfromsubQuest(byte subQuest){

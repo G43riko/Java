@@ -17,25 +17,25 @@ public class SubQuestSelector extends JPanel{
 	private JButton selectButton;
 	private JButton selectRandomButton;
 	private PanelBottom parent;
-	private List<Byte> subEvents;
+	private List<Byte> subEventsID;
 	private SubQuestSelector toto;
-	private byte subQuest;
+	private byte subQuestID;
 	
 	//CONSTRUCTORS
 	
 	/**
 	 * @param subQuest
 	 * @param parent
-	 * @param selectedValue
+	 * @param selectedSubEvent
 	 */
-	public SubQuestSelector(byte subQuest, PanelBottom parent, int selectedValue){
+	public SubQuestSelector(byte subQuest, PanelBottom parent, int selectedSubEvent){
 		this.parent = parent;
-		this.subQuest = subQuest;
+		this.subQuestID = subQuest;
 		this.toto = this;
 		
-		subEvents = SubEvents.getSubEventsfromsubQuest(subQuest);	//naËÌta udalosti k aktualnemu subquestu
+		subEventsID = SubEvents.getSubEventsfromsubQuest(subQuest);	//naËÌta udalosti k aktualnemu subquestu
 		
-		init(selectedValue);	//inicializuje prvky gui
+		init(selectedSubEvent);	//inicializuje prvky gui
 	}
 	
 	//OTHERS
@@ -53,26 +53,26 @@ public class SubQuestSelector extends JPanel{
 	 * select actual value
 	 */
 	private void selectValue(){
-		if(list.getSelectedIndex()+1 == list.getItemCount()){	//ak bola oznaËen· moûnost splnenia subquestu
-			parent.finishSubQuest(PanelBottom.SUCCESS, subQuest, (byte)0, list.getSelectedIndex());	//ozn·mi sa rodiËovy ûe sa splnil quest
+		if(list.getSelectedIndex() + 1 == list.getItemCount()){	//ak bola oznaËen· moûnost splnenia subquestu
+			parent.finishSubQuest(PanelBottom.SUCCESS, subQuestID, (byte)0, list.getSelectedIndex());	//ozn·mi sa rodiËovy ûe sa splnil quest
 			parent.showNext(toto);	//povol˝ manipul·cia s dalöÌm subquestom
 		}
 		else if(list.getSelectedIndex() > 0)	//in·Ë ak bola vybran· moûnosù neuspechu questu
-			parent.finishSubQuest(PanelBottom.FAILURE, subQuest, subEvents.get(list.getSelectedIndex()-1), list.getSelectedIndex());	//povie sa to rodiËovy
+			parent.finishSubQuest(PanelBottom.FAILURE, subQuestID, subEventsID.get(list.getSelectedIndex()-1), list.getSelectedIndex());	//povie sa to rodiËovy
 	}
 	
 	/**
 	 * @param selectedValue
 	 */
 	private void init(int selectedValue){
-		add(new JLabel(SubQuests.getName(subQuest)));	//prÌda n·zov subquestu
+		add(new JLabel(SubQuests.getName(subQuestID)));	//prÌda n·zov subquestu
 		
-		String[] texts = new String[subEvents.size()+2];	//vytvorÌ pole pre nazvy udalostÌ
+		String[] texts = new String[subEventsID.size()+2];	//vytvorÌ pole pre nazvy udalostÌ
 		texts[0] = "Vyberte moûnosù";	//priradÌ prv˙ moûnost
-		for(int i=0 ; i<subEvents.size() ; i++){	//prejde vöetk˝mi udalostami
-			texts[i+1] = SubEvents.getName(subEvents.get(i));	//prÌda do pola jej n·zov
+		for(int i=0 ; i<subEventsID.size() ; i++){	//prejde vöetk˝mi udalostami
+			texts[i+1] = SubEvents.getName(subEventsID.get(i));	//prÌda do pola jej n·zov
 		}
-		texts[subEvents.size()+1] = "Hotovo";	//prid· posledn˙ moûnosù
+		texts[subEventsID.size()+1] = "Hotovo";	//prid· posledn˙ moûnosù
 		
 		add(list = new JComboBox<String>(texts));	//prid· jcombobox zo zoznamom udalosti
 		list.setSelectedIndex(selectedValue);	//nastav˝ sa vybran· moûnosù podla aktualneho stavu questu

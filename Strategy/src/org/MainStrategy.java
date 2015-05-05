@@ -20,9 +20,9 @@ public class MainStrategy {
 	
 	public static void main(String[] args) {
 //		CoreEngine game = new StrategyGame();
-//		CoreEngine game = new MainTester();
+		CoreEngine game = new MainTester();
 //		CoreEngine game = new ParticleTester();
-		CoreEngine game = new MainVoxel();
+//		CoreEngine game = new MainVoxel();
 	
 		game.createWindow(game);
 		game.init();

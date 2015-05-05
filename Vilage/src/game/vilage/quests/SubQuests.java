@@ -1,8 +1,8 @@
 package game.vilage.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import util.MultiHashMap;
 
 public class SubQuests {
 	public final static byte NABRUSIT_SEKERU = 0;
@@ -85,73 +85,61 @@ public class SubQuests {
 	public final static byte ODOSLAT_OBJEDNAVKU = 12;
 	public final static byte ZACAT_PRACU_NA_OBJEDNAVKU = 13;
 	
-	private static HashMap<Byte, List<Byte>> subQuestsToQuest = new HashMap<Byte, List<Byte>>();
+	private static MultiHashMap<Byte, Byte> subQuestsToQuest = new MultiHashMap<Byte, Byte>(); 
 	
 	static{
 		setSubQuestsToQuestS();
 	}
 	
 	private static void setSubQuestsToQuestS(){
-		List<Byte> list = new ArrayList<Byte>();
 		
-		list.add(NABRUSIT_SEKERU);
-		list.add(IST_DO_LESA);
-		list.add(NAJST_VHODNY_STROM);
-		list.add(ZOTAT_STROM);
-		list.add(DOTIAHNUT_STROM);
-		list.add(ROZSEKAT_STROM);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.VYTAZIT_DREVO, list);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,NABRUSIT_SEKERU);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,IST_DO_LESA);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,NAJST_VHODNY_STROM);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,ZOTAT_STROM);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,DOTIAHNUT_STROM);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,ROZSEKAT_STROM);
+		subQuestsToQuest.add(Quests.VYTAZIT_DREVO,ODOSLAT_OBJEDNAVKU);
 		
-		list = new ArrayList<Byte>();
-		list.add(PRIPRAVIT_NASTROJE);
-		list.add(VYTVORIT_NAKRES);
-		list.add(VYTVORI_KONSTRUKCIU);
-		list.add(VYTVORIT_MODEL);
-		list.add(DOLADIT_DETAILY);
-		list.add(NALAKOVAT);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.VYTVORIT_NASTROJ, list);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,PRIPRAVIT_NASTROJE);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,VYTVORIT_NAKRES);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,VYTVORI_KONSTRUKCIU);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,VYTVORIT_MODEL);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,DOLADIT_DETAILY);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,NALAKOVAT);
+		subQuestsToQuest.add(Quests.VYTVORIT_NASTROJ,ODOSLAT_OBJEDNAVKU);
 		
-		list = new ArrayList<Byte>();
-		list.add(NABRUSIT_KOSU);
-		list.add(IST_NA_POLE);
-		list.add(POKOSIT_OBYLIE);
-		list.add(POZBIERAT_OBYLIE);
-		list.add(ZVIAZAT_OBYLIE);
-		list.add(DONIEST_DOMOU);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.ZOZAT_OBYLIE, list);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,NABRUSIT_KOSU);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,IST_NA_POLE);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,POKOSIT_OBYLIE);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,POZBIERAT_OBYLIE);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,ZVIAZAT_OBYLIE);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,DONIEST_DOMOU);
+		subQuestsToQuest.add(Quests.ZOZAT_OBILIE,ODOSLAT_OBJEDNAVKU);
 		
-		list = new ArrayList<Byte>();
-		list.add(DONIEST_OBYLIE);
-		list.add(ROZVIAZAT_OBYLIE);
-		list.add(VYMENIT_KAMEN);
-		list.add(POMLIET_OBYLIE);
-		list.add(POZBIERAT_MUKU);
-		list.add(ZABALIT_MUKU);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.POMLIET_OBYLIE, list);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,DONIEST_OBYLIE);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,ROZVIAZAT_OBYLIE);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,VYMENIT_KAMEN);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,POMLIET_OBYLIE);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,POZBIERAT_MUKU);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,ZABALIT_MUKU);
+		subQuestsToQuest.add(Quests.POMLIET_OBILIE,ODOSLAT_OBJEDNAVKU);
 		
-		list = new ArrayList<Byte>();
-		list.add(PRIPRAVIT_INGREDIENCIE);
-		list.add(ZAMIESAT_CESTO);
-		list.add(NECHAT_VYKYSNUT_CESTO);
-		list.add(PRIPRAVIT_PEC);
-		list.add(UPIECT_CHLIEB);
-		list.add(ZABALIT_CHLIEB);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.UPIECT_CHLIEB, list);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,PRIPRAVIT_INGREDIENCIE);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,ZAMIESAT_CESTO);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,NECHAT_VYKYSNUT_CESTO);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,PRIPRAVIT_PEC);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,UPIECT_CHLIEB);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,ZABALIT_CHLIEB);
+		subQuestsToQuest.add(Quests.UPIECT_CHLIEB,ODOSLAT_OBJEDNAVKU);
 		
-		list = new ArrayList<Byte>();
-		list.add(PRIPRAVIT_KROMPAC);
-		list.add(IST_DO_KAMENOLOMU);
-		list.add(NAJST_VHODNY_KAMEN);
-		list.add(VYTAZIT_KAMEN);
-		list.add(DOTIAHNUT_KAMEN_DOMOU);
-		list.add(UPRAVIT_KAMEN);
-		list.add(ODOSLAT_OBJEDNAVKU);
-		subQuestsToQuest.put(Quests.VYTAZIT_KAMEN, list);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,PRIPRAVIT_KROMPAC);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,IST_DO_KAMENOLOMU);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,NAJST_VHODNY_KAMEN);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,VYTAZIT_KAMEN);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,DOTIAHNUT_KAMEN_DOMOU);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,UPRAVIT_KAMEN);
+		subQuestsToQuest.add(Quests.VYTAZIT_KAMEN,ODOSLAT_OBJEDNAVKU);
 	}
 	
 	public static List<Byte> getSubquestsFromQuest(byte quest){

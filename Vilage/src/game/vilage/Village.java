@@ -8,16 +8,22 @@ import game.vilage.buldings.Market;
 import game.vilage.buldings.named.Carpentry;
 import game.vilage.buldings.named.LumberJack;
 import game.vilage.files.FileReader;
+import game.vilage.view.GodsWindow;
 
+/**
+ * @author Gabriel
+ *
+ */
 public class Village {
 	private HashMap<Byte, BasicBuilding> buildings = new HashMap<Byte, BasicBuilding>();
 	private Market market;
-	
+	private GodsWindow godsWindow;
 	//CONSTRUCTORS
 	public Village(){
+		godsWindow = new GodsWindow(this);
+		
 		buildings.put(Buildings.DREVORUBAC, new LumberJack(this));
 		buildings.put(Buildings.TESAR, new Carpentry(this));
-
 		
 		market = new Market(this);
 		market.showWindow();

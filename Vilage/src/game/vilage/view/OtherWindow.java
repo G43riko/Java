@@ -2,6 +2,7 @@ package game.vilage.view;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import game.vilage.buldings.BasicBuilding;
@@ -52,6 +53,7 @@ public class OtherWindow extends Window{
 		panel.add(bottomPanel = new PanelBottom(this),BorderLayout.CENTER);
 		return panel;
 	}
+	
 	/**
 	 * zmení aktualny quest
 	 * @param selectedQuest 
@@ -77,15 +79,19 @@ public class OtherWindow extends Window{
 	 */
 	public void finishQuest(int finishedQuestId) {
 		Quest finishedQuest = parent.getQuests().get(finishedQuestId); //nájde 
-		rightPanel.removeQuest(finishedQuest);	//vymaže quest s pravého panela
-		bottomPanel.removeAll();	//vymaže spodný panel
+		removeQuest(finishedQuest);
 		parent.finishQuest(finishedQuestId);	//pošle rodièovy správu o dokonèený questu
+		JOptionPane.showMessageDialog(this, "Quest bol úspešne dokonèený.", "Quest complete",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void removeQuest(Quest quest){
+		rightPanel.removeQuest(quest);	//vymaže quest s pravého panela
+		bottomPanel.removeAll();	//vymaže spodný panel
 		topPanel.setVisible(false);	//zneviditelný vrchý panel s informáciami o quest 
 	}
 
 	/**
 	 * aktualizuje suroviny
-	 * 
 	 */
 	public void updateResourcePanel() {
 		resources.upateResources();

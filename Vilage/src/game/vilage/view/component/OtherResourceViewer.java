@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import game.vilage.buldings.BasicBuilding;
-import game.vilage.resources.Suroviny;
+import game.vilage.resources.Resources;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,7 +23,7 @@ public class OtherResourceViewer extends JPanel{
 	//ACTIONS
 	
 	private ActionListener buyEvent = new ActionListener(){
-		@Action
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			parent.wantBuy(type, Integer.parseInt(required.getText()) - Integer.parseInt(owned.getText()));
 		}
@@ -40,8 +40,8 @@ public class OtherResourceViewer extends JPanel{
 	public OtherResourceViewer(byte type, int need, int have, BasicBuilding parent){
 		this.parent = parent;
 		this.type = type;
-		
-		add(new JLabel(Suroviny.getName(type)+": "));
+		JLabel l = new JLabel(Resources.getName(type)+": ") ;
+		add(l);
 		add(owned = new JLabel(String.valueOf(have)));
 		add(new JLabel(" / "));
 		add(required = new JLabel(String.valueOf(need)));

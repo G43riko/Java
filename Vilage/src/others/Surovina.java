@@ -1,4 +1,4 @@
-package game.vilage.resources;
+package others;
 
 public class Surovina {
 	private String name;

@@ -94,6 +94,8 @@ public class SceneWindow extends JPanel{
 		DefaultMutableTreeNode lights = new DefaultMutableTreeNode("lights");
 		DefaultMutableTreeNode others = new DefaultMutableTreeNode("others");
 		
+		
+		
 		for(GameComponent g : scene){
 			if(g instanceof GameObject){
 				if(g instanceof GameObjectPhysics)

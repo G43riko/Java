@@ -1,10 +1,10 @@
 package org.engine.component;
 
-
-import java.beans.ConstructorProperties;
-
 import org.engine.rendering.RenderingEngine;
+import org.engine.utils.Maths;
+import org.lwjgl.util.vector.Matrix4f;
 
+import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
 
 public abstract class GameComponent {
@@ -21,12 +21,10 @@ public abstract class GameComponent {
 		this(new GVector3f(), new GVector3f(), new GVector3f(1));
 	}
 	
-	@ConstructorProperties({"position"})
 	public GameComponent(GVector3f position) {
 		this(position, new GVector3f(), new GVector3f(1));
 	}
 	
-	@ConstructorProperties({"position", "rotation", "scale"})
 	public GameComponent(GVector3f position, GVector3f rotation, GVector3f scale) {
 		this.position = position;
 		this.rotation = rotation;
@@ -56,6 +54,11 @@ public abstract class GameComponent {
 	public GVector3f getScale() {return scale;}
 	public boolean isDead() {return dead;}
 	public boolean isActive() {return active;}
+	
+	public GMatrix4f getTransformationMatrix(){
+		Matrix4f trans = Maths.createTransformationMatrix(position, rotation, scale);
+		return Maths.MatrixToGMatrix(trans);
+	}
 
 	//SETTERS
 	

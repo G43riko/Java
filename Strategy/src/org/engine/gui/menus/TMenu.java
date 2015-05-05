@@ -75,7 +75,6 @@ public class TMenu extends JMenuBar{
 		initOpenMap();
 		initSaveMap();
 		initExit();
-		
 	}
 
 	//INIT MENU B

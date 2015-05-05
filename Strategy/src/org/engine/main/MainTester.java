@@ -1,6 +1,7 @@
 package org.engine.main;
 
 import org.engine.component.Camera;
+import org.engine.component.movement.FPS;
 import org.engine.component.movement.TPS;
 import org.engine.core.CoreEngine;
 import org.engine.entity.BasicPlayer;
@@ -12,6 +13,7 @@ import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.util.OBJLoader;
 import org.engine.water.Water;
+import org.engine.world.Line;
 import org.engine.world.Plane;
 import org.engine.world.SkyBox;
 import org.lwjgl.opengl.Display;
@@ -31,8 +33,8 @@ public class MainTester extends CoreEngine{
 		
 		setFrameRender(new ToFrameBufferRendering());
 		
-		crateTPSgame();
-//		setMovementType(new FPS(getCamera()));
+//		crateTPSgame();
+		setMovementType(new FPS(getCamera()));
 		
 		addToScene(new SkyBox(getCamera()));
 		

@@ -1,4 +1,4 @@
-package Chat;
+package Chat.download;
 
 import java.awt.BorderLayout;
 import java.io.BufferedWriter;

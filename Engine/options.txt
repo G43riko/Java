@@ -1,0 +1,38 @@
+options
+
+distance of view
+ambient color
+background color
+disable material
+
+fog: enabled, min, max, color
+light: enabled, specullar, maximum lights
+
+
+types of view
+
+1. normal
+2. grey scale
+3. inverse
+4. average color
+5. normals
+6. depth
+7. height
+
+types of component
+
+1. GameComponent: position, rotation, scale
+2. GameObject: 1, material, model
+2. BasicLight: 1, color, intensity
+3. PointLight: 2, attenuation, range
+4. SpotLight: 3, cutoff
+5. ParticleEmmiter: 2, life, particles per frame
+6. Camera: 1, FOV, Near plane, Far plane
+
+windows:
+
+material
+-average color
+-specular
+-exponent
+-normal map

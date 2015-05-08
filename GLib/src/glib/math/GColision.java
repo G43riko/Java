@@ -8,48 +8,48 @@ public class GColision {
 	 * 2D COLLISIONS 
 	 */
 	
-	/*
+	/**
 	 * Rectangle - Rectangle collision
 	 */
 	
-	public static boolean rectRect(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh){
+	public static boolean rectRectCollision(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh){
 		return (bx + bw > ax) && (by + bh > ay) && (bx < ax + aw) && (by < ay + ah);
 	};
 	
-	/*
+	/**
 	 * Circle - Circle collision
 	 */
 	
-	public static boolean circleCircle(float ax, float ay, float aradius, float bx, float by, float beadius){
-		return circleCircle(new GVector2f(ax,ay),aradius,new GVector2f(bx,by),beadius);
+	public static boolean circleCircleCollision(float ax, float ay, float aradius, float bx, float by, float beadius){
+		return circleCircleCollision(new GVector2f(ax,ay),aradius,new GVector2f(bx,by),beadius);
 	};
 	
-	public static boolean circleCircle(GVector2f a, float aradius, GVector2f b, float bradius){
+	public static boolean circleCircleCollision(GVector2f a, float aradius, GVector2f b, float bradius){
 		double dist =a.dist(b);
 		return dist <= aradius + bradius;
 	}
 	
-	/*
+	/**
 	 * Point - Rectangle collision
 	 */
 	
-	public static boolean pointRect(float ax, float ay, float awidth, float aheight, float bx,float by){
-		return pointRect(new GVector2f(ax,ay), new GVector2f(awidth,aheight), new GVector2f(bx,by));
+	public static boolean pointRectCollision(float ax, float ay, float awidth, float aheight, float bx,float by){
+		return pointRectCollision(new GVector2f(ax,ay), new GVector2f(awidth,aheight), new GVector2f(bx,by));
 	};
 	
-	public static boolean pointRect(GVector2f aPos, GVector2f aSize, GVector2f bPos){
+	public static boolean pointRectCollision(GVector2f aPos, GVector2f aSize, GVector2f bPos){
 		return bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getX() && bPos.getY() > aPos.getY() && bPos.getY() < aPos.getY() + aSize.getY();
 	};
 	
-	/*
+	/**
 	 * Point - Circle collision
 	 */
 	
-	public static boolean pointCircle(float ax, float ay, float bx, float by, float bradius){
-		return pointCircle(new GVector2f(ax,ay),new GVector2f(bx,by),bradius);
+	public static boolean pointCircleCollision(float ax, float ay, float bx, float by, float bradius){
+		return pointCircleCollision(new GVector2f(ax,ay),new GVector2f(bx,by),bradius);
 	};
 	
-	public static boolean pointCircle(GVector2f a, GVector2f b, float bradius){
+	public static boolean pointCircleCollision(GVector2f a, GVector2f b, float bradius){
 		return a.dist(b)<bradius;
 	};
 	
@@ -57,7 +57,7 @@ public class GColision {
 	 * 3D COLLISIONS 
 	 */
 	
-	/*
+	/**
 	 * Sphere - Sphere collision
 	 */
 	
@@ -69,7 +69,7 @@ public class GColision {
 		return posA.dist(posB) < radiusA + radiusB;
 	}
 	
-	/*
+	/**
 	 * Point - Sphere collision
 	 */
 	
@@ -81,7 +81,7 @@ public class GColision {
 		return a.dist(b)<bradius;
 	};
 	
-	/*
+	/**
 	 * Point - Box collision
 	 */
 	
@@ -96,7 +96,67 @@ public class GColision {
 			   a.getZ() < b.getZ() && a.getZ() + asize.getZ() > b.getZ();
 	}
 
-	/*
+	/**
 	 * Box - Box collision
 	 */
+	
+	public static boolean boxBoxCollision(float ax, float ay, float az, float aw, float ah, float ad, float bx, float by, float bz, float bw, float bh, float bd){
+		return boxBoxCollision(new GVector3f(ax, ay, az), new GVector3f(aw, ah, ad), new GVector3f(bx, by, bz), new GVector3f(bw, bh, bd));
+	};
+	
+	public static boolean boxBoxCollision(GVector3f apos, GVector3f asize, GVector3f bpos, GVector3f bsize){
+		return apos.getX() + asize.getX() > bpos.getX() && bpos.getX() + bsize.getX() > apos.getX() &&
+			   apos.getY() + asize.getY() > bpos.getY() && bpos.getY() + bsize.getY() > apos.getY() &&
+			   apos.getZ() + asize.getZ() > bpos.getZ() && bpos.getZ() + bsize.getZ() > apos.getZ();
+	};
+
+	/**
+	 * Point - Ellipsoid collision
+	 */
+	
+	public static boolean pointEllipsoidCollision(float ax, float ay, float az, float bx, float by, float bz, float ba, float bb, float bc){
+		return pointEllipsoidCollision(new GVector3f(ax, ay, az), new GVector3f(bx, by, bz), new GVector3f(ba, bb, bc));
+	}
+	
+	public static boolean pointEllipsoidCollision(GVector3f a, GVector3f b, GVector3f bsize){
+		GVector3f aposNew = a.sub(b);
+		
+		float xa = (aposNew.getX() * aposNew.getX()) / (bsize.getX() * bsize.getX());
+		float yb = (aposNew.getY() * aposNew.getY()) / (bsize.getY() * bsize.getY());
+		float zc = (aposNew.getZ() * aposNew.getZ()) / (bsize.getZ() * bsize.getZ());
+		
+		return xa + yb + zc <= 1;
+	}
+
+	/**
+	 * Point - Cylinder collision
+	 */
+	
+	public static boolean pointCylinderCollision(float ax, float ay, float az, float bx, float by, float bz, float bradius, float bheight){
+		return pointCylinderCollision(new GVector3f(ax, ay, az), new GVector3f(bx, by, bz), bradius, bheight);
+	}
+	
+	public static boolean pointCylinderCollision(GVector3f a, GVector3f b, float bradius, float bheight){
+		boolean conditionOne = a.getY() > b.getY() && a.getY() < b.getY() + bheight;
+		boolean conditionTwo = a.getXZ().dist(b.getXZ()) < bradius;
+		
+		return conditionOne && conditionTwo;
+	}
+
+	/**
+	 * Sphere - Cylinder collision
+	 */
+	
+	public static boolean sphereCylinderCollision(float ax, float ay, float az, float aradius, float bx, float by, float bz, float bradius, float bheight){
+		//NEPRESNE
+		return sphereCylinderCollision(new GVector3f(ax, ay, az), aradius, new GVector3f(bx, by, bz), bradius, bheight);
+	}
+	
+	public static boolean sphereCylinderCollision(GVector3f a, float aradius, GVector3f b, float bradius, float bheight){
+		//NEPRESNE
+		boolean conditionOne = a.getY() + aradius > b.getY() && a.getY() - aradius < b.getY() + bheight;
+		boolean conditionTwo = a.getXZ().dist(b.getXZ()) < aradius + bradius;
+		
+		return conditionOne && conditionTwo;
+	}
 }

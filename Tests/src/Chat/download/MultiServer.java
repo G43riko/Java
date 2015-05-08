@@ -1,4 +1,4 @@
-package Chat;
+package Chat.download;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

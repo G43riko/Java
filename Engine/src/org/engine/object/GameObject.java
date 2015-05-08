@@ -8,12 +8,11 @@ import org.engine.rendering.material.Material;
 import org.engine.rendering.model.Model;
 
 public class GameObject extends GameComponent{
-	Material material;
-	Model model;
+	private Material material;
+	private Model model;
 	
 	//CONSTRUCTORS
 	
-	@ConstructorProperties({"material", "model"})
 	public GameObject(Material material, Model model) {
 		this.material = material;
 		this.model = model;

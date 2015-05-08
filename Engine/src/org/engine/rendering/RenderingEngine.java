@@ -73,19 +73,19 @@ public class RenderingEngine {
 		disableVertex(3);
 	}
 	
-	public void renderObject(List<GameObject> objects){
-		if(mainCamera == null)
-			return;
-		getShader("objectShader").bind();
-
-		objects.stream().forEach(object -> {
-			getShader("objectShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
-			setMaterial(object.getMaterial());
-			prepareAndDraw(3, object.getModel());
-		});
-		
-		disableVertex(3);
-	}
+//	public void renderObject(List<GameObject> objects){
+//		if(mainCamera == null)
+//			return;
+//		getShader("objectShader").bind();
+//
+//		objects.stream().forEach(object -> {
+//			getShader("objectShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
+//			setMaterial(object.getMaterial());
+//			prepareAndDraw(3, object.getModel());
+//		});
+//		
+//		disableVertex(3);
+//	}
 
 	//OTHERS
 

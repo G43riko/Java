@@ -37,7 +37,13 @@ public class MarketResourceSelector extends JPanel{
 	private ChangeListener changeValueEvent = new ChangeListener(){
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			button.setEnabled((int)((JSpinner)e.getSource()).getValue() > 0 );
+			try{
+				button.setEnabled((int)((JSpinner)e.getSource()).getValue() > 0 );
+			}
+			catch(ClassCastException exception){
+				float number = (float)((JSpinner)e.getSource()).getValue();
+				button.setEnabled((int)number > 0);
+			}
 		}
 	};
 	

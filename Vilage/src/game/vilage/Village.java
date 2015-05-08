@@ -17,10 +17,31 @@ import game.vilage.view.GodsWindow;
 public class Village {
 	private HashMap<Byte, BasicBuilding> buildings = new HashMap<Byte, BasicBuilding>();
 	private Market market;
+	private Thread godsThread;
 	private GodsWindow godsWindow;
+	private Village toto;
+	private int delay = 1000;
+	
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
 	//CONSTRUCTORS
 	public Village(){
-		godsWindow = new GodsWindow(this);
+		toto = this;
+		godsThread = new Thread (new Runnable(){
+			public void run() {
+				godsWindow = new GodsWindow(toto);
+				while(true){
+					try {
+						Thread.sleep(delay);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					godsWindow.update();
+				}
+			}
+		});
 		
 		buildings.put(Buildings.DREVORUBAC, new LumberJack(this));
 		buildings.put(Buildings.TESAR, new Carpentry(this));
@@ -29,6 +50,7 @@ public class Village {
 		market.showWindow();
 		
 		FileReader.loadData(this);	//naèíta dáta
+		godsThread.start();
 	}
 	
 	//OTHERS

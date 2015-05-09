@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+/**
+ * @author Gabriel
+ */
 public class Chat {
 	private View view = new View(this);
 	private Server server;
@@ -21,10 +24,21 @@ public class Chat {
 	
 	private boolean connected;
 	
+	/**
+	 * Constructor
+	 */
 	public Chat(){
 		view.showLoginView();
 	}
 
+	
+	/**
+	 * Vykon· potrebnÈ oper·cie na zaËatie chatu
+	 * @param login
+	 * @param ip
+	 * @param port
+	 * @param isHost
+	 */
 	public void start(String login, String ip, String port, boolean isHost) {
 		if(isHost){
 			server = new Server(Integer.valueOf(port));
@@ -35,48 +49,84 @@ public class Chat {
 		this.port = port;
 		this.login = login;
 		
-		try {
-			clientSocket = new Socket(ip,Integer.valueOf(port));
-			System.out.println("vytvoril sa socket na ip: "+ip+" a porte: "+port);
-			writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-			reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		} catch (NumberFormatException | IOException e) {
-			serverDoNotRespond(e);
-		}
-		listen();
+		createSocket();
+		
 		view.showChatView(login);
 	}
-
-	private void serverDoNotRespond(Exception e){
-		e.printStackTrace();
+	
+	
+	/**
+	 * Vytvori socket a propojÌ sa k nemu
+	 * VytvorÌ aj BufferedWriter a BufferedReader
+	 */
+	private void createSocket(){
+		try {
+			clientSocket = new Socket(ip,Integer.valueOf(port));
+			writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			sendMessage(" ", Server.CLIENT_CONNECT);
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
+		listen();
 	}
 	
+	
+	/**
+	 * VytvorÌ vl·kno na poË˙vanie prich·dzaj˙cich spr·v
+	 */
 	private void listen(){
 		connected = true;
 		Thread acceptThread = new Thread(new Runnable(){
 			public void run() {
 				while(connected){
+					try {
+						view.appendText(reader.readLine());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
 		acceptThread.start();
 	}
 	
-	public void writeMessage(String msg){
-		
-	}
 	
+	/**
+	 * ZastavÌ chat a ukonËÌ socket
+	 */
 	public void stop() {
 		view.showLoginView();
-	}
-
-	public void sendMessage(String text) {
-		System.out.println("idem odoslaù spr·vu: "+text);
 		try {
-			writer.write(text);
+			clientSocket.close();
+			writer.close();
+			reader.close();
+			
+			writer = null;
+			reader = null;
+			clientSocket = null;
+			
+			if(server != null)
+				server.stop();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("Spr·vu sa nepodarilo odoslaù");
+		}
+	}
+
+	
+	/**
+	 * Odoöle spr·vu serveru
+	 * @param text
+	 * @param type
+	 */
+	public void sendMessage(String text, String type) {
+		try {
+			System.out.println(login+" odosiela spr·vu: "+text+" cez writter: "+writer);
+			writer.write(type+" "+login+": "+text+"\n");
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

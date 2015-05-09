@@ -25,7 +25,7 @@ public class View extends JFrame{
 	
 	private ActionListener sendMessageListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			parent.sendMessage(message.getText());
+			parent.sendMessage(message.getText(), Server.CLIENT_SEND_MSG);
 			message.setText("");
 		}
 	};
@@ -46,11 +46,13 @@ public class View extends JFrame{
 	
 	//CHAT VIEW
 	
-	JTextArea chatHistory;
+	JTextArea chatHistory = new JTextArea(10,25);
 	JTextArea message;
 	
 	JButton sentMessage;
 	JButton logout;
+	
+	//CONSTRUCTORS
 	
 	public View(Chat chat){
 		parent = chat;
@@ -62,6 +64,14 @@ public class View extends JFrame{
 		contentPanel.setLayout(new BorderLayout());
 		add(contentPanel);
 	}
+	
+	//OTHERS
+	
+	public void appendText(String txt){
+		chatHistory.append(txt+"\n");
+	}
+	
+	//SHOWS
 	
 	public void showChatView(String name){
 		contentPanel.removeAll();
@@ -89,13 +99,12 @@ public class View extends JFrame{
 	private JPanel createTextAreaPanel(){
 		JPanel panel = new JPanel();
 		
-		chatHistory = new JTextArea(10,25);
 		chatHistory.setLineWrap(true);
 		chatHistory.setEditable(false);
 		
 		JScrollPane scroll = new JScrollPane(chatHistory);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		panel.add(scroll);
 
 		return panel;

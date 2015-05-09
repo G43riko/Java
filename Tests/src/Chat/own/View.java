@@ -25,7 +25,8 @@ public class View extends JFrame{
 	
 	private ActionListener sendMessageListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			ip.setEnabled(guestOption.isSelected());
+			parent.sendMessage(message.getText());
+			message.setText("");
 		}
 	};
 	

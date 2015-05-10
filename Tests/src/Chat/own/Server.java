@@ -72,12 +72,7 @@ public class Server {
 				while(true){
 					ArrayList<BufferedReader> tempClients =  new ArrayList<BufferedReader>(clientReaders);
 					for(BufferedReader in : tempClients){
-						try {
-							if(in.ready())
-								processingMessage(in.readLine());
-						} catch (IOException | NullPointerException e) {
-							e.printStackTrace();
-						}
+						processingMessage(in);
 					}
 				}
 			}
@@ -88,14 +83,27 @@ public class Server {
 	
 	/**
 	 * Spracuje prijatú správu
-	 * @param msg
+	 * @param reader
 	 */
-	private void processingMessage(String msg){
-		if(msg.startsWith(CLIENT_CONNECT)){
-			writeToAll("Uživatel "+msg.replaceAll(CLIENT_CONNECT, "")+"sa pripojil");
-		}
-		else if(msg.startsWith(CLIENT_SEND_MSG)){
-			writeToAll(msg.replaceAll(CLIENT_SEND_MSG, ""));
+	private void processingMessage(BufferedReader reader){
+		try {
+			if(!reader.ready())
+				return;
+			
+			String msg = reader.readLine();
+			
+			if(msg.startsWith(CLIENT_CONNECT)){
+				writeToAll("Uživatel "+msg.replaceAll(CLIENT_CONNECT, "")+"sa pripojil");
+			}
+			else if(msg.startsWith(CLIENT_SEND_MSG)){
+				writeToAll(msg.replaceAll(CLIENT_SEND_MSG, ""));
+			}
+			else if(msg.startsWith(CLIENT_DISCONNECT)){
+				clientReaders.remove(reader);
+				writeToAll("Uživatel "+msg.replaceAll(CLIENT_DISCONNECT, "")+"sa odpripojil");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

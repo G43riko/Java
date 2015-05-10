@@ -96,6 +96,8 @@ public class Chat {
 	 * Zastaví chat a ukonèí socket
 	 */
 	public void stop() {
+		sendMessage("", Server.CLIENT_DISCONNECT);
+		
 		view.showLoginView();
 		try {
 			clientSocket.close();
@@ -108,7 +110,6 @@ public class Chat {
 			
 			if(server != null)
 				server.stop();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

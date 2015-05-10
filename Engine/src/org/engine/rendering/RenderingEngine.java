@@ -13,7 +13,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.util.HashMap;
-import java.util.List;
 
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector3f;
@@ -56,6 +55,19 @@ public class RenderingEngine {
 		glClearColor(backgroundColor.getX(), backgroundColor.getY(), backgroundColor.getZ(), 1f);
 		
 		setAmbient(new GVector3f(1));
+		
+		setVariable("useLights", true);
+		setVariable("useAmbient", true);
+		setVariable("useTexture", true);
+		setVariable("useSpecular", true);
+		setVariable("useSpecularMap", true);
+		
+		
+		shaders.get("objectShader").bind();
+		
+		shaders.get("objectShader").updateUniform("sunColor", new GVector3f(1));
+		shaders.get("objectShader").updateUniform("sunDirection", new GVector3f(0.5f, 1, 0.5f));
+		
 	}
 	
 	//RENDERERS
@@ -66,6 +78,9 @@ public class RenderingEngine {
 			return;
 		getShader("objectShader").bind();
 
+		getShader("objectShader").updateUniform("fakeLight", object.isUseFakeLight());
+		
+		
 		getShader("objectShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
 		setMaterial(object.getMaterial());
 		prepareAndDraw(3, object.getModel());
@@ -160,13 +175,30 @@ public class RenderingEngine {
 	}
 	
 	private void setMaterial(Material material) {
-		if(material.getDiffuse() != null){
+		getShader("objectShader").connectTextures();
+		
+		if(material.getDiffuse() != null && variables.get("useTexture")){
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			material.getDiffuse().bind();
 		}
 		
-//		getShader("objectShader").updateUniform("shineDumper", material.getSpecularPower());
-//		getShader("objectShader").updateUniform("reflectivity", material.getSpecularIntensity());
+		if(material.getNormal() != null){
+			GL13.glActiveTexture(GL13.GL_TEXTURE1);
+			material.getNormal().bind();
+		}
+		
+		if(material.getBump() != null){
+			GL13.glActiveTexture(GL13.GL_TEXTURE2);
+			material.getNormal().bind();
+		}
+		
+		if(material.getSpecular() != null && variables.get("useSpecularMap")){
+			GL13.glActiveTexture(GL13.GL_TEXTURE3);
+			material.getSpecular().bind();
+		}
+		
+		getShader("objectShader").updateUniform("specularPower", material.getSpecularPower());
+		getShader("objectShader").updateUniform("specularIntensity", material.getSpecularIntensity());
 	}
 	
 	private void setAmbient(GVector3f ambient) {

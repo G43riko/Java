@@ -50,8 +50,7 @@ public class Server {
 				while(true){
 					try {
 						Socket client = serverSocket.accept();
-						BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-						clientReaders.add(reader);
+						clientReaders.add(new BufferedReader(new InputStreamReader(client.getInputStream())));
 						clientWriters.add(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -119,6 +118,7 @@ public class Server {
 				out.write(msg+"\n");
 				out.flush();
 			} catch (IOException e) {
+				clientWriters.remove(out);
 				e.printStackTrace();
 			}
 		}
@@ -129,6 +129,6 @@ public class Server {
 	 * Ukonèí server
 	 */
 	public void stop(){
-		
+		writeToAll(CLIENT_DISCONNECT);
 	}
 }

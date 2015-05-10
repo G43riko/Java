@@ -41,8 +41,14 @@ public class OBJLoader {
 		int[] indicesArray = null;
 		try{
 			while(true){
-				line = reader.readLine();
+				line = reader.readLine().replace("  ", " ");
+				if(line.isEmpty())
+					continue;
 				String[] currentLine = line.split(" ");
+				
+				for(String s : currentLine)
+					s = s.trim();
+				
 				if(line.startsWith("v ")){
 					Vector3f vertex = new Vector3f(Float.parseFloat(currentLine[1]), 
 												   Float.parseFloat(currentLine[2]), 
@@ -66,11 +72,18 @@ public class OBJLoader {
 				}
 			}
 			while(line!=null){
+				
+				if(line.isEmpty())
+					break;
 				if(!line.startsWith("f ")){
-					line = reader.readLine();
+					line = reader.readLine().replace("  ", " ");
 					continue;	
 				}
 				String[] currentLine  = line.split(" ");
+				
+				for(String s : currentLine)
+					s = s.trim();
+				
 				String[] vertex1 = currentLine[1].split("/");
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
@@ -90,7 +103,6 @@ public class OBJLoader {
 		}
 		verticesArray = new float[vertices.size()*3];
 		indicesArray = new int[indices.size()];
-		
 		int vertexPointer = 0;
 		for(Vector3f vertex: vertices){
 			verticesArray[vertexPointer++] = vertex.x;

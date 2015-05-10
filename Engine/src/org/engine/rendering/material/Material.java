@@ -1,17 +1,15 @@
 package org.engine.rendering.material;
 
-import java.beans.ConstructorProperties;
-
 public class Material {
 	private Texture2D diffuse;
 	
 	private float specularIntensity = 1;
 	private float specularPower = 8;
 	
-//	private Texture2D normall;
-//	private Texture2D bumb;
-//	private Texture2D specular;
-//	private Texture2D aplha;
+	private Texture2D normal;
+	private Texture2D bump;
+	private Texture2D specular;
+	private Texture2D aplha;
 	
 	//CONSTRUCTORS
 	
@@ -21,6 +19,11 @@ public class Material {
 	
 	public Material(Texture2D diffuse){
 		this.diffuse = diffuse;
+	}
+	
+	public Material(Texture2D diffuse, Texture2D specular){
+		this.diffuse = diffuse;
+		this.specular = specular;
 	}
 
 	//GETTERS
@@ -35,5 +38,21 @@ public class Material {
 
 	public float getSpecularPower() {
 		return specularPower;
+	}
+
+	public Texture2D getSpecular() {
+		return specular;
+	}
+
+	public Texture2D getNormal() {
+		return normal;
+	}
+
+	public Texture2D getBump() {
+		return bump;
+	}
+
+	public Texture2D getAplha() {
+		return aplha;
 	}
 }

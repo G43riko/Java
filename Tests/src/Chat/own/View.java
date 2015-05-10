@@ -3,6 +3,8 @@ package Chat.own;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -28,6 +30,32 @@ public class View extends JFrame{
 			parent.sendMessage(message.getText(), Server.CLIENT_SEND_MSG);
 			message.setText("");
 		}
+	};
+	
+	private WindowListener onWindowChange = new WindowListener(){
+		@Override
+		public void windowActivated(WindowEvent e) {}
+
+		@Override
+		public void windowClosed(WindowEvent e) {}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			if(parent.isConnected())
+				parent.stop(true);
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+
+		@Override
+		public void windowIconified(WindowEvent e) {}
+
+		@Override
+		public void windowOpened(WindowEvent e) {}
 	};
 	
 	private Chat parent;
@@ -59,6 +87,8 @@ public class View extends JFrame{
 		
 		setTitle("Gabos Chat");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addWindowListener(onWindowChange);
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
@@ -127,7 +157,7 @@ public class View extends JFrame{
 		panel.add(new JLabel("Login: "+name),BorderLayout.WEST);
 
 		panel.add(logout = new JButton("Logout"),BorderLayout.EAST);
-		logout.addActionListener(a -> parent.stop());
+		logout.addActionListener(a -> parent.stop(true));
 		
 		return panel;
 	}

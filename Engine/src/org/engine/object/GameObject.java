@@ -10,6 +10,7 @@ import org.engine.rendering.model.Model;
 public class GameObject extends GameComponent{
 	private Material material;
 	private Model model;
+	private boolean useFakeLight;
 	
 	//CONSTRUCTORS
 	
@@ -33,5 +34,15 @@ public class GameObject extends GameComponent{
 
 	public Model getModel() {
 		return model;
+	}
+
+	public boolean isUseFakeLight() {
+		return useFakeLight;
+	}
+	
+	//SETTERS
+
+	public void setUseFakeLight(boolean useFakeLight) {
+		this.useFakeLight = useFakeLight;
 	}
 }

@@ -18,16 +18,15 @@ public class PointLight extends BasicLight{
 	
 	
 	public PointLight(GVector3f position, GVector3f color, GVector3f attenuation) {
-		super(position);
+		super(position, color);
 		this.attenuation = attenuation;
-		this.color = color;
 		this.range = calcRange(attenuation);
 	}
 
 	//OTHERS
 	
 	private float calcRange(GVector3f a){
-		return (float)(-a.getY() + Math.sqrt(a.getY()*a.getY()-4*a.getX()*a.getZ()))/2*a.getX();
+		return (float)(-a.getY() + Math.sqrt(a.getY() * a.getY() -4 * a.getX() * a.getZ())) / 2 * a.getX();
 	}
 
 	//GETTERS
@@ -47,10 +46,12 @@ public class PointLight extends BasicLight{
 	//SETTERS
 
 	public void setColor(GVector3f color) {
+		setChange(true);
 		this.color = color;
 	}
 
 	public void setAttenuation(GVector3f attenuation) {
+		setChange(true);
 		this.attenuation = attenuation;
 		this.range = calcRange(attenuation);
 	}

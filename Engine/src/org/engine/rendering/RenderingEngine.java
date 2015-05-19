@@ -15,19 +15,31 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import java.util.HashMap;
 
 import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import org.engine.component.Camera;
+import org.engine.component.Screen;
+import org.engine.component.light.DirectionalLight;
+import org.engine.component.light.PointLight;
+import org.engine.gui.Hud;
 import org.engine.object.GameObject;
 import org.engine.rendering.material.Material;
+import org.engine.rendering.material.Texture2D;
 import org.engine.rendering.model.Model;
 import org.engine.rendering.shader.GBasicShader;
+import org.engine.rendering.shader.named.HudShader;
 import org.engine.rendering.shader.named.ObjectShader;
+import org.engine.rendering.shader.named.PostFXShader;
 import org.engine.utils.Maths;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.tester.voxel.PointLightObject;
+import org.tester.voxel.world.Block;
+import org.tester.voxel.world.Blocks;
 
 public class RenderingEngine {
 	public final static int MAX_LIGHTS = 8;
@@ -38,13 +50,20 @@ public class RenderingEngine {
 	private int renderedPoligons = 0;
 	private int renderedPoints = 0;
 	
-	private Camera mainCamera;
+	private int typeOfView = 0;
+	
+	private DirectionalLight sun;
+	private PointLightObject pointLight;
+	
+	private Camera mainCamera; 
 	
 	protected static HashMap<String, GBasicShader> shaders = new HashMap<String, GBasicShader>(); 
 	private HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
 	
 	static{
 		shaders.put("objectShader", new ObjectShader());
+		shaders.put("hudShader", new HudShader());
+		shaders.put("postFXShader", new PostFXShader());
 	}
 	
 	//CONSTRUCTORS
@@ -57,34 +76,103 @@ public class RenderingEngine {
 		setAmbient(new GVector3f(1));
 		
 		setVariable("useLights", true);
-		setVariable("useAmbient", true);
+		setVariable("useAmbient", false);
 		setVariable("useTexture", true);
-		setVariable("useSpecular", true);
-		setVariable("useSpecularMap", true);
+		setVariable("useSpecular", false);
+		setVariable("useSpecularMap", false);
+		setVariable("useCameraBlur", false);
+		setVariable("useAntiAliasing", false);
+		setVariable("useNormalMap", false);
 		
 		
-		shaders.get("objectShader").bind();
+		setVariable("useHud", true);
 		
-		shaders.get("objectShader").updateUniform("sunColor", new GVector3f(1));
-		shaders.get("objectShader").updateUniform("sunDirection", new GVector3f(0.5f, 1, 0.5f));
-		
+		setTypeOfView(0);
 	}
 	
 	//RENDERERS
 	
-
 	public void renderObject(GameObject object) {
 		if(mainCamera == null)
 			return;
 		getShader("objectShader").bind();
 
 		getShader("objectShader").updateUniform("fakeLight", object.isUseFakeLight());
+		getShader("objectShader").updateUniform("receiveLight", object.isReceiveLight());
+		
 		
 		
 		getShader("objectShader").updateUniform("transformationMatrix", object.getTransformationMatrix());
 		setMaterial(object.getMaterial());
 		prepareAndDraw(3, object.getModel());
 		
+		getShader("objectShader").updateUniform("fakeLight", false);
+		getShader("objectShader").updateUniform("receiveLight", false);
+		
+		disableVertex(3);
+	}
+	
+	public void renderHud(Hud hud) {
+		if(!variables.containsKey("useHud") || !variables.get("useHud"))
+			return;
+		
+		shaders.get("hudShader").bind();
+		GL30.glBindVertexArray(hud.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		hud.getTexture().bind();
+		
+		shaders.get("hudShader").updateUniform("transformationMatrix", hud.getTransformationMatrix());
+		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, hud.getModel().getVertexCount());
+		
+//		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+
+	public void renderScreen(Screen screen) {
+		
+		shaders.get("postFXShader").bind();
+		GL30.glBindVertexArray(screen.getModel().getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		
+
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		screen.getTexture().bind();
+		
+		if(variables.get("useCameraBlur"))
+			shaders.get("postFXShader").updateUniform("mouseMove", new GVector2f(Mouse.getDX(),Mouse.getDY()).div(16));
+		
+		shaders.get("postFXShader").updateUniform("transformationMatrix", screen.getTransformationMatrix());
+		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, screen.getModel().getVertexCount());
+		
+//		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+	
+	public void renderBlock(Block block){
+		if(mainCamera == null)
+			return;
+		
+		getShader("objectShader").bind();
+		getShader("objectShader").updateUniform("fakeLight", false);
+		getShader("objectShader").updateUniform("receiveLight", true);
+		getShader("objectShader").updateUniform("transformationMatrix", block.getTransformationMatrix());
+		setMaterial(block.getMaterial());
+		
+		for(int i=0 ; i<6 ; i++)
+			if(block.getSide(i))
+				prepareAndDraw(3, Blocks.getModel(i));
+		
+		getShader("objectShader").updateUniform("receiveLight", false);
 		disableVertex(3);
 	}
 	
@@ -142,6 +230,10 @@ public class RenderingEngine {
 		GL30.glBindVertexArray(0);
 	}
 
+	public void toogleVariable(String name){
+		setVariable(name, !variables.get(name));
+	}
+	
 	public void prepare() {
 		init3D();
 		renderedPoligons = 0;
@@ -149,6 +241,9 @@ public class RenderingEngine {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		setViewMatrix(Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
 		setEyePos();
+		
+		setSun(sun);
+		setPointLight(pointLight);
 	}
 
 	public void cleanUp() {
@@ -158,7 +253,7 @@ public class RenderingEngine {
 	public void updateCamera() {
 		setProjectionMatrix(mainCamera.getProjectionMatrix());
 	}
-
+	
 	//SETTERS
 
 	public void setVariable(String name, boolean value){
@@ -265,6 +360,45 @@ public class RenderingEngine {
 		this.backgroundColor = backgroundColor;
 	}
 
+	public void setTypeOfView(int value){
+		if(typeOfView == value)
+			return;
+		
+		typeOfView = value; 
+		
+		shaders.forEach((key,val) -> {
+			if(val.hasUniform("typeOfView")){
+				val.bind();
+				val.updateUniform("typeOfView", typeOfView);
+			}
+		});
+	}
+	
+	public void setSun(DirectionalLight sun){
+		if(this.sun == sun && !sun.isChange())
+			return;
+		
+		this.sun = sun;
+		
+		sun.setChange(false);
+		shaders.get("objectShader").bind();
+		((ObjectShader)shaders.get("objectShader")).updateUniform("sun", sun);
+	}
+
+	public void setPointLight(PointLightObject pointLight) {
+		if(this.pointLight == pointLight && !pointLight.getPointLight().isChange())
+			return;
+		
+		this.pointLight = pointLight;
+		
+		pointLight.setChange(false);
+		
+		pointLight.setMaterial(new Material(new Texture2D(pointLight.getPointLight().getColor(),new GVector2f(64,64))));
+		
+		shaders.get("objectShader").bind();
+		((ObjectShader)shaders.get("objectShader")).updateUniform("pointLight", pointLight.getPointLight());
+	}
+
 	//GETTERS
 	
 	public static GBasicShader getShader(String name){
@@ -279,5 +413,17 @@ public class RenderingEngine {
 		return renderedPoints;
 	}
 
+	public HashMap<String, Boolean> getVariables() {
+		return new HashMap<String, Boolean>(variables);
+	}
 
+	
+	public DirectionalLight getSun() {
+		return sun;
+	}
+
+	
+	public PointLightObject getPointLight() {
+		return pointLight;
+	}
 }

@@ -1,10 +1,12 @@
 package org.engine.rendering.material;
 
+import glib.util.GColor;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
@@ -14,14 +16,19 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.engine.utils.ResourceLoader;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 public class Texture2D {
 	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
 	private final static int BPP = 4;
 	private final static int DEFAULT_FILTER = GL_NEAREST;
 	private final static int DEFAULT_WRAP = GL_REPEAT;
+//	private final static int DEFAULT_WRAP = GL12.GL_CLAMP_TO_EDGE;
 	
 	private final static boolean DEFAULT_MIPMAPPING = true;
 	
@@ -39,13 +46,60 @@ public class Texture2D {
 			loadOldTexture(loadedTextures.get(fileName));
 			return;
 		}
-		
 		addTextureToOpenGL(makeByteBufferFromFile(fileName));
 		loadedTextures.put(fileName, this);
+	}
+	
+	public Texture2D(String fileName, boolean useSlickUtil) {
+		this.fileName = fileName;
+		if(loadedTextures.containsKey(fileName)){
+			loadOldTexture(loadedTextures.get(fileName));
+			return;
+		}
+		addTextureToOpenGL(fileName);
 		
+		loadedTextures.put(fileName, this);
+	}
+
+	public Texture2D(String fileName, int id, GVector2f resolution) {
+		this.fileName = fileName;
+		this.resolution = resolution;
+		if(loadedTextures.containsKey(fileName)){
+			loadOldTexture(loadedTextures.get(fileName));
+			return;
+		}
+		
+//		addTextureToOpenGL(makeByteBufferFromFile(fileName));
+//		loadedTextures.put(fileName, this);
+		this.id = id;
 	}
 
 	//OTHERS
+	
+
+	public Texture2D(GVector3f color, GVector2f resolution) {
+		this.fileName = color.toString();
+		this.resolution = resolution;
+		this.averageColor = color;
+		if(loadedTextures.containsKey(fileName)){
+			loadOldTexture(loadedTextures.get(fileName));
+			return;
+		}
+		addTextureToOpenGL(makeByteBufferFromFile(color));
+		
+		loadedTextures.put(fileName, this);
+	}
+
+	private void addTextureToOpenGL(String fileName) {
+		try {
+			Texture texture = TextureLoader.getTexture(fileName.split("\\.")[1], ResourceLoader.load("textures/"+fileName));
+			id = texture.getTextureID();
+			resolution = new GVector2f(texture.getImageWidth(), texture.getImageHeight());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	public void addTextureToOpenGL(ByteBuffer buf){
 		id = glGenTextures();
@@ -59,11 +113,30 @@ public class Texture2D {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, DEFAULT_WRAP);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, resolution.getXi(), resolution.getYi(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
 		
+		glTexParameterf(GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 16.0f);
+		
 		if(DEFAULT_MIPMAPPING){
 			GL30.glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
 		}
+	}
+	
+	public ByteBuffer makeByteBufferFromFile(GVector3f color){
+		ByteBuffer buffer = BufferUtils.createByteBuffer(BPP * resolution.getXi() * resolution.getYi());
+		int pixel = new GColor(color.mul(255)).getRGB();
+		
+		for(int y=0 ; y<resolution.getYi() ; y++){
+			for(int x=0 ; x<resolution.getYi() ; x++){
+				buffer.put((byte)((pixel >> 16)&0xFF));
+				buffer.put((byte)((pixel >> 8)&0xFF));
+				buffer.put((byte)((pixel)&0xFF));
+				
+				buffer.put((byte)(0xFF));
+			}
+		}
+		buffer.flip();
+		return buffer;
 	}
 	
 	public ByteBuffer makeByteBufferFromFile(String fileName){

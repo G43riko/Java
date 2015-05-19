@@ -27,6 +27,7 @@ public class SpotLight extends PointLight{
 	//GETTERS
 	
 	public float getCutoff() {
+		setChange(true);
 		return cutoff;
 	}
 }

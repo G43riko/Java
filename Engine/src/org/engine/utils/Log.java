@@ -53,8 +53,8 @@ public class Log {
 		GL20.glUseProgram(0);
 		
 		Color.white.bind();
-		font.drawString(0, 0, "FPS: "+fps, Color.yellow);
-		font.drawString(0, 24, "rendered poligons: "+poligons, Color.yellow);
-		font.drawString(0, 48, "rendered points: "+points, Color.yellow);
+		font.drawString(0, 0, "FPS: "+fps);
+		font.drawString(0, 24, "rendered poligons: "+poligons);
+		font.drawString(0, 48, "rendered points: "+points);
 	}
 }

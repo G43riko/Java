@@ -86,10 +86,10 @@ public class MainGeometry {
 		Point2D.Float bod = getIntersectionPoint(line,new Line2D.Float(mouseX+(line.x1-line.x2)*4,mouseY-(line.y1-line.y2)*4,
 																	   mouseX-(line.x1-line.x2)*4,mouseY+(line.y1-line.y2)*4));
 		if(bod==null){
-		Point2D.Float p1 = new Point2D.Float(line.x1,line.y1);
-		
-		Point2D.Float p2 = new Point2D.Float(line.x2,line.y2);
-		bod=(mouse.distance(p1)<mouse.distance(p2))?p1:p2;
+			Point2D.Float p1 = new Point2D.Float(line.x1,line.y1);
+			
+			Point2D.Float p2 = new Point2D.Float(line.x2,line.y2);
+			bod=(mouse.distance(p1)<mouse.distance(p2))?p1:p2;
 		}
 		drawLine(mouseX,mouseY,bod.x,bod.y,new Vector3f(0,0,1));
 	}

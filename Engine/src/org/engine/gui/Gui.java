@@ -76,6 +76,5 @@ public class Gui extends JPanel{
 	public CoreEngine getCoreEngine() {
 		return coreEngine;
 	}
-
 }
 

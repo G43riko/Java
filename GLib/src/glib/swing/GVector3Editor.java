@@ -1,5 +1,7 @@
 package glib.swing;
 
+import glib.util.vector.GVector3f;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -17,12 +19,20 @@ public class GVector3Editor extends JPanel{
 	private float maxVal;
 	private float minVal;
 	
-	public GVector3Editor(String name,float maxVal, float xx, float yy, float zz){
+	private Dimension size = new Dimension(300, 40);
+	
+	//CONSTRUCTORS
+	
+	public GVector3Editor(String name,float maxVal, float minVal, GVector3f values){
+		this(name, maxVal, minVal, values.getX(), values.getY(), values.getZ());
+	}
+	
+	public GVector3Editor(String name,float maxVal, float minVal, float xx, float yy, float zz){
 //		this.name = name;
 		this.maxVal = maxVal;
-		this.minVal = 0;
+		this.minVal = minVal;
 		
-		setPreferredSize(new Dimension(200,40));
+		setPreferredSize(size);
 		setLayout(new FlowLayout());
 		
 		add(new JLabel(name));
@@ -30,33 +40,47 @@ public class GVector3Editor extends JPanel{
 		setSpinners(xx,yy,zz);
 	}
 	
+	//OTHERS
+	
 	public void addChangeListener(ChangeListener c){
 		x.addChangeListener(c);
 		y.addChangeListener(c);
 		z.addChangeListener(c);
 	}
 	
-	private void setSpinners(float xx, float yy, float zz){
-		Dimension size = new Dimension(40,20);
-		
-		x = new JSpinner(new SpinnerNumberModel(xx,minVal,maxVal,maxVal/51));
-		x.setPreferredSize(size);
-		add(x);
-		
-		y = new JSpinner(new SpinnerNumberModel(yy,minVal,255,maxVal/51));
-		y.setPreferredSize(size);
-		add(y);
-		
-		z = new JSpinner(new SpinnerNumberModel(zz,minVal,255,maxVal/51));
-		z.setPreferredSize(size);
-		add(z);
-	}
+	//GETTERS
 
 	public float getValX() {return Float.valueOf(x.getValue().toString());}
 
 	public float getValY() {return Float.valueOf(y.getValue().toString());}
 
 	public float getValZ() {return Float.valueOf(z.getValue().toString());}
+	
+	public GVector3f getValues(){return new GVector3f(getValX(), getValY(), getValZ());}
+	
+	//SETTERS
+
+	private void setSpinners(float xx, float yy, float zz){
+		Dimension size = new Dimension(40,20);
+		
+		float average = (maxVal - minVal) / 100;
+		
+		x = new JSpinner(new SpinnerNumberModel(xx,minVal,maxVal,average));
+		x.setPreferredSize(size);
+		add(x);
+		
+		y = new JSpinner(new SpinnerNumberModel(yy,minVal,maxVal,average));
+		y.setPreferredSize(size);
+		add(y);
+		
+		z = new JSpinner(new SpinnerNumberModel(zz,minVal,maxVal,average));
+		z.setPreferredSize(size);
+		add(z);
+	}
+	
+	public void setSize(Dimension size){
+		setPreferredSize(size);
+	}
 	
 	public void setValX(String val){
 		setValX(Float.parseFloat(val));

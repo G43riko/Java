@@ -29,8 +29,11 @@ public abstract class CoreStrategy extends CoreEngine{
 	private Player player;
 	private World world;
 	private PointLight sun;
-	private CameraStrategy camera;
+//	private CameraStrategy camera;
 
+	public ArrayList<String> changes = new ArrayList<String>();
+	
+	
 	private boolean[] clicks = new boolean[2];
 	
 	//CONSTRUCTORS
@@ -156,10 +159,10 @@ public abstract class CoreStrategy extends CoreEngine{
 		return world;
 	}
 
-	@Override
-	public Camera getCamera() {
-		return camera;
-	}
+//	@Override
+//	public Camera getCamera() {
+//		return getCamera();
+//	}
 	
 	//SETTERS
 	

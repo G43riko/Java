@@ -13,7 +13,7 @@ public class GameObjectPhysics extends GameObject{
 	private float weight = 1;
 	private float friction = 1;
 	
-	private GVector3f direction = new GVector3f();
+	private GVector3f velocity = new GVector3f();
 	private GVector3f rotSpeed = new GVector3f();
 	
 	private BasicCollider collider; 

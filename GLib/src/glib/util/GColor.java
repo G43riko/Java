@@ -1,5 +1,6 @@
 package glib.util;
 
+import glib.math.GMath;
 import glib.util.vector.GVector3f;
 
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class GColor extends Color{
 	}
 	
 	public GColor(GVector3f vec) {
-		super((int)vec.getX(), (int)vec.getY(), (int)vec.getZ());
+		super((int)GMath.between(vec.getX(), 0, 255), (int)GMath.between(vec.getY(), 0, 255), (int)GMath.between(vec.getZ(), 0, 255));
 	}
 	
 	public static GColor average(GColor... colors){

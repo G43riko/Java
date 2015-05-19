@@ -73,13 +73,25 @@ public class GColision {
 	 * Point - Sphere collision
 	 */
 	
-	public static boolean pointCircleCollision(float ax, float ay, float az, float bx, float by, float bz, float bradius){
-		return pointCircleCollision(new GVector3f(ax, ay, az), new GVector3f(bx, by, bz), bradius);
+	public static boolean pointSphereCollision(float ax, float ay, float az, float bx, float by, float bz, float bradius){
+		return pointSphereCollision(new GVector3f(ax, ay, az), new GVector3f(bx, by, bz), bradius);
 	};
 	
-	public static boolean pointCircleCollision(GVector3f a, GVector3f b, float bradius){
+	public static boolean pointSphereCollision(GVector3f a, GVector3f b, float bradius){
 		return a.dist(b)<bradius;
 	};
+	
+	/**
+	 * Line - Sphere collision
+	 */
+	
+	public static boolean lineSphereCollision(float ax, float ay, float az, float bx, float by, float bz, float sx, float sy, float sz, float sradius){
+		return lineSphereCollision(new GVector3f(ax, ay, az), new GVector3f(bx, by, bz), new GVector3f(sx, sy, sz), sradius);
+	}
+	
+	public static boolean lineSphereCollision(GVector3f pointA, GVector3f pointB,  GVector3f sphereP, float sphereRadius){
+		return GMath.distPointLine(pointA, pointB, sphereP) < sphereRadius;
+	}
 	
 	/**
 	 * Point - Box collision
@@ -129,6 +141,15 @@ public class GColision {
 	}
 
 	/**
+	 * Line - Ellipsoid collision
+	 */
+	
+	public static boolean lineEllipsoidCollision(GVector3f a, GVector3f b, GVector3f e, GVector3f esize){
+		GVector3f point = GMath.getClosestPointOnSegment(a, b, e);
+		return pointEllipsoidCollision(point, e, esize);
+	}
+	
+	/**
 	 * Point - Cylinder collision
 	 */
 	
@@ -142,7 +163,7 @@ public class GColision {
 		
 		return conditionOne && conditionTwo;
 	}
-
+	
 	/**
 	 * Sphere - Cylinder collision
 	 */

@@ -21,6 +21,12 @@ public class Material {
 		this.diffuse = diffuse;
 	}
 	
+	public Material(Texture2D diffuse, Texture2D normal, Texture2D specular){
+		this.normal = normal;
+		this.diffuse = diffuse;
+		this.specular = specular;
+	}
+	
 	public Material(Texture2D diffuse, Texture2D specular){
 		this.diffuse = diffuse;
 		this.specular = specular;

@@ -67,6 +67,7 @@ void main(){
 				}
 				totalDiffuse = max(totalDiffuse,0.2);
 				out_Color =  vec4(ambient,1) * vec4(totalDiffuse,1.0);
+				
 				if(texture==1){
 					out_Color *= texture(textureSampler, pass_textureCoords);
 					

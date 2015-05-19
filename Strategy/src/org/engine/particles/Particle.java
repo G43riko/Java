@@ -127,13 +127,11 @@ public class Particle extends GameComponent{
 	}
 
 	public GMatrix4f getTransformationMatrix(GVector3f pos){
-		Matrix4f trans = Maths.createTransformationMatrix(new Vector3f(getPosition().getX(),getPosition().getY(),getPosition().getZ()), 
-				 getRotation().getX(), getRotation().getY(), getRotation().getZ(), getScale().getX());
 		GVector3f toCamera = pos.sub(getPosition()).Normalized();
 		
 		GQuaternion res = new GQuaternion(new GMatrix4f().initRotation(toCamera, new GVector3f(0,1,0)));
 		res = new GQuaternion(toCamera, rotation).mul(res).normalize();
-		return res.toRotationMatrix().mul(Maths.MatrixToGMatrix(trans));
+		return res.toRotationMatrix().mul(super.getTransformationMatrix());
 	}
 	
 	public GVector3f getColor() {

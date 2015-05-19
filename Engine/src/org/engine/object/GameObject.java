@@ -1,7 +1,5 @@
 package org.engine.object;
 
-import java.beans.ConstructorProperties;
-
 import org.engine.component.GameComponent;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
@@ -11,7 +9,7 @@ public class GameObject extends GameComponent{
 	private Material material;
 	private Model model;
 	private boolean useFakeLight;
-	
+	private boolean receiveLight = true;
 	//CONSTRUCTORS
 	
 	public GameObject(Material material, Model model) {
@@ -44,5 +42,17 @@ public class GameObject extends GameComponent{
 
 	public void setUseFakeLight(boolean useFakeLight) {
 		this.useFakeLight = useFakeLight;
+	}
+
+	public boolean isReceiveLight() {
+		return receiveLight;
+	}
+
+	public void setReceiveLight(boolean receiveLight) {
+		this.receiveLight = receiveLight;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 }

@@ -2,13 +2,20 @@ package org.engine.gui.panel;
 
 import java.awt.event.KeyEvent;
 
+
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+
+
 import org.engine.gui.Gui;
+import org.engine.gui.components.DirectionalLightPanel;
+import org.engine.gui.components.PointLightPanel;
 import org.engine.gui.window.CameraWindow;
+import org.engine.gui.window.RenderWindow;;
 
 public class PanelTop extends JMenuBar{
 	private static final long serialVersionUID = 1L;
@@ -30,13 +37,13 @@ public class PanelTop extends JMenuBar{
 		initCameraWindow();
 	}
 
-
 	private void initMenuView() {
 		add(menuView = new JMenu("View"));
 //		initMaterialEditor();
 //		initPhysicsEditor();
 //		initSceneEditor();
-//		initRenderingEditor();
+		initRenderingEditor();
+		initViewEditor();
 //		initTimingEditor();
 		
 	}
@@ -60,6 +67,27 @@ public class PanelTop extends JMenuBar{
 	}
 
 	//INIT VIEW
+	
+	private void initRenderingEditor() {
+		JMenuItem menuItem = new JMenuItem("RenderEditor", KeyEvent.VK_T);
+		menuItem.addActionListener(a-> {
+			gui.getPanelRight().removeAll();
+			gui.getPanelRight().add(new RenderWindow(gui.getPanelRight(), gui));
+			gui.getPanelRight().updateUI();
+		});
+		menuView.add(menuItem);
+	}
+	
+	private void initViewEditor() {
+		JMenuItem menuItem = new JMenuItem("ViewEditor", KeyEvent.VK_T);
+		menuItem.addActionListener(a-> {
+			gui.getPanelRight().removeAll();
+			gui.getPanelRight().add(new DirectionalLightPanel(gui.getCoreEngine()));
+			gui.getPanelRight().add(new PointLightPanel(gui.getCoreEngine()));
+			gui.getPanelRight().updateUI();
+		});
+		menuView.add(menuItem);
+	}
 	
 	//INIT WINDOW
 	

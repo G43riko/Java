@@ -83,9 +83,9 @@ public class MaterialEditor extends JDialog{
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 3;
-		mapColor = new GVector3Editor("map color",255,(float)BlockInfo.getBlockInfo(selected+1, "colorX"),
-													  (float)BlockInfo.getBlockInfo(selected+1, "colorY"),
-													  (float)BlockInfo.getBlockInfo(selected+1, "colorZ"));
+		mapColor = new GVector3Editor("map color",255,0,(float)BlockInfo.getBlockInfo(selected+1, "colorX"),
+													  	(float)BlockInfo.getBlockInfo(selected+1, "colorY"),
+													  	(float)BlockInfo.getBlockInfo(selected+1, "colorZ"));
 		mapColor.addChangeListener(changer);
 		getContentPane().add(mapColor, c);
 		

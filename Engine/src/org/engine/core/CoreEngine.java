@@ -3,6 +3,7 @@ package org.engine.core;
 import glib.util.vector.GVector3f;
 
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.engine.component.Input;
+import org.engine.component.Screen;
 import org.engine.gui.Gui;
 import org.engine.rendering.RenderingEngine;
 import org.engine.utils.Loader;
@@ -18,6 +20,7 @@ import org.engine.utils.Log;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.tester.voxel.PointLightObject;
 
 public abstract class CoreEngine extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -26,13 +29,19 @@ public abstract class CoreEngine extends JFrame{
 	private RenderingEngine renderingEngine;
 	private Camera camera;
 	private Gui gui;
+	
+	private Screen screen;
+	
+	private boolean usePostFX;
+	
 	private boolean running = false;
+	
 	private int fps = 60;
 	private int actFps = 60;
 	private int width = 800;
 	private int height = 600;
-	public abstract void init();
 	
+	public ArrayList<String> changes = new ArrayList<String>();
 	
 	//CONSTRUCTORS
 	
@@ -40,6 +49,18 @@ public abstract class CoreEngine extends JFrame{
 	
 	private void defaultRender() {
 		renderingEngine.prepare();
+		
+		if(usePostFX)
+			screen.startRenderToScreen();
+		
+		render();
+		
+		if(usePostFX){
+			screen.stopRenderToScreen();
+			renderingEngine.renderScreen(screen);
+		}
+		
+		Log.render(actFps,renderingEngine.getRenderedPoligons(), renderingEngine.getRenderedPoints());
 	}
 
 	private void defaultUpdate() {
@@ -52,6 +73,8 @@ public abstract class CoreEngine extends JFrame{
 		
 		if(Display.wasResized())
 			onResize();
+		
+		update();
 	}
 	
 	private void defaultInput() {
@@ -63,9 +86,20 @@ public abstract class CoreEngine extends JFrame{
 		if(Input.getKeyDown(Keyboard.KEY_T)){
 			Log.toogle();
 		}
+		
+		for(int i=0 ; i< changes.size() ; i++){
+			String s = changes.get(i);
+			gui.getCoreEngine().getRenderingEngine().toogleVariable(s);
+			changes.remove(s);
+			i--;
+		}
+		
+		input();
 	}
 
 	//MAIN METHODS
+	
+	public abstract void init();
 	
 	protected abstract void render();
 	protected abstract void update();
@@ -76,9 +110,14 @@ public abstract class CoreEngine extends JFrame{
 	public void createWindow(CoreEngine game){
 		gui = Window.createWindow(game, true);
 		gui.repaint();
-		
+		mainInit();
+	}
+	
+	private void mainInit(){
 		setRenderingEngine(new RenderingEngine());
 		setCamera(new Camera(new GVector3f(0,1,5)));
+		
+		screen = new Screen();
 	}
 	
 	private void onResize(){
@@ -91,24 +130,21 @@ public abstract class CoreEngine extends JFrame{
 		scene.add(gameComponent);
 	}
 	
+	public void addToSceneLight(PointLightObject light){
+		scene.add(light);
+		renderingEngine.setPointLight(light);
+		
+	}
+	
 	public void start(){
 		running = true;
 		
-		
 		int ticks=0;
 		long time = System.currentTimeMillis();
-		
 		while(running && !Display.isCloseRequested()){
 			defaultInput();
-			input();
-			
 			defaultUpdate();
-			update();
-			
 			defaultRender();
-			render();
-			
-			Log.render(actFps,renderingEngine.getRenderedPoligons(), renderingEngine.getRenderedPoints());;
 			
 			if(System.currentTimeMillis() - time < 1000)
 				ticks++;
@@ -121,6 +157,7 @@ public abstract class CoreEngine extends JFrame{
 			Display.update();
 			Display.sync(fps);
 		}
+		stop();
 	}
 	
 	public void stop(){
@@ -128,14 +165,20 @@ public abstract class CoreEngine extends JFrame{
 	}
 	
 	public void cleanUp(){
-		running = false;
+		stop();
+		
 		renderingEngine.cleanUp();
+		screen.cleanUp();
+		
 		Loader.cleanUp();
 		Window.cleanUp();
-		
+
 		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
+	public void usePostFX(boolean value){
+		usePostFX = value;
+	}
 	
 	//GETTERS
 
@@ -148,6 +191,7 @@ public abstract class CoreEngine extends JFrame{
 	}
 
 	//SETTERS
+	
 	
 	public void setRenderingEngine(RenderingEngine renderingEngine) {
 		this.renderingEngine = renderingEngine;

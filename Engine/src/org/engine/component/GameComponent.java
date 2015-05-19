@@ -14,6 +14,7 @@ public abstract class GameComponent {
 	
 	private boolean dead;
 	private boolean active;
+	private boolean change;
 	
 	//CONSTRUCTORS
 	
@@ -40,6 +41,7 @@ public abstract class GameComponent {
 	public void update(){};
 	
 	public void move(GVector3f vec){
+		change = true;
 		position = position.add(vec);
 	}
 	
@@ -60,6 +62,13 @@ public abstract class GameComponent {
 		return Maths.MatrixToGMatrix(trans);
 	}
 
+//	public GVector3f getForwardVector(){
+//		double x = Math.cos(Math.toRadians(360-rotation.getY())) * Math.cos(Math.toRadians(rotation.getX()));
+//		double y = Math.sin(Math.toRadians(360-rotation.getY())) * Math.cos(Math.toRadians(rotation.getX()));
+//		double z = Math.sin(Math.toRadians(rotation.getX()));
+//		return new GVector3f((float)y,(float)z,(float)-x).Normalized();
+//	}
+	
 	//SETTERS
 	
 	public void setPosition(GVector3f position) {this.position = position;}
@@ -67,6 +76,14 @@ public abstract class GameComponent {
 	public void setScale(GVector3f scale) {this.scale = scale;}
 	public void setActive(boolean active) {this.active = active;}
 	public void setDead(boolean dead) {this.dead = dead;}
+
+	public boolean isChange() {
+		return change;
+	}
+
+	public void setChange(boolean change) {
+		this.change = change;
+	}
 }
 
 

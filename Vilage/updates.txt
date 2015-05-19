@@ -1,0 +1,17 @@
+18.3 - vytvoril som si triedu so surovinami, hlavnu triedu Village a základné JFrameové okno
+19.3 - pridal som abstraknu triedu BasicBuilding ktorá obsahuje odkaz na village, názov budovy, odkaz na svoj view.
+23.3 - vytvoril som 2 typy budov LumberJack a Carpeter aby som si skúšal obchodovanie a vırobu
+24.3 - Vytvoril som si triedu Quest ktorá obsahuje všetky informácie o ulohe
+30.3 - vytvoril som uivatelské rozhranie pre market
+31.3 - vytvoril som uivatelské rozhranie pre BasicBuilding ktorı sa bude meni podla typu budovy ktorı do neho pošleme
+03.4 - podarilo sa mi implementova predávanie surovín medzy budovami po dokonèení questu
+04.4 - vytvoril som si tlaèítko na rıchle dokonèenie questu
+07.4 - vytvoril som zoznam udalostí ktoré môu nasta v prípade plnenie questu
+15.4 - opravil som mnostvo chıb a sprehladnil kód
+16.4 - vytvoril som dialogové okná ktoré informuju uivatela o udalostiach ktoré niesu uplne jasné
+21.4 - implementoval som ukladanie informácii o dedinke do txt súboru
+25.4 - pridal som obmezenie aby nebolo moné zaèa robi quest ked nieje k dispozícii dostatok surovín
+27.4 - prepísal som forloopy a foreachloopy na streamy
+07.5 - upratal som si kód a popridával komentáre a menej prehladé èasti kódu
+10.5 - snail som sa prepísa si program tak aby som nepouíval velké mnostvo statickıch premennıch ale pouil objektovanejšie postupy no neuspešne
+12.5 - pridal som pár drobností ako vymazanie textarey alebo odstránenie questu

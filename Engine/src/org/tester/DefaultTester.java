@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import glib.math.GColision;
 import glib.shapes.threeDimensional.Plane;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -35,7 +36,6 @@ public class DefaultTester extends CoreEngine{
 	@Override
 	public void init() {
 //		GameObject g = new GameObject(new Material("materials/texture.png"), OBJLoader.loadObjModel("axe")){
-		
 		usePostFX(true);
 		
 //		GameObject g = new GameObject(new Material(new Texture2D("materials/crossbow.jpg"),
@@ -50,7 +50,8 @@ public class DefaultTester extends CoreEngine{
 //		g.setPosition(new GVector3f(0,0,-15));
 //		addToScene(g);
 		
-//		GameObject g = new GameObject(new Material(new Texture2D("materials/skull_diffuse.jpg")),OBJLoader.loadObjModel("Skull"));
+//		GameObject g = new GameObject(new Material(new Texture2D("materials/texture.png")),OBJLoader.loadObjModel("ak47"));
+//		g.setScale(new GVector3f(0.1f));
 //		addToScene(g);
 		
 //		addToScene(new World());
@@ -63,9 +64,10 @@ public class DefaultTester extends CoreEngine{
 //		e.setMoveOnFloor(true);
 //		addToScene(e);
 		
-		GameSimulation simulation = new GameSimulation(getCamera());
-		addToScene(simulation);
-		simulation.addEnemy();
+		
+//		GameSimulation simulation = new GameSimulation(getCamera(), this);
+//		addToScene(simulation);
+//		simulation.addEnemy();
 		
 //		addToScene(ObjectLoader.loadModel("warrior_axe"));
 		PointLightObject o = new PointLightObject(new PointLight(new GVector3f(0, 4, 0),new GVector3f(1,0,1), new GVector3f(1, 0.04f, 0.008f)));

@@ -109,6 +109,40 @@ public class GColision {
 	}
 
 	/**
+	 * Line - Box collision
+	 */
+	
+	public static boolean lineBoxCollision(GVector3f a1, GVector3f a2, GVector3f bpos, GVector3f bsize){
+		/*  
+		 *   E-------F
+		 *  /|      /|
+		 * A-+-----B |
+		 * | |     | |
+		 * | H-----+-G
+		 * |/      |/
+		 * D-------C
+		 */
+//		bsize = bsize.div(2);
+//		bpos = bpos.sub(bsize.div(2));
+		/*
+		 * predok
+		 * zadok
+		 * pravo
+		 * lavo
+		 * vrsok
+		 * spodok
+		 */
+		return GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul(-1, 1,-1)), bpos.add(bsize.mul(-1,-1,-1)), bpos.add(bsize.mul( 1,-1,-1))) ||
+			   GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul(-1, 1, 1)), bpos.add(bsize.mul(-1,-1, 1)), bpos.add(bsize.mul( 1,-1, 1))) ||
+			   
+			   GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul( 1, 1, 1)), bpos.add(bsize.mul( 1,-1, 1)), bpos.add(bsize.mul( 1, 1,-1))) ||
+			   GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul(-1, 1, 1)), bpos.add(bsize.mul(-1,-1, 1)), bpos.add(bsize.mul(-1, 1,-1))) ||
+			   
+			   GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul( 1, 1, 1)), bpos.add(bsize.mul(-1, 1, 1)), bpos.add(bsize.mul( 1, 1,-1))) ||
+			   GVector3f.intersectRayWithSquare(a1, a2, bpos.add(bsize.mul( 1,-1, 1)), bpos.add(bsize.mul(-1,-1, 1)), bpos.add(bsize.mul( 1,-1,-1)));
+	}
+	
+	/**
 	 * Box - Box collision
 	 */
 	

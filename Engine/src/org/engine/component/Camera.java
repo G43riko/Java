@@ -16,7 +16,7 @@ public class Camera extends GameComponent{
 	protected float FAR_PLANE = 1000;
 	protected float ASPECT_RATIO;
 	
-//	private MousePicker mousePicker;
+	private MousePicker mousePicker;
 	
 	private GMatrix4f projectionMatrix;
 	private GVector3f forward;
@@ -27,6 +27,7 @@ public class Camera extends GameComponent{
 		super(position);
 		createProjectionMatrix();
 		updateForward();
+		mousePicker = new MousePicker(this);
 	}
 		
 	//OTHERS
@@ -63,6 +64,10 @@ public class Camera extends GameComponent{
 
 	public GVector3f getForward() {
 		return forward;
+	}
+
+	public MousePicker getMousePicker() {
+		return mousePicker;
 	}
 	
 	//GETTERS-ANGLES

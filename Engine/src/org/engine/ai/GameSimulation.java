@@ -1,31 +1,44 @@
 package org.engine.ai;
 
+import glib.math.GColision;
+import glib.util.vector.GVector3f;
+
 import java.util.ArrayList;
 
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
+import org.engine.component.Input;
+import org.engine.core.CoreEngine;
+import org.engine.rendering.Bullet;
 import org.engine.rendering.RenderingEngine;
+import org.engine.rendering.material.Material;
+import org.lwjgl.input.Keyboard;
 
 public class GameSimulation extends GameComponent{
 	private Terrain terrain;
 	private Camera camera;
 	private ArrayList<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+	private CoreEngine game;
+	private PlayerHoldedObject weapon;
 	
-	public GameSimulation(Camera camera){
-		this(new Terrain(), camera);
+	public GameSimulation(Camera camera, CoreEngine game){
+		this(new Terrain(), camera, game);
 	}
 	
-	public GameSimulation(Terrain terrain, Camera camera) {
+	public GameSimulation(Terrain terrain, Camera camera, CoreEngine game) {
 		this.terrain = terrain;
 		this.camera = camera;
+		this.game = game;
+		weapon = new PlayerHoldedObject(camera);
+		game.addToScene(weapon);
 	}
 	
 	@Override
 	public void update() {
-		enemies.stream().forEach(p -> {
-			p.update();
-			putEnemyOnFloor(p);
-		});
+//		enemies.stream().forEach(a -> {
+//			a.update();
+//			putEnemyOnFloor(a);
+//		});
 	}
 	
 	@Override
@@ -44,6 +57,9 @@ public class GameSimulation extends GameComponent{
 	
 	@Override
 	public void input() {
+		if(Input.getMouseDown(0)){
+			game.addToScene(new Bullet(new Material("particles/particle.png"), weapon.getPosition().add(new GVector3f(0, 0.55f, 0)), camera.getMousePicker().getCurrentRay(), camera));
+		}
 		
 	}
 	

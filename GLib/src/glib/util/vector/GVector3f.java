@@ -148,6 +148,10 @@ public class GVector3f {
 		return new GVector3f(x * v.getX(), y * v.getY(), z * v.getZ());
 	}
 	
+	public GVector3f mul(float numX, float numY, float numZ){
+		return new GVector3f(x * numX, y * numY, z * numZ);
+	}
+	
 	public GVector3f mul(float num){
 		return new GVector3f(x * num, y * num, z * num);
 	}

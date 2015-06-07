@@ -31,8 +31,30 @@ types of component
 
 windows:
 
-material
+Material
 -average color
 -specular
 -exponent
 -normal map
+-texture attlas
+
+GameObject
+-material
+-object
+-lights
+-physics
+
+PlayerHoldedObject
+-frontOffset
+-normalOffset
+-use
+
+ParticleEmitter
+-particles per frame 
+-color/material
+-dwindling
+-fadding
+-size + randomness
+-speed + randomness
+-life + randomness
+-direction + randomness

@@ -12,6 +12,10 @@ public class GColor extends Color{
 		super(i);
 	}
 	
+	public GColor(Color c){
+		this(c.getRGB());
+	}
+	
 	public GColor(float r, float g, float b) {
 		this(r,g,b,255);
 	}
@@ -22,6 +26,10 @@ public class GColor extends Color{
 	
 	public GColor(GVector3f vec) {
 		super((int)GMath.between(vec.getX(), 0, 255), (int)GMath.between(vec.getY(), 0, 255), (int)GMath.between(vec.getZ(), 0, 255));
+	}
+	
+	public static GColor randomize(float value, Color c){
+		return new GColor(c).getSimilarInstance(value,false);
 	}
 	
 	public static GColor average(GColor... colors){

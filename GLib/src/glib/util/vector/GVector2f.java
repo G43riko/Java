@@ -163,4 +163,12 @@ public class GVector2f {
 	public boolean equals(GVector2f v){
 		return x == v.getX() && y == v.getY();
 	};
+	
+	public String toDecimal(int i) {
+		return "["+String.format("%0"+i+"d ",(int)x)+"x"+String.format("%0"+i+"d ",(int)y)+"]";
+	};
+	
+	public boolean isInRect(GVector2f aPos, GVector2f aSize){
+		return x > aPos.getX() && x < aPos.getX() + aSize.getX() && y > aPos.getY() && y < aPos.getY() + aSize.getY();
+	}
 }

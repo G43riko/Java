@@ -24,12 +24,13 @@ public class GCanvasCicle extends JFrame{
 	private GColor bgcolor = new GColor(255,255,255);
 	
 	public GCanvasCicle(){
-		this(800,600);
+		this(800,600,60);
 	}
 	
-	public GCanvasCicle(int width, int height){
+	public GCanvasCicle(int width, int height, int fps){
 		this.width = width;
 		this.height = height;
+		this.fps = 60;
 		init();
 	}
 	
@@ -100,11 +101,6 @@ public class GCanvasCicle extends JFrame{
 	private void clearScreen(Graphics2D g2) {
 		g2.setColor(bgcolor);
 		g2.fillRect(0, 0, width, height);
-	}
-
-	public void setFps(int fps){
-		this.fps = fps;
-		frameTime = 1/fps;
 	}
 
 	public int getColor() {

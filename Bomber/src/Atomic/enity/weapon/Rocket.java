@@ -54,20 +54,20 @@ public class Rocket extends Weapon{
 		setPosition(getPosition().add(dir.mul(speed)));
 		
 		if(isOutOfView()){
-			dead = true;
+			setDead(true);
 		}
 		
 		Block b = level.getMap().get(getPosition().add(dir));
 		if(b.getType()!=0){
 			b.hit(damage);
-			dead = true;
+			setDead(true);
 		}
 		
 		ArrayList<Enemy> enemies = level.getEnemies();
 		for(Enemy e : enemies){
 			if(getPosition().isInRect(e.getPosition(), new GVector2f(Player.WIDTH, Player.HEIGHT))){
 				e.hit(damage);
-				dead = true;
+				setDead(true);
 			}
 		}
 		

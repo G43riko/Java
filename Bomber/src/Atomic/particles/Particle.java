@@ -7,16 +7,15 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
+import util.ResourceLoader;
 import Atomic.component.Level;
 import Atomic.object.GameObject;
-import Atomic.util.ResourceLoader;
 
 public class Particle extends GameObject{
 	public final static Image defaultImage = ResourceLoader.loadTexture("smoke.png");
 	private Image image;
 	private GVector2f size;
 	private Level level;
-	private boolean dead;
 	private int life;
 	private double angle;
 	private float rotSpeed;
@@ -43,7 +42,7 @@ public class Particle extends GameObject{
 		
 		GVector2f pos = getPosition().sub(level.getOffset()).add(size.div(2));
 		if(opacity <= 0){
-			dead = true;
+			setDead(true);
 			return;
 		}
 		g2.rotate(Math.toRadians(angle), pos.getXi(), pos.getYi());
@@ -57,15 +56,8 @@ public class Particle extends GameObject{
 		life--;
 		offset += 0.3f;
 		if(life <= 0 )
-			dead = true;
+			setDead(true);
 		angle += rotSpeed;
 		opacity -= fading;
 	}
-
-	//GETTERS
-	
-	public boolean isDead() {
-		return dead;
-	}
-	
 }

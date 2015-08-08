@@ -11,8 +11,13 @@ public class GVector3f {
 		this(0,0,0);
 	}
 	
-	public GVector3f(String n){
-		this(Math.random(),Math.random(),Math.random());
+	public GVector3f(String s){
+		s = s.replace("[", "").replace("]", "").replace("x", "_");
+		String[] strings = s.split("_");
+		
+		this.x = Float.parseFloat(strings[0]);
+		this.y = Float.parseFloat(strings[1]);
+		this.z = Float.parseFloat(strings[2]);
 	}
 	
 	public GVector3f(float val){
@@ -40,9 +45,9 @@ public class GVector3f {
 	}
 	
 	public GVector3f(GVector3f v){
-		this.x = v.getX();
-		this.y = v.getY();
-		this.z = v.getZ();
+		this.x = v.x;
+		this.y = v.y;
+		this.z = v.z;
 	}
 	
 	public GVector3f randomize(double angle){
@@ -57,9 +62,9 @@ public class GVector3f {
 	};
 	
 	public float dist(GVector3f vec){
-		float distX = x-vec.getX();
-		float distY = y-vec.getY();
-		float distZ = z-vec.getZ();
+		float distX = x-vec.x;
+		float distY = y-vec.y;
+		float distZ = z-vec.z;
 		return (float)Math.sqrt(Math.pow((distX), 2) + Math.pow((distY), 2) + Math.pow((distZ), 2));
 	}
 	
@@ -79,13 +84,13 @@ public class GVector3f {
 	}
 	
 	public float dot(GVector3f v){
-		return x * v.getX() + y * v.getY() + z * v.getZ();
+		return x * v.x + y * v.y + z * v.z;
 	}
 	
 	public GVector3f cross(GVector3f v){
-		float x_ = y * v.getZ() - z * v.getY();
-		float y_ = z * v.getX() - x * v.getZ();
-		float z_ = x * v.getY() - y * v.getX();
+		float x_ = y * v.z - z * v.y;
+		float y_ = z * v.x - x * v.z;
+		float z_ = x * v.y - y * v.x;
 		
 		return new GVector3f(x_, y_, z_);
 	}
@@ -120,16 +125,16 @@ public class GVector3f {
 //		//y = yaw
 //		//t = roll;
 //		GVector3f v = this.getInstance();
-//		double rotX = Math.cos(v.getY())*Math.cos(v.getX());
-//		double rotY = Math.sin(v.getY())*Math.cos(v.getX());
-//		double rotZ = Math.sin(v.getX());
+//		double rotX = Math.cos(v.y)*Math.cos(v.x);
+//		double rotY = Math.sin(v.y)*Math.cos(v.x);
+//		double rotZ = Math.sin(v.x);
 //		
 ////		return new GVector3f((float)rotX, (float)rotY, (float)rotZ);
 //		return new GVector3f((float)-rotY, (float)rotZ, (float)rotX);
 //	}
 	
 	public GVector3f add(GVector3f v){
-		return new GVector3f(x + v.getX(), y + v.getY(), z + v.getZ());
+		return new GVector3f(x + v.x, y + v.y, z + v.z);
 	}
 	
 	public GVector3f add(float num){
@@ -137,7 +142,7 @@ public class GVector3f {
 	}
 	
 	public GVector3f sub(GVector3f v){
-		return new GVector3f(x - v.getX(), y - v.getY(), z - v.getZ());
+		return new GVector3f(x - v.x, y - v.y, z - v.z);
 	}
 	
 	public GVector3f sub(float num){
@@ -145,7 +150,7 @@ public class GVector3f {
 	}
 	
 	public GVector3f mul(GVector3f v){
-		return new GVector3f(x * v.getX(), y * v.getY(), z * v.getZ());
+		return new GVector3f(x * v.x, y * v.y, z * v.z);
 	}
 	
 	public GVector3f mul(float numX, float numY, float numZ){
@@ -157,7 +162,7 @@ public class GVector3f {
 	}
 	
 	public GVector3f div(GVector3f v){
-		return new GVector3f(x / v.getX(), y / v.getY(), z / v.getZ());
+		return new GVector3f(x / v.x, y / v.y, z / v.z);
 	}
 	
 	public GVector3f div(float num){
@@ -219,9 +224,9 @@ public class GVector3f {
 	
 	public static GVector3f interpolateLinear(float scale, GVector3f startValue, GVector3f endValue) {
 		GVector3f result = new GVector3f();
-	    result.setX(GMath.interpolateLinear(scale, startValue.getX(), endValue.getX()));
-	    result.setY(GMath.interpolateLinear(scale, startValue.getY(), endValue.getY()));
-	    result.setZ(GMath.interpolateLinear(scale, startValue.getZ(), endValue.getZ()));
+	    result.setX(GMath.interpolateLinear(scale, startValue.x, endValue.x));
+	    result.setY(GMath.interpolateLinear(scale, startValue.y, endValue.y));
+	    result.setZ(GMath.interpolateLinear(scale, startValue.z, endValue.z));
         return result;
     }
 	
@@ -245,7 +250,7 @@ public class GVector3f {
 	}
 	
 	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this; }
-	public GVector3f set(GVector3f r) { set(r.getX(), r.getY(), r.getZ()); return this; }
+	public GVector3f set(GVector3f r) { set(r.x, r.y, r.z); return this; }
 	
 	public GVector3f addToX(float x){
 		this.x += x; 
@@ -274,12 +279,12 @@ public class GVector3f {
 	public void setZ(float z) {this.z = z;};
 
 	public String toString(){
-		return "(" + x + " " + y + " " + z + ")";
+		return "[" + x + "x" + y + "x" + z + "]";
 	}
 	
 	public boolean equals(Object o){
 		GVector3f v =(GVector3f)o;
-		return x == v.getX() && y == v.getY() && z == v.getZ();
+		return x == v.x && y == v.y && z == v.z;
 	}
 
 }

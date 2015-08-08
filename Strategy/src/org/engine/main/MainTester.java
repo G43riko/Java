@@ -9,6 +9,7 @@ import org.engine.gui.Hud;
 import org.engine.light.PointLight;
 import org.engine.object.GameObject;
 import org.engine.rendeing.ToFrameBufferRendering;
+import org.engine.rendeing.WaterFrameBuffers;
 import org.engine.rendeing.material.Material;
 import org.engine.rendeing.material.Texture2D;
 import org.engine.util.OBJLoader;

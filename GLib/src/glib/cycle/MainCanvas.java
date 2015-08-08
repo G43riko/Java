@@ -7,7 +7,6 @@ import glib.util.vector.GVector2f;
 
 
 public class MainCanvas extends GCanvasCicle{
-	private static final long serialVersionUID = 1L;
 	
 //	private float[][] mapa;
 //	private GColor[][] map;

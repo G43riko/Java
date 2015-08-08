@@ -14,12 +14,16 @@ public class World extends GameComponent{
 	//CONSTRUCTORS
 	
 	public World(){
-		create();
+		createChunks();
 		setNeighBoardsAndSides();
 	}
+	
+	
 
 	//OTHERS
 	
+	
+
 	private void setNeighBoardsAndSides() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
@@ -48,7 +52,7 @@ public class World extends GameComponent{
 		}
 	}
 
-	private void create() {
+	private void createChunks() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
 				chunks[i][j] = new Chunk(new GVector3f(i * Chunk.WIDHT, 0, j * Chunk.DEPTH));
@@ -60,11 +64,11 @@ public class World extends GameComponent{
 	
 	@Override
 	public void render(RenderingEngine renderingEngine) {
-		for(int i=0 ; i<NUM_X ; i++){
-			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j].render(renderingEngine);
-			}
-		}
+		//if(renderingEngine.getMainCamera().isVisible(getPosition(), getSize()))
+			for(int i=0 ; i<NUM_X ; i++)
+				for(int j=0 ; j<NUM_Z ; j++)
+					//if(renderingEngine.getMainCamera().isVisible(chunks[i][j].getPosition(), Chunk.getSize()))
+						chunks[i][j].render(renderingEngine);
 	}
 	
 	@Override
@@ -74,5 +78,23 @@ public class World extends GameComponent{
 //				chunks[i][j].update();
 //			}
 //		}
+	}
+
+	//GETTERS
+	
+	public GVector3f getSize(){
+		return new GVector3f(getWidth(), getHeight(), getDepth());
+	}
+	
+	public float getWidth(){
+		return NUM_X * Chunk.NUM_X * Block.WIDTH;
+	}
+	
+	public float getHeight(){
+		return Chunk.NUM_Y * Block.HEIGHT;
+	}
+	
+	public float getDepth(){
+		return NUM_Z * Chunk.NUM_Z * Block.DEPTH;
 	}
 }

@@ -18,7 +18,6 @@ public class Weapon extends GameObject{
 	protected GVector2f dir;
 	protected GColor color;
 	protected Level level;
-	protected boolean dead;
 	protected float speed;
 	protected int size;
 	protected int damage;
@@ -30,12 +29,12 @@ public class Weapon extends GameObject{
 		setPosition(getPosition().add(dir.mul(speed)));
 		
 		if(isOutOfView()){
-			dead = true;
+			setDead(true);
 		}
 		Block b = level.getMap().get(getPosition().add(dir));
 		if(b.getType()!=0){
 			b.hit(damage);
-			dead = true;
+			setDead(true);
 		}
 		ArrayList<Enemy> enemies = level.getEnemies();
 		for(Enemy e : enemies){
@@ -56,14 +55,9 @@ public class Weapon extends GameObject{
 
 	//GETTERS 
 	
-
 	protected boolean isOutOfView() {
 		return getPosition().getX() + size <= 0 || getPosition().getX() - size >= Map.NUM_X * Block.WIDTH || 
 			   getPosition().getY() + size <= 0 || getPosition().getY() - size >= Map.NUM_Y * Block.HEIGHT;
-	}
-	
-	public boolean isDead() {
-		return dead;
 	}
 }
 

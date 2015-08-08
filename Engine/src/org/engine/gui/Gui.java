@@ -46,6 +46,8 @@ public class Gui extends JPanel{
 		canvas.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), "blank cursor"));
 		
 		add(canvas,BorderLayout.CENTER);
+		
+		tooglePanels();
 	}
 
 	public void tooglePanels(){

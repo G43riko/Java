@@ -114,7 +114,8 @@ public abstract class CoreEngine extends JFrame{
 	
 	private void finalRender(){
 		renderingEngine.renderObject(scene.getObjects());
-		renderingEngine.renderWater(scene.getWaters());
+//		renderingEngine.renderWater(scene.getWaters());
+		scene.getWaters().stream().forEach(a -> renderingEngine.renderWater(a));
 		
 		scene.getOthers().forEach(a -> a.render(renderingEngine));
 		
@@ -227,7 +228,7 @@ public abstract class CoreEngine extends JFrame{
 		}
 		if(Input.getMouseDown(1)){
 			camera.calcFrustum().stream().forEach(a -> {
-				addToScene(new Line(camera.getPosition(), camera.getPosition().add(a.mul(100)),getLoader()));
+				addToScene(new Line(camera.getPosition(), camera.getPosition().add(a),getLoader()));
 			});
 		}
 		

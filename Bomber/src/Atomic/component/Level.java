@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import util.ResourceLoader;
 import Atomic.core.Input;
 import Atomic.enity.Bomb;
 import Atomic.enity.Enemy;
@@ -21,7 +22,6 @@ import Atomic.map.Block;
 import Atomic.map.Map;
 import Atomic.object.GameObject;
 import Atomic.particles.Particle;
-import Atomic.util.ResourceLoader;
 
 public class Level extends GameObject{
 	private GVector2f offset;
@@ -38,16 +38,11 @@ public class Level extends GameObject{
 	
 	private Scene<GameObject> scene;
 	
-	private int drawableEnemies;
-	private int drawableWeapons;
-	private int drawableExplosions;
-	private int drawableBombs;
-	private int drawableParticles;
-	private int drawableEnemiesTemp = 0;
-	private int drawableWeaponsTemp = 0;
-	private int drawableExplosionsTemp = 0;
-	private int drawableBombsTemp = 0;
-	private int drawableParticlesTemp = 0;
+	private long drawableEnemies;
+	private long drawableWeapons;
+	private long drawableExplosions;
+	private long drawableBombs;
+	private long drawableParticles;
 	private HashMap<String, Boolean> options;
 	
 	
@@ -88,10 +83,6 @@ public class Level extends GameObject{
 	
 	//ADDERS
 	
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
-	}
-
 	public void addWeapon(Weapon b){
 		weapons.add(b);
 	}
@@ -136,48 +127,37 @@ public class Level extends GameObject{
 	//OVERRIDES
 	
 	public void render(Graphics2D g2){
-		
 		map.render(g2);
 		
-		bombs.stream().filter(a -> isVisible(a)).forEach(a -> {
-			drawableBombsTemp++;
-			a.render(g2);
-		});
 		
-		enemies.stream().filter(a -> isVisible(a)).forEach(a -> {
-			drawableEnemiesTemp++;
-			a.render(g2);
-		});
+		drawableBombs = bombs.stream()
+							 .filter(this::isVisible)
+							 .peek(a -> a.render(g2))
+							 .count();
+		
+		
+		drawableEnemies = enemies.stream()
+								 .filter(this::isVisible)
+								 .peek(a -> a.render(g2))
+								 .count();
 		
 		player.render(g2);
 		
 		
-		weapons.stream().filter(a -> isVisible(a)).forEach(a -> {
-			drawableWeaponsTemp++;
-			a.render(g2);
-		});
+		drawableWeapons = weapons.stream()
+				 				 .filter(this::isVisible)
+				 				 .peek(a -> a.render(g2))
+				 				 .count();
 		
-		particles.stream().filter(a -> isVisible(a)).forEach(a -> {
-			drawableParticlesTemp++;
-			a.render(g2);
-		});	
+		drawableParticles = particles.stream()
+				 					 .filter(this::isVisible)
+				 					 .peek(a -> a.render(g2))
+				 					 .count();
 		
-		explosions.stream().filter(a -> isVisible(a)).forEach(a -> {
-			drawableExplosionsTemp++;
-			a.render(g2);
-		});
-		
-		drawableEnemies = drawableEnemiesTemp;
-		drawableWeapons = drawableWeaponsTemp;
-		drawableExplosions = drawableExplosionsTemp;
-		drawableBombs = drawableBombsTemp;
-		drawableParticles = drawableParticlesTemp;
-		
-		drawableEnemiesTemp = 0;
-		drawableWeaponsTemp = 0;
-		drawableExplosionsTemp = 0;
-		drawableBombsTemp = 0;
-		drawableParticlesTemp = 0;
+		drawableExplosions = explosions.stream()
+				 					   .filter(this::isVisible)
+				 					   .peek(a -> a.render(g2))
+				 					   .count();
 	}
 	
 	public void input(float delta, Input input){
@@ -202,6 +182,11 @@ public class Level extends GameObject{
 				 				 .peek(a->a.update(delta))
 				 				 .filter(a->a.isDead())
 				 				 .collect(Collectors.toList()));
+		
+//		weapons = weapons.parallelStream()
+//						 .filter(a -> !a.isDead())
+//						 .peek(a->a.update(delta))
+//						 .collect(Collectors.toCollection(ArrayList<Weapon>::new));
 		
 		explosions.removeAll(explosions.stream()
 				 					   .peek(a->a.update(delta))
@@ -273,6 +258,10 @@ public class Level extends GameObject{
 		return drawableParticles+" / "+particles.size();
 	}
 	
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	//SETTERS
 
 	public void setOffset(GVector2f offset) {

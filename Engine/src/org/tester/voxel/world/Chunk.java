@@ -121,6 +121,7 @@ public class Chunk extends GameComponent{
 	public void render(RenderingEngine renderingEngine) {
 		forEachBlock((a, block) ->{
 			if(block != null && block.isActive())
+				if(renderingEngine.getMainCamera().isVisible(block.getPosition(), new GVector3f(Block.WIDTH, Block.HEIGHT, Block.DEPTH)))
 				block.render(renderingEngine);
 		});
 		
@@ -152,6 +153,10 @@ public class Chunk extends GameComponent{
 	
 	public Block getBlock(int x, int y, int z){
 		return blocks.get(x + "-" + y + "-" + z);
+	}
+
+	public static GVector3f getSize() {
+		return new GVector3f(WIDHT, NUM_Y * Block.HEIGHT, DEPTH);
 	}
 
 }

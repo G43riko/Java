@@ -1,4 +1,4 @@
-package Atomic.util;
+package util;
 
 import java.awt.Image;
 import java.io.IOException;

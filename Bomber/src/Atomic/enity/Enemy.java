@@ -4,6 +4,7 @@ import glib.util.GColor;
 import glib.util.vector.GVector2f;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import Atomic.component.Explosion;
 import Atomic.component.Level;
@@ -17,7 +18,8 @@ public class Enemy  extends GameObject{
 	private GColor color;
 	private Level level;
 	private int health;
-	private boolean dead;
+	
+	private GameObject target;
 	
 	//CONSTRUCTORS
 	
@@ -30,6 +32,8 @@ public class Enemy  extends GameObject{
 		dir = new GVector2f((float)Math.sin(angle),(float)Math.cos(angle));
 		speed = 4;
 		health = 5;
+		
+		target = level.getPlayer();
 	}
 	
 	//OVERRIDES
@@ -89,30 +93,46 @@ public class Enemy  extends GameObject{
 			else
 				setPosition(newPos);
 		}
+		
+		followTarget();
 	}
 	
 	public void render(Graphics2D g2){
-		g2.setColor(color);
 		GVector2f pos = getPosition().sub(level.getOffset());
-		g2.fill3DRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT, true);
+		
+		
+		
+		AffineTransform saveAT = g2.getTransform();
+		g2.setColor(color);
+		g2.translate(pos.getXi(), pos.getYi());
+		g2.rotate(Math.atan2(dir.getY(), dir.getY()));
+		g2.fill3DRect(-Player.WIDTH / 2, -Player.HEIGHT / 2, Player.WIDTH, Player.HEIGHT, true);
+		g2.setTransform(saveAT);
+		
+//		g2.setColor(color);
+//		g2.fill3DRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT, true);
 	}
-
+	
 	//OTHERS
+	
+	private void followTarget(){
+		if(target == null)
+			return;
+		
+		GVector2f dirToTarget = target.getPosition().sub(getPosition()).Normalized();
+		
+		float dot = dirToTarget.dot(dir);
+		
+		dir = GVector2f.interpolateLinear(Math.abs(dot), dir, dirToTarget);
+	}
 	
 	public void hit(int damage){
 		health -= damage;
 		
 		if(health <= 0){
-			dead = true;
+			setDead(true);
 			Explosion e = new Explosion(getPosition(),(int)(Math.random()*3),level,20-(int)(Math.random()*6)-3);
 			level.addExplosion(e);
 		}
 	}
-	
-	//GETTERS
-
-	public boolean isDead() {
-		return dead;
-	}
-
 }

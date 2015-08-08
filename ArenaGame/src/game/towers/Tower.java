@@ -28,12 +28,14 @@ public class Tower {
 	}
 	
 	public void draw(Graphics2D g2){
-		g2.setColor(color);
-		g2.fillRect((int)(pos.getX()), (int)(pos.getY()), (int)Block.size.getX(), (int)Block.size.getY());
-		
+		g2.setColor(new Color(255, 0, 255, 100));
+		g2.fillArc((int)((pos.getX()+Block.size.getX()/2)-range), (int)((pos.getY()+Block.size.getY()/2)-range), (int)range*2, (int)range*2, 0, 360);
+
 		g2.setColor(Color.BLACK);
 		g2.drawArc((int)((pos.getX()+Block.size.getX()/2)-range), (int)((pos.getY()+Block.size.getY()/2)-range), (int)range*2, (int)range*2, 0, 360);
 		
+		g2.setColor(color);
+		g2.fillRect((int)(pos.getX()), (int)(pos.getY()), (int)Block.size.getX(), (int)Block.size.getY());
 		for(int i=0 ; i<shots.size() ; i++){
 			shots.get(i).draw(g2);
 		}

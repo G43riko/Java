@@ -33,9 +33,9 @@ public class Explosion extends GameComponent{
 					p.b = new Block(startPos.add(new GVector3f(i, j, k).mul(blockSize).mul(2)),b.getBlockType());
 					p.b.setClickable(false);
 					p.b.setScale(blockSize);
-					p.b.setRotation(new GVector3f("rand").mul(360));
-					p.dir = new GVector3f("rand").sub(0.5f).div(2);
-					p.rot = new GVector3f("rand").mul(360).normalize();
+					p.b.setRotation(new GVector3f(Math.random(), Math.random(), Math.random()).mul(360));
+					p.dir = new GVector3f(Math.random(), Math.random(), Math.random()).sub(0.5f).div(2);
+					p.rot = new GVector3f(Math.random(), Math.random(), Math.random()).mul(360).normalize();
 					p.life = 30+(int)(Math.random()*50)-25;
 					blocks.add(p);
 				}

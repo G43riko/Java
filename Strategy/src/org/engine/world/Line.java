@@ -22,7 +22,7 @@ public class Line extends GameComponent{
 		this.a = a;
 		this.b = b;
 		this.model = createModel(loader);
-		this.color = new GVector3f();
+		this.color = new GVector3f(1,0,1);
 	}
 	
 	public void render(RenderingEngineStrategy renderingEngine) {

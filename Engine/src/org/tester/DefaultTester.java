@@ -9,6 +9,7 @@ import glib.shapes.threeDimensional.Plane;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
+import org.engine.Terrain;
 import org.engine.ai.BasicEnemy;
 import org.engine.ai.GameSimulation;
 import org.engine.component.light.DirectionalLight;
@@ -70,11 +71,16 @@ public class DefaultTester extends CoreEngine{
 //		simulation.addEnemy();
 		
 //		addToScene(ObjectLoader.loadModel("warrior_axe"));
-		PointLightObject o = new PointLightObject(new PointLight(new GVector3f(0, 4, 0),new GVector3f(1,0,1), new GVector3f(1, 0.04f, 0.008f)));
-		addToScene(new AToB(new GVector3f(1,10,1), new GVector3f(1,1,1), o, 0.1f));
 //		addToScene(new AroundAOverB(new GVector3f(0,10,0), new GVector3f(20,10,0), o, 0.1f));
-		addToSceneLight(o);
 		
+		
+		
+		
+//		PointLightObject o = new PointLightObject(new PointLight(new GVector3f(0, 4, 0),new GVector3f(1,0,1), new GVector3f(1, 0.04f, 0.008f)));
+//		addToScene(new AToB(new GVector3f(1,10,1), new GVector3f(1,1,1), o, 0.1f));
+//		addToSceneLight(o);
+		
+		addToScene(new GameObject(new Material(new Texture2D("materials/texture.png")), new Terrain(1,1).getModel()));
 		
 		getRenderingEngine().setSun(new DirectionalLight(new GVector3f(0.5f, 1, 0.5f), new GVector3f(0.8f)));
 		

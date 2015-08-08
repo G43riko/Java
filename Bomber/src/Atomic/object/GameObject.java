@@ -9,6 +9,8 @@ import Atomic.core.Input;
 public abstract class GameObject {
 	private GVector2f position;
 	
+	private boolean dead;
+	
 	public GameObject(){
 		this.position = new GVector2f();
 	}
@@ -34,10 +36,18 @@ public abstract class GameObject {
 	public GVector2f getPosition() {
 		return position;
 	}
+	
+	public boolean isDead() {
+		return dead;
+	}
 
 	//SETTERS
 	
 	public void setPosition(GVector2f position) {
 		this.position = position;
+	}
+	
+	public void setDead(boolean dead){
+		this.dead = dead;
 	}
 }

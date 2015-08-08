@@ -15,6 +15,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 	private HashMap<Integer,Boolean> mouses = new HashMap<Integer,Boolean>();
 	private GVector2f mousePos = new GVector2f();
 	
+	
+	
 	public final static int KEY_W = 87;
 	public final static int KEY_A = 65;
 	public final static int KEY_S = 83;

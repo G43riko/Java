@@ -191,29 +191,34 @@ public class RenderingEngine {
 		
 		GMatrix4f modelMatrix = water.getTransformationMatrix();
 		getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
+		getShader("waterShader").connectTextures();
+		
+		water.getFbos().getTexture().bind();
+		
+		
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, Water.getModel().getVertexCount());
         
         GL20.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
 	}
 	
-	public void renderWater(ArrayList<Water> waters){
-		if(waters.size()==0)
-			return;
-		
-		getShader("waterShader").bind();
-		GL30.glBindVertexArray(Water.getModel().getVaoID());
-		GL20.glEnableVertexAttribArray(0);
-		
-		for(Water water : waters){
-			GMatrix4f modelMatrix = water.getTransformationMatrix();
-			getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
-	        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, Water.getModel().getVertexCount());
-		}
-        
-        GL20.glDisableVertexAttribArray(0);
-        GL30.glBindVertexArray(0);
-	}
+//	public void renderWater(ArrayList<Water> waters){
+//		if(waters.size()==0)
+//			return;
+//		
+//		getShader("waterShader").bind();
+//		GL30.glBindVertexArray(Water.getModel().getVaoID());
+//		GL20.glEnableVertexAttribArray(0);
+//		
+//		for(Water water : waters){
+//			GMatrix4f modelMatrix = water.getTransformationMatrix();
+//			getShader("waterShader").updateUniform("modelMatrix",modelMatrix);
+//	        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, Water.getModel().getVertexCount());
+//		}
+//        
+//        GL20.glDisableVertexAttribArray(0);
+//        GL30.glBindVertexArray(0);
+//	}
 	
 	public void renderHud(Hud hud){
 		if(!variables.containsKey("hud") || !variables.get("hud"))

@@ -19,7 +19,6 @@ public class Bomb extends GameObject{
 	private int maxLife;
 	private Level level;
 	private int exploded = -1;
-	private boolean dead;
 	private int[] dist;
 	private int damage;
 	private boolean nano;
@@ -116,7 +115,7 @@ public class Bomb extends GameObject{
 			exploded--;
 		}
 		if(exploded == 0)
-			dead = true;
+			setDead(true);
 	}
 	
 	public void update(float delta){
@@ -124,15 +123,9 @@ public class Bomb extends GameObject{
 			exploded = 40;
 			level.addExplosion(new Explosion(getPosition(), 7, level,10));
 			killBlocksAndEnemies();
-			dead = true;
+			setDead(true);
 		}
 		setPosition(getPosition().add(dir));
 			
-	}
-	
-	//GETTERS
-
-	public boolean isDead() {
-		return dead;
 	}
 }

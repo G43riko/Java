@@ -1,8 +1,12 @@
 package glib.util.vector;
 
+import java.io.Serializable;
+
 import glib.math.GMath;
 
-public class GVector2f {
+public class GVector2f implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private float x,y;
 	
 	public GVector2f(){
@@ -14,19 +18,35 @@ public class GVector2f {
 		this.y = y;
 	};
 	
+	public GVector2f toInt(){
+		return new GVector2f((int)x, (int)y);
+	}
+	
+	public GVector2f(String s){
+		s = s.replace("[", "").replace("]", "").replace("x", "_");
+		String[] strings = s.split("_");
+		
+		this.x = Float.parseFloat(strings[0]);
+		this.y = Float.parseFloat(strings[1]);
+	};
+	
 	public GVector2f(double x, double y){
 		this.x = (float)x;
 		this.y = (float)y;
 	};
 	
 	public GVector2f(GVector2f v){
-		this.x = v.getX();
-		this.y = v.getY();
+		this.x = v.x;
+		this.y = v.y;
 	};
 	
 	public float dot(GVector2f v){
-        return x * v.getX() + y * v.getY();
+        return x * v.x + y * v.y;
     };
+    
+    public boolean atLeastOneSame(GVector2f v){
+    	return v.x == x || v.y == y;
+    }
     
 	public float getLength(){
 		return (float)Math.sqrt(this.x*this.x+this.y*this.y);
@@ -52,7 +72,7 @@ public class GVector2f {
 	}
 	
 	public float cross(GVector2f r){
-		return x * r.getY() - y * r.getX();
+		return x * r.y - y * r.x;
 	}
 	
 	public void rotate(float angle){
@@ -94,7 +114,7 @@ public class GVector2f {
 	}
 	
 	public GVector2f add(GVector2f v){
-		return new GVector2f(x + v.getX(), y + v.getY());
+		return new GVector2f(x + v.x, y + v.y);
 	};
 	
 	public GVector2f add(float num){
@@ -102,15 +122,15 @@ public class GVector2f {
 	};
 	
 	public GVector2f sub(GVector2f v){
-		return new GVector2f(x - v.getX(), y - v.getY());
+		return new GVector2f(x - v.x, y - v.y);
 	};
 	
 	public GVector2f sub(float num){
 		return new GVector2f(x - num, y - num);
-	}
+	};
 	
 	public GVector2f mul(GVector2f v){
-		return new GVector2f(x * v.getX(), y * v.getY());
+		return new GVector2f(x * v.x, y * v.y);
 	};
 	
 	public GVector2f mul(float num){
@@ -118,17 +138,29 @@ public class GVector2f {
 	}
 	
 	public GVector2f div (GVector2f v){
-		return new GVector2f(x / v.getX(), y / v.getY());
+		return new GVector2f(x / v.x, y / v.y);
 	};
 	
 	public GVector2f div (float num){
 		return new GVector2f(x / num, y / num);
 	};
+
+	public GVector2f mod(GVector2f v) {
+		return new GVector2f(x % v.x, y % v.y);
+	};
+	
+	public GVector2f mod(float num) {
+		return new GVector2f(x % num, y % num);
+	};
 	
 	public GVector2f abs(){
 		return new GVector2f(Math.abs(x), Math.abs(y));
-	}
+	};
 
+	public boolean isNull(){
+		return x == 0 && y == 0;
+	};
+	
 	public float getX() {return x;}
 	public float getY() {return y;}
 
@@ -143,7 +175,7 @@ public class GVector2f {
 	
 	public void set(float x, float y){this.x = x;this.y = y;}
 	
-	public void set(GVector2f a){set(a.getX(), a.getY());}
+	public void set(GVector2f a){set(a.x, a.y);}
 	
 	public String toString(){
 		return "["+this.x+"x"+this.y+"]";
@@ -151,8 +183,8 @@ public class GVector2f {
 	
 	public static GVector2f interpolateLinear(float scale, GVector2f startValue, GVector2f endValue) {
 		GVector2f result = new GVector2f();
-	    result.setX(GMath.interpolateLinear(scale, startValue.getX(), endValue.getX()));
-	    result.setY(GMath.interpolateLinear(scale, startValue.getY(), endValue.getY()));
+	    result.setX(GMath.interpolateLinear(scale, startValue.x, endValue.x));
+	    result.setY(GMath.interpolateLinear(scale, startValue.y, endValue.y));
         return result;
     }
 	
@@ -161,7 +193,7 @@ public class GVector2f {
 	}
 	
 	public boolean equals(GVector2f v){
-		return x == v.getX() && y == v.getY();
+		return x == v.x && y == v.y;
 	};
 	
 	public String toDecimal(int i) {
@@ -169,6 +201,6 @@ public class GVector2f {
 	};
 	
 	public boolean isInRect(GVector2f aPos, GVector2f aSize){
-		return x > aPos.getX() && x < aPos.getX() + aSize.getX() && y > aPos.getY() && y < aPos.getY() + aSize.getY();
+		return x > aPos.x && x < aPos.x + aSize.x && y > aPos.y && y < aPos.y + aSize.y;
 	}
 }

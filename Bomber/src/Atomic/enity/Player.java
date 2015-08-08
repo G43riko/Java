@@ -5,6 +5,7 @@ import glib.util.vector.GVector2f;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import Atomic.component.Level;
 import Atomic.core.Input;
@@ -55,7 +56,7 @@ public class Player extends GameObject{
 	
 	private void init(){
 		speed = 5;
-		range = 10;
+		range = 1;
 		bombs = 1;
 		damage = 100;
 		accularity = 20;
@@ -135,12 +136,15 @@ public class Player extends GameObject{
 		if(level.getOffset().getX() < 0){
 			level.getOffset().setX(0);
         }
+		
         if(level.getOffset().getX() > (Map.NUM_X * Block.WIDTH) - level.getCanvas().getWidth()){
         	level.getOffset().setX((Map.NUM_X * Block.WIDTH) - level.getCanvas().getWidth());
         }
+        
         if(level.getOffset().getY() < 0){
         	level.getOffset().setY(0);
-        }	        
+        }
+        
         if(level.getOffset().getY() > (Map.NUM_Y * Block.HEIGHT) - level.getCanvas().getHeight()){
         	level.getOffset().setY((Map.NUM_Y * Block.HEIGHT) - level.getCanvas().getHeight()); 
         }
@@ -160,12 +164,17 @@ public class Player extends GameObject{
         }
 	}
 	
+	
 	public void render(Graphics2D g2){
 		GVector2f pos = getPosition().sub(level.getOffset());
 		
 		g2.setColor(color);
 		g2.fill3DRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT, true);
+		
 	}
+	
+	//GETTERA
+	
 	
 	//GETTERS
 
@@ -173,6 +182,7 @@ public class Player extends GameObject{
 		return range;
 	}
 
+	
 	public int getDamage() {
 		return damage;
 	}

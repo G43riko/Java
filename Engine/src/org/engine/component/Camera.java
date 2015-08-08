@@ -1,5 +1,8 @@
 package org.engine.component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.engine.utils.Maths;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
@@ -54,6 +57,70 @@ public class Camera extends GameComponent{
 		double y = Math.sin(Math.toRadians(360-getYaw()))*Math.cos(Math.toRadians(getPitch()));
 		double z = Math.sin(Math.toRadians(getPitch()));
 		forward = new GVector3f((float)y,(float)z,(float)x);
+	}
+	
+	public boolean isVisible(GVector3f point){
+		float tang = (float)Math.tan(Math.toRadians(FOV) * 0.5f);
+		float Hnear = 2 * tang * NEAR_PLANE;
+		float Wnear = Hnear * ASPECT_RATIO;
+
+		GVector3f right = getForward().cross(UP).Normalized();
+		GVector3f up = getForward().cross(right).Normalized();
+		
+		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
+		
+		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+		
+		return GVector3f.intersectRayWithSquare(getPosition(), point, nearTopLeft, nearTopRight, nearBottomLeft) &&
+			   point.sub(getPosition()).dot(getForward()) < 1;
+	}
+	
+	public boolean isVisible(GVector3f point ,GVector3f size){
+		
+		return	isVisible(point) || isVisible(point.add(size)) ||
+				isVisible(point.add(size.mul(new GVector3f(1,0,0)))) ||
+				isVisible(point.add(size.mul(new GVector3f(0,1,0)))) ||
+				isVisible(point.add(size.mul(new GVector3f(0,0,1)))) ||
+				isVisible(point.add(size.mul(new GVector3f(0,1,1)))) ||
+				isVisible(point.add(size.mul(new GVector3f(1,0,1)))) ||
+				isVisible(point.add(size.mul(new GVector3f(1,1,0))));
+		
+	}
+	
+	public List<GVector3f> calcFrustum(){
+		float tang = (float)Math.tan(Math.toRadians(FOV) * 0.5f);
+		float Hnear = 2 * tang * NEAR_PLANE;
+		float Wnear = Hnear * ASPECT_RATIO;
+		float Hfar = 2 * tang * FAR_PLANE;
+		float Wfar = Hfar * ASPECT_RATIO;
+
+		GVector3f right = getForward().cross(UP).Normalized();
+		GVector3f up = getForward().cross(right).Normalized();
+		
+		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
+		GVector3f Cfar = getPosition().add(getForward().mul(FAR_PLANE));
+		
+		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
+		GVector3f nearBottomRight = Cnear.sub(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
+		
+		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(right.mul(Wfar / 2));
+		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(right.mul(Wfar / 2));
+		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(right.mul(Wfar / 2));
+		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(right.mul(Wfar / 2));
+
+
+		List<GVector3f> result = new ArrayList<GVector3f>();
+		
+		result.add(farTopLeft.sub(nearTopLeft));
+		result.add(farTopRight.sub(nearTopRight));
+		result.add(farBottomLeft.sub(nearBottomLeft));
+		result.add(farBottomRight.sub(nearBottomRight));
+		
+		return result;
 	}
 	
 	//GETTERS

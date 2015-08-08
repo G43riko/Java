@@ -1,7 +1,7 @@
 package glib.cycle;
 
 import glib.util.GColor;
-import glib.util.GLog;
+import glib.util.vector.GVector2f;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -11,15 +11,15 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-public class GCanvasCicle extends JFrame{
-	private static final long serialVersionUID = 1L;
+public class GCanvasCicle{
+	private JFrame frame;
 	
 	private Canvas canvas;
 	private int fps = 60;
 	private boolean isRunning = false;
 	private float frameTime = 1000/(float)fps;
 	private int ticks, frames;
-	private int width, height;
+	private GVector2f size;
 	private int color = 0;
 	private GColor bgcolor = new GColor(255,255,255);
 	
@@ -28,19 +28,21 @@ public class GCanvasCicle extends JFrame{
 	}
 	
 	public GCanvasCicle(int width, int height, int fps){
-		this.width = width;
-		this.height = height;
+		size = new GVector2f(width, height);
 		this.fps = 60;
-		init();
+		
+		initFrame();
 	}
 	
-	private void init(){
+	private void initFrame(){
 		canvas = new Canvas();
-		canvas.setSize(new Dimension(width,height));
-		add(canvas);
-		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		canvas.setSize(new Dimension(size.getXi(), size.getYi()));
+		
+		frame = new JFrame();
+		frame.add(canvas);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
 	
 	public void start(){
@@ -54,11 +56,10 @@ public class GCanvasCicle extends JFrame{
 		while(isRunning){
 			startTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() - cicleTime > 1000){
-				GLog.write("frames: "+frames+" ticks: "+ticks,"mainLoop");
+				System.out.println("frames: " + frames + " ticks: " + ticks);
 				cicleTime = System.currentTimeMillis();
 				frames = 0;
 				ticks = 0;
-				
 			}
 			try {
 				Thread.sleep(1);
@@ -75,7 +76,7 @@ public class GCanvasCicle extends JFrame{
 	
 	private void updateCanvas(){
 		BufferStrategy buffer = canvas.getBufferStrategy();
-		if(buffer==null){
+		if(buffer == null){
 			canvas.createBufferStrategy(3);
 			return;
 		}
@@ -100,7 +101,7 @@ public class GCanvasCicle extends JFrame{
 	
 	private void clearScreen(Graphics2D g2) {
 		g2.setColor(bgcolor);
-		g2.fillRect(0, 0, width, height);
+		g2.fillRect(0, 0, size.getXi(), size.getYi());
 	}
 
 	public int getColor() {
@@ -112,10 +113,14 @@ public class GCanvasCicle extends JFrame{
 	}
 
 	public int getWidth() {
-		return width;
+		return size.getXi();
 	}
 
 	public int getHeight() {
-		return height;
+		return size.getYi();
+	}
+
+	public GVector2f getSize() {
+		return size;
 	}
 }

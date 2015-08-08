@@ -6,9 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import util.ResourceLoader;
 import Atomic.map.Block;
 import Atomic.object.GameObject;
-import Atomic.util.ResourceLoader;
 
 public class Explosion extends GameObject{
 	private class Explos{
@@ -28,7 +28,6 @@ public class Explosion extends GameObject{
 	private int imageHeight;
 	private Explos e;
 	private int actImage;
-	private boolean dead;
 	private Level level;
 	private GVector2f size;
 	
@@ -82,14 +81,8 @@ public class Explosion extends GameObject{
 	
 	public void update(float delta){
 		if(actImage == numOfImages)
-			dead = true;
+			setDead(true);
 		
 		actImage++;
-	}
-
-	//GETTERS
-	
-	public boolean isDead() {
-		return dead;
 	}
 }

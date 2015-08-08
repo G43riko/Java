@@ -3,8 +3,12 @@ package org.engine.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.engine.core.CoreEngine;
+import org.engine.object.GameObject;
+import org.engine.object.GameObjectPhysics;
 import org.engine.util.Maths;
 import org.engine.util.MousePicker;
+import org.engine.util.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.strategy.component.CameraStrategy;
@@ -143,45 +147,45 @@ public class Camera extends GameComponent {
 		GVector3f Cnear = getPosition().add(getForward().mul(NEAR_PLANE));
 		GVector3f Cfar = getPosition().add(getForward().mul(FAR_PLANE));
 		
-		GVector3f nearLeft = Cnear.sub(right.mul(Wnear / 2));
-		GVector3f nearRight = Cnear.add(right.mul(Wnear / 2));
-		GVector3f nearUp = Cnear.add(up.mul(Hnear / 2));
-		GVector3f nearBottom = Cnear.sub(up.mul(Hnear / 2));
+//		GVector3f nearLeft = Cnear.sub(right.mul(Wnear / 2));
+//		GVector3f nearRight = Cnear.add(right.mul(Wnear / 2));
+//		GVector3f nearUp = Cnear.add(up.mul(Hnear / 2));
+//		GVector3f nearBottom = Cnear.sub(up.mul(Hnear / 2));
+//		
+//		GVector3f farLeft = Cfar.sub(right.mul(Wfar / 2));
+//		GVector3f farRight = Cfar.add(right.mul(Wfar / 2));
+//		GVector3f farUp = Cfar.add(up.mul(Wfar / 2));
+//		GVector3f farBottom = Cfar.sub(up.mul(Wfar / 2));
 		
-		GVector3f farLeft = Cfar.sub(right.mul(Wfar / 2));
-		GVector3f farRight = Cfar.add(right.mul(Wfar / 2));
-		GVector3f farUp = Cfar.add(up.mul(Wfar / 2));
-		GVector3f farBottom = Cfar.sub(up.mul(Wfar / 2));
 		
-		GVector3f vecLeft = farLeft.sub(nearLeft).Normalized();
-		GVector3f vecRight = farRight.sub(nearRight).Normalized();
-		GVector3f vecUp = farUp.sub(nearUp).Normalized();
-		GVector3f vecBottom = farBottom.sub(nearBottom).Normalized();
 		
-		CameraStrategy.MAX_ANGLE = vecRight.dot(getForward());
+//		GVector3f vecLeft = farLeft.sub(nearLeft).Normalized();
+//		GVector3f vecRight = farRight.sub(nearRight).Normalized();
+//		GVector3f vecUp = farUp.sub(nearUp).Normalized();
+//		GVector3f vecBottom = farBottom.sub(nearBottom).Normalized();
+//		
+//		CameraStrategy.MAX_ANGLE = vecRight.dot(getForward());
+		
 		
 		GVector3f nearTopLeft = Cnear.add(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
 		GVector3f nearTopRight = Cnear.add(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
 		GVector3f nearBottomLeft = Cnear.sub(up.mul(Hnear / 2)).sub(right.mul(Wnear / 2));
 		GVector3f nearBottomRight = Cnear.sub(up.mul(Hnear / 2)).add(right.mul(Wnear / 2));
 		
-		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
-		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(getForward().cross(new GVector3f(0,1,0)).mul(Wfar / 2));
+		GVector3f farTopLeft = Cfar.add(up.mul(Hfar / 2)).sub(right.mul(Wfar / 2));
+		GVector3f farTopRight = Cfar.add(up.mul(Hfar / 2)).add(right.mul(Wfar / 2));
+		GVector3f farBottomLeft = Cfar.sub(up.mul(Hfar / 2)).sub(right.mul(Wfar / 2));
+		GVector3f farBottomRight = Cfar.sub(up.mul(Hfar / 2)).add(right.mul(Wfar / 2));
+
+
+		
 		List<GVector3f> result = new ArrayList<GVector3f>();
+		
 		result.add(farTopLeft.sub(nearTopLeft));
 		result.add(farTopRight.sub(nearTopRight));
 		result.add(farBottomLeft.sub(nearBottomLeft));
 		result.add(farBottomRight.sub(nearBottomRight));
 		
-		result.add(vecLeft);
-		result.add(vecRight);
-		result.add(vecUp);
-		result.add(vecBottom);
-		
-		result.add(getForward());
-		result.add(right);
 		return result;
 	}
 }

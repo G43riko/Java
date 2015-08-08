@@ -108,7 +108,7 @@ public abstract class CoreEngine extends JFrame{
 	//OTHERS
 
 	public void createWindow(CoreEngine game){
-		gui = Window.createWindow(game, true);
+		gui = Window.createWindow(game, false);
 		gui.repaint();
 		mainInit();
 	}

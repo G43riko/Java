@@ -21,6 +21,7 @@ public class Block {
 		this.position = position;
 		this.angle = angle;
 		this.parent = parent;
+		System.out.println(position + " " + angle + " ");
 		
 		if(parent==null){
 			color = Color.red;
@@ -58,15 +59,15 @@ public class Block {
 		if(parent == null)
 			a += (float)Math.PI/2;
 		GVector2f dir = new GVector2f(Math.cos(a), -Math.sin(a));
-		System.out.println(a+" "+dir);
-		lChild = new Block(position.add(dir.mul(size.getLength()/1.3f)), a, this);
+//		System.out.println(a+" "+dir);
+		lChild = new Block(position.add(dir.mul(size.getLength()/1.3f)), angle+(float)Math.PI/2, this);
 		
 		a = angle - (float)Math.toRadians(offset) ;
 		if(parent == null)
 			a += (float)Math.PI/2;
 		dir = new GVector2f(Math.cos(a), -Math.sin(a));
-		System.out.println(a+" "+dir);
-		rChild = new Block(position.add(dir.mul(size.getLength()/1.3f )), a, this);
+//		System.out.println(a+" "+dir);
+		rChild = new Block(position.add(dir.mul(size.getLength()/1.3f )), angle+(float)Math.PI/2, this);
 		
 	}
 }

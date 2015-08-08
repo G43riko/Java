@@ -16,6 +16,15 @@ public class WaterShader extends GBasicShader{
 		uniforms.put("modelMatrix", super.getUniformLocation("modelMatrix"));
 		uniforms.put("projectionMatrix", super.getUniformLocation("projectionMatrix"));
 		uniforms.put("viewMatrix", super.getUniformLocation("viewMatrix"));
+		
+		uniforms.put("reflectionTexture", super.getUniformLocation("reflectionTexture"));
+		uniforms.put("refractionTexture", super.getUniformLocation("refractionTexture"));
+	}
+	
+	@Override
+	public void connectTextures() {
+		updateUniform("reflectionTexture", 0);
+		updateUniform("refractionTexture", 1);
 	}
 
 }

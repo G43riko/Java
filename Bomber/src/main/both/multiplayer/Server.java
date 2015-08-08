@@ -122,6 +122,7 @@ public class Server {
 			p.write(msg);
 		}
 	}
+	
 	public void write(String msg,String except){
 		ArrayList<OtherPlayer> tempPlayers = new ArrayList<OtherPlayer>(((Bomberman)game).players);
 		for(OtherPlayer p : tempPlayers){

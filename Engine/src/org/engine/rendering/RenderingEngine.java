@@ -242,8 +242,10 @@ public class RenderingEngine {
 		setViewMatrix(Maths.MatrixToGMatrix(Maths.createViewMatrix(mainCamera)));
 		setEyePos();
 		
-		setSun(sun);
-		setPointLight(pointLight);
+		if(sun != null)
+			setSun(sun);
+		if(pointLight != null)
+			setPointLight(pointLight);
 	}
 
 	public void cleanUp() {
@@ -425,5 +427,9 @@ public class RenderingEngine {
 	
 	public PointLightObject getPointLight() {
 		return pointLight;
+	}
+
+	public Camera getMainCamera() {
+		return mainCamera;
 	}
 }

@@ -27,6 +27,7 @@ public class Options {
 	public final static int MENU_VERTICAL_OFFSET = 60;
 	
 	public final static int ENEMY_DEFAULT_WIDTH = 40;
+	public final static int ENEMY_DEFAULT_OFFSET = 5;
 	public final static int ENEMY_DEFAULT_HEIGHT = 40;
 	public final static int ENEMY_DEFAULT_SPEED = 1;
 	

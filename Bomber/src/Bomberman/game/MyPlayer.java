@@ -6,7 +6,6 @@ import java.util.HashMap;
 import Bomberman.Options;
 import Bomberman.core.Input;
 import Bomberman.game.level.Block;
-import Bomberman.game.level.Map;
 import glib.util.vector.GVector2f;
 
 public class MyPlayer extends Player{
@@ -14,7 +13,6 @@ public class MyPlayer extends Player{
 	private GVector2f totalMove = new GVector2f();
 	private Canvas canvas;
 	private HashMap<Integer, Boolean> keys = new HashMap<Integer, Boolean>(); 
-	
 	
 	public MyPlayer(GVector2f position, Canvas canvas, Game parent) {
 		super(parent, position, Options.PLAYER_DEFAULT_NAME, parent.getLevel().getDefalutSpeed());
@@ -112,14 +110,6 @@ public class MyPlayer extends Player{
 		if(isInBlock())
 			position.addToY(-move.getY() * speed * delta);
 		
-		//position = position.add(move.mul(speed * delta));
-
-//		if(parent.getLevel().getMap().getBlock(getSur().getXi(), getSur().getYi()).getType() != Block.NOTHING){
-//			position = position.sub(move.mul(speed * delta));
-//		};
-		
-//		checkRoads(move);
-		
 		checkBorders();
 		checkOffset();
 		
@@ -127,39 +117,33 @@ public class MyPlayer extends Player{
 			int type = parent.getItem(getSur().toString()).getType();
 			
 			eatItemType(type);
-			
 			parent.getConnection().playerEatItem(getSur(), type);
 		}
 	}
-
-//	private void checkRoads(GVector2f move) {
-//		if(parent.getLevel().getMap().getBlock(getSur().getXi(), getSur().getYi()).getType() != Block.NOTHING){
-//			position = position.sub(move.mul(speed));
-//		};
-//	}
-
+	
 	private boolean isInBlock(){
 		float topOffset = 20;
 		float bottomOffset = 30;
 		float rightOffset = 11;
 		float leftOffset = 9;
+		
 		GVector2f t = position.add(new GVector2f(Options.PLAYER_WIDTH, Options.PLAYER_HEIGHT - topOffset).div(2)).div(Block.SIZE).toInt();
 		GVector2f b = position.add(new GVector2f(Options.PLAYER_WIDTH, Options.PLAYER_HEIGHT + bottomOffset).div(2)).div(Block.SIZE).toInt();
 		GVector2f r = position.add(new GVector2f(Options.PLAYER_WIDTH - rightOffset, Options.PLAYER_HEIGHT).div(2)).div(Block.SIZE).toInt();
 		GVector2f l = position.add(new GVector2f(Options.PLAYER_WIDTH + leftOffset, Options.PLAYER_HEIGHT).div(2)).div(Block.SIZE).toInt();
-
-		return parent.getLevel().getMap().getBlock(t.getXi(), t.getYi()).getType() != Block.NOTHING ||
-			   parent.getLevel().getMap().getBlock(b.getXi(), b.getYi()).getType() != Block.NOTHING ||
-			   parent.getLevel().getMap().getBlock(r.getXi(), r.getYi()).getType() != Block.NOTHING ||
-			   parent.getLevel().getMap().getBlock(l.getXi(), l.getYi()).getType() != Block.NOTHING;
+		
+		try{
+			return parent.getLevel().getMap().getBlock(t.getXi(), t.getYi()).getType() != Block.NOTHING ||
+				   parent.getLevel().getMap().getBlock(b.getXi(), b.getYi()).getType() != Block.NOTHING ||
+				   parent.getLevel().getMap().getBlock(r.getXi(), r.getYi()).getType() != Block.NOTHING ||
+				   parent.getLevel().getMap().getBlock(l.getXi(), l.getYi()).getType() != Block.NOTHING;
+		}catch(NullPointerException e){
+			return true;
+		}
 	}
 	
 	public void clearTotalMove(){
 		totalMove = new GVector2f(); 
-	}
-	
-	public GVector2f getOffset() {
-		return offset;
 	}
 	
 	public void checkOffset(){
@@ -201,16 +185,14 @@ public class MyPlayer extends Player{
         
         GVector2f nums = parent.getLevel().getMap().getNumberOfBlocks();
         
-        if(position.getX() * parent.getZoom() + Options.PLAYER_WIDTH * parent.getZoom() > nums.getX() * Block.WIDTH * parent.getZoom()){
+        if(position.getX() * parent.getZoom() + Options.PLAYER_WIDTH * parent.getZoom() > nums.getX() * Block.WIDTH * parent.getZoom())
         	position.setX((nums.getX() * Block.WIDTH * parent.getZoom() - Options.PLAYER_WIDTH * parent.getZoom()) / parent.getZoom());
-        }
-        if(position.getY() * parent.getZoom() + Options.PLAYER_HEIGHT * parent.getZoom() > nums.getY() * Block.HEIGHT * parent.getZoom()){
+        
+        if(position.getY() * parent.getZoom() + Options.PLAYER_HEIGHT * parent.getZoom() > nums.getY() * Block.HEIGHT * parent.getZoom())
         	position.setY((nums.getY() * Block.HEIGHT * parent.getZoom() - Options.PLAYER_HEIGHT * parent.getZoom())  / parent.getZoom());
-        }
 	}
 
-	public GVector2f getTotalMove() {
-		return totalMove;
-	}
-	
+	@Override
+	public GVector2f getOffset() {return offset;}
+	public GVector2f getTotalMove() {return totalMove;}
 }

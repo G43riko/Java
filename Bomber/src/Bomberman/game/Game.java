@@ -144,7 +144,7 @@ public class Game implements Interactable{
 		
 		if(Input.isKeyDown(Input.KEY_F))
 			for(int i=0 ; i < maxEnemies ; i++)
-				if(enemies.size() < maxEnemies)
+//				if(enemies.size() < maxEnemies)
 					enemies.add(new Enemy(level.getMap().getRandomEmptyBlock().getPosition(),this));
 		
 		myPlayer.input();

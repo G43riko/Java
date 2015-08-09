@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
-import Atomic.enity.Player;
 import Bomberman.Options;
 import Bomberman.core.Interactable;
 import Bomberman.game.Game;
@@ -60,12 +59,6 @@ public class Explosion implements Interactable, Visible{
 		GVector2f pos2 = pos.add(imageSize);
 		
 		GVector2f tempPos = position.sub(parent.getOffset()); 
-//		GVector2f position2 = tempPos.add(size);
-//		g2.drawImage(image, 
-//				tempPos.getXi(), tempPos.getYi(),
-//				position2.getXi(), position2.getYi(), 
-//				pos.getXi(), pos.getYi(), 
-//				pos2.getXi(), pos2.getYi(), null);
 		
 		tempPos = tempPos.add(size.div(2));
 		AffineTransform saveAT = g2.getTransform();
@@ -82,19 +75,9 @@ public class Explosion implements Interactable, Visible{
 	}
 
 
-	public boolean isDead() {
-		return dead;
-	}
-
-
+	public boolean isDead() {return dead;}
 	@Override
-	public GVector2f getPosition() {
-		return position;
-	}
-
-
+	public GVector2f getPosition() {return position;}
 	@Override
-	public GVector2f getSize() {
-		return new GVector2f(Options.EXPLOSION_DEFAULT_WIDTH, Options.EXPLOSION_DEFAULT_HEIGHT);
-	}
+	public GVector2f getSize() {return new GVector2f(Options.EXPLOSION_DEFAULT_WIDTH, Options.EXPLOSION_DEFAULT_HEIGHT);}
 }

@@ -3,7 +3,6 @@ package Bomberman.game.level;
 import glib.util.vector.GVector2f;
 
 import java.awt.Graphics2D;
-import java.awt.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,6 +86,33 @@ public class Map implements Interactable, Serializable{
 		             .collect(Collectors.toCollection(ArrayList::new));
 	}
 	
+	public int[] getPossibleWays(GVector2f sur){
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		Block b;
+		
+		b = getBlock(sur.getXi(), sur.getYi() - 1);
+		if(b != null && b.getType() == Block.NOTHING)
+			result.add(0);
+		
+		b = getBlock(sur.getXi() + 1, sur.getYi());
+		if(b != null && b.getType() == Block.NOTHING)
+			result.add(1);
+		
+		b = getBlock(sur.getXi(), sur.getYi() + 1);
+		if(b != null && b.getType() == Block.NOTHING)
+			result.add(2);
+		
+		b = getBlock(sur.getXi() - 1, sur.getYi());
+		if(b != null && b.getType() == Block.NOTHING)
+			result.add(3);
+		
+		int[] ret = new int[result.size()];
+		for(int i=0 ; i<result.size() ; i++)
+			ret[i] = result.get(i);
+		
+		return ret;
+	}
+	
 	private void addBlock(int i, int j, Block block){
 		blocks.put(i + "_" + j, block);
 	}
@@ -99,31 +125,17 @@ public class Map implements Interactable, Serializable{
 								   .collect(Collectors.toCollection(ArrayList<Block>::new));
 		return b.get((int)(Math.random() * b.size()));
 	}
-	
-	public Block getBlock(int i, int j){
-		return blocks.get(i + "_" + j);
-	}
-	public Block getBlock(String block){
-		return blocks.get(block);
-	}
 
 	public Block getBlockOnPosition(GVector2f sur){
 		GVector2f blockSize = new GVector2f(Block.WIDTH, Block.HEIGHT);
-		GVector2f modulo = sur.mod(blockSize);
-		GVector2f pos = sur.sub(modulo).div(blockSize);
+		GVector2f pos = sur.sub(sur.mod(blockSize)).div(blockSize);
 		
 		return getBlock(pos.getXi(), pos.getYi());
 	}
 	
-	public GVector2f getOffset() {
-		return parent.getOffset();
-	}
-
-	public GVector2f getNumberOfBlocks() {
-		return numberOfBlocks;
-	}
-
-	public Level getParent() {
-		return parent;
-	}
+	public Level getParent() {return parent;}
+	public GVector2f getOffset() {return parent.getOffset();}
+	public GVector2f getNumberOfBlocks() {return numberOfBlocks;}
+	public Block getBlock(String block){return blocks.get(block);}	
+	public Block getBlock(int i, int j){return blocks.get(i + "_" + j);}
 }

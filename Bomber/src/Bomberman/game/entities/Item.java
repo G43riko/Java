@@ -48,18 +48,11 @@ public class Item implements Interactable, Visible{
 	}
 
 	//GETTERS
-	
-	@Override
-	public GVector2f getPosition() {
-		return position;
-	}
 
+	public int getType() {return type;}
 	@Override
-	public GVector2f getSize() {
-		return new GVector2f(Options.ITEM_DEFAULT_WIDTH, Options.ITEM_DEFAULT_HEIGHT);
-	}
+	public GVector2f getPosition() {return position;}
+	@Override
+	public GVector2f getSize() {return new GVector2f(Options.ITEM_DEFAULT_WIDTH, Options.ITEM_DEFAULT_HEIGHT);}
 
-	public int getType() {
-		return type;
-	}
 }

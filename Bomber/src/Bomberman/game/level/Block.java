@@ -55,38 +55,18 @@ public class Block implements Interactable, Serializable, Visible{
 		this.parent = parent;
 		this.healt = healt;
 		this.type = type;
-		
 	}
 	
 	//OVERRIDES
 	
 	@Override
 	public void render(Graphics2D g2) {
-		
 		if(type == NOTHING)
 			return;
-
-		float zoom = parent.getParent().getParrent().getZoom();
-		GVector2f finalSize = SIZE.mul(zoom);
 		
-		GVector2f pos = position.mul(finalSize).sub(parent.getOffset());
+		GVector2f pos = position.mul(SIZE).sub(parent.getOffset());
 		
-		g2.drawImage(images.get(type + 100), pos.getXi() , pos.getYi(), finalSize.getXi(), finalSize.getYi(), null);
-		
-//		g2.draw3DRect(pos.getXi() , pos.getYi(), finalSize.getXi(), finalSize.getYi(), true);
-		/*
-		
-		if(type == DESTRUCTABLE)
-			g2.setColor(Color.RED);
-		else if(type == INDESTRUCTIBLE)
-			g2.setColor(Color.BLUE);
-		
-		int round = (int)(10 * zoom);
-
-		
-		g2.fillRoundRect(pos.getXi() , pos.getYi(), finalSize.getXi(), finalSize.getYi(), round, round);
-		
-		*/
+		g2.drawImage(images.get(type + 100), pos.getXi() , pos.getYi(), WIDTH, HEIGHT, null);
 	}
 
 	@Override
@@ -101,10 +81,7 @@ public class Block implements Interactable, Serializable, Visible{
 	
 	//SETTERS
 	
-
-	public void setHealt(int healt) {
-		this.healt = healt;
-	}
+	public void setHealt(int healt) {this.healt = healt;}
 
 	//GETTERS
 	

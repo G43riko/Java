@@ -117,7 +117,7 @@ public class MyPlayer extends Player{
 			int type = parent.getItem(getSur().toString()).getType();
 			
 			eatItemType(type);
-			parent.getConnection().playerEatItem(getSur(), type);
+			parent.getConnection().eatItem(getSur(), type);
 		}
 	}
 	

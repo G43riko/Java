@@ -7,6 +7,7 @@ import glib.util.vector.GVector2f;
 import Bomberman.Options;
 import Bomberman.core.Interactable;
 import Bomberman.game.Game;
+import Bomberman.game.Utils;
 import Bomberman.game.level.Block;
 import Bomberman.game.level.Map;
 
@@ -16,16 +17,25 @@ public class Enemy implements Interactable, Visible{
 	private GVector2f position;
 	private int direction;
 	private int speed;
+	private int bulletSpeed;
+	private int cadence;
+	private long lastShot;
+	private int attack;
 	private Game parent;
+	private Color color;
 	
 	public Enemy(GVector2f position, Game parent) {
-		this(position, parent, Options.ENEMY_DEFAULT_SPEED);
+		this(position, parent, Options.ENEMY_DEFAULT_SPEED, Options.ENEMY_DEFAULT_BULLET_SPEED, Options.ENEMY_DEFAULT_CADENCE, Options.ENEMY_DEFAULT_ATTACK);
 	}
 	
-	public Enemy(GVector2f position, Game parent, int speed) {
+	public Enemy(GVector2f position, Game parent, int speed, int bulletSpeed, int cadence, int attack) {
+		this.bulletSpeed = bulletSpeed;
 		this.position = position;
+		this.cadence = cadence;
 		this.parent = parent;
+		this.attack = attack;
 		this.speed = speed;
+		color = Color.CYAN;
 		setRandPossibleDir(parent.getLevel().getMap());
 	}
 
@@ -33,11 +43,11 @@ public class Enemy implements Interactable, Visible{
 	public void render(Graphics2D g2) {
 		GVector2f pos = position.sub(parent.getOffset()).add(Options.ENEMY_DEFAULT_OFFSET);
 		
-		g2.setColor(Color.CYAN);
-		g2.fillRoundRect(pos.getXi(), pos.getYi(), size.getXi(), size.getYi(), 20, 20);
+		g2.setColor(color);
+		g2.fillRoundRect(pos.getXi(), pos.getYi(), size.getXi(), size.getYi(), Options.ENEMY_DEFAULT_ROUND, Options.ENEMY_DEFAULT_ROUND);
 
 		g2.setColor(Color.BLACK);
-		g2.drawRoundRect(pos.getXi(), pos.getYi(), size.getXi(), size.getYi(), 20, 20);
+		g2.drawRoundRect(pos.getXi(), pos.getYi(), size.getXi(), size.getYi(), Options.ENEMY_DEFAULT_ROUND, Options.ENEMY_DEFAULT_ROUND);
 	}
 	
 	private void setRandPossibleDir(Map mapa){
@@ -53,20 +63,7 @@ public class Enemy implements Interactable, Visible{
 		return position.div(Block.SIZE).toInt();
 	}
 	
-	private GVector2f getMoveFromDir(int dir){
-		switch(direction){
-			case 0:
-				return new GVector2f(00, -1);
-			case 1:
-				return new GVector2f(01, 00);
-			case 2:
-				return new GVector2f(00, 01);
-			case 3:
-				return new GVector2f(-1, 00);
-			default:
-				return new GVector2f();
-		}
-	}
+	
 	
 	@Override
 	public void update(float delta) {
@@ -76,7 +73,7 @@ public class Enemy implements Interactable, Visible{
 		if(direction == -1)
 			return;
 		
-		position = position.add(getMoveFromDir(direction).mul(speed));
+		position = position.add(Utils.getMoveFromDir(direction).mul(speed));
 	}
 
 	@Override
@@ -87,5 +84,12 @@ public class Enemy implements Interactable, Visible{
 	@Override
 	public GVector2f getSize() {
 		return new GVector2f(Options.ENEMY_DEFAULT_WIDTH, Options.ENEMY_DEFAULT_HEIGHT);
+	}
+
+	public void fire() {
+		if(direction >= 0 && (System.currentTimeMillis() - lastShot) >= cadence){
+			parent.addBullet(position, direction, bulletSpeed, attack);
+			lastShot = System.currentTimeMillis();
+		}
 	} 
 }

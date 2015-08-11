@@ -80,7 +80,7 @@ public class GameServer extends Server implements Communicable{
 	}
 
 	@Override
-	public void sendMyImage() {
+	public void sendImage() {
 		
 	}
 
@@ -179,7 +179,7 @@ public class GameServer extends Server implements Communicable{
 		}
 	}
 	
-	public void playerEatItem(GVector2f sur, int type){
+	public void eatItem(GVector2f sur, int type){
 		actLevel.getParrent().removeItem(sur.toString());
 		write(Server.FS_PLAYER_EAT_ITEM + " " + actLevel.getParrent().getMyPlayer().getName() + " " + type + " " + sur);
 	}

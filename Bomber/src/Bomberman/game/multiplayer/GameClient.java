@@ -124,7 +124,7 @@ public class GameClient extends Client implements Communicable{
 	}
 
 	@Override
-	public void sendMyImage() {
+	public void sendImage() {
 		write(Server.TS_PLAYER_IMAGE + " " + actLevel.getParrent().getMyPlayer().getImage());
 	}
 
@@ -163,7 +163,7 @@ public class GameClient extends Client implements Communicable{
 
 	
 	@Override
-	public void playerEatItem(GVector2f sur, int type) {
+	public void eatItem(GVector2f sur, int type) {
 		actLevel.getParrent().removeItem(sur.toString());
 		write(Server.TS_PLAYER_EAT_ITEM + " " + type + " " + sur);
 	}

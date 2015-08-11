@@ -8,7 +8,7 @@ public class Options {
 	public final static int PORT = 4444;
 	public final static Color BACKGROUND_COLOR = new Color(255, 255, 255, 255);
 	public final static boolean ALLOW_ZOOMING = false;
-	public final static boolean RENDER_TIME = false;
+	public final static boolean RENDER_TIME = true;
 	
 	public static final boolean INFO_RENDER = true;
 	public static final int INFO_WIDTH = 200;
@@ -29,7 +29,11 @@ public class Options {
 	public final static int ENEMY_DEFAULT_WIDTH = 40;
 	public final static int ENEMY_DEFAULT_OFFSET = 5;
 	public final static int ENEMY_DEFAULT_HEIGHT = 40;
+	public final static int ENEMY_DEFAULT_ROUND = 20;
 	public final static int ENEMY_DEFAULT_SPEED = 1;
+	public final static int ENEMY_DEFAULT_BULLET_SPEED = 4;
+	public final static int ENEMY_DEFAULT_CADENCE = 200;
+	public final static int ENEMY_DEFAULT_ATTACK = 1;
 	
 	
 	public final static int EXPLOSION_DEFAULT_WIDTH = 30;
@@ -48,6 +52,12 @@ public class Options {
 	public final static boolean PLAYER_WALK_ON_ROADS = true;
 	public final static String PLAYER_DEFAULT_NAME = "Gabriel";
 
+	public final static int BULLET_DEFAULT_WIDTH = 40;
+	public final static int BULLET_DEFAULT_OFFSET = 16;
+	public final static int BULLET_DEFAULT_HEIGHT = 40;
+	public final static int BULLET_DEFAULT_SPEED = 1;
+	public final static int BULLET_DEFAULT_ROUND = 10;
+	
 	public static final int BLOCK_DEFAULT_WIDTH = 40;
 	public static final int BLOCK_DEFAULT_HEIGHT = 40;
 	public static final int BLOCK_DEFAULT_HEALT = 1;

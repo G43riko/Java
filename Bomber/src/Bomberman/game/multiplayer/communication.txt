@@ -1,0 +1,22 @@
+STC - Server To Client
+CTS - Client To Server
+
+CTS - nickName, Image
+STC - Level(Bombs, Enemies, Blocks, Items, Bullets, Explosions), Position, PlayerInfo(Heal, Speed, Bombs, Range), OtherPlayers
+
+/***PLAYER***/
+CTS - player move
+CTS - player put bomb
+CTS - player eat item
+
+STC - player hit
+
+/***ITEM****/
+STC - item disappear
+STC - item appear
+
+/***BOMB****/
+STC - explode(Position, Range, Atom, Damage)
+
+
+

@@ -13,6 +13,7 @@ import Bomberman.Options;
 import Bomberman.core.Input;
 import Bomberman.core.Interactable;
 import Bomberman.game.entities.Bomb;
+import Bomberman.game.entities.Bullet;
 import Bomberman.game.entities.Enemy;
 import Bomberman.game.entities.Explosion;
 import Bomberman.game.entities.Item;
@@ -33,6 +34,7 @@ public class Game implements Interactable{
 	private HashMap<String, Item> items = new HashMap<String, Item>();
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private Communicable connection;
 	private float zoom = 1f;
 	private PlayerInfo info;
@@ -81,13 +83,13 @@ public class Game implements Interactable{
 //		          .entrySet()
 //		          .forEach(a -> a.getValue().render(g2));
 		new HashMap<String, Player>(players).entrySet()
-											.stream()
+											.parallelStream()
 											.map(a -> a.getValue())
 											.filter(this::isVisible)
 											.forEach(a -> a.render(g2));
 		
 		new HashMap<String, Bomb>(bombs).entrySet()
-		                                .stream()
+		                                .parallelStream()
 		                                .map(a -> a.getValue())
 		                                .filter(this::isVisible)
 		                                .forEach(a -> a.render(g2));
@@ -95,13 +97,17 @@ public class Game implements Interactable{
 		new ArrayList<Explosion>(explosions).stream()
 											.filter(this::isVisible)
 				  							.forEach(a -> a.render(g2));
+
+		new ArrayList<Bullet>(bullets).stream()
+									  .filter(this::isVisible)
+									  .forEach(a -> a.render(g2));
 		
 		new ArrayList<Enemy>(enemies).stream()
 									 .filter(this::isVisible)	
 									 .forEach(a -> a.render(g2));
 		
 		new HashMap<String, Item>(items).entrySet()
-										.stream()
+										.parallelStream()
 										.map(a -> a.getValue())
 										.filter(this::isVisible)
 										.forEach(a -> a.render(g2));
@@ -115,19 +121,24 @@ public class Game implements Interactable{
 		myPlayer.update(delta);
 		
 		new HashMap<String, Bomb>(bombs).entrySet()
-				 						.stream()
+				 						.parallelStream()
 				 						.peek(a -> a.getValue().update(delta))
 				 						.filter(a -> a.getValue().isDead())
 				 						.forEach(a -> bombs.remove(a.getKey()));
 		
-		explosions.removeAll(explosions.stream()
+		explosions.removeAll(explosions.parallelStream()
 									   .filter(a -> a.isDead())
 									   .collect(Collectors.toCollection(ArrayList<Explosion>::new)));
 		
-		enemies.stream()
+		enemies.parallelStream()
 			   .forEach(a -> a.update(delta));
 		
-		new ArrayList<Explosion>(explosions).stream()
+		bullets = bullets.parallelStream()
+						 .peek(a -> a.update(delta))
+						 .filter(a -> a.isAlive())
+						 .collect(Collectors.toCollection(ArrayList<Bullet>::new));
+		
+		new ArrayList<Explosion>(explosions).parallelStream()
 											.forEach(a -> a.update(delta));
 	}
 	
@@ -137,15 +148,15 @@ public class Game implements Interactable{
 		if(Input.isKeyDown(Input.KEY_ESCAPE))
 			parent.pausedGame();
 		
-		if(Input.isKeyDown(Input.KEY_E))
-			enemies.add(new Enemy(new GVector2f(320,320), this));
-		
 		int maxEnemies = 1;
 		
 		if(Input.isKeyDown(Input.KEY_F))
 			for(int i=0 ; i < maxEnemies ; i++)
-//				if(enemies.size() < maxEnemies)
 					enemies.add(new Enemy(level.getMap().getRandomEmptyBlock().getPosition(),this));
+		
+		if(Input.isKeyDown(Input.KEY_E))
+			for(Enemy e : enemies)
+				e.fire();
 		
 		myPlayer.input();
 	}
@@ -217,6 +228,14 @@ public class Game implements Interactable{
 
 	//ADDERS
 
+	public void addBullet(GVector2f position, int direction, int speed, int demage){
+		bullets.add(new Bullet(position, 
+							   direction, 
+							   speed, 
+							   demage,
+							   this));
+	}
+	
 	public void addExplosion(GVector2f position, String name, GVector2f num){
 		explosions.add(new Explosion(position,
 				 					 ResourceLoader.loadTexture(name),

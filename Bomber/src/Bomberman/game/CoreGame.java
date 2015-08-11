@@ -111,7 +111,7 @@ public class CoreGame extends CoreEngine{
 			game.checkReady();
 		}while(!game.isReady());
 		
-		getConnection().sendMyImage();
+		getConnection().sendImage();
 		
 		gameIs = RUNNING;
 	}

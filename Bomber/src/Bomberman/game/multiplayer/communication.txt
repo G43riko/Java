@@ -62,7 +62,7 @@ game
 |	|	|	type type
 |	|	enemy
 |	enemies
-|	bullets 
+|	bullets
 |	|	bullet
 |	|	|	pos pos
 |	|	|	dir dir

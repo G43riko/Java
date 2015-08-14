@@ -3,14 +3,14 @@ package Bomberman.game;
 import java.awt.Graphics2D;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.entities.Item;
-import Bomberman.game.entities.Visible;
+import Bomberman.game.entities.XVisible;
 import Bomberman.game.level.Block;
 import Bomberman.game.other.SpritesAnimation;
 import glib.util.vector.GVector2f;
 
-public class Player implements Interactable, Visible{
+public class Player implements XInteractable, XVisible{
 	protected GVector2f position;
 	private String name;
 	protected int speed;
@@ -18,6 +18,7 @@ public class Player implements Interactable, Visible{
 	private int range;
 	private String image;
 	private boolean moving;
+	private boolean atom = true;
 	private int direction = 2;
 	protected Game parent;
 	protected GVector2f offset;
@@ -160,5 +161,9 @@ public class Player implements Interactable, Visible{
 	@Override
 	public GVector2f getSize() {
 		return new GVector2f(Options.PLAYER_WIDTH, Options.PLAYER_HEIGHT);
+	}
+
+	public boolean isAtom() {
+		return atom;
 	}
 }

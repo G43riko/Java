@@ -5,6 +5,7 @@ import java.util.HashMap;
 import glib.util.vector.GVector2f;
 import Bomberman.game.Player;
 import Bomberman.game.entities.Bomb;
+import Bomberman.game.entities.XBomb;
 import Bomberman.game.level.Level;
 
 public interface Communicable {

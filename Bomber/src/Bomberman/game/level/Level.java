@@ -6,11 +6,11 @@ import java.awt.Graphics2D;
 import java.io.Serializable;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.CoreGame;
 import Bomberman.game.Game;
 
-public class Level implements Interactable, Serializable{
+public class Level implements XInteractable, Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Map map;

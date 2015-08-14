@@ -5,10 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.Player;
 
-public class PlayerInfo implements Interactable{
+public class PlayerInfo implements XInteractable{
 	private Player player;
 	
 	public PlayerInfo(Player player) {

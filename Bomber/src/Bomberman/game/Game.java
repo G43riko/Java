@@ -4,6 +4,8 @@ import glib.util.vector.GVector2f;
 
 import java.awt.Canvas;
 import java.awt.Graphics2D;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -11,29 +13,31 @@ import java.util.stream.Collectors;
 import util.ResourceLoader;
 import Bomberman.Options;
 import Bomberman.core.Input;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.entities.Bomb;
 import Bomberman.game.entities.Bullet;
 import Bomberman.game.entities.Enemy;
 import Bomberman.game.entities.Explosion;
 import Bomberman.game.entities.Item;
-import Bomberman.game.entities.Visible;
+import Bomberman.game.entities.XEnemy;
+import Bomberman.game.entities.XItem;
+import Bomberman.game.entities.XVisible;
 import Bomberman.game.level.Block;
 import Bomberman.game.level.Level;
 import Bomberman.game.multiplayer.Communicable;
 import Bomberman.game.other.PlayerInfo;
 import Bomberman.gui.Logger;
 
-public class Game implements Interactable{
+public class Game implements XInteractable, MouseWheelListener{
 	private Logger logger;
 	private CoreGame parent;
 	private Level level;
 	private MyPlayer myPlayer;
 	private HashMap<String, Bomb> bombs = new HashMap<String, Bomb>();
 	private HashMap<String, Player> players = new HashMap<String, Player>();
-	private HashMap<String, Item> items = new HashMap<String, Item>();
+	private HashMap<String, XItem> items = new HashMap<String, XItem>();
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<XEnemy> enemies = new ArrayList<XEnemy>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private Communicable connection;
 	private float zoom = 1f;
@@ -61,6 +65,8 @@ public class Game implements Interactable{
 		
 		myPlayer = new MyPlayer(connection.getMyPosition(), parent.getCanvas(), this);
 		info = new PlayerInfo(myPlayer);
+		
+		getCanvas().addMouseWheelListener(this);
 		
 //		parent.getConnection().sendMyImage();
 	}
@@ -102,15 +108,15 @@ public class Game implements Interactable{
 									  .filter(this::isVisible)
 									  .forEach(a -> a.render(g2));
 		
-		new ArrayList<Enemy>(enemies).stream()
-									 .filter(this::isVisible)	
-									 .forEach(a -> a.render(g2));
+		new ArrayList<XEnemy>(enemies).stream()
+									  .filter(this::isVisible)	
+									  .forEach(a -> a.render(g2));
 		
-		new HashMap<String, Item>(items).entrySet()
-										.parallelStream()
-										.map(a -> a.getValue())
-										.filter(this::isVisible)
-										.forEach(a -> a.render(g2));
+		new HashMap<String, XItem>(items).entrySet()
+									     .parallelStream()
+									 	 .map(a -> a.getValue())
+										 .filter(this::isVisible)
+										 .forEach(a -> a.render(g2));
 		
 		
 		info.render(g2);
@@ -152,10 +158,10 @@ public class Game implements Interactable{
 		
 		if(Input.isKeyDown(Input.KEY_F))
 			for(int i=0 ; i < maxEnemies ; i++)
-					enemies.add(new Enemy(level.getMap().getRandomEmptyBlock().getPosition(),this));
+					enemies.add(new XEnemy(level.getMap().getRandomEmptyBlock().getPosition(),this));
 		
 		if(Input.isKeyDown(Input.KEY_E))
-			for(Enemy e : enemies)
+			for(XEnemy e : enemies)
 				e.fire();
 		
 		myPlayer.input();
@@ -168,7 +174,6 @@ public class Game implements Interactable{
 			return;
 		
 		zoom += value;
-		
 		if(level.getMap().getNumberOfBlocks().getX() * Block.WIDTH * zoom < parent.getCanvas().getWidth()){
 			zoom -= value; 
 			return;
@@ -187,7 +192,7 @@ public class Game implements Interactable{
 		ready = connection.isReady();
 	}
 
-	public boolean isVisible(Visible b){
+	public boolean isVisible(XVisible b){
 		return !(b.getPosition().getX() + Block.WIDTH  * zoom < getOffset().getX()    || 
 				 b.getPosition().getY() + Block.HEIGHT * zoom < getOffset().getY()    || 
 				   getOffset().getX() + getCanvas().getWidth()  < b.getPosition().getX()   ||
@@ -214,7 +219,7 @@ public class Game implements Interactable{
 	public Logger getLogger(){return logger;}
 	public MyPlayer getMyPlayer() {return myPlayer;}
 	public Canvas getCanvas(){return parent.getCanvas();}
-	public Item getItem(String key){return items.get(key);}
+	public XItem getItem(String key){return items.get(key);}
 	public Bomb getBomb(String key){return bombs.get(key);}
 	public Communicable getConnection() {return connection;}
 	public GVector2f getOffset() {return myPlayer.getOffset();}
@@ -254,7 +259,7 @@ public class Game implements Interactable{
 		
 		if(!items.containsKey(sur)){
 			if(getLevel().getMap().getBlock(position.getXi(), position.getYi()).getType() != Block.NOTHING)
-				items.put(sur, new Item(position.mul(Block.SIZE), type, this));
+				items.put(sur, new XItem(position.mul(Block.SIZE), type, this));
 		}
 		else
 			items.remove(sur);
@@ -262,5 +267,11 @@ public class Game implements Interactable{
 
 	public void addBomb(int bombDefaultTime, GVector2f position, int range) {
 		bombs.put(position.toString(), new Bomb(Options.BOMB_DEFAULT_TIME, position, range, this));
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent arg0) {
+		changeZoom((float)arg0.getWheelRotation() / 10);
+		
 	}
 }

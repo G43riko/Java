@@ -7,9 +7,9 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 
-public abstract class Menu implements Interactable{
+public abstract class Menu implements XInteractable{
 	protected HashMap<String,GuiComponent> components = new HashMap<String,GuiComponent>();
 
 	private Canvas canvas;

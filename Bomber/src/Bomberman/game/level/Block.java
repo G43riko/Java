@@ -8,10 +8,10 @@ import java.util.HashMap;
 import util.ResourceLoader;
 import glib.util.vector.GVector2f;
 import Bomberman.Options;
-import Bomberman.core.Interactable;
-import Bomberman.game.entities.Visible;
+import Bomberman.core.XInteractable;
+import Bomberman.game.entities.XVisible;
 
-public class Block implements Interactable, Serializable, Visible{
+public class Block implements XInteractable, Serializable, XVisible{
 	private static final long serialVersionUID = 1L;
 
 	public final static int GRASS 	= 100;

@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 
-public class Map implements Interactable, Serializable{
+public class Map implements XInteractable, Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private transient HashMap<String, Block> blocks;

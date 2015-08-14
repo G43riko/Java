@@ -4,20 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import org.json.JSONObject;
+
 import util.ResourceLoader;
+import glib.util.vector.GVector2f;
 import Bomberman.Options;
-import Bomberman.core.XInteractable;
 import Bomberman.game.Game;
 import Bomberman.game.level.Block;
-import glib.util.vector.GVector2f;
 
-public class Bomb implements XInteractable, XVisible{
+public class XBomb extends XEntity{
 	private long addedAt;
 	private int time;
-	private GVector2f position;
 	private int range;
-	private boolean dead;
-	private Game parent;
 	private int demage;
 	private boolean atom = true;
 	private int step = 0;
@@ -25,23 +23,63 @@ public class Bomb implements XInteractable, XVisible{
 	private Image image;
 	private int[] dirRange;
 	
-	public Bomb(int time, GVector2f position, int range, Game parent) {
-		this(time, position, range, parent, false);
-	};
+	public XBomb(JSONObject object, Game parent) {
+		this(object.getInt("time"),
+			 new GVector2f(object.getString("position")),
+			 object.getInt("range"),
+			 parent,
+			 object.getBoolean("atom"),
+			 object.getInt("demage"),
+			 new int[]{object.getInt("dirRange0"),
+					   object.getInt("dirRange1"),
+					   object.getInt("dirRange2"),
+					   object.getInt("dirRange3")});
+	}
 	
+	public XBomb(int time, GVector2f position, int range, Game parent, boolean atom) {
+		this(time,
+			 position,
+			 range,
+			 parent,
+			 atom,
+			 Options.BOMB_DEFAULT_DAMAGE,
+			 new int[]{range,range,range,range});
+	}
 	
-	public Bomb(int time, GVector2f position, int range, Game parent, boolean atom) {
-		this.position = position;
-		this.parent = parent;
+	public XBomb(int time, GVector2f position, int range, Game parent, boolean atom, int demage, int[] dirRange) {
+		super(position, parent);
+		this.dirRange = dirRange;
+		this.demage = demage;
 		this.range = range;
 		this.time = time;
 		this.atom = atom;
 		this.image = ResourceLoader.loadTexture("bomb.png");
-		demage = Options.BOMB_DEFAULT_DAMAGE;
 		addedAt = System.currentTimeMillis();
-		dirRange = new int[]{range,range,range,range};
 	}
-	
+
+	@Override
+	public String toJSON() {
+		JSONObject result = new JSONObject();
+		
+		result.put("id", getID());
+		result.put("alive", alive);
+		result.put("position", position);
+		
+		result.put("addedAt", addedAt);
+		result.put("time", time);
+		result.put("range", range);
+		result.put("demage", demage);
+		result.put("atom", atom);
+//		result.put("step", step);
+//		result.put("actDelay", actDelay);
+		result.put("dirRange0", dirRange[0]);
+		result.put("dirRange1", dirRange[1]);
+		result.put("dirRange2", dirRange[2]);
+		result.put("dirRange3", dirRange[3]);
+		
+		return result.toString();
+	}
+
 	private void drawRange(Graphics2D g2, GVector2f pos){
 		if(Options.BOMB_SHOW_RANGE){
 			if(atom){
@@ -73,13 +111,9 @@ public class Bomb implements XInteractable, XVisible{
 		}
 	}
 	
-	public GVector2f getSur(){
-		return position.div(Block.SIZE).toInt();
-	}
-	
 	@Override
 	public void render(Graphics2D g2) {
-		GVector2f pos = position.sub(parent.getOffset());
+		GVector2f pos = position.sub(getParent().getOffset());
 		GVector2f pos2 = pos.add(new GVector2f(Options.BOMB_WIDTH, Options.BOMB_HEIGHT));
 		
 		drawRange(g2, pos);
@@ -108,38 +142,27 @@ public class Bomb implements XInteractable, XVisible{
 			explode();
 	}
 	
-	public void explode(){
-		dead = true;
-		parent.getConnection().bombExplode(this);
-	}
-
-	public GVector2f getPosition() {
-		return position;
-	}
-
-	public boolean isDead() {
-		return dead;
+	@Override
+	public GVector2f getSur() {
+		return position.div(Block.SIZE).toInt();
 	}
 	
+	public void explode(){
+		alive = false;
+//		getParent().getConnection().bombExplode(this);
+	}
+
 	@Override
-	public String toString() {
-		return "position: " + getPosition() + " range: " + range;
+	public GVector2f getSize() {
+		return new GVector2f(Options.BOMB_WIDTH, Options.BOMB_HEIGHT);
 	}
 
 	public int getRange() {
 		return range;
 	}
 
-	public boolean isAtom() {
-		return atom;
-	}
-
 	public int getDemage() {
 		return demage;
 	}
 
-	@Override
-	public GVector2f getSize() {
-		return new GVector2f(Options.BOMB_WIDTH, Options.BOMB_HEIGHT);//.add(Block.SIZE.mul(range * 2));
-	}
 }

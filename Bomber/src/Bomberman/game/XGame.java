@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.entities.Bomb;
 import Bomberman.game.entities.Item;
 import Bomberman.game.level.Block;
@@ -15,7 +15,7 @@ import Bomberman.game.level.Level;
 import Bomberman.game.multiplayer.Communicable;
 import Bomberman.gui.Logger;
 
-public class XGame implements Interactable{
+public class XGame implements XInteractable{
 	private CoreGame parent;
 	private Level level;
 	private Communicable connection;

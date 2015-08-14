@@ -5,13 +5,13 @@ import java.awt.Graphics2D;
 
 import glib.util.vector.GVector2f;
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.Game;
 import Bomberman.game.Utils;
 import Bomberman.game.level.Block;
 import Bomberman.game.level.Map;
 
-public class Enemy implements Interactable, Visible{
+public class Enemy implements XInteractable, XVisible{
 	private static GVector2f size = new GVector2f(Options.ENEMY_DEFAULT_WIDTH  - 2 * Options.ENEMY_DEFAULT_OFFSET, 
 			  									  Options.ENEMY_DEFAULT_HEIGHT - 2 * Options.ENEMY_DEFAULT_OFFSET);
 	private GVector2f position;

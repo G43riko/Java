@@ -7,11 +7,11 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
 import Bomberman.Options;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 import Bomberman.game.Game;
 
 
-public class Explosion implements Interactable, Visible{
+public class Explosion implements XInteractable, XVisible{
 	private Image image;
 	private int numOfImages;
 	private GVector2f position;

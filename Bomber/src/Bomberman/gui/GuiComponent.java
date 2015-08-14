@@ -5,9 +5,9 @@ import java.awt.Canvas;
 import glib.math.GColision;
 import glib.util.vector.GVector2f;
 import Bomberman.core.Input;
-import Bomberman.core.Interactable;
+import Bomberman.core.XInteractable;
 
-public abstract class GuiComponent implements Interactable{
+public abstract class GuiComponent implements XInteractable{
 	protected GVector2f offset;
 	protected GVector2f textPos;
 	protected int borderThickness = 5;

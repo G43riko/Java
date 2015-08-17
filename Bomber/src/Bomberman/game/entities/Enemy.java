@@ -88,7 +88,7 @@ public class Enemy implements XInteractable, XVisible{
 
 	public void fire() {
 		if(direction >= 0 && (System.currentTimeMillis() - lastShot) >= cadence){
-			parent.addBullet(position, direction, bulletSpeed, attack);
+			parent.addBullet(position, direction, bulletSpeed, attack, Options.BULLET_DEFAULT_HEALT);
 			lastShot = System.currentTimeMillis();
 		}
 	} 

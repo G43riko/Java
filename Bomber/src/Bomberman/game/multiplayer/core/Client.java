@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import Bomberman.Options;
 import Bomberman.game.Player;
+import Bomberman.game.multiplayer.Message;
 
 public abstract class Client{
 	private ObjectInputStream objectReader;
@@ -30,7 +31,7 @@ public abstract class Client{
 			
 			connected = true;
 			System.out.println("client sa ˙speöne spojil zo serverom");
-			write(Server.TS_PLAYER_NAME + " Juro");
+			write(Message.TS_PLAYER_NAME + " Juro");
 		} catch (IOException e) {
 			System.out.println("nepodarilo sa pripojiù na server");
 		}

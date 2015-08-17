@@ -36,9 +36,9 @@ public class GameServer extends Server implements Communicable{
 		player.write(actLevel);
 		player.setPosition(actLevel.getNthPlayerDefaltPosition(getNumberOfClients()));
 		
-		player.write(Server.FS_PLAYER_POSITION + " " + player.getPosition());
+		player.write(Message.FS_PLAYER_POSITION + " " + player.getPosition());
 		
-		doForAllClients(a -> {player.write(Server.FS_NEW_PLAYER         + " " + 
+		doForAllClients(a -> {player.write(Message.FS_NEW_PLAYER         + " " + 
 		                                   a.getValue().getName()       + " " + 
 		                                   a.getValue().getImage()  	+ " " + 
 		                                   a.getValue().getDirection()  + " " + 
@@ -49,7 +49,7 @@ public class GameServer extends Server implements Communicable{
 		
 		Player me = actLevel.getParrent().getMyPlayer();
 		
-		player.write(Server.FS_NEW_PLAYER   + " " + 
+		player.write(Message.FS_NEW_PLAYER   + " " + 
 		             me.getName() 			+ " " + 
 				     me.getImage() 			+ " " + 
 		             me.getDirection() 		+ " " + 
@@ -57,7 +57,7 @@ public class GameServer extends Server implements Communicable{
 		             me.getPosition() 		+ " " + 
 				     me.getSpeed());
 		
-		player.write(Server.FS_EVERITHING_SEND + " ");
+		player.write(Message.FS_EVERITHING_SEND + " ");
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class GameServer extends Server implements Communicable{
 	@Override
 	public void playerMove(GVector2f move, int direction) {
 		Player p = actLevel.getParrent().getMyPlayer();
-		write(FS_PLAYER_NEW_POS + " " + p.getName() + " " + move + " " + direction);
+		write(Message.FS_PLAYER_NEW_POS + " " + p.getName() + " " + move + " " + direction);
 	}
 
 	@Override
@@ -87,8 +87,11 @@ public class GameServer extends Server implements Communicable{
 	@Override
 	public void putBomb(GVector2f position) {
 		Player player = actLevel.getParrent().getMyPlayer();
-		actLevel.getParrent().addBomb(Options.BOMB_DEFAULT_TIME, position, player.getRange());
-		write(Server.TS_ADD_BOMB + " " + position + " " + Options.BOMB_DEFAULT_TIME + " " + player.getRange());
+		actLevel.getParrent().addBomb(Options.BOMB_DEFAULT_TIME, 
+									  position, 
+									  player.getRange(),
+									  Options.BOMB_DEFAULT_TIME);
+		write(Message.TS_ADD_BOMB + " " + position + " " + Options.BOMB_DEFAULT_TIME + " " + player.getRange());
 	}
 
 	private void detonateAnother(String a){
@@ -105,7 +108,7 @@ public class GameServer extends Server implements Communicable{
 		GVector2f bombSur = bomb.getSur();
 		ArrayList<String> affectedBlocks = mapa.getBlockAroundPoint(bombSur, bomb.getRange());
 		
-		write(Server.FS_ADD_EXPLOSION + " " +
+		write(Message.FS_ADD_EXPLOSION + " " +
 		      bomb.getPosition() 	  + " " +
 			  "explosion1.png" 		  + " " +
 		      new GVector2f(5, 5));
@@ -121,23 +124,27 @@ public class GameServer extends Server implements Communicable{
 				 	  .forEach(a -> {
 				 		  int num = (int)(Math.random() * 4);
 				 		  game.addItem(new GVector2f(a), num);
-				 		  write(Server.FS_ADD_ITEM + " " + a + " " + num);
+				 		  write(Message.FS_ADD_ITEM + " " + a + " " + num);
 				 	  });
 		mapa.hitBlocks(affectedBlocks, bomb.getDemage());
 		
-		StringBuilder msg = new StringBuilder(Server.FS_AFFECTED_BLOCKS + " ");
+		StringBuilder msg = new StringBuilder(Message.FS_AFFECTED_BLOCKS + " ");
 		affectedBlocks.stream()
 		              .forEach(a -> msg.append(a + "-" + mapa.getBlock(a).getType() 
 		            		                     + "-" + mapa.getBlock(a).getHealt() + " "));
 		
 		
-		game.addExplosion(bomb.getPosition(), "explosion1.png", new GVector2f(5,5));
+		game.addExplosion(bomb.getPosition(), 
+						  "explosion1.png", 
+						  new GVector2f(5,5), 
+						  Options.EXPLOSION_DEFAULT_OFFSET,
+						  Options.EXPLOSION_DEFAULT_DELAY);
 		
 		
 		game.getPlayers().entrySet()
 		                 .stream()
 		                 .filter(a -> isPlayerHitted(a.getValue(), bomb))
-		                 .forEach(a -> getClient(a.getKey()).write(Server.FS_PLAYER_WAS_HIT + " " + bomb.getDemage()));
+		                 .forEach(a -> getClient(a.getKey()).write(Message.FS_PLAYER_WAS_HIT + " " + bomb.getDemage()));
 		
 		
 		if(isPlayerHitted(game.getMyPlayer(), bomb))
@@ -152,36 +159,39 @@ public class GameServer extends Server implements Communicable{
 		String key = temp.getKey();
 
 		String[] strings = msg.split(" ");
-		if(msg.startsWith(TS_PLAYER_NAME + " ")){
+		if(msg.startsWith(Message.TS_PLAYER_NAME + " ")){
 			String name = strings[1];
-			write(FS_PLAYER_NAME + " " + key + " " + name);
+			write(Message.FS_PLAYER_NAME + " " + key + " " + name);
 			renameClient(key, msg.split(" ")[1]);
 			actLevel.getParrent().renamePlayer(key, name);
 			
 		}
-		else if(msg.startsWith(TS_PLAYER_EAT_ITEM + " ")){
+		else if(msg.startsWith(Message.TS_PLAYER_EAT_ITEM + " ")){
 			actLevel.getParrent().removeItem(strings[2]);
-			write(Server.FS_PLAYER_EAT_ITEM + " " + temp.getValue().getName() + " " + strings[1] + " " + strings[2]);
+			write(Message.FS_PLAYER_EAT_ITEM + " " + temp.getValue().getName() + " " + strings[1] + " " + strings[2]);
 		}
-		else if(msg.startsWith(TS_PLAYER_IMAGE + " ")){
+		else if(msg.startsWith(Message.TS_PLAYER_IMAGE + " ")){
 			value.setImage(msg.split(" ")[1]);
-			write(FS_PLAYER_IMAGE + " " + value.getName() + " " + value.getImage());
+			write(Message.FS_PLAYER_IMAGE + " " + value.getName() + " " + value.getImage());
 		}
-		else if(msg.startsWith(TS_PLAYER_MOVE + " ")){
+		else if(msg.startsWith(Message.TS_PLAYER_MOVE + " ")){
 			GVector2f move = new GVector2f(strings[1]);
 			value.setPosition(move);
 			value.setDirection(Integer.parseInt(strings[2]));
-			write(FS_PLAYER_NEW_POS + " " + value.getName() + " " + move + " " + value.getDirection());
+			write(Message.FS_PLAYER_NEW_POS + " " + value.getName() + " " + move + " " + value.getDirection());
 		}
-		else if(msg.startsWith(TS_ADD_BOMB + " ")){
-			actLevel.getParrent().addBomb(Integer.parseInt(strings[2]), new GVector2f(strings[1]), Integer.parseInt(strings[3]));
+		else if(msg.startsWith(Message.TS_ADD_BOMB + " ")){
+			actLevel.getParrent().addBomb(Integer.parseInt(strings[2]), 
+										  new GVector2f(strings[1]), 
+										  Integer.parseInt(strings[3]),
+										  Options.BOMB_DEFAULT_TIME);
 			write(msg);
 		}
 	}
 	
 	public void eatItem(GVector2f sur, int type){
 		actLevel.getParrent().removeItem(sur.toString());
-		write(Server.FS_PLAYER_EAT_ITEM + " " + actLevel.getParrent().getMyPlayer().getName() + " " + type + " " + sur);
+		write(Message.FS_PLAYER_EAT_ITEM + " " + actLevel.getParrent().getMyPlayer().getName() + " " + type + " " + sur);
 	}
 	
 	//GETTERS

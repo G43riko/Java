@@ -34,6 +34,7 @@ public class Options {
 	public final static int ENEMY_DEFAULT_BULLET_SPEED = 4;
 	public final static int ENEMY_DEFAULT_CADENCE = 200;
 	public final static int ENEMY_DEFAULT_ATTACK = 1;
+	public final static int ENEMY_DEFAULT_HEALT = 1;
 	
 	
 	public final static int EXPLOSION_DEFAULT_WIDTH = 30;
@@ -57,6 +58,7 @@ public class Options {
 	public final static int BULLET_DEFAULT_HEIGHT = 40;
 	public final static int BULLET_DEFAULT_SPEED = 1;
 	public final static int BULLET_DEFAULT_ROUND = 10;
+	public final static int BULLET_DEFAULT_HEALT = 1;
 	
 	public static final int BLOCK_DEFAULT_WIDTH = 40;
 	public static final int BLOCK_DEFAULT_HEIGHT = 40;

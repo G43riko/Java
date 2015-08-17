@@ -41,14 +41,18 @@ public class GameClient extends Client implements Communicable{
 	@Override
 	public void proccesMsg(String msg) {
 		String[] message = msg.split(" ");
-		if(msg.startsWith(Server.FS_PLAYER_POSITION + " ")){
+		if(msg.startsWith(Message.FS_PLAYER_POSITION + " ")){
 			String s = message[1];
 			startingPlayerPosition = new GVector2f(s);
 		}
-		else if(msg.startsWith(Server.FS_ADD_EXPLOSION + " ")){
-			actLevel.getParrent().addExplosion(new GVector2f(message[1]),message[2], new GVector2f(message[3]));
+		else if(msg.startsWith(Message.FS_ADD_EXPLOSION + " ")){
+			actLevel.getParrent().addExplosion(new GVector2f(message[1]), 
+											   message[2], 
+											   new GVector2f(message[3]), 
+											   Options.EXPLOSION_DEFAULT_OFFSET,
+											   Options.EXPLOSION_DEFAULT_DELAY);
 		}
-		else if(msg.startsWith(Server.FS_PLAYER_EAT_ITEM + " ")){
+		else if(msg.startsWith(Message.FS_PLAYER_EAT_ITEM + " ")){
 			Player player = actLevel.getParrent().getPlayers().get(message[1]);
 			if(player == null)
 				player = actLevel.getParrent().getMyPlayer();
@@ -56,14 +60,15 @@ public class GameClient extends Client implements Communicable{
 			
 			actLevel.getParrent().removeItem(message[3]);
 		}
-		else if(msg.startsWith(Server.FS_ADD_ITEM + " ")){
-			actLevel.getParrent().addItem(new GVector2f(message[1]), Integer.parseInt(message[2]));
+		else if(msg.startsWith(Message.FS_ADD_ITEM + " ")){
+			actLevel.getParrent().addItem(new GVector2f(message[1]), 
+										  Integer.parseInt(message[2]));
 		}
-		else if(msg.startsWith(Server.FS_PLAYER_WAS_HIT + " ")){
+		else if(msg.startsWith(Message.FS_PLAYER_WAS_HIT + " ")){
 			
 			actLevel.getParrent().getMyPlayer().addDemmage(-Integer.parseInt(message[1]));
 		}
-		else if(msg.startsWith(Server.FS_AFFECTED_BLOCKS + " ")){
+		else if(msg.startsWith(Message.FS_AFFECTED_BLOCKS + " ")){
 			Map mapa = actLevel.getMap();
 			for(int i=1 ; i<message.length ; i++){
 				String[] s = message[i].split("-");
@@ -73,9 +78,15 @@ public class GameClient extends Client implements Communicable{
 				mapa.getBlock(s[0]).setType(Integer.valueOf(s[1]));
 			}
 		}
-		else if(msg.startsWith(Server.FS_NEW_PLAYER + " ")){
+		else if(msg.startsWith(Message.FS_NEW_PLAYER + " ")){
 			String[] res = msg.replace("  ", " ").split(" ");
-			players.put(res[1],new Player(actLevel.getParrent(), new GVector2f(res[5]), res[1], Integer.parseInt(res[6]), Integer.parseInt(res[4]), res[2]));
+			players.put(res[1],new Player(actLevel.getParrent(), 
+										  new GVector2f(res[5]), 
+										  res[1], 
+										  Integer.parseInt(res[6]), 
+										  Integer.parseInt(res[4]), 
+										  res[2]));
+			
 			System.out.println("hráè: " + res[1] + " má obrázok: " + players.get(res[1]).getImage());
 			
 			while(actLevel == null || actLevel.getParrent() == null || players.get(res[1]) == null){
@@ -87,17 +98,17 @@ public class GameClient extends Client implements Communicable{
 			}
 			actLevel.getParrent().addPlayer(res[1], players.get(res[1]));
 		}
-		else if(msg.startsWith(Server.FS_EVERITHING_SEND + " ")){
+		else if(msg.startsWith(Message.FS_EVERITHING_SEND + " ")){
 			ready = true;
 		}
-		else if(msg.startsWith(Server.TS_PLAYER_NAME + " ")){
+		else if(msg.startsWith(Message.TS_PLAYER_NAME + " ")){
 			Player temp = players.get(message[1]);
 			players.remove(message[1]);
 			temp.setName(message[2]);
 			players.put(message[2], temp);
 			System.out.println("playerovy sa zmenilo meno");
 		}
-		else if(msg.startsWith(Server.FS_PLAYER_IMAGE + " ")){
+		else if(msg.startsWith(Message.FS_PLAYER_IMAGE + " ")){
 			String name = actLevel.getParrent().getMyPlayer().getName();
 			
 			if(name == message[1])
@@ -105,7 +116,7 @@ public class GameClient extends Client implements Communicable{
 			players.get(name).setImage(message[2]);
 			System.out.println("obrázok nastavený");
 		}
-		else if(msg.startsWith(Server.FS_PLAYER_NEW_POS + " ")){
+		else if(msg.startsWith(Message.FS_PLAYER_NEW_POS + " ")){
 			Player player = players.get(message[1]);
 			
 			if(player != null){
@@ -113,25 +124,28 @@ public class GameClient extends Client implements Communicable{
 				player.setDirection(Integer.parseInt(message[3]));
 			}
 		}
-		else if(msg.startsWith(Server.TS_ADD_BOMB + " ")){
-			actLevel.getParrent().addBomb(Integer.parseInt(message[2]), new GVector2f(message[1]), Integer.parseInt(message[3]));
+		else if(msg.startsWith(Message.TS_ADD_BOMB + " ")){
+			actLevel.getParrent().addBomb(Integer.parseInt(message[2]), 
+										  new GVector2f(message[1]), 
+										  Integer.parseInt(message[3]),
+										  Options.BOMB_DEFAULT_TIME);
 		}
 	}
 
 	@Override
 	public void playerMove(GVector2f move, int direction) {
-		write(Server.TS_PLAYER_MOVE + " " + move + " " + direction);
+		write(Message.TS_PLAYER_MOVE + " " + move + " " + direction);
 	}
 
 	@Override
 	public void sendImage() {
-		write(Server.TS_PLAYER_IMAGE + " " + actLevel.getParrent().getMyPlayer().getImage());
+		write(Message.TS_PLAYER_IMAGE + " " + actLevel.getParrent().getMyPlayer().getImage());
 	}
 
 	@Override
 	public void putBomb(GVector2f position) {
 		Player player = actLevel.getParrent().getMyPlayer();
-		write(Server.TS_ADD_BOMB + " " + position + " " + Options.BOMB_DEFAULT_TIME + " " + player.getRange());
+		write(Message.TS_ADD_BOMB + " " + position + " " + Options.BOMB_DEFAULT_TIME + " " + player.getRange());
 	}
 
 	@Override
@@ -165,7 +179,7 @@ public class GameClient extends Client implements Communicable{
 	@Override
 	public void eatItem(GVector2f sur, int type) {
 		actLevel.getParrent().removeItem(sur.toString());
-		write(Server.TS_PLAYER_EAT_ITEM + " " + type + " " + sur);
+		write(Message.TS_PLAYER_EAT_ITEM + " " + type + " " + sur);
 	}
 	
 }

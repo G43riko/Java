@@ -19,7 +19,9 @@ import Bomberman.game.entities.Bullet;
 import Bomberman.game.entities.Enemy;
 import Bomberman.game.entities.Explosion;
 import Bomberman.game.entities.Item;
+import Bomberman.game.entities.XBullet;
 import Bomberman.game.entities.XEnemy;
+import Bomberman.game.entities.XExplosion;
 import Bomberman.game.entities.XItem;
 import Bomberman.game.entities.XVisible;
 import Bomberman.game.level.Block;
@@ -36,9 +38,9 @@ public class Game implements XInteractable, MouseWheelListener{
 	private HashMap<String, Bomb> bombs = new HashMap<String, Bomb>();
 	private HashMap<String, Player> players = new HashMap<String, Player>();
 	private HashMap<String, XItem> items = new HashMap<String, XItem>();
-	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+	private ArrayList<XExplosion> explosions = new ArrayList<XExplosion>();
 	private ArrayList<XEnemy> enemies = new ArrayList<XEnemy>();
-	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	private ArrayList<XBullet> bullets = new ArrayList<XBullet>();
 	private Communicable connection;
 	private float zoom = 1f;
 	private PlayerInfo info;
@@ -100,13 +102,13 @@ public class Game implements XInteractable, MouseWheelListener{
 		                                .filter(this::isVisible)
 		                                .forEach(a -> a.render(g2));
 		
-		new ArrayList<Explosion>(explosions).stream()
-											.filter(this::isVisible)
-				  							.forEach(a -> a.render(g2));
+		new ArrayList<XExplosion>(explosions).stream()
+											 .filter(this::isVisible)
+				  							 .forEach(a -> a.render(g2));
 
-		new ArrayList<Bullet>(bullets).stream()
-									  .filter(this::isVisible)
-									  .forEach(a -> a.render(g2));
+		new ArrayList<XBullet>(bullets).stream()
+						 			   .filter(this::isVisible)
+									   .forEach(a -> a.render(g2));
 		
 		new ArrayList<XEnemy>(enemies).stream()
 									  .filter(this::isVisible)	
@@ -133,8 +135,8 @@ public class Game implements XInteractable, MouseWheelListener{
 				 						.forEach(a -> bombs.remove(a.getKey()));
 		
 		explosions.removeAll(explosions.parallelStream()
-									   .filter(a -> a.isDead())
-									   .collect(Collectors.toCollection(ArrayList<Explosion>::new)));
+									   .filter(a -> !a.isAlive())
+									   .collect(Collectors.toCollection(ArrayList<XExplosion>::new)));
 		
 		enemies.parallelStream()
 			   .forEach(a -> a.update(delta));
@@ -142,10 +144,10 @@ public class Game implements XInteractable, MouseWheelListener{
 		bullets = bullets.parallelStream()
 						 .peek(a -> a.update(delta))
 						 .filter(a -> a.isAlive())
-						 .collect(Collectors.toCollection(ArrayList<Bullet>::new));
+						 .collect(Collectors.toCollection(ArrayList<XBullet>::new));
 		
-		new ArrayList<Explosion>(explosions).parallelStream()
-											.forEach(a -> a.update(delta));
+		new ArrayList<XExplosion>(explosions).parallelStream()
+											 .forEach(a -> a.update(delta));
 	}
 	
 	
@@ -233,21 +235,12 @@ public class Game implements XInteractable, MouseWheelListener{
 
 	//ADDERS
 
-	public void addBullet(GVector2f position, int direction, int speed, int demage){
-		bullets.add(new Bullet(position, 
-							   direction, 
-							   speed, 
-							   demage,
-							   this));
+	public void addBullet(GVector2f position, int direction, int speed, int demage, int healt){
+		bullets.add(new XBullet(position, this, direction,  speed, healt,  demage));
 	}
 	
-	public void addExplosion(GVector2f position, String name, GVector2f num){
-		explosions.add(new Explosion(position,
-				 					 ResourceLoader.loadTexture(name),
-				 					 new GVector2f(5,5),
-				 					 Options.EXPLOSION_DEFAULT_OFFSET,
-				 					 Options.EXPLOSION_DEFAULT_DELAY, 
-				 					 this));
+	public void addExplosion(GVector2f position, String name, GVector2f num, int offset, int delay){
+		explosions.add(new XExplosion(position, this, name, new GVector2f(5,5), offset, delay));
 	}
 	
 	public void addPlayer(String name, Player player) {
@@ -265,8 +258,8 @@ public class Game implements XInteractable, MouseWheelListener{
 			items.remove(sur);
 	}
 
-	public void addBomb(int bombDefaultTime, GVector2f position, int range) {
-		bombs.put(position.toString(), new Bomb(Options.BOMB_DEFAULT_TIME, position, range, this));
+	public void addBomb(int bombDefaultTime, GVector2f position, int range, int time) {
+		bombs.put(position.toString(), new Bomb(time, position, range, this));
 	}
 
 	@Override

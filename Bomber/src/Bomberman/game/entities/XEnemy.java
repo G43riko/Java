@@ -21,6 +21,7 @@ public class XEnemy extends XEntity{
 	private int cadence;
 	private long lastShot;
 	private int attack;
+	private int healt;
 	
 	
 	private Color color;
@@ -33,7 +34,8 @@ public class XEnemy extends XEntity{
 			 object.getInt("cadence"),
 			 object.getInt("attack"),
 			 object.getLong("lastShot"),
-			 object.getInt("direction")
+			 object.getInt("direction"),
+			 object.getInt("halt")
 		);
 	}
 	
@@ -43,10 +45,11 @@ public class XEnemy extends XEntity{
 			 Options.ENEMY_DEFAULT_SPEED, 
 			 Options.ENEMY_DEFAULT_BULLET_SPEED, 
 			 Options.ENEMY_DEFAULT_CADENCE, 
-			 Options.ENEMY_DEFAULT_ATTACK);
+			 Options.ENEMY_DEFAULT_ATTACK,
+			 Options.ENEMY_DEFAULT_HEALT);
 	}
 	
-	public XEnemy(GVector2f position, Game parent, int speed, int bulletSpeed, int cadence, int attack){
+	public XEnemy(GVector2f position, Game parent, int speed, int bulletSpeed, int cadence, int attack, int healt){
 		this(position,
 			 parent, 
 			 speed, 
@@ -54,10 +57,11 @@ public class XEnemy extends XEntity{
 			 cadence, 
 			 attack,
 			 System.currentTimeMillis() - cadence, 
-			 -2);
+			 -2,
+			 healt);
 	}
 	
-	public XEnemy(GVector2f position, Game parent, int speed, int bulletSpeed, int cadence, int attack, long lastShot, int direction){
+	public XEnemy(GVector2f position, Game parent, int speed, int bulletSpeed, int cadence, int attack, long lastShot, int direction, int healt){
 		super(position, parent);
 		
 		this.bulletSpeed = bulletSpeed;
@@ -67,6 +71,7 @@ public class XEnemy extends XEntity{
 		this.cadence = cadence;
 		this.attack = attack;
 		this.speed = speed;
+		this.healt = healt;
 		
 		color = Color.CYAN;
 		
@@ -140,7 +145,7 @@ public class XEnemy extends XEntity{
 	
 	public void fire() {
 		if(direction >= 0 && (System.currentTimeMillis() - lastShot) >= cadence){
-			getParent().addBullet(position, direction, bulletSpeed, attack);
+			getParent().addBullet(position, direction, bulletSpeed, attack, Options.BULLET_DEFAULT_HEALT);
 			lastShot = System.currentTimeMillis();
 		}
 	} 

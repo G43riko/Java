@@ -71,7 +71,6 @@ public class Explosion implements XInteractable, XVisible{
 				pos2.getXi(), pos2.getYi(), 
 				null);
 		g2.setTransform(saveAT);
-		
 	}
 
 

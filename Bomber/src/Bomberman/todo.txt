@@ -6,6 +6,72 @@ toto treba dorobiť:
 -choose game
 -options
 
+buildings
+	-mine
+	
+
+equipments
+	-bombs -klasická bomba
+	-gun - striela
+	-svetlica - osvetlí okolia
+	-rocket - ničí aj blocky
+	
+type of enemies
+	-chodí rovno a zmený smer až ked nabúra
+	-mení smer náhodne
+		-striela
+			-striela navádzané strely
+	-pokladá bombu
+		-kotúla bombu
+	-uteká pred bombou
+	-naháňa playera v určitej vzdialenosti
+	-stavia blocky
+	-vytvára dočasných pomocníkov
+	-preskakuje blocky
+	-je neviditelný do určitej vzdialenosti
+	
+bonuses
+	-kulomet - striela nepresne
+	-raketomet - striela vybuchujuce rakety
+	-navadzaná strela - nahána enemiho a vybuchuje
+	-laser - striela dosť presne
+	-mina - vybuchuje a zranuje enemyho
+	-jama s oštepmi - uvezní jedneho nepriatela
+	-zmrazujuca bomba - zastavý enemyho
+	-spomalujuca bomba - spomalí enemyho
+	-pomocníci - pomáhaju mi ešte neviem ako
+
+-new game options:
+	-select map - size
+	-items
+	-enemies
+	-gamespeed
+	-zoom
+	-fog
+	-online access
+	-difficulty
+	-type of game
+-options
+	-sounds
+	-
+-gameStatistics
+	-put bombs
+	-game time
+	-hits
+	-caused demmage
+	-recieve demage
+	-destroyed blocks
+	-ratio walking/standing
+	-
+
+/*****************CREATE*MAP*****************/
+WATER, WOOD, ROCK, IRON, GRASS, DIRT, WALL
+
+Block 	- healt, position, type,
+		- on destruct put resources OR items
+
+
+
 
 /*****************Interfaces*****************/
 Visible

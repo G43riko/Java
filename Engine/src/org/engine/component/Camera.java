@@ -3,6 +3,7 @@ package org.engine.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.engine.core.MousePicker;
 import org.engine.utils.Maths;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
@@ -27,7 +28,7 @@ public class Camera extends GameComponent{
 	//CONSTRUCTORS
 	
 	public Camera(GVector3f position) {
-		super(position);
+		super(null, position);
 		createProjectionMatrix();
 		updateForward();
 		mousePicker = new MousePicker(this);

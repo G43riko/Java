@@ -1,17 +1,19 @@
 package org.tester.voxel.world;
 
+import org.engine.app.GameAble;
+import org.engine.component.GameComponent;
+import org.engine.rendering.RenderingEngine;
+
 import glib.math.GMath;
 import glib.util.noise.ProceduralTerrain;
 import glib.util.vector.GVector3f;
-
-import org.engine.component.GameComponent;
-import org.engine.rendering.RenderingEngine;
 
 public class Terrain extends GameComponent{
 	private Block[][][] blocks;
 	
 	
-	public Terrain(int numX, int numY, int height){
+	public Terrain(GameAble parent, int numX, int numY, int height){
+		super(parent);
 		createTerrain(numX, numY, height);
 	}
 
@@ -25,7 +27,7 @@ public class Terrain extends GameComponent{
 				System.out.println();
 				float res = GMath.between(mapa[i][j], 0, 1);
 				GVector3f pos = new GVector3f(i*Block.WIDTH*2,(int)(mapa[i][j]*height/16)*2,j*Block.DEPTH*2);
-				blocks[i][(int)(res * height)][j] = new Block(Blocks.getRandomType(),pos.sub(off));
+				blocks[i][(int)(res * height)][j] = new Block(getParent(), Blocks.getRandomType(),pos.sub(off));
 			}
 		}
 	}

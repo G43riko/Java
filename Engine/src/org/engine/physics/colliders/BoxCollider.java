@@ -1,9 +1,9 @@
 package org.engine.physics.colliders;
 
-import glib.util.vector.GVector3f;
-
-import org.engine.object.GameObjectPhysics;
+import org.engine.component.object.GameObjectPhysics;
 import org.engine.physics.BasicCollider;
+
+import glib.util.vector.GVector3f;
 
 public class BoxCollider extends BasicCollider{
 //	private float width;

@@ -1,8 +1,9 @@
 package org.engine.component.light;
 
-import glib.util.vector.GVector3f;
-
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
+
+import glib.util.vector.GVector3f;
 
 public abstract class BasicLight  extends GameComponent{
 	protected GVector3f color;
@@ -10,12 +11,12 @@ public abstract class BasicLight  extends GameComponent{
 	
 	//CONSTRUCORS
 	
-	public BasicLight( GVector3f color){
-		this(new GVector3f(), color);
+	public BasicLight(GameAble parent, GVector3f color){
+		this(parent, new GVector3f(), color);
 	}
 	
-	public BasicLight(GVector3f position, GVector3f color){
-		super(position);
+	public BasicLight(GameAble parent, GVector3f position, GVector3f color){
+		super(parent, position);
 		this.color = color;
 		intensity = 1;
 	}

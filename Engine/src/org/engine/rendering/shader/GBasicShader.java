@@ -16,10 +16,6 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
-import glib.util.Loader;
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,18 +27,24 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL20;
 
+import glib.util.Loader;
+import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+import glib.util.vector.GVector4f;
+
 
 public abstract class GBasicShader {
 	private class Data{
-		private int s;
-		private int fs;
-		private int vs;
+		private int shader;
+		private int fragmentShader;
+		private int vertexShader;
 		private int count;
 		
-		public Data(int s, int fs, int vs){
-			this.s = s;
-			this.vs = vs;
-			this.fs = fs;
+		public Data(int shader, int fragmentShader, int vertexShader){
+			this.shader = shader;
+			this.vertexShader = vertexShader;
+			this.fragmentShader = fragmentShader;
 			this.count = 1;
 		}
 	}
@@ -74,8 +76,8 @@ public abstract class GBasicShader {
 		}
 		
 		bindAttributes();
-		glLinkProgram(loadedShaders.get(fileName).s);
-		glValidateProgram(loadedShaders.get(fileName).s);
+		glLinkProgram(loadedShaders.get(fileName).shader);
+		glValidateProgram(loadedShaders.get(fileName).shader);
 		getAllUniformsLocations();
 	}
 	
@@ -85,10 +87,7 @@ public abstract class GBasicShader {
 		return uniforms.containsKey(name);
 	}
 	
-	public void connectTextures(){
-		
-	};
-	
+	public void connectTextures(){};
 	protected abstract void bindAttributes();
 	
 	@Override
@@ -100,16 +99,16 @@ public abstract class GBasicShader {
 		if(loadedShaders.get(fileName).count>1)
 			loadedShaders.get(fileName).count--;
 		else{
-			glDeleteProgram(loadedShaders.get(fileName).s);
-			glDeleteShader(loadedShaders.get(fileName).vs);
-			glDeleteShader(loadedShaders.get(fileName).fs);
+			glDeleteProgram(loadedShaders.get(fileName).shader);
+			glDeleteShader(loadedShaders.get(fileName).vertexShader);
+			glDeleteShader(loadedShaders.get(fileName).fragmentShader);
 			
 			loadedShaders.remove(fileName);
 		}
 	}
 	
 	public void bind(){
-		GL20.glUseProgram(loadedShaders.get(fileName).s);
+		GL20.glUseProgram(loadedShaders.get(fileName).shader);
 	}
 	
 	public void unbind(){
@@ -145,7 +144,7 @@ public abstract class GBasicShader {
 	}
 
 	protected void bindAttribute(int attribute,String variableName){
-		GL20.glBindAttribLocation(loadedShaders.get(fileName).s, attribute, variableName);
+		GL20.glBindAttribLocation(loadedShaders.get(fileName).shader, attribute, variableName);
 	}
 	
 	//UPDATERS
@@ -160,6 +159,10 @@ public abstract class GBasicShader {
 	
 	public void updateUniform(String name, GVector3f vector){
 		GL20.glUniform3f(uniforms.get(name), vector.getX(), vector.getY(), vector.getZ());
+	}
+	
+	public void updateUniform(String name, GVector4f vector){
+		GL20.glUniform4f(uniforms.get(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
 	}
 	
 	public void updateUniform(String name, GMatrix4f value){
@@ -189,10 +192,10 @@ public abstract class GBasicShader {
 	public abstract void getAllUniformsLocations();
 
 	protected int getUniformLocation(String uniformName){
-		return GL20.glGetUniformLocation(loadedShaders.get(fileName).s, uniformName);
+		return GL20.glGetUniformLocation(loadedShaders.get(fileName).shader, uniformName);
 	}
 	
 	public int getId(){
-		return loadedShaders.get(fileName).s;
+		return loadedShaders.get(fileName).shader;
 	}
 }

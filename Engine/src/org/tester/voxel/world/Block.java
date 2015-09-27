@@ -1,8 +1,9 @@
 package org.tester.voxel.world;
 
-import glib.util.vector.GVector3f;
-
+import org.engine.app.GameAble;
 import org.engine.rendering.RenderingEngine;
+
+import glib.util.vector.GVector3f;
 
 public class Block extends BasicBlock{
 	public final static int WIDTH = 1;
@@ -15,7 +16,8 @@ public class Block extends BasicBlock{
 	
 	private GVector3f direction = new GVector3f();
 	
-	public Block(int type, GVector3f position) {
+	public Block(GameAble parent, int type, GVector3f position) {
+		super(parent);
 		setPosition(position);
 		setScale(new GVector3f(WIDTH, DEPTH, HEIGHT));
 		setType(type);

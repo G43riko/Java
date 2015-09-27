@@ -1,7 +1,5 @@
 package org.engine.rendering.model;
 
-import java.beans.ConstructorProperties;
-
 public class Model {
 	private int vaoID;
 	private int vertexCount;

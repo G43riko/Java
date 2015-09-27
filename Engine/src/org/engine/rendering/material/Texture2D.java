@@ -1,8 +1,22 @@
 package org.engine.rendering.material;
 
-import glib.util.GColor;
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
+import static org.lwjgl.opengl.GL11.GL_LINEAR_MIPMAP_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_REPEAT;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glPixelStorei;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameterf;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -12,22 +26,24 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import org.engine.utils.ResourceLoader;
+import org.engine.Config;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import glib.util.GColor;
+import glib.util.ResourceLoader;
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+
 public class Texture2D {
 	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
 	private final static int BPP = 4;
-	private final static int DEFAULT_FILTER = GL_NEAREST;
-	private final static int DEFAULT_WRAP = GL_REPEAT;
+//	private final static int DEFAULT_FILTER = GL_NEAREST;
+//	private final static int DEFAULT_WRAP = GL_REPEAT;
 //	private final static int DEFAULT_WRAP = GL12.GL_CLAMP_TO_EDGE;
 	
 	private final static boolean DEFAULT_MIPMAPPING = true;
@@ -68,9 +84,6 @@ public class Texture2D {
 			loadOldTexture(loadedTextures.get(fileName));
 			return;
 		}
-		
-//		addTextureToOpenGL(makeByteBufferFromFile(fileName));
-//		loadedTextures.put(fileName, this);
 		this.id = id;
 	}
 
@@ -107,10 +120,10 @@ public class Texture2D {
 		
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, DEFAULT_FILTER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, DEFAULT_FILTER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, DEFAULT_WRAP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, DEFAULT_WRAP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Config.TEXTURE_DEFAULT_FILTER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Config.TEXTURE_DEFAULT_FILTER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Config.TEXTURE_DEFAULT_WRAP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Config.TEXTURE_DEFAULT_WRAP);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, resolution.getXi(), resolution.getYi(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
 		
 		glTexParameterf(GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 16.0f);
@@ -131,7 +144,6 @@ public class Texture2D {
 				buffer.put((byte)((pixel >> 16)&0xFF));
 				buffer.put((byte)((pixel >> 8)&0xFF));
 				buffer.put((byte)((pixel)&0xFF));
-				
 				buffer.put((byte)(0xFF));
 			}
 		}
@@ -192,20 +204,9 @@ public class Texture2D {
 	
 	//GETTERS
 	
-	public String getFileName() {
-		return fileName;
-	}
-
-	public GVector3f getAverageColor() {
-		return averageColor;
-	}
-
-	public GVector2f getSize() {
-		return resolution;
-	}
-
-	public int getId() {
-		return id;
-	}
+	public String getFileName() {return fileName;}
+	public GVector3f getAverageColor() {return averageColor;}
+	public GVector2f getSize() {return resolution;}
+	public int getId() {return id;}
 	
 }

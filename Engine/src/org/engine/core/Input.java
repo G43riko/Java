@@ -1,9 +1,9 @@
-package org.engine.component;
-
-import glib.util.vector.GVector2f;
+package org.engine.core;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import glib.util.vector.GVector2f;
 
 public class Input	 {
 	public static final int KEY_NONE            = 0x00;
@@ -143,34 +143,34 @@ public class Input	 {
 	
 	public static void update(){
 		for(int i = 0; i < NUM_KEYCODES; i++)
-			lastKeys[i] = getKey(i);
+			lastKeys[i] = isKeyDown(i);
 		
 		for(int i = 0; i < NUM_MOUSEBUTTONS; i++)
-			lastMouse[i] = getMouse(i);
+			lastMouse[i] = isButtonDown(i);
 	}
 	
-	private static boolean getKey(int keyCode){
+	public static boolean isKeyDown(int keyCode){
 		return Keyboard.isKeyDown(keyCode);
 	}
 	
 	public static boolean getKeyDown(int keyCode){
-		return getKey(keyCode) && !lastKeys[keyCode];
+		return isKeyDown(keyCode) && !lastKeys[keyCode];
 	}
 	
 	public static boolean getKeyUp(int keyCode){
-		return !getKey(keyCode) && lastKeys[keyCode];
+		return !isKeyDown(keyCode) && lastKeys[keyCode];
 	}
 	
-	private static boolean getMouse(int mouseButton){
+	public static boolean isButtonDown(int mouseButton){
 		return Mouse.isButtonDown(mouseButton);
 	}
 	
 	public static boolean getMouseDown(int mouseButton){
-		return getMouse(mouseButton) && !lastMouse[mouseButton];
+		return isButtonDown(mouseButton) && !lastMouse[mouseButton];
 	}
 	
 	public static boolean getMouseUp(int mouseButton){
-		return !getMouse(mouseButton) && lastMouse[mouseButton];
+		return !isButtonDown(mouseButton) && lastMouse[mouseButton];
 	}
 	
 	public static GVector2f getMousePosition(){

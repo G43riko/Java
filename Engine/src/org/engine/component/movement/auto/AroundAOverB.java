@@ -1,8 +1,9 @@
 package org.engine.component.movement.auto;
 
-import glib.util.vector.GVector3f;
-
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
+
+import glib.util.vector.GVector3f;
 
 public class AroundAOverB extends GameComponent{
 	private GVector3f pointA;
@@ -13,7 +14,8 @@ public class AroundAOverB extends GameComponent{
 	private float radius;
 	private float angle;
 	
-	public AroundAOverB(GVector3f pointA, GVector3f pointB, GameComponent object, float speed) {
+	public AroundAOverB(GameAble parent, GVector3f pointA, GVector3f pointB, GameComponent object, float speed) {
+		super(parent);
 		this.pointA = pointA;
 		this.pointB = pointB;
 		this.object = object;
@@ -24,7 +26,7 @@ public class AroundAOverB extends GameComponent{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 		GVector3f pos = new GVector3f(Math.cos(Math.toRadians(angle)),0, Math.sin(Math.toRadians(angle))).mul(radius).add(pointA);
 		pos.setY(object.getPosition().getY());
 		object.setPosition(pos);

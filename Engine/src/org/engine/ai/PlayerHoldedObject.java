@@ -1,16 +1,17 @@
 package org.engine.ai;
 
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GQuaternion;
-import glib.util.vector.GVector3f;
-
+import org.engine.app.GameAble;
 import org.engine.component.Camera;
-import org.engine.component.Input;
-import org.engine.object.GameObject;
+import org.engine.component.object.GameObject;
+import org.engine.core.Input;
 import org.engine.rendering.material.Material;
 import org.engine.rendering.material.Texture2D;
 import org.engine.rendering.model.Model;
-import org.engine.utils.OBJLoader;
+import org.engine.utils.resource.OBJLoader;
+
+import glib.util.vector.GMatrix4f;
+import glib.util.vector.GQuaternion;
+import glib.util.vector.GVector3f;
 
 public class PlayerHoldedObject extends GameObject{
 	private Camera camera;
@@ -21,8 +22,9 @@ public class PlayerHoldedObject extends GameObject{
 	private int changeInFrames = 0;
 	private int changeTime = 5;
 	
-	public PlayerHoldedObject(Camera camera) {
-		this(new Material(new Texture2D("materials/gun_diffuse.jpg")),
+	public PlayerHoldedObject(GameAble parent, Camera camera) {
+		this(parent,
+			 new Material(new Texture2D("materials/gun_diffuse.jpg")),
 			 OBJLoader.loadObjModel("gun"),
 			 camera,
 			 new GVector3f(0.5, -1, -2), 
@@ -41,8 +43,8 @@ public class PlayerHoldedObject extends GameObject{
 //			 5);
 //	}
 	
-	public PlayerHoldedObject(Material material, Model model, Camera camera, GVector3f offNormal, GVector3f offFront, float scale, int changeTime) {
-		super(material, model);
+	public PlayerHoldedObject(GameAble parent, Material material, Model model, Camera camera, GVector3f offNormal, GVector3f offFront, float scale, int changeTime) {
+		super(parent, material, model);
 		this.camera = camera;
 		this.offFront = offFront;
 		this.offNormal = offNormal ;

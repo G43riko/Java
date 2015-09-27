@@ -14,16 +14,12 @@ import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.util.HashMap;
 
-import glib.util.vector.GMatrix4f;
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
-
+import org.engine.Config;
 import org.engine.component.Camera;
-import org.engine.component.Screen;
 import org.engine.component.light.DirectionalLight;
-import org.engine.component.light.PointLight;
+import org.engine.component.object.GameObject;
+import org.engine.core.Screen;
 import org.engine.gui.Hud;
-import org.engine.object.GameObject;
 import org.engine.rendering.material.Material;
 import org.engine.rendering.material.Texture2D;
 import org.engine.rendering.model.Model;
@@ -31,6 +27,7 @@ import org.engine.rendering.shader.GBasicShader;
 import org.engine.rendering.shader.named.HudShader;
 import org.engine.rendering.shader.named.ObjectShader;
 import org.engine.rendering.shader.named.PostFXShader;
+import org.engine.utils.GDebug;
 import org.engine.utils.Maths;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -40,6 +37,11 @@ import org.lwjgl.opengl.GL30;
 import org.tester.voxel.PointLightObject;
 import org.tester.voxel.world.Block;
 import org.tester.voxel.world.Blocks;
+
+import glib.util.vector.GMatrix4f;
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+
 
 public class RenderingEngine {
 	public final static int MAX_LIGHTS = 8;
@@ -68,18 +70,22 @@ public class RenderingEngine {
 	
 	//CONSTRUCTORS
 	
-	public RenderingEngine(){
+	public RenderingEngine(Camera camera){
+		
+		mainCamera = camera;
+		updateCamera();
+		
 		init3D();
 		
 		glClearColor(backgroundColor.getX(), backgroundColor.getY(), backgroundColor.getZ(), 1f);
 		
-		setAmbient(new GVector3f(1));
+		setAmbient(Config.ENGINE_DEFAULT_AMBIENT);
 		
 		setVariable("useLights", true);
-		setVariable("useAmbient", false);
+		setVariable("useAmbient", true);
 		setVariable("useTexture", true);
-		setVariable("useSpecular", false);
-		setVariable("useSpecularMap", false);
+		setVariable("useSpecular", true);
+		setVariable("useSpecularMap", true);
 		setVariable("useCameraBlur", false);
 		setVariable("useAntiAliasing", false);
 		setVariable("useNormalMap", false);
@@ -93,8 +99,11 @@ public class RenderingEngine {
 	//RENDERERS
 	
 	public void renderObject(GameObject object) {
-		if(mainCamera == null)
+		if(mainCamera == null){
+			GDebug.logError("nieje nastavená hlavná kamera", "RenderingEngine");
 			return;
+		}
+			
 		getShader("objectShader").bind();
 
 		getShader("objectShader").updateUniform("fakeLight", object.isUseFakeLight());
@@ -176,6 +185,35 @@ public class RenderingEngine {
 		disableVertex(3);
 	}
 	
+	public void renderBlockBomber(org.tester.bomber.level.Block block) {
+		if(mainCamera == null)
+			return;
+		
+		getShader("objectShader").bind();
+		getShader("objectShader").updateUniform("fakeLight", false);
+		getShader("objectShader").updateUniform("receiveLight", true);
+		getShader("objectShader").updateUniform("transformationMatrix", block.getTransformationMatrix());
+		setMaterial(block.getMaterial());
+		
+		prepareAndDraw(3, block.getModel("top"));
+		
+		
+		if(mainCamera.getPosition().getX() < block.getPosition().getX())
+			prepareAndDraw(3, block.getModel("right"));
+		else
+			prepareAndDraw(3, block.getModel("left"));
+		
+		if(mainCamera.getPosition().getZ() < block.getPosition().getZ())
+			prepareAndDraw(3, block.getModel("forward"));
+		else
+			prepareAndDraw(3, block.getModel("back"));
+		
+		
+		getShader("objectShader").updateUniform("receiveLight", false);
+		disableVertex(3);
+	}
+
+	
 //	public void renderObject(List<GameObject> objects){
 //		if(mainCamera == null)
 //			return;
@@ -204,6 +242,11 @@ public class RenderingEngine {
 	}
 	
 	private void prepareAndDraw(int i, Model model) {
+		if(model == null){
+			GDebug.logError("chce sa vykresli model ktorý je null", "RenderignEngine");
+			return;
+		}
+			
 		GL30.glBindVertexArray(model.getVaoID());
 		
 		GL20.glEnableVertexAttribArray(0);
@@ -263,11 +306,12 @@ public class RenderingEngine {
 			return;
 		variables.put(name, value);
 		
-		shaders.forEach((key,val) -> {
-			if(val.hasUniform(name)){
-				val.bind();
-				val.updateUniform(name, value);
-			}
+		shaders.entrySet().stream()
+						  .map(a -> a.getValue())
+						  .filter(a -> a.hasUniform(name))
+						  .forEach(a -> {
+			a.bind();
+			a.updateUniform(name, value);
 		});
 	}
 	
@@ -330,7 +374,7 @@ public class RenderingEngine {
 
 	private void setViewMatrix(GMatrix4f matrix) {
 		if(mainCamera == null){
-			System.out.println("nieje nastavená hlavná kamera");
+			GDebug.logError("nieje nastavená hlavná kamera", "RenderingEngine");
 			return;
 		}
 		
@@ -351,11 +395,6 @@ public class RenderingEngine {
 			}
 		});
 		
-	}
-
-	public void setCamera(Camera camera) {
-		mainCamera = camera;
-		updateCamera();
 	}
 
 	public void setBackgroundColor(GVector3f backgroundColor) {

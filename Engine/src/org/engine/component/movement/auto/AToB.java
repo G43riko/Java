@@ -1,9 +1,10 @@
 package org.engine.component.movement.auto;
 
+import org.engine.app.GameAble;
+import org.engine.component.GameComponent;
+
 import glib.math.GMath;
 import glib.util.vector.GVector3f;
-
-import org.engine.component.GameComponent;
 
 public class AToB extends GameComponent{
 	private GVector3f pointA;
@@ -16,7 +17,8 @@ public class AToB extends GameComponent{
 	private boolean toA = true;
 	private boolean linear = true;
 	
-	public AToB(GVector3f pointA, GVector3f pointB, GameComponent object, float speed) {
+	public AToB(GameAble parent, GVector3f pointA, GVector3f pointB, GameComponent object, float speed) {
+		super(parent);
 		this.pointA = pointA;
 		this.pointB = pointB;
 		this.object = object;
@@ -44,7 +46,7 @@ public class AToB extends GameComponent{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 		if(toA)
 			toPoint(pointA);
 		else

@@ -2,18 +2,14 @@ package org.engine.gui.panel;
 
 import java.awt.event.KeyEvent;
 
-
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-
-
 import org.engine.gui.Gui;
-import org.engine.gui.components.DirectionalLightPanel;
-import org.engine.gui.components.PointLightPanel;
+import org.engine.gui.components.swing.DirectionalLightPanel;
+import org.engine.gui.components.swing.PointLightPanel;
 import org.engine.gui.window.CameraWindow;
 import org.engine.gui.window.RenderWindow;;
 

@@ -1,9 +1,15 @@
 package org.tester.voxel.world;
 
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.engine.rendering.material.Material;
 
 public abstract class BasicBlock extends GameComponent{
+	public BasicBlock(GameAble parent) {
+		super(parent);
+		// TODO Auto-generated constructor stub
+	}
+
 	private int type;
 
 	//GETTERS

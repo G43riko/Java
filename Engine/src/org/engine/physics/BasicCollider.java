@@ -1,6 +1,6 @@
 package org.engine.physics;
 
-import org.engine.object.GameObjectPhysics;
+import org.engine.component.object.GameObjectPhysics;
 
 public abstract class BasicCollider {
 	private GameObjectPhysics parent;

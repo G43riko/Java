@@ -1,8 +1,4 @@
-package org.engine;
-
-import glib.util.noise.PerlinNoise;
-import glib.util.noise.ProceduralTerrain;
-import glib.util.noise.SimplexNoise;
+package org.tester;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,9 +6,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.engine.core.CoreEngine;
 import org.engine.rendering.model.Model;
-import org.engine.utils.Loader;
 import org.lwjgl.util.vector.Vector3f;
+
+import glib.util.noise.PerlinNoise;
+import glib.util.noise.ProceduralTerrain;
+import glib.util.noise.SimplexNoise;
 
 public class Terrain {
 	public final static int PERLIN_NOISE = 1;
@@ -111,7 +111,7 @@ public class Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return Loader.loadToVAO(vertices, textureCoords, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	
 	private Model generateTerrain( float[][] map){
@@ -152,7 +152,7 @@ public class Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return Loader.loadToVAO(vertices, textureCoords, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	
 	//CALCULATORS

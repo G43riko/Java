@@ -1,31 +1,29 @@
 package org.engine.rendering;
 
+import org.engine.app.GameAble;
+import org.engine.component.object.GameObject;
+import org.engine.core.CoreEngine;
+import org.engine.rendering.material.Material;
+
 import glib.shapes.threeDimensional.Plane;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GQuaternion;
 import glib.util.vector.GVector3f;
 
-import org.engine.component.Camera;
-import org.engine.object.GameObject;
-import org.engine.rendering.material.Material;
-import org.engine.utils.Loader;
-
 public class Bullet extends GameObject{
-	private GVector3f direction;
 	private static float speed = 10f;
 	private static float widht = 0.05f;
-	private Camera camera;
+	private GVector3f direction;
 	
-	public Bullet(Material material,GVector3f position, GVector3f direction, Camera camera) {
-		super(material, Loader.loadToVAO(Plane.getVertices(getRandWidth(), getRandHeight()), Plane.getTextures(1,1), Plane.getNormals(), Plane.getIndices()));
+	public Bullet(GameAble parent, Material material,GVector3f position, GVector3f direction) {
+		super(parent, material, CoreEngine.getLoader().loadToVAO(Plane.getVertices(getRandWidth(), getRandHeight()), Plane.getTextures(1,1), Plane.getNormals(), Plane.getIndices()));
 		this.direction = direction.Normalized();
-		this.camera = camera;
 		setPosition(position.add(direction.mul(speed+1)));
 	}
 	
 	@Override
 	public GMatrix4f getTransformationMatrix() {
-		GVector3f toCamera = camera.getPosition().sub(getPosition()).Normalized();
+		GVector3f toCamera = getParent().getCamera().getPosition().sub(getPosition()).Normalized();
 		toCamera = toCamera.cross(direction).cross(direction.mul(-1));
 		GQuaternion res = new GQuaternion(new GMatrix4f().initRotation(direction, new GVector3f(toCamera)));
 		
@@ -41,7 +39,7 @@ public class Bullet extends GameObject{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 		move(direction.Normalized().mul(speed));
 	}
 }

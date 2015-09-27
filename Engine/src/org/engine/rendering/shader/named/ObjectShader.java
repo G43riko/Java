@@ -4,7 +4,6 @@ import org.engine.component.light.BasicLight;
 import org.engine.component.light.DirectionalLight;
 import org.engine.component.light.PointLight;
 import org.engine.rendering.shader.GBasicShader;
-import org.lwjgl.opengl.GL20;
 
 public class ObjectShader extends GBasicShader{
 

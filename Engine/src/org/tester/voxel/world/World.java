@@ -1,5 +1,6 @@
 package org.tester.voxel.world;
 
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.engine.rendering.RenderingEngine;
 
@@ -13,7 +14,8 @@ public class World extends GameComponent{
 	
 	//CONSTRUCTORS
 	
-	public World(){
+	public World(GameAble parent){
+		super(parent);
 		createChunks();
 		setNeighBoardsAndSides();
 	}
@@ -27,7 +29,7 @@ public class World extends GameComponent{
 	private void setNeighBoardsAndSides() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j] = new Chunk(new GVector3f(i * Chunk.WIDHT, 0, j * Chunk.DEPTH));
+				chunks[i][j] = new Chunk(getParent(), new GVector3f(i * Chunk.WIDHT, 0, j * Chunk.DEPTH));
 			}
 		}
 		
@@ -55,7 +57,7 @@ public class World extends GameComponent{
 	private void createChunks() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){
-				chunks[i][j] = new Chunk(new GVector3f(i * Chunk.WIDHT, 0, j * Chunk.DEPTH));
+				chunks[i][j] = new Chunk(getParent(), new GVector3f(i * Chunk.WIDHT, 0, j * Chunk.DEPTH));
 			}
 		}
 	}
@@ -72,7 +74,7 @@ public class World extends GameComponent{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 //		for(int i=0 ; i<NUM_X ; i++){
 //			for(int j=0 ; j<NUM_Z ; j++){
 //				chunks[i][j].update();

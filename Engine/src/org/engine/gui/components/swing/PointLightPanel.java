@@ -1,12 +1,12 @@
-package org.engine.gui.components;
+package org.engine.gui.components.swing;
 
 import java.awt.Dimension;
-
-import glib.swing.GVector3Editor;
 
 import javax.swing.JPanel;
 
 import org.engine.core.CoreEngine;
+
+import glib.swing.GVector3Editor;
 
 public class PointLightPanel extends JPanel{
 	private static final long serialVersionUID = 1L;

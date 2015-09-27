@@ -1,4 +1,4 @@
-package org.engine.utils;
+package org.engine.utils.resource;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.engine.core.CoreEngine;
 import org.engine.rendering.model.Model;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -112,7 +113,7 @@ public class OBJLoader {
 		for(int i=0 ; i<indices.size() ; i++){
 			indicesArray[i]  = indices.get(i);
 		}
-		loadedModels.put(fileName, Loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray));
+		loadedModels.put(fileName, CoreEngine.getLoader().loadToVAO(verticesArray, textureArray, normalsArray, indicesArray));
 		return loadedModels.get(fileName);
 	}
 	

@@ -59,7 +59,7 @@ public class Main {
 		int shader = glCreateShader(type);
 		StringBuilder source  = new StringBuilder();
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader("src/GameEngine/ShaderTest/"+file));
+			BufferedReader reader = new BufferedReader(new FileReader("src/ShaderTest/"+file));
 			String line;
 			while((line = reader.readLine())!=null){
 				source.append(line);

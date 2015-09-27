@@ -6,6 +6,10 @@ public class GVector4f {
 	private float z;
 	private float w;
 	
+	public GVector4f(double x, double y, double z, double w) {
+		this((float)x, (float)y, (float)z, (float)w);
+	}
+	
 	public GVector4f(float x, float y, float z, float w) {
 		this.x = x;
 		this.y = y;

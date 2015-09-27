@@ -1,8 +1,8 @@
 package org.engine.physics;
 
-import glib.math.GColision;
-
 import org.engine.physics.colliders.BoxCollider;
+
+import glib.math.GColision;
 
 public class Collisions {
 	public static boolean collision(BoxCollider a, BoxCollider b){

@@ -161,6 +161,18 @@ public class GVector3f {
 		return new GVector3f(x * num, y * num, z * num);
 	}
 	
+	public float mul(){
+		return x * y * z;
+	}
+	
+	public float sum(){
+		return x + y + z;
+	}
+	
+	public float average(){
+		return (x + y + z) / 3;
+	}
+	
 	public GVector3f div(GVector3f v){
 		return new GVector3f(x / v.x, y / v.y, z / v.z);
 	}
@@ -168,6 +180,15 @@ public class GVector3f {
 	public GVector3f div(float num){
 		return new GVector3f(x / num, y / num, z / num);
 	}
+
+	public GVector3f mod(GVector3f v){
+		return new GVector3f(x % v.x, y % v.y, z % v.z);
+	}
+	
+	public GVector3f mod(int num) {
+		return new GVector3f(x % num, y % num, z % num);
+	}
+	
 	
 	public GVector3f Rotate(GVector3f axis, float angle){
 		float sinAngle = (float)Math.sin(-angle);
@@ -244,10 +265,6 @@ public class GVector3f {
 	public GVector2f getYX() { return new GVector2f(y, x); }
 	public GVector2f getZY() { return new GVector2f(z, y); }
 	public GVector2f getXZ() { return new GVector2f(x, z); }
-
-	public float average(){
-		return (x+y+z) / 3;
-	}
 	
 	public GVector3f set(float x, float y, float z){ this.x = x; this.y = y; this.z = z; return this; }
 	public GVector3f set(GVector3f r) { set(r.x, r.y, r.z); return this; }
@@ -286,5 +303,6 @@ public class GVector3f {
 		GVector3f v =(GVector3f)o;
 		return x == v.x && y == v.y && z == v.z;
 	}
+
 
 }

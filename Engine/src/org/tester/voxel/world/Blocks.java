@@ -1,8 +1,8 @@
 package org.tester.voxel.world;
 
+import org.engine.core.CoreEngine;
 import org.engine.rendering.material.Material;
 import org.engine.rendering.model.Model;
-import org.engine.utils.Loader;
 
 public class Blocks {
 	private static Material material = new Material("materials/texture.png");
@@ -48,7 +48,7 @@ public class Blocks {
 				 		   0.0000f,  1.0000f,  0.0000f,
 				 		   0.0000f,  1.0000f,  0.0000f};
 		
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	private static Model getLeft(){
@@ -69,7 +69,7 @@ public class Blocks {
 				 		   1.0000f,  0.0000f,  0.0000f,
 				 		   1.0000f,  0.0000f,  0.0000f,
 				 		   1.0000f,  0.0000f,  0.0000f};
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	private static Model getForward(){
@@ -90,7 +90,7 @@ public class Blocks {
 				 		   0.0000f,  0.0000f,  -1.0000f,
 				 		   0.0000f,  0.0000f,  -1.0000f,
 				 		   0.0000f,  0.0000f,  -1.0000f};
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	private static Model getBack(){
@@ -111,7 +111,7 @@ public class Blocks {
 				 		   0.0000f,  0.0000f,  1.0000f,
 				 		   0.0000f,  0.0000f,  1.0000f,
 				 		   0.0000f,  0.0000f,  1.0000f};
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	private static Model getRight(){
@@ -132,7 +132,7 @@ public class Blocks {
 				 		   -1.0000f,  0.0000f,  0.0000f,
 				 		   -1.0000f,  0.0000f,  0.0000f,
 				 		   -1.0000f,  0.0000f,  0.0000f};
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 	
 	private static Model getBottom(){
@@ -153,7 +153,7 @@ public class Blocks {
 				 		   0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f};
-		return Loader.loadToVAO(position, texture, normals, indices);
+		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
 	}
 
 }

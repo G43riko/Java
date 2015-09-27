@@ -1,9 +1,10 @@
 package org.engine.ai;
 
-import glib.util.vector.GVector3f;
-
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
-import org.engine.object.GameObject;
+import org.engine.component.object.GameObject;
+
+import glib.util.vector.GVector3f;
 
 public class Follower extends GameComponent{
 	private GameObject parent;
@@ -15,14 +16,15 @@ public class Follower extends GameComponent{
 	
 	//CONSTRUCTORS
 	
-	public Follower(GameObject parent, GameComponent target) {
+	public Follower(GameAble parrent, GameObject parent, GameComponent target) {
+		super(parrent);
 		this.parent = parent;
 	}
 	
 	//OVERRIDES
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 		if(target == null)
 			return;
 

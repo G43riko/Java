@@ -1,43 +1,34 @@
-package org.tester;
+package org.engine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
-import glib.math.GColision;
-import glib.shapes.threeDimensional.Plane;
+import org.engine.utils.persistance.DataParser;
+import org.engine.utils.persistance.XMLParser;
+import org.tester.CoreGame;
+
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
-import org.engine.Terrain;
-import org.engine.ai.BasicEnemy;
-import org.engine.ai.GameSimulation;
-import org.engine.component.light.DirectionalLight;
-import org.engine.component.light.PointLight;
-import org.engine.component.movement.FPS;
-import org.engine.component.movement.auto.AToB;
-import org.engine.component.movement.auto.AroundAOverB;
-import org.engine.core.CoreEngine;
-import org.engine.gui.Hud;
-import org.engine.object.GameObject;
-import org.engine.rendering.material.Material;
-import org.engine.rendering.material.Texture2D;
-import org.engine.utils.Loader;
-import org.engine.utils.OBJLoader;
-import org.tester.voxel.PointLightObject;
-import org.tester.voxel.world.Block;
-import org.tester.voxel.world.Chunk;
-import org.tester.voxel.world.World;
 
-public class DefaultTester extends CoreEngine{
+public class DefaultApp extends CoreGame {
 	private static final long serialVersionUID = 1L;
-
+	private static XMLParser xmlData = new XMLParser("bomber.xml");
+	private static DataParser viewData = new DataParser("bomberView.txt");
 	
+	public DefaultApp(){
+	}
 	
-	@Override
-	public void init() {
+	public static HashMap<String, String> getData(String type) {return xmlData.getData(type);}
+	
+	public static int getInt(String value) {return viewData.getInt(value);}
+	public static float getFloat(String value) {return viewData.getFloat(value);}
+	public static String getString(String value) {return viewData.getString(value);}
+	public static boolean getBoolean(String value) {return viewData.getBoolean(value);}
+	public static GVector2f getVector2f(String value) {return viewData.getVector2f(value);}
+	public static GVector3f getVector3f(String value) {return viewData.getVector3f(value);}
+	
 //		GameObject g = new GameObject(new Material("materials/texture.png"), OBJLoader.loadObjModel("axe")){
-		usePostFX(true);
+//		usePostFX(true);
 		
 //		GameObject g = new GameObject(new Material(new Texture2D("materials/crossbow.jpg"),
 ////												   new Texture2D("materials/crossbow_normal.jpg"),
@@ -80,9 +71,7 @@ public class DefaultTester extends CoreEngine{
 //		addToScene(new AToB(new GVector3f(1,10,1), new GVector3f(1,1,1), o, 0.1f));
 //		addToSceneLight(o);
 		
-		addToScene(new GameObject(new Material(new Texture2D("materials/texture.png")), new Terrain(1,1).getModel()));
 		
-		getRenderingEngine().setSun(new DirectionalLight(new GVector3f(0.5f, 1, 0.5f), new GVector3f(0.8f)));
 		
 //		for(int i=0 ; i< 1000 ; i++){
 //			g = new GameObject(new Material("materials/crossbow.jpg"), OBJLoader.loadObjModel("crossbow"));
@@ -95,35 +84,4 @@ public class DefaultTester extends CoreEngine{
 //			g.setRotation(new GVector3f((float)Math.random()*360,(float)Math.random()*360,(float)Math.random()*360));
 //			addToScene(g);
 //		}
-		
-		
-		
-		addToScene(new FPS(getCamera()));
-		
-		GameObject plane = new GameObject(new Material("materials/texture.png"),Loader.loadToVAO(Plane.getVertices(100, 100), 
-																								 Plane.getTextures(100, 100), 
-																								 Plane.getNormals(), 
-																								 Plane.getIndices()));
-		plane.setUseFakeLight(true);
-		addToScene(plane);
-		
-		addToScene(new Hud(new Texture2D("materials/texture.png"), new GVector2f(0.5f,0.5f), new GVector2f(0.25f, 0.25f)));
-		
-	}
-	
-	@Override
-	protected void render() {
-		getScene().stream().forEach(a -> a.render(getRenderingEngine()));
-	}
-	
-	@Override
-	protected void update() {
-	}
-	
-	@Override
-	protected void input() {
-	}
-
-	
-
 }

@@ -13,14 +13,14 @@ public class GVector2f implements Serializable{
 		this(0,0);
 	};
 	
+	public GVector2f(float num){
+		this(num, num);
+	};
+	
 	public GVector2f(float x, float y){
 		this.x = x;
 		this.y = y;
 	};
-	
-	public GVector2f toInt(){
-		return new GVector2f((int)x, (int)y);
-	}
 	
 	public GVector2f(String s){
 		s = s.replace("[", "").replace("]", "").replace("x", "_");
@@ -102,9 +102,10 @@ public class GVector2f implements Serializable{
 		return distX * distX + distY * distY;
 	}
 	
-	public void negate(){
+	public GVector2f negate(){
 		this.x *= -1;
 		this.y *= -1;
+		return this;
 	}
 	
 	public float angleBetween(GVector2f v) {
@@ -157,9 +158,19 @@ public class GVector2f implements Serializable{
 		return new GVector2f(Math.abs(x), Math.abs(y));
 	};
 
+	public float average(){
+		return (x + y) / 2;
+	}
+	
+	public float sum(){
+		return x + y;
+	}
+	
 	public boolean isNull(){
 		return x == 0 && y == 0;
 	};
+	
+	public float mul() {return x * y;}
 	
 	public float getX() {return x;}
 	public float getY() {return y;}
@@ -170,8 +181,8 @@ public class GVector2f implements Serializable{
 	public void setX(float x) {this.x = x;}
 	public void setY(float y) {this.y = y;}
 	
-	public void addToY(float y){this.y += y;}
-	public void addToX(float x){this.x += x;}
+	public GVector2f addToY(float y){this.y += y; return this;}
+	public GVector2f addToX(float x){this.x += x; return this;}
 	
 	public void set(float x, float y){this.x = x;this.y = y;}
 	
@@ -180,6 +191,8 @@ public class GVector2f implements Serializable{
 	public String toString(){
 		return "["+this.x+"x"+this.y+"]";
 	}
+
+	public GVector2f toInt(){return new GVector2f((int)x, (int)y);}
 	
 	public static GVector2f interpolateLinear(float scale, GVector2f startValue, GVector2f endValue) {
 		GVector2f result = new GVector2f();

@@ -2,20 +2,30 @@ package org.engine.component.movement;
 
 import java.util.HashMap;
 
-import glib.util.vector.GVector2f;
-
-import org.engine.component.Camera;
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-public class BasicMovement extends GameComponent{
+import glib.util.vector.GVector2f;
+
+public abstract class BasicMovement extends GameComponent{
+	public final static String FORWARD = "forward";
+	public final static String BACK = "back";
+	public final static String LEFT = "left";
+	public final static String RIGHT = "right";
+	
+	public final static String LOCK = "lock";
+	public final static String UNLOCK = "unlock";
+	
+	public final static String TURN_RIGHT = "turnRight";
+	public final static String TURN_LEFT = "turnLeft";
 	
 	protected HashMap<String, Integer> keys = new HashMap<String, Integer>(); 
 
-	protected int unlockMouseKey = Keyboard.KEY_K;
-	protected int lockMouseKey = Keyboard.KEY_L;
+//	protected int unlockMouseKey = Keyboard.KEY_K;
+//	protected int lockMouseKey = Keyboard.KEY_L;
 	
 	protected boolean move;
 	protected boolean rotate;
@@ -24,36 +34,35 @@ public class BasicMovement extends GameComponent{
 
 	protected boolean mouseLocked = false;
 	
-	protected Camera camera;
 
 	protected float moveSpeed = 0.3f;
 	protected float rotSpeed = 0.6f;
 	
-	public BasicMovement(Camera camera) {
-		this.camera = camera;
+	public BasicMovement(GameAble parent) {
+		super(parent);
 		
 		setDefaultKeys();
 	}
 	
 	private void setDefaultKeys(){
-		keys.put("forward", Keyboard.KEY_W);
-		keys.put("back", Keyboard.KEY_S);
-		keys.put("left", Keyboard.KEY_A);
-		keys.put("right", Keyboard.KEY_D);
+		keys.put(FORWARD, Keyboard.KEY_W);
+		keys.put(BACK, Keyboard.KEY_S);
+		keys.put(LEFT, Keyboard.KEY_A);
+		keys.put(RIGHT, Keyboard.KEY_D);
 		
-		keys.put("unlock", Keyboard.KEY_K);
-		keys.put("lock", Keyboard.KEY_L);
+		keys.put(UNLOCK, Keyboard.KEY_K);
+		keys.put(LOCK, Keyboard.KEY_L);
 		
-		keys.put("turnRight", Keyboard.KEY_E);
-		keys.put("turnLeft", Keyboard.KEY_Q);
+		keys.put(TURN_RIGHT, Keyboard.KEY_E);
+		keys.put(TURN_LEFT, Keyboard.KEY_Q);
 	}
 	
 	protected void checkMouseLock(){
-		if(Keyboard.isKeyDown(lockMouseKey)){
+		if(Keyboard.isKeyDown(keys.get(LOCK))){
 			lockMouse();
 		}
 		
-		if(Keyboard.isKeyDown(unlockMouseKey)){
+		if(Keyboard.isKeyDown(keys.get(UNLOCK))){
 			unlockMouse();
 		}
 	}

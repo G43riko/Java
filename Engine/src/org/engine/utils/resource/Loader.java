@@ -1,4 +1,4 @@
-package org.engine.utils;
+package org.engine.utils.resource;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -13,11 +13,11 @@ import org.lwjgl.opengl.GL30;
 
 public class Loader {
 	
-	private static ArrayList<Integer> vaos = new ArrayList<Integer>();
-	private static ArrayList<Integer> vbos = new ArrayList<Integer>();
-	private static ArrayList<Integer> textures = new ArrayList<Integer>();
+	private ArrayList<Integer> vaos = new ArrayList<Integer>();
+	private ArrayList<Integer> vbos = new ArrayList<Integer>();
+	private ArrayList<Integer> textures = new ArrayList<Integer>();
 	
-	public static Model loadToVAO(float[] positions, float[] textureCoords, int[] indices){
+	public Model loadToVAO(float[] positions, float[] textureCoords, int[] indices){
 		int vaoID = createVAO();
 		
 		bindIndicesBuffer(indices);
@@ -28,7 +28,7 @@ public class Loader {
 		return new Model(vaoID, indices.length, positions.length/3);
 	}
 	
-	public static Model loadToVAO(float[] positions, int[] indices){
+	public Model loadToVAO(float[] positions, int[] indices){
 		int vaoID = createVAO();
 		
 		bindIndicesBuffer(indices);
@@ -38,7 +38,7 @@ public class Loader {
 		return new Model(vaoID, indices.length, positions.length/3);
 	}
 	
-	public static Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){
+	public Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0,3,positions);
@@ -48,7 +48,7 @@ public class Loader {
 		return new Model(vaoID, indices.length, positions.length/3);
 	}
 	
-	public static Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, float[] tangent, int[] indices){
+	public Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, float[] tangent, int[] indices){
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0,3,positions);
@@ -59,14 +59,14 @@ public class Loader {
 		return new Model(vaoID, indices.length, positions.length/3);
 	}
 	
-	public static Model loadToVAO(float[] positions){
+	public Model loadToVAO(float[] positions){
 		int vaoID = createVAO();
 		storeDataInAttributeList(0,2,positions);
 		unbindVAO();
 		return new Model(vaoID,positions.length/2, positions.length);
 	}
 	
-	public static void cleanUp(){
+	public void cleanUp(){
 		for(int vao:vaos){
 			GL30.glDeleteVertexArrays(vao);
 		}
@@ -78,14 +78,14 @@ public class Loader {
 		}
 	}
 	
-	private static int createVAO(){
+	private int createVAO(){
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
 		GL30.glBindVertexArray(vaoID);
 		return vaoID;
 	}
 	
-	private static void storeDataInAttributeList(int AttributeNumber, int coordinateSize, float[] data){
+	private void storeDataInAttributeList(int AttributeNumber, int coordinateSize, float[] data){
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -95,11 +95,11 @@ public class Loader {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 	
-	private static void unbindVAO(){
+	private void unbindVAO(){
 		GL30.glBindVertexArray(0);
 	}
 	
-	private static void bindIndicesBuffer(int[] indices){
+	private void bindIndicesBuffer(int[] indices){
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
@@ -107,14 +107,14 @@ public class Loader {
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 	}
 	
-	private static IntBuffer storeDataInIntBuffer(int[] data){
+	private IntBuffer storeDataInIntBuffer(int[] data){
 		IntBuffer buffer =	BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();
 		return buffer;
 	}
 	
-	private static FloatBuffer storeDataInFloatBuffer(float[] data){
+	private FloatBuffer storeDataInFloatBuffer(float[] data){
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();

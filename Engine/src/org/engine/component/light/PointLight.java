@@ -1,5 +1,7 @@
 package org.engine.component.light;
 
+import org.engine.app.GameAble;
+
 import glib.util.vector.GVector3f;
 
 public class PointLight extends BasicLight{
@@ -8,17 +10,17 @@ public class PointLight extends BasicLight{
 	
 	//CONSTRUCTORS
 	
-	public PointLight(GVector3f position) {
-		this(position, new GVector3f(1), new GVector3f(1,0,0));
+	public PointLight(GameAble parent, GVector3f position) {
+		this(parent, position, new GVector3f(1), new GVector3f(1,0,0));
 	}
 	
-	public PointLight(GVector3f position, GVector3f color){
-		this(position, color, new GVector3f(1,0,0));
+	public PointLight(GameAble parent, GVector3f position, GVector3f color){
+		this(parent, position, color, new GVector3f(1,0,0));
 	}
 	
 	
-	public PointLight(GVector3f position, GVector3f color, GVector3f attenuation) {
-		super(position, color);
+	public PointLight(GameAble parent, GVector3f position, GVector3f color, GVector3f attenuation) {
+		super(parent, position, color);
 		this.attenuation = attenuation;
 		this.range = calcRange(attenuation);
 	}

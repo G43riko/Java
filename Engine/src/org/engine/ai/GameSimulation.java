@@ -1,40 +1,34 @@
 package org.engine.ai;
 
-import glib.math.GColision;
-import glib.util.vector.GVector3f;
-
 import java.util.ArrayList;
 
-import org.engine.component.Camera;
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
-import org.engine.component.Input;
-import org.engine.core.CoreEngine;
+import org.engine.core.Input;
 import org.engine.rendering.Bullet;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
-import org.lwjgl.input.Keyboard;
+
+import glib.util.vector.GVector3f;
 
 public class GameSimulation extends GameComponent{
 	private Terrain terrain;
-	private Camera camera;
 	private ArrayList<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-	private CoreEngine game;
 	private PlayerHoldedObject weapon;
 	
-	public GameSimulation(Camera camera, CoreEngine game){
-		this(new Terrain(), camera, game);
+	public GameSimulation(GameAble parent){
+		this(parent, new Terrain());
 	}
 	
-	public GameSimulation(Terrain terrain, Camera camera, CoreEngine game) {
+	public GameSimulation(GameAble parent, Terrain terrain) {
+		super(parent);
 		this.terrain = terrain;
-		this.camera = camera;
-		this.game = game;
-		weapon = new PlayerHoldedObject(camera);
-		game.addToScene(weapon);
+		weapon = new PlayerHoldedObject(parent, parent.getCamera());
+		parent.addToScene(weapon);
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 //		enemies.stream().forEach(a -> {
 //			a.update();
 //			putEnemyOnFloor(a);
@@ -47,18 +41,21 @@ public class GameSimulation extends GameComponent{
 	}
 	
 	public void addEnemy(){
-		addEnemy(new BasicEnemy());
+		addEnemy(new BasicEnemy(getParent()));
 	}
 	
 	public void addEnemy(int num){
 		for(int i=0 ; i<num ; i++)
-			addEnemy(new BasicEnemy());
+			addEnemy(new BasicEnemy(getParent()));
 	}
 	
 	@Override
 	public void input() {
 		if(Input.getMouseDown(0)){
-			game.addToScene(new Bullet(new Material("particles/particle.png"), weapon.getPosition().add(new GVector3f(0, 0.55f, 0)), camera.getMousePicker().getCurrentRay(), camera));
+			getParent().addToScene(new Bullet(getParent(), 
+								   			  new Material("particles/particle.png"), 
+								   			  weapon.getPosition().add(new GVector3f(0, 0.55f, 0)), 
+								   			  getParent().getCamera().getMousePicker().getCurrentRay()));
 		}
 		
 	}
@@ -66,7 +63,7 @@ public class GameSimulation extends GameComponent{
 	public void addEnemy(BasicEnemy enemy){
 		enemies.add(enemy);
 		
-		enemy.setTarget(camera);
+		enemy.setTarget(getParent().getCamera());
 		enemy.setMoveOnFloor(true);
 		
 		putEnemyOnFloor(enemy);

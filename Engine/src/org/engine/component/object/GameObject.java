@@ -1,5 +1,6 @@
-package org.engine.object;
+package org.engine.component.object;
 
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
@@ -12,7 +13,8 @@ public class GameObject extends GameComponent{
 	private boolean receiveLight = true;
 	//CONSTRUCTORS
 	
-	public GameObject(Material material, Model model) {
+	public GameObject(GameAble parent, Material material, Model model) {
+		super(parent);
 		this.material = material;
 		this.model = model;
 	}

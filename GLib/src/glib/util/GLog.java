@@ -7,13 +7,14 @@ public class GLog {
 	private static boolean showAll = false;
 	private static boolean hideAll = false;
 	private boolean show = true;
+	
 	static{
 		data.put("mainLoop",true);
 		data.put("menu",true);
 		data.put("mapa", true);
 		data.put("updateUniforms",true);
-		
 	}
+	
 	public void log(String msg){
 		if(show){
 			System.out.println(msg);

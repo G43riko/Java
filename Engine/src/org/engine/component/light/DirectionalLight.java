@@ -1,11 +1,13 @@
 package org.engine.component.light;
 
+import org.engine.app.GameAble;
+
 import glib.util.vector.GVector3f;
 
 public class DirectionalLight extends BasicLight{
 	
-	public DirectionalLight(GVector3f direction, GVector3f color){
-		super(color);
+	public DirectionalLight(GameAble parent, GVector3f direction, GVector3f color){
+		super(parent, color);
 		setRotation(direction);
 	}
 	

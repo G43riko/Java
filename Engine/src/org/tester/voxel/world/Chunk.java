@@ -1,16 +1,15 @@
 package org.tester.voxel.world;
 
-import glib.util.vector.GVector3f;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
+import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.engine.rendering.RenderingEngine;
-import org.lwjgl.opengl.Display;
+
+import glib.util.vector.GVector3f;
 
 public class Chunk extends GameComponent{
 	public final static int NUM_X = 4;
@@ -27,7 +26,8 @@ public class Chunk extends GameComponent{
 	
 	//CONSTRUCTORS
 	
-	public Chunk(GVector3f position) {
+	public Chunk(GameAble parent, GVector3f position) {
+		super(parent);
 		setPosition(position);
 		create();
 //		setNeighBoardsAndSides();
@@ -45,7 +45,7 @@ public class Chunk extends GameComponent{
 					if(type == 0)
 						setBlock(i, j, k, null);
 					else if(height>j)
-						setBlock(i, j, k, new Block(type, getPosition().add(new GVector3f(i, j, k)).mul(2).add(1)));
+						setBlock(i, j, k, new Block(getParent(), type, getPosition().add(new GVector3f(i, j, k)).mul(2).add(1)));
 				}
 			}
 		}
@@ -132,7 +132,7 @@ public class Chunk extends GameComponent{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 	}
 	
 	//SETTERS

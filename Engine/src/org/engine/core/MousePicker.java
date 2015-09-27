@@ -1,4 +1,4 @@
-package org.engine.component;
+package org.engine.core;
 
 import org.engine.component.Camera;
 import org.engine.utils.Maths;

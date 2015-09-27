@@ -1,20 +1,20 @@
 package org.engine.component.movement;
 
-import glib.util.vector.GVector2f;
-import glib.util.vector.GVector3f;
-
-import org.engine.component.Camera;
+import org.engine.app.GameAble;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
+
 public class FPS extends BasicMovement{
-	private boolean flyMode = true;
+	private boolean flyMode;
 	
 	//CONSTRUCTORS
 	
-	public FPS(Camera camera){
-		super(camera);
-		
+	public FPS(GameAble parent, boolean flyMode){
+		super(parent);
+		this.flyMode = flyMode;
 		keys.put("up", Keyboard.KEY_SPACE);
 		keys.put("down", Keyboard.KEY_LSHIFT);
 	}
@@ -33,7 +33,7 @@ public class FPS extends BasicMovement{
 		}
 		
 		if(move || rotate){
-			camera.updateForward();
+			getParent().getCamera().updateForward();
 			move = rotate = false;
 		}
 	}
@@ -46,19 +46,19 @@ public class FPS extends BasicMovement{
 		 */
 		
 		if(Keyboard.isKeyDown(keys.get("forward"))){
-			camera.move(camera.getForwardVector().mul(moveSpeed));
+			getParent().getCamera().move(getParent().getCamera().getForwardVector().mul(moveSpeed));
 		}
 		
 		if(Keyboard.isKeyDown(keys.get("back"))){
-			camera.move(camera.getBackVector().mul(moveSpeed));
+			getParent().getCamera().move(getParent().getCamera().getBackVector().mul(moveSpeed));
 		}
 		
 		if(Keyboard.isKeyDown(keys.get("left"))){
-			camera.move(camera.getLeftVector().mul(moveSpeed));
+			getParent().getCamera().move(getParent().getCamera().getLeftVector().mul(moveSpeed));
 		}
 		
 		if(Keyboard.isKeyDown(keys.get("right"))){
-			camera.move(camera.getRightVector().mul(moveSpeed));
+			getParent().getCamera().move(getParent().getCamera().getRightVector().mul(moveSpeed));
 		}
 	}
 	
@@ -68,12 +68,12 @@ public class FPS extends BasicMovement{
 		 */
 		
 		if(Keyboard.isKeyDown(keys.get("turnRight"))){
-			camera.rotate(new GVector3f(0, rotSpeed, 0));
+			getParent().getCamera().rotate(new GVector3f(0, rotSpeed, 0));
 			rotate = true;
 		}
 		
 		if(Keyboard.isKeyDown(keys.get("turnLeft"))){
-			camera.rotate(new GVector3f(0,-rotSpeed, 0));
+			getParent().getCamera().rotate(new GVector3f(0,-rotSpeed, 0));
 			rotate = true;
 		}
 		
@@ -83,12 +83,12 @@ public class FPS extends BasicMovement{
 		
 		if(flyMode){
 			if(Keyboard.isKeyDown(keys.get("up"))){
-				camera.move(camera.getUpVector().mul(moveSpeed));
+				getParent().getCamera().move(getParent().getCamera().getUpVector().mul(moveSpeed));
 				move = true;
 			}
 			
 			if(Keyboard.isKeyDown(keys.get("down"))){
-				camera.move(camera.getDownVector().mul(moveSpeed));
+				getParent().getCamera().move(getParent().getCamera().getDownVector().mul(moveSpeed));
 				move = true;
 			}
 		}
@@ -104,9 +104,9 @@ public class FPS extends BasicMovement{
 		boolean rotX = deltaPos.getY() !=0;
 
 		if(rotX)
-			camera.getRotation().setX(camera.getRotation().getX() - (deltaPos.getY() * rotSpeed/2));
+			getParent().getCamera().getRotation().setX(getParent().getCamera().getRotation().getX() - (deltaPos.getY() * rotSpeed/2));
 		if(rotY)
-			camera.getRotation().setY(camera.getRotation().getY() + (deltaPos.getX() * rotSpeed/2));
+			getParent().getCamera().getRotation().setY(getParent().getCamera().getRotation().getY() + (deltaPos.getX() * rotSpeed/2));
 		
 		if(rotY || rotX){
 			Mouse.setCursorPosition((int)centerPosition.getX(), (int)centerPosition.getY());

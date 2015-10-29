@@ -45,13 +45,14 @@ public class Block extends GameObject{
 
 	public Block(GameAble parent, int type, GVector3f position) {
 		super(parent, blocks.get(getNameFromInt(type)).getMaterial(), null);
+		this.type = getNameFromInt(type);
 		setPosition(position);
 	}
 
 	@Override
 	public void render(RenderingEngine renderingEngine) {
 		if(type == NOTHING)
-			return; 
+			return;
 		renderingEngine.renderBlockBomber(this);
 	}
 	
@@ -195,5 +196,9 @@ public class Block extends GameObject{
 				 		   0.0000f, -1.0000f,  0.0000f,
 				 		   0.0000f, -1.0000f,  0.0000f};
 		return CoreEngine.getLoader().loadToVAO(position, texture, normals, indices);
+	}
+
+	public String getType() {
+		return type;
 	}
 }

@@ -118,7 +118,5 @@ void main(){
 	else
 		out_Color *= vec4(vec3(0.5), 1);
 	
-	if(useSpecular > 0.5 && receiveLight > 0.5)
-		out_Color += calcDirectionalLightSpecular(sun, normal);
-	    
+		
 }

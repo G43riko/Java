@@ -85,4 +85,10 @@ public class GameVoxel  implements GameAble{
 		scene.add(component);
 	}
 
+	@Override
+	public void exit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -69,7 +69,6 @@ public class MainTester extends CoreEngine{
 		addToScene(player);
 		setMovementType(new TPS(getCamera(), player));
 		addCursor("cursor.png",0.9f);
-		
 	}
 	
 	private void addCursor(String name, float size){

@@ -13,19 +13,19 @@ import glib.util.vector.GVector3f;
 public class DefaultApp extends CoreGame {
 	private static final long serialVersionUID = 1L;
 	private static XMLParser xmlData = new XMLParser("bomber.xml");
-	private static DataParser viewData = new DataParser("bomberView.txt");
+	private static DataParser data = new DataParser("bomberView.txt");
 	
 	public DefaultApp(){
 	}
 	
 	public static HashMap<String, String> getData(String type) {return xmlData.getData(type);}
 	
-	public static int getInt(String value) {return viewData.getInt(value);}
-	public static float getFloat(String value) {return viewData.getFloat(value);}
-	public static String getString(String value) {return viewData.getString(value);}
-	public static boolean getBoolean(String value) {return viewData.getBoolean(value);}
-	public static GVector2f getVector2f(String value) {return viewData.getVector2f(value);}
-	public static GVector3f getVector3f(String value) {return viewData.getVector3f(value);}
+	public static int getInt(String value) {return data.getInt(value);}
+	public static float getFloat(String value) {return data.getFloat(value);}
+	public static String getString(String value) {return data.getString(value);}
+	public static boolean getBoolean(String value) {return data.getBoolean(value);}
+	public static GVector2f getVector2f(String value) {return data.getVector2f(value);}
+	public static GVector3f getVector3f(String value) {return data.getVector3f(value);}
 	
 //		GameObject g = new GameObject(new Material("materials/texture.png"), OBJLoader.loadObjModel("axe")){
 //		usePostFX(true);

@@ -10,6 +10,7 @@ import org.engine.core.CoreEngine;
 import org.engine.rendering.model.Model;
 import org.lwjgl.util.vector.Vector3f;
 
+import glib.util.GDebug;
 import glib.util.noise.PerlinNoise;
 import glib.util.noise.ProceduralTerrain;
 import glib.util.noise.SimplexNoise;
@@ -71,7 +72,7 @@ public class Terrain {
 		try {
 			image = ImageIO.read(new File("res/textures/" +heightMap+ ".png"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			GDebug.logError("nepodarilo sa naËÌtaù s˙bor: res/textures/" + heightMap + ".png", "Terraind", e);
 		}
 		
 		int VERTEX_COUNT = image.getHeight();

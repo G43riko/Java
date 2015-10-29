@@ -12,13 +12,13 @@ public abstract class BasicLight  extends GameComponent{
 	//CONSTRUCORS
 	
 	public BasicLight(GameAble parent, GVector3f color){
-		this(parent, new GVector3f(), color);
+		this(parent, new GVector3f(), color, 1);
 	}
 	
-	public BasicLight(GameAble parent, GVector3f position, GVector3f color){
+	public BasicLight(GameAble parent, GVector3f position, GVector3f color, int intensity){
 		super(parent, position);
 		this.color = color;
-		intensity = 1;
+		this.intensity = intensity;
 	}
 	
 	//GETTERS

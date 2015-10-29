@@ -36,20 +36,6 @@ public class BasicEnemy extends GameObject{
 	public void setMoveOnFloor(boolean value){
 		follower.setOnGroung(value);
 	}
-//	@Override
-//	public GMatrix4f getTransformationMatrix() {
-//			if(follower.getTarget() == null)
-//				return super.getTransformationMatrix();
-//		
-//			GVector3f toCamera = follower.getTarget().getPosition().sub(getPosition()).Normalized();
-//			
-//			System.out.println(toCamera);
-//			toCamera = GVector3f.interpolateLinear(0.01f, getRotation(), toCamera);
-//			System.out.println(toCamera);
-//			
-//			GQuaternion res = new GQuaternion(new GMatrix4f().initRotation(toCamera, new GVector3f(0,1,0)));
-//			return res.toRotationMatrix().mul(super.getTransformationMatrix());
-//	}
 
 	public float getHeight() {
 		return getScale().getY() * 2;

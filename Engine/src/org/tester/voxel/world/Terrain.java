@@ -24,7 +24,6 @@ public class Terrain extends GameComponent{
 		GVector3f off = new GVector3f(numX, 0, numY);
 		for(int i=0 ; i<numX ; i++){
 			for(int j=0 ; j<numY ; j++){
-				System.out.println();
 				float res = GMath.between(mapa[i][j], 0, 1);
 				GVector3f pos = new GVector3f(i*Block.WIDTH*2,(int)(mapa[i][j]*height/16)*2,j*Block.DEPTH*2);
 				blocks[i][(int)(res * height)][j] = new Block(getParent(), Blocks.getRandomType(),pos.sub(off));

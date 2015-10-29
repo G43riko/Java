@@ -1,11 +1,1 @@
-boolean = true
-boolean1 = TRUE
-boolean2 = false
-boolean3 = FALSE
-
-int = 5
-float = 5.6f
-double = 8.5144564
-vec2 = 3_5
-vec3 = 9_5_9
-string = jeTšetko
+canRotate = false

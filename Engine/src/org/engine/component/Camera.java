@@ -15,10 +15,10 @@ public class Camera extends GameComponent{
 	public final static GVector3f UP = new GVector3f(0,1,0);
 	protected final static boolean VERTICAL = false; 
 	
-	protected float FOV = 70;
-	protected float NEAR_PLANE = 0.1f;
-	protected float FAR_PLANE = 1000;
-	protected float ASPECT_RATIO;
+	private static float FOV = 70;
+	private static float NEAR_PLANE = 0.1f;
+	private static float FAR_PLANE = 1000;
+	private static float ASPECT_RATIO;
 	
 	private MousePicker mousePicker;
 	
@@ -178,5 +178,13 @@ public class Camera extends GameComponent{
 	
 	public GVector3f getDownVector(){
 		return UP.mul(-1).Normalized();
+	}
+
+	public static float getFOV() {
+		return FOV;
+	}
+
+	public static float getASPECT_RATIO() {
+		return ASPECT_RATIO;
 	}
 }

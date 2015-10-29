@@ -6,6 +6,8 @@ import org.engine.app.GameAble;
 import org.engine.core.CoreEngine;
 import org.engine.core.Input;
 import org.engine.core.Window;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 
 public class CoreGame extends CoreEngine implements Controlable{
@@ -80,6 +82,18 @@ public class CoreGame extends CoreEngine implements Controlable{
 			game.input();
 //		else if(gameIs == MAIN_MENU)
 //			mainMenu.input();;
+	}
+
+	@Override
+	protected void onResize() {
+		getRenderingEngine().getMainCamera().createProjectionMatrix();
+		getRenderingEngine().updateCamera();
+		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+	}
+
+	@Override
+	protected void onExit() {
+		System.out.println("konèím");
 	}
 
 

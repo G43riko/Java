@@ -27,6 +27,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL20;
 
+import glib.util.GDebug;
 import glib.util.Loader;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
@@ -127,7 +128,7 @@ public abstract class GBasicShader {
 			}
 			reader.close();
 		}catch(IOException e){
-			System.out.println(file+" nejde naËÌtaù s dÙvodu: "+e);
+			GDebug.logError("s˙bor " + fileName + " sa nepodarilo naËÌtaù", "GBasicShader", e);
 			Display.destroy();
 			System.exit(1);
 		}
@@ -135,7 +136,7 @@ public abstract class GBasicShader {
 		glShaderSource(shader,source);
 		glCompileShader(shader);
 		if(glGetShaderi(shader,GL_COMPILE_STATUS)==GL_FALSE){
-			System.out.println("shader "+file+" nebol skompilovany s dÙvodu: " + glGetShaderInfoLog(shader,1024));
+			GDebug.logError("shader " + file + " nebol skompilovany s dÙvodu: " + glGetShaderInfoLog(shader,1024), "GBasicShader");
 			Display.destroy();
 			System.exit(1);
 		}

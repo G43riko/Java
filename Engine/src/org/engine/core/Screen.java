@@ -44,18 +44,10 @@ public class Screen {
 	
 	//GETTERS
 
-	public GMatrix4f getTransformationMatrix() {
-		return Maths.MatrixToGMatrix(Maths.createTransformationMatrix(position, scale));
-	}
+	public GMatrix4f getTransformationMatrix() {return Maths.MatrixToGMatrix(Maths.createTransformationMatrix(position, scale));}
 
-	public Model getModel(){
-		return MODEL;
-		
-	}
-	
-	public Texture2D getTexture() {
-		return texture;
-	}
+	public Model getModel(){return MODEL;}
+	public Texture2D getTexture() {return texture;}
 
 	//SETTERS
 	

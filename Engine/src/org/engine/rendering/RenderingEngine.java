@@ -27,7 +27,6 @@ import org.engine.rendering.shader.GBasicShader;
 import org.engine.rendering.shader.named.HudShader;
 import org.engine.rendering.shader.named.ObjectShader;
 import org.engine.rendering.shader.named.PostFXShader;
-import org.engine.utils.GDebug;
 import org.engine.utils.Maths;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -38,6 +37,7 @@ import org.tester.voxel.PointLightObject;
 import org.tester.voxel.world.Block;
 import org.tester.voxel.world.Blocks;
 
+import glib.util.GDebug;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -125,6 +125,7 @@ public class RenderingEngine {
 		if(!variables.containsKey("useHud") || !variables.get("useHud"))
 			return;
 		
+		
 		shaders.get("hudShader").bind();
 		GL30.glBindVertexArray(hud.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -168,8 +169,10 @@ public class RenderingEngine {
 	}
 	
 	public void renderBlock(Block block){
-		if(mainCamera == null)
+		if(mainCamera == null){
+			GDebug.logError("nieje nastavená hlavná kamera", "RenderingEngine");
 			return;
+		}
 		
 		getShader("objectShader").bind();
 		getShader("objectShader").updateUniform("fakeLight", false);
@@ -186,8 +189,10 @@ public class RenderingEngine {
 	}
 	
 	public void renderBlockBomber(org.tester.bomber.level.Block block) {
-		if(mainCamera == null)
+		if(mainCamera == null){
+			GDebug.logError("nieje nastavená hlavná kamera", "RenderingEngine");
 			return;
+		}
 		
 		getShader("objectShader").bind();
 		getShader("objectShader").updateUniform("fakeLight", false);
@@ -359,7 +364,7 @@ public class RenderingEngine {
 	
 	private void setEyePos() {
 		if(mainCamera == null){
-			System.out.println("nieje nastavená hlavná kamera");
+			GDebug.logError("nieje nastavená hlavná kamera", "RenderingEngine");
 			return;
 		}
 		

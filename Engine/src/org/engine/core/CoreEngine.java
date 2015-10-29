@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 
 import org.engine.Config;
 import org.engine.component.Camera;
+import org.engine.component.GameComponent;
+import org.engine.component.movement.BasicMovement;
+import org.engine.component.movement.FPS;
+import org.engine.component.movement.TPS;
 import org.engine.gui.Gui;
 import org.engine.rendering.RenderingEngine;
 import org.engine.utils.Log;
@@ -27,6 +31,21 @@ public abstract class CoreEngine extends JFrame{
 	private RenderingEngine renderingEngine;
 	private Screen screen;
 	
+//
+//	private GameComponent center;
+
+//	private void setCenter(GameComponent center) {
+//		this.center = center;
+//	}
+	
+//	public void setMovementType(BasicMovement b){
+//		if(b instanceof FPS){
+//			setCenter(renderingEngine.getMainCamera());
+//		}
+//		else if(b instanceof TPS){
+//			setCenter(((TPS)b).getPlayer());
+//		}
+//	}
 	
 	private boolean running = false;
 	
@@ -106,11 +125,9 @@ public abstract class CoreEngine extends JFrame{
 
 	//OTHERS
 	
-	private void onResize(){
-		renderingEngine.getMainCamera().createProjectionMatrix();
-		renderingEngine.updateCamera();
-		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
-	}
+	protected abstract void onResize();
+	
+	protected abstract void onExit();
 	
 	
 	public void start(){

@@ -21,9 +21,9 @@ public class ResourceLoader {
 	
 	public static Image loadTexture(String fileName){
 		try {
-			return ImageIO.read(load("textures/"+fileName));
+			return ImageIO.read(load("textures/" + fileName));
 		} catch (IOException e) {
-			e.printStackTrace();
+			GDebug.logError("Nepodarilo sa naèítaš súbor: textures/" + fileName, "ResourceLoader");
 		}
 		return null;
 	}
@@ -37,7 +37,8 @@ public class ResourceLoader {
 		try {
 			return AudioSystem.getAudioInputStream(load(fileName));
 		} catch (UnsupportedAudioFileException | IOException e) {
-			e.printStackTrace();
+
+			GDebug.logError("Nepodarilo sa naèítaš súbor: " + fileName, "ResourceLoader");
 		}
 		return null;
 	}

@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import glib.util.vector.GVector2f;
+import glib.util.vector.GVector3f;
 
 public abstract class BasicMovement extends GameComponent{
 	public final static String FORWARD = "forward";
@@ -21,6 +22,9 @@ public abstract class BasicMovement extends GameComponent{
 	
 	public final static String TURN_RIGHT = "turnRight";
 	public final static String TURN_LEFT = "turnLeft";
+	
+	public final static String UP = "up";
+	public final static String DOWN = "down";
 	
 	protected HashMap<String, Integer> keys = new HashMap<String, Integer>(); 
 
@@ -35,13 +39,18 @@ public abstract class BasicMovement extends GameComponent{
 	protected boolean mouseLocked = false;
 	
 
-	protected float moveSpeed = 0.3f;
-	protected float rotSpeed = 0.6f;
+	private float moveSpeed = 0.3f;
+	private float rotSpeed = 0.6f;
+	private float zoomSpeed = 0.1f;
 	
-	public BasicMovement(GameAble parent) {
+	public BasicMovement(GameAble parent, GVector3f speed) {
 		super(parent);
 		
 		setDefaultKeys();
+		
+		moveSpeed = speed.getX();
+		rotSpeed = speed.getY();
+		zoomSpeed = speed.getZ();
 	}
 	
 	private void setDefaultKeys(){
@@ -77,4 +86,8 @@ public abstract class BasicMovement extends GameComponent{
 		Mouse.setGrabbed(false);
 		mouseLocked = false;
 	}
+
+	public float getRotSpeed() {return rotSpeed;}
+	public float getMoveSpeed() {return moveSpeed;}
+	public float getZoomSpeed() {return zoomSpeed;}
 }

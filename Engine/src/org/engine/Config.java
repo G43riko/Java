@@ -10,7 +10,7 @@ public class Config {
 
 	public final static int			ENGINE_FPS				= 60;
 	public final static boolean		ENGINE_POST_FX			= false;
-	public static final GVector3f	ENGINE_DEFAULT_AMBIENT	= new GVector3f(2);
+	public static final GVector3f	ENGINE_DEFAULT_AMBIENT	= new GVector3f(0.5f);
 
 	public final static int TEXTURE_DEFAULT_FILTER = GL_NEAREST;//GL_SMOOTH;
 	public final static int TEXTURE_DEFAULT_WRAP = GL_REPEAT;//GL_CLAMP_TO_EDGE;

@@ -13,6 +13,8 @@ import org.engine.rendering.model.Model;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import glib.util.GDebug;
+
 
 public class OBJLoader {
 	private static HashMap<String, Model> loadedModels = new HashMap<String, Model>(); 
@@ -26,7 +28,7 @@ public class OBJLoader {
 		try {
 			fr = new FileReader(new File("res/models/"+fileName+".obj"));
 		} catch (FileNotFoundException e) {
-			System.out.println("Nemoûem naËÌtaù obj s˙bor: "+e);
+			GDebug.logError("nieje moûnÈ naËÌtaù s˙bor: " + fileName, "OBJLoader");
 			e.printStackTrace();
 		}
 		BufferedReader reader = new BufferedReader(fr);
@@ -88,10 +90,7 @@ public class OBJLoader {
 				String[] vertex1 = currentLine[1].split("/");
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
-				if(fileName=="plane_triangel"){
-					System.out.println("velkosù riadku je "+currentLine.length);
-					System.out.println("velkosù normals je  "+normalsArray.length);
-				}
+				
 				processVertex(vertex1,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex2,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex3,indices,textures,normals,textureArray,normalsArray);
@@ -99,8 +98,7 @@ public class OBJLoader {
 			}
 			reader.close();
 		}catch(Exception e){
-			System.out.println("line: "+line);
-			System.out.println("Nastala chyba pri ËÌtanÌ zo s˙boru v "+fileName+" :  "+e);
+			GDebug.logError("Nastala chyba pri ËÌtanÌ zo s˙boru v " + fileName + " na riadku " + line, "OBJLoader");
 		}
 		verticesArray = new float[vertices.size()*3];
 		indicesArray = new int[indices.size()];

@@ -17,7 +17,7 @@ public final class IDGenerator {
 	}
 
 	public static Set<Integer> getIdes() {
-		return ides;
+		return new HashSet<Integer>(id);
 	}
 	
 	public static void clear(){

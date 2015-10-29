@@ -108,5 +108,11 @@ public class GameTest implements GameAble{
 		parent.getRenderingEngine().setPointLight(light);
 	}
 
+	@Override
+	public void exit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

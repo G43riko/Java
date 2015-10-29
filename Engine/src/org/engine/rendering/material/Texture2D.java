@@ -35,6 +35,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import glib.util.GColor;
+import glib.util.GDebug;
 import glib.util.ResourceLoader;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -42,9 +43,6 @@ import glib.util.vector.GVector3f;
 public class Texture2D {
 	private static HashMap<String, Texture2D> loadedTextures = new HashMap<String, Texture2D>();
 	private final static int BPP = 4;
-//	private final static int DEFAULT_FILTER = GL_NEAREST;
-//	private final static int DEFAULT_WRAP = GL_REPEAT;
-//	private final static int DEFAULT_WRAP = GL12.GL_CLAMP_TO_EDGE;
 	
 	private final static boolean DEFAULT_MIPMAPPING = true;
 	
@@ -109,7 +107,7 @@ public class Texture2D {
 			id = texture.getTextureID();
 			resolution = new GVector2f(texture.getImageWidth(), texture.getImageHeight());
 		} catch (IOException e) {
-			e.printStackTrace();
+			GDebug.logError("bastala chyba pri naËÌtavanÌ obr·zku", "Texture2D", e);
 		}
 	}
 
@@ -187,7 +185,7 @@ public class Texture2D {
 			buffer.flip();
 		}
 		catch(Exception e){
-			System.out.println("obr·zok "+fileName+" sa nepodarilo naËÌtaù s dÙvodu: "+e); 
+			GDebug.logError("obr·zok " + fileName + " sa nepodarilo naËÌtaù", "Texture2D", e);
 		}
 		return buffer;
 	}

@@ -11,6 +11,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
+import glib.util.GDebug;
+
 public class Window {
 	private final static String TITLE = "Game Engine";
 	private static Gui gui;
@@ -44,7 +46,7 @@ public class Window {
 	        Keyboard.create();
 			Mouse.create();
 		} catch (LWJGLException e) {
-			System.out.println("pri vytvárani okna nastala chyba: "+e);
+			GDebug.logError("pri vytvárani okna nastala chyba", "Window", e);
 		}
 	}
 

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.engine.utils.GLog;
+
 import glib.util.ResourceLoader;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -38,6 +40,8 @@ public class DataParser{
 				dataInt.put(lines[0], Integer.parseInt(lines[1]));
 			else if(isFloat(lines[1]))
 				dataFloat.put(lines[0], (float)Double.parseDouble(lines[1]));
+			else if(isBoolean(lines[1]))
+				dataBoolean.put(lines[0], Boolean.parseBoolean(lines[1]));
 			else if(isGVector3f(lines[1]))
 				dataGVector3.put(lines[0], new GVector3f(lines[1]));
 			else if(isGVector2f(lines[1]))
@@ -62,17 +66,17 @@ public class DataParser{
 			String[] lines = line.split("=");
 
 			if(isInt(lines[1]))
-				System.out.println(lines[0] + ": int");
+				GLog.write(GLog.TEXT, lines[0] + ": int");
 			else if(isFloat(lines[1]))
-				System.out.println(lines[0] + ": float");
+				GLog.write(GLog.TEXT, lines[0] + ": float");
 			else if(isGVector3f(lines[1]))
-				System.out.println(lines[0] + ": vector3");
+				GLog.write(GLog.TEXT, lines[0] + ": vector3");
 			else if(isGVector2f(lines[1]))
-				System.out.println(lines[0] + ": vector2");
+				GLog.write(GLog.TEXT, lines[0] + ": vector2");
 			else if(isBoolean(lines[1]))
-				System.out.println(lines[0] + ": boolean");
+				GLog.write(GLog.TEXT, lines[0] + ": boolean");
 			else
-				System.out.println(lines[0] + ": string");
+				GLog.write(GLog.TEXT, lines[0] + ": string");
 		}
 		scanner.close();
 	}

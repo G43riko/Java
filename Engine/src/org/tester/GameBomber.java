@@ -1,6 +1,5 @@
 package org.tester;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.stream.Collectors;
 
 import org.engine.app.Controlable;
@@ -22,7 +21,6 @@ import org.engine.rendering.material.Material;
 import org.engine.rendering.material.Texture2D;
 import org.engine.utils.resource.OBJLoader;
 import org.lwjgl.opengl.Display;
-import org.tester.bomber.level.Block;
 import org.tester.bomber.level.Level;
 import org.tester.voxel.PointLightObject;
 
@@ -49,19 +47,23 @@ public class GameBomber implements GameAble{
 		plane.setUseFakeLight(true);
 		addToScene(plane);
 
-//		DirectionalLight dir = new DirectionalLight(this, new GVector3f(0.5, 1, 0.5), new GVector3f(0.8 ,0, 0.8));
-//		parent.getRenderingEngine().setSun(dir);
-//		addToScene(dir);
+		DirectionalLight dir = new DirectionalLight(this, new GVector3f(0.5, 1, 0.5), new GVector3f(0.8 ,0, 0.8));
+		parent.getRenderingEngine().setSun(dir);
+		addToScene(dir);
 
 		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 1, 0.5f), new GVector3f(0.8f)));
 		addToScene(new Level(this));
+		
+		
+		PointLightObject p = new PointLightObject(this, new PointLight(this, new GVector3f(5,5,5)));
+		addToScene(p);
 		
 //		addToScene(new Block(this, 1, new GVector3f()));
 //		addToScene(new Block(this, 0, new GVector3f(0,0,1)));
 //		addToScene(new Block(this, 2, new GVector3f(1,0,0)));
 		
-//		addToScene(new TOP(this));
-		crateTPSgame();
+		addToScene(new TOP(this));
+//		crateTPSgame();
 		
 //		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(0.5f), new GVector3f(1), 800, 10)));
 		

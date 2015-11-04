@@ -3,7 +3,6 @@ package glib.data.good.oneDirList;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import glib.data.good.interfaces.GList;
 
 public class Node<T>{
 	private T value;
@@ -66,14 +65,14 @@ public class Node<T>{
 				return next.containsKey(key);
 	}
 	
-	public boolean containsValue(T value){
+	public boolean constainsValue(T value){
 		if(value == this.value)
 			return true;
 		else
 			if(next == null)
 				return false;
 			else
-				return next.containsValue(value);
+				return next.constainsValue(value);
 	}
 	
 	public String toString() {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import glib.data.good.interfaces.GCollection;
 
-public class GBuffer<T> implements GCollection{
+public class GFront<T> implements GCollection{
 	private ArrayList<T> list = new ArrayList<T>();
 	
 	public void add(T item){
@@ -12,9 +12,9 @@ public class GBuffer<T> implements GCollection{
 	}
 	
 	public T get(){
-		return list.remove(list.size() - 1);
+		return list.remove(0);
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		return list.isEmpty();

@@ -14,7 +14,7 @@ public class Tester {
 		
 	}
 
-	private static void testujGTree(){
+	private static void testujGMap(){
 		GTree<String> tree = new GTree<String>(4,"Gabriel");
 		
 		tree.add(5, "Kika");
@@ -39,7 +39,6 @@ public class Tester {
 		System.out.println(list2);
 		list2.removeAll(list);
 		System.out.println(list2);
-		list.forEachElement(a -> System.out.println("kvík: "+a));
 		
 		int search = 200;
 //		System.out.println("na " + search + " mieste je " + list.get(search));

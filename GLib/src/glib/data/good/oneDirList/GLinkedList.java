@@ -1,22 +1,20 @@
 package glib.data.good.oneDirList;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
-import glib.data.good.interfaces.GList;
+import glib.data.good.interfaces.GMap;
 
-public final class GLinkedList<T> implements GList<T>{
+public final class GLinkedList<T> implements GMap<Integer, T>{
 	private Node<T> first;
 	
 	public GLinkedList(int key, T value){
 		first = new Node<T>(key, value, null);
 	}
 	
-	@Override
-	public void add(int key, T value){
+	public T add(Integer key, T value){
 		if(first == null){
 			first = new Node<T>(key, value, null);
-			return;
+			return null;
 		}
 			
 		
@@ -24,10 +22,13 @@ public final class GLinkedList<T> implements GList<T>{
 			first = new Node<T>(key, value, first);
 		else 
 			first.add(key, value);
+		
+
+		return null;
 	}
 	
 	@Override
-	public T get(int key){
+	public T get(Integer key){
 		if(first == null)
 			return null;
 		
@@ -35,14 +36,17 @@ public final class GLinkedList<T> implements GList<T>{
 	}
 	
 	@Override
-	public void remove(int key){
+	public T remove(Integer key){
 		if(first == null)
-			return;
 		
-		if(first.getKey() == key)
+		if(first.getKey() == key){
 			first = first.getNext();
+		}
 		else
 			first.remove(key);
+		
+
+		return null;
 	}
 	
 	@Override
@@ -59,7 +63,7 @@ public final class GLinkedList<T> implements GList<T>{
 	}
 
 	@Override
-	public boolean containsKey(int key) {
+	public boolean containsKey(Integer key) {
 		if(first == null)
 			return false;
 		
@@ -69,15 +73,14 @@ public final class GLinkedList<T> implements GList<T>{
 			return first.containsKey(key);
 	}
 
-	@Override
-	public boolean containsValue(T value) {
+	public boolean constainsValue(T value) {
 		if(first == null)
 			return false;
 		
 		if(first.getValue() == value)
 			return true;
 		else
-			return first.containsValue(value);
+			return first.constainsValue(value);
 	}
 
 	@Override
@@ -89,14 +92,6 @@ public final class GLinkedList<T> implements GList<T>{
 		first = null;
 	}
 
-	@Override
-	public void forEachElement(Consumer<? super T> action) {
-		if(first == null)
-			return;
-		
-		first.forEachElement(action);
-		
-	}
 
 	@Override
 	public ArrayList<T> getAllValues() {
@@ -106,7 +101,7 @@ public final class GLinkedList<T> implements GList<T>{
 	}
 
 	@Override
-	public void addAll(GList<T> list) {
+	public void addAll(GMap<Integer, T> list) {
 		((GLinkedList<T>)list).first
 							  .getAllNodes()
 							  .stream()
@@ -114,12 +109,17 @@ public final class GLinkedList<T> implements GList<T>{
 	}
 
 	@Override
-	public void removeAll(GList<T> list) {
+	public void removeAll(GMap<Integer, T> list) {
 		((GLinkedList<T>)list).first
 							  .getAllNodes()
 							  .stream()
 							  .forEach(a -> remove(a.getKey()));
 	}
-	
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

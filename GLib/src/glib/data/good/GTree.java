@@ -1,13 +1,12 @@
 package glib.data.good;
 
-import glib.data.good.interfaces.GList;
-
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
-public class GTree<T> implements GList<T>{
+import glib.data.good.interfaces.GMap;
+
+public class GTree<T> implements GMap<Integer, T>{
 	private GTree<T> rightChild = null;
-	private GTree<T> leftChild = null;
+	private GTree<T> leftChild  = null;
 	
 	private int key;
 	private T value;
@@ -17,8 +16,9 @@ public class GTree<T> implements GList<T>{
 		this.value = value;
 	}
 	
+
 	@Override
-	public void add(int key, T value){
+	public T add(Integer key, T value) {
 		if(key < this.key){
 			if(leftChild == null)
 				leftChild = new GTree<T>(key, value);
@@ -32,12 +32,15 @@ public class GTree<T> implements GList<T>{
 			else
 				rightChild.add(key, value);
 		}
-		else
+		else{
+			T old = this.value;
 			this.value = value;
+			return old;
+		}
+		return null;
 	}
-	
 	@Override
-	public T get(int key){
+	public T get(Integer key) {
 		if(key < this.key)
 			return leftChild.get(key);
 		else if(key > this.key)
@@ -59,15 +62,9 @@ public class GTree<T> implements GList<T>{
 		
 		return result;
 	}
-
+	
 	@Override
-	public void remove(int key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean containsKey(int key) {
+	public boolean containsKey(Integer key) {
 		if(this.key == key)
 			return true;
 		
@@ -77,22 +74,6 @@ public class GTree<T> implements GList<T>{
 		
 		if(leftChild != null)
 			if(leftChild.containsKey(key))
-				return true;
-		
-		return false;
-	}
-
-	@Override
-	public boolean containsValue(T value) {
-		if(this.value == value)
-			return true;
-		
-		if(rightChild != null)
-			if(rightChild.containsValue(value))
-				return true;
-		
-		if(leftChild != null)
-			if(leftChild.containsValue(value))
 				return true;
 		
 		return false;
@@ -113,34 +94,45 @@ public class GTree<T> implements GList<T>{
 		
 	}
 
-	@Override
-	public void forEachElement(Consumer<? super T> action) {
-		if(rightChild != null)
-			rightChild.forEachElement(action);
-		
-		if(leftChild != null)
-			leftChild.forEachElement(action);
-		
-		action.accept(value);
-		
-	}
-
-	
-	@Override
 	public ArrayList<T> getAllValues() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void addAll(GList<T> list) {
+	public void addAll(GMap<Integer,T> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeAll(GMap<Integer,T> list) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeAll(GList<T> list) {
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
+	public T remove(Integer key) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean constainsValue(T value) {
+		if(this.value == value)
+			return true;
 		
+		if(rightChild != null)
+			if(rightChild.constainsValue(value))
+				return true;
+		
+		if(leftChild != null)
+			if(leftChild.constainsValue(value))
+				return true;
+		
+		return false;
 	}
 }

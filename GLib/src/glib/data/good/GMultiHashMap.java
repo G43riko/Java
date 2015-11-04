@@ -3,7 +3,6 @@ package glib.data.good;
 import glib.data.good.interfaces.GMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
@@ -56,11 +55,13 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	 * @param key
 	 * @param value
 	 */
-	public void add(S key, T value){
+	public T add(S key, T value){
 		if(!map.containsKey(key))
 			map.put(key, new ArrayList<T>());
 		
 		map.get(key).add(value);
+		
+		return null;
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	 * @param key
 	 * @return
 	 */
-	public ArrayList<T> get(S key){
+	public ArrayList<T> getAll(S key){
 		return map.get(key);
 	}
 
@@ -95,7 +96,6 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		
 		for(Entry<S, ArrayList<T>> e : map.entrySet())
 			result.addAll(e.getValue());
-		
 		return result;
 	}
 	
@@ -135,7 +135,7 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	 * @param key
 	 * @return
 	 */
-	public boolean constainsKey(S key){
+	public boolean containsKey(S key){
 		return map.containsKey(key);
 	}
 	
@@ -168,8 +168,9 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	 * Vymaže všetky uložené pod klúèom zadaným v parametri
 	 * @param key
 	 */
-	public void remove(S key){
+	public T remove(S key){
 		map.remove(key);
+		return null;
 	}
 	
 	/**
@@ -180,6 +181,30 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		for(S key: keys)
 			if(map.containsKey(key))
 				map.remove(key);
+		
+	}
+
+	@Override
+	public T get(S key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void addAll(GMap<S, T> tree) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAll(GMap<S, T> tree) {
+		// TODO Auto-generated method stub
 		
 	}
 }

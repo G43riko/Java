@@ -19,11 +19,12 @@ public class MainCanvas extends GCanvasCicle{
 	}
 	
 	public MainCanvas(){
+		super(800, 600, 60);
 		start();
 	}
 	
 	public void render(Graphics2D g2){
-		drawTriangel(g2,new GVector2f(50,50), new GVector2f(150,50), new GVector2f(50,150));
+		drawTriangel(g2, new GVector2f(50,50), new GVector2f(150,50), new GVector2f(50,150));
 	}
 	
 	public void drawLine(Graphics2D g2, GVector2f a, GVector2f b){
@@ -49,6 +50,18 @@ public class MainCanvas extends GCanvasCicle{
 		g2.drawLine(b.getXi(), b.getYi(), c.getXi(), c.getYi());
 		g2.drawLine(c.getXi(), c.getYi(), d.getXi(), d.getYi());
 		g2.drawLine(d.getXi(), d.getYi(), a.getXi(), a.getYi());
+	}
+
+	@Override
+	public void input() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

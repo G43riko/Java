@@ -7,16 +7,18 @@ import org.engine.app.GameAble;
 import org.engine.component.Camera;
 import org.engine.component.GameComponent;
 import org.engine.component.light.DirectionalLight;
+import org.engine.component.light.PointLight;
 import org.engine.component.movement.FPS;
 import org.engine.component.object.GameObject;
 import org.engine.core.CoreEngine;
 import org.engine.core.Scene;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
-import org.engine.utils.resource.Loader;
 import org.engine.utils.resource.OBJLoader;
 import org.lwjgl.opengl.Display;
+import org.tester.voxel.PointLightObject;
 import org.tester.voxel.world.ChunkNew;
+import org.tester.voxel.world.Sandbox;
 import org.tester.voxel.world.World;
 
 import glib.shapes.threeDimensional.Plane;
@@ -24,8 +26,13 @@ import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public class GameVoxel  implements GameAble{
+	public final static int BUILD_MODE 		= 0;
+	public final static int SELECT_MODE 	= 1;
+	public final static int DESTROY_MODE 	= 2;
+	
 	private Controlable parent;
 	private Scene scene = new Scene(this);
+	
 	
 	public GameVoxel(Controlable parent) {
 		this.parent = parent;
@@ -40,16 +47,18 @@ public class GameVoxel  implements GameAble{
 												  						   Plane.getNormals(), 
 												  						   Plane.getIndices()));
 		plane.setUseFakeLight(true);
-		//addToScene(plane);
+		addToScene(plane);
+		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(0,1,1), new GVector3f(1,0,1))));	
 		
 		addToScene(new FPS(this, true));
 		
-		addToScene(new World(this));
+		addToScene(new Sandbox(this));
+//		addToScene(new World(this));
 //		addToScene(new Terrain(80, 80, 50));
-		addToScene(new ChunkNew(this));
+//		addToScene(new ChunkNew(this));
 		
 		
-		addToScene(new GameObject(this, new Material("materials/texture.png"), OBJLoader.loadObjModel("sphere")));
+//		addToScene(new GameObject(this, new Material("materials/texture.png"), OBJLoader.loadObjModel("sphere")));
 	}
 
 	@Override
@@ -89,6 +98,11 @@ public class GameVoxel  implements GameAble{
 	public void exit() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void addToSceneLight(PointLightObject light){
+		scene.add(light);
+		parent.getRenderingEngine().setPointLight(light);
 	}
 
 }

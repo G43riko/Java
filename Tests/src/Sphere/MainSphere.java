@@ -7,6 +7,10 @@ import glib.cycle.GCanvasCicle;
 
 public class MainSphere extends GCanvasCicle{
 
+	public MainSphere() {
+		super(800, 600, 60);
+	}
+
 	public static void main(String[] args) {
 		MainSphere sphere = new MainSphere();
 		sphere.start();
@@ -20,6 +24,12 @@ public class MainSphere extends GCanvasCicle{
 	
 	@Override
 	public void update() {
+	}
+
+	@Override
+	public void input() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

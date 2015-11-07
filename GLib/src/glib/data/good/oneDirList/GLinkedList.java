@@ -118,7 +118,6 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

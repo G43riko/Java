@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 public class MainPath4 extends GCanvasCicle{
 	private Map map;
 	private static GVector2f size = new GVector2f(1600, 900);
+	
 	public MainPath4(){
 		super(size.getXi(), size.getYi(), 30);
 		map = new Map(size.getXi(), size.getYi(), 160, 90);
@@ -22,5 +23,17 @@ public class MainPath4 extends GCanvasCicle{
 	public static void main(String[] args) {
 		MainPath4 path = new MainPath4();
 		path.start();
+	}
+
+	@Override
+	public void input() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -19,13 +19,9 @@ public class World extends GameComponent{
 		createChunks();
 		setNeighBoardsAndSides();
 	}
-	
-	
 
 	//OTHERS
 	
-	
-
 	private void setNeighBoardsAndSides() {
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Z ; j++){

@@ -5,19 +5,19 @@ import java.util.Set;
 
 public final class IDGenerator {
 	private static Set<Integer> ides = new HashSet<Integer>();
-	private static int id;
 	
 	public static int getId(){
-		do{
+		int id;
+		do
 			id = (int)(Math.random() * 2147483647);
-		}while(ides.contains(id));
+		while(ides.contains(id));
 		
 		ides.add(id);
 		return id;
 	}
 
 	public static Set<Integer> getIdes() {
-		return new HashSet<Integer>(id);
+		return new HashSet<Integer>(ides);
 	}
 	
 	public static void clear(){

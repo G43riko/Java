@@ -1,4 +1,4 @@
-#version 400 core
+#version 440 core
 
 const int MAX_LIGHTS = 4;
 
@@ -67,11 +67,11 @@ void main(){
 				}
 				totalDiffuse = max(totalDiffuse,0.2);
 				out_Color =  vec4(ambient,1) * vec4(totalDiffuse,1.0);
-				
+				/*
 				if(texture==1){
 					out_Color *= texture(textureSampler, pass_textureCoords);
-					
 				}
+				*/
 				out_Color += vec4(totalSpecular, 1.0);
 				if(fog == 1){
 					out_Color = mix(vec4(ambient,1.0), out_Color, visibility);
@@ -88,8 +88,9 @@ void main(){
 		//out_Color = floor(out_Color*10)/10;
 
 	}
+	/*
 	else if(view == 1){
-		out_Color = vec4(1-texture(textureSampler, pass_textureCoords).xyz,1);
+		out_Color = vec4(1-texture(textureSampler, pass_textureCoords).xyz, 1);
 		if(select == 1){
 			out_Color *= vec4(1-color,1)*2;
 		}
@@ -99,6 +100,7 @@ void main(){
 		float average = (text.x + text.y + text.z)/3; 
 		out_Color = vec4(average, average, average,1);
 	}
+	*/
 	else if(view == 3){
 		if(color!=vec3(0,0,0)){
 			out_Color = vec4(color,1);

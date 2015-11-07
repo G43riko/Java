@@ -7,15 +7,15 @@ public class Loader {
 		File file = new File(adrress);
 		
 		if(!file.exists()){
-			System.out.println("neotvorilo sa : "+adrress);
+			GLog2.write("neotvorilo sa : " + adrress);
 			file = new File(adrress.replaceAll("res/", ""));
 			if(!file.exists())
-				System.out.println("neotvorilo sa : "+adrress);
-			else 
-				System.out.println("otvorilo sa na druhý krát: "+adrress);
+				GLog2.write("neotvorilo sa : " + adrress);
+			else
+				GLog2.write("otvorilo sa na druhý krát: " + adrress);
 		}
 		else 
-			System.out.println("otvorilo sa : "+adrress);
+			GLog2.write("otvorilo sa : "+adrress);
 		return file;
 	}
 }

@@ -31,22 +31,6 @@ public abstract class CoreEngine extends JFrame{
 	private RenderingEngine renderingEngine;
 	private Screen screen;
 	
-//
-//	private GameComponent center;
-
-//	private void setCenter(GameComponent center) {
-//		this.center = center;
-//	}
-	
-//	public void setMovementType(BasicMovement b){
-//		if(b instanceof FPS){
-//			setCenter(renderingEngine.getMainCamera());
-//		}
-//		else if(b instanceof TPS){
-//			setCenter(((TPS)b).getPlayer());
-//		}
-//	}
-	
 	private boolean running = false;
 	
 	private int actFps = 60;
@@ -62,7 +46,6 @@ public abstract class CoreEngine extends JFrame{
 		gui.repaint();
 		
 		renderingEngine = new RenderingEngine(new Camera(new GVector3f(0,1,5)));
-		
 		screen = new Screen();
 	}
 	
@@ -82,13 +65,10 @@ public abstract class CoreEngine extends JFrame{
 		}
 		
 		Log.render(actFps,renderingEngine.getRenderedPoligons(), renderingEngine.getRenderedPoints());
-//		Log.render("rendered points: " + renderingEngine.getRenderedPoints(), new GVector2f(0, 48), 48, new GVector3f(1,0,1));
 	}
 
 	private void defaultUpdate() {
 		Input.update();
-		
-		
 		
 		if(Display.wasResized())
 			onResize();
@@ -98,12 +78,12 @@ public abstract class CoreEngine extends JFrame{
 	
 	private void defaultInput() {
 		
-		if(Input.getKeyDown(Keyboard.KEY_G)){
+		if(Input.getKeyDown(Keyboard.KEY_G))
 			gui.tooglePanels();
-		}
-		if(Input.getKeyDown(Keyboard.KEY_T)){
+		
+		if(Input.getKeyDown(Keyboard.KEY_T))
 			Log.toogle();
-		}
+		
 		
 		for(int i=0 ; i< changes.size() ; i++){
 			String s = changes.get(i);

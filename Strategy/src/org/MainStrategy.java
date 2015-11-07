@@ -21,8 +21,8 @@ public class MainStrategy {
 	public static int HEIGHT = 720;
 	
 	public static void main(String[] args) {
-//		CoreEngine game = new StrategyGame();
-		CoreEngine game = new MainTester();
+		CoreEngine game = new StrategyGame();
+//		CoreEngine game = new MainTester();
 //		CoreEngine game = new ParticleTester();
 //		CoreEngine game = new MainVoxel();
 	

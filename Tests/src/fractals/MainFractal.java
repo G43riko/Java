@@ -44,4 +44,16 @@ public class MainFractal extends GCanvasCicle{
 //		g2.fillRect(-50, -50, 100, 100);
 //		angle++;
 	}
+
+	@Override
+	public void input() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

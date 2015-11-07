@@ -1,15 +1,19 @@
 package glib.math;
 
+import java.util.Arrays;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
 public class GMath {
 	public static float distPointPoint(float ax, float ay, float bx, float by){
-		return new GVector2f(ax,ay).dist(new GVector2f(bx,by));
+		return new GVector2f(ax, ay).dist(new GVector2f(bx, by));
 	};
 	
 	public static float distPointPoint(float ax, float ay, float az, float bx, float by, float bz){
-		return new GVector3f(ax,ay,az).dist(new GVector3f(bx,by,bz));
+		return new GVector3f(ax, ay, az).dist(new GVector3f(bx, by, bz));
 	};
 	
 	public static float distPointLine(GVector3f pointA, GVector3f pointB, GVector3f pointP){
@@ -72,11 +76,11 @@ public class GMath {
 	    	return new GVector3f(sx1 + u * xDelta, sy1 + u * yDelta, sz1 + u * zDelta);
 	}
 	
-	public static float choose(float... argc){
-		return argc[(int)Math.floor(Math.random()*argc.length)];
+	public static float choose(float ... argc){
+		return argc[(int)Math.floor(Math.random() * argc.length)];
 	};
 	
-	public static float average(float... argc){
+	public static float average(float ... argc){
 		float sum=0;
 		for(float co : argc){
 			sum+=co;
@@ -91,7 +95,8 @@ public class GMath {
 			sumX += vec.getX();
 			sumY += vec.getY();
 		}
-		return new GVector2f(sumX/vectors.length, sumY/vectors.length);
+		return new GVector2f(sumX / vectors.length, 
+							 sumY / vectors.length);
 	};
 	
 	public static GVector3f center(GVector3f... vectors){
@@ -103,7 +108,9 @@ public class GMath {
 			sumY += vec.getY();
 			sumZ += vec.getZ();
 		}
-		return new GVector3f(sumX/vectors.length, sumY/vectors.length, sumZ/vectors.length);
+		return new GVector3f(sumX / vectors.length, 
+							 sumY / vectors.length, 
+							 sumZ / vectors.length);
 	};
 	
 	public static int fastfloor(double x) {
@@ -117,15 +124,15 @@ public class GMath {
             return startValue;
         if (scale >= 1f)
             return endValue;
-        return (endValue - startValue)*scale + startValue;
+        return (endValue - startValue) * scale + startValue;
     };
     
     public static float randomize(float value, float level){
-    	return value + (float)(Math.random()*2*level - level);
+    	return value + (float)(Math.random() * 2 * level - level);
     };
     
     public static float between(float value, float min, float max){
-    	return (float)Math.max(min, Math.min(value, max));
+    	return Math.max(min, Math.min(value, max));
     };
 
     public static float max(float... args){
@@ -149,10 +156,10 @@ public class GMath {
     }
 
     public static int rand(int min, int max){
-    	return (int)(Math.random()*(max-min)) + min;
+    	return (int)(Math.random() * (max - min)) + min;
     }
     
     public static float rand(float min, float max){
-    	return (float)(Math.random()*(max-min)) + min;
+    	return (float)(Math.random() * (max - min)) + min;
     }
 }

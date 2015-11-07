@@ -41,6 +41,14 @@ public class Screen {
 	public void cleanUp(){
 		frameRenderer.cleanUp();
 	}
+
+	public void startRenderToScreen() {
+		frameRenderer.startRenderToFrameBuffer();
+	}
+
+	public void stopRenderToScreen() {
+		frameRenderer.stopRenderToFrameBuffer();
+	}
 	
 	//GETTERS
 
@@ -53,13 +61,5 @@ public class Screen {
 	
 	public void setTexture(Texture2D texture) {
 		this.texture = texture;
-	}
-
-	public void startRenderToScreen() {
-		frameRenderer.startRenderToFrameBuffer();
-	}
-
-	public void stopRenderToScreen() {
-		frameRenderer.stopRenderToFrameBuffer();
 	}
 }

@@ -31,13 +31,13 @@ public class GVertex {
 	public int getSize(){
 		int result = 0;
 		if(position != null)
-			result +=3;
+			result += 3;
 		if(texture != null)
-			result +=2;
+			result += 2;
 		if(normal != null)
-			result +=3;
+			result += 3;
 		if(tangent != null)
-			result +=3;
+			result += 3;
 		return result;
 	}
 

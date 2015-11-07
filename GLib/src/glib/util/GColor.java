@@ -8,16 +8,18 @@ import java.awt.Color;
 public class GColor extends Color{
 	private static final long serialVersionUID = 1L;
 	
-	public GColor(int i){
-		super(i);
-	}
+	//CONTRUCTORS
 	
 	public GColor(Color c){
-		this(c.getRGB());
+		super(c.getRGB());
 	}
 	
-	public GColor(float r, float g, float b) {
-		this(r,g,b,255);
+	public GColor(int RGB){
+		super(RGB);
+	}
+	
+	public GColor(float red, float green, float blue) {
+		this(red, green, blue, 255);
 	}
 	
 	public GColor(float r, float g, float b, float a) {
@@ -25,18 +27,22 @@ public class GColor extends Color{
 	}
 	
 	public GColor(GVector3f vec) {
-		super((int)GMath.between(vec.getX(), 0, 255), (int)GMath.between(vec.getY(), 0, 255), (int)GMath.between(vec.getZ(), 0, 255));
+		super((int)GMath.between(vec.getX(), 0, 255), 
+			  (int)GMath.between(vec.getY(), 0, 255), 
+			  (int)GMath.between(vec.getZ(), 0, 255));
 	}
 	
-	public static GColor randomize(float value, Color c){
-		return new GColor(c).getSimilarInstance(value,false);
+	//OTHERS
+	
+	public static GColor randomize(float value, Color color){
+		return new GColor(color).getSimilarInstance(value, false);
 	}
 	
-	public static GColor average(GColor... colors){
+	public static GColor averageColor(GColor... colors){
 		GVector3f average = new GVector3f();
-		for(GColor c : colors){
+		for(GColor c : colors)
 			average = average.add(new GVector3f(c.getRed(), c.getGreen(), c.getBlue()));
-		}
+		
 		average = average.div(colors.length);
 		
 		return new GColor(average);
@@ -44,14 +50,18 @@ public class GColor extends Color{
 	
 	public GColor getSimilarInstance(float value, boolean severally){
 		if(severally){
-			float r = (float)(Math.random()*2*value-value);
-			float g = (float)(Math.random()*2*value-value);
-			float b = (float)(Math.random()*2*value-value);
-			return new GColor(getRed()+r, getGreen()+g, getBlue()+b);
+			float r = (float)(Math.random() * 2 * value - value);
+			float g = (float)(Math.random() * 2 * value - value);
+			float b = (float)(Math.random() * 2 * value - value);
+			return new GColor(getRed()   + r, 
+							  getGreen() + g, 
+							  getBlue()  + b);
 		}
 		else{
-			float color = (float)(Math.random()*2*value-value);
-			return new GColor(getRed()+color, getGreen()+color, getBlue()+color);
+			float color = (float)(Math.random() * 2 * value - value);
+			return new GColor(getRed()   + color, 
+							  getGreen() + color, 
+							  getBlue()  + color);
 		}
 	}
 	
@@ -59,7 +69,16 @@ public class GColor extends Color{
 		return (int)Math.max(0, Math.min(255, color));
 	}
 	
+	//GETTERS
+	
 	public GColor getInstance(){
-		return new GColor(getRed(),getGreen(), getBlue(), getAlpha());
+		return new GColor(getRed(), getGreen(), getBlue(), getAlpha());
 	}
+	
+	public GColor getGreyScale(GColor color){
+		int finalColor = (color.getRed() + color.getGreen() + color.getBlue() ) / 3;
+		return new GColor(finalColor, finalColor, finalColor);
+		
+	}
+	
 }

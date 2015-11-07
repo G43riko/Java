@@ -11,7 +11,7 @@ public abstract class Utils {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			GLog.write("nepodarilo sa zÌskaù adresu localhostu");
+			GLog2.write("nepodarilo sa zÌskaù adresu localhostu");
 		}
 		return "Error";
 	}
@@ -20,15 +20,15 @@ public abstract class Utils {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
-			GLog.write("nepodarilo sa uspaù vl·kno");
+			GLog2.write("nepodarilo sa uspaù vl·kno");
 		}
 	}
 	
 	public static<T> void drawArray(T[] array){
 		for(T b : array)
-			System.out.print(b + ", ");
-		
-		System.out.println("");
+			GLog2.write(b + ", ");
+
+		GLog2.write("");
 	}
 	
 	public static<T> T[] concatenateArray (T[] a, T[] b) {

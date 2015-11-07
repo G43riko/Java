@@ -37,8 +37,8 @@ public class CoreGame extends CoreEngine implements Controlable{
 	@Override
 	public void newGame() {
 //		game = new GameTest(this);
-//		game = new GameVoxel(this);
-		game = new GameBomber(this);
+		game = new GameVoxel(this);
+//		game = new GameBomber(this);
 		gameIs = RUNNING;
 	}
 

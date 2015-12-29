@@ -1,6 +1,5 @@
 package org.engine.utils.persistance;
 
-import java.awt.Color;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;

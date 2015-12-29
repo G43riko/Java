@@ -12,7 +12,7 @@ public class GVector3f {
 	}
 	
 	public GVector3f(String s){
-		s = s.replace("[", "").replace("]", "").replace("x", "_");
+		s = s.replaceAll("[\\[()\\]]", "").replaceAll("[x,]", "_");
 		String[] strings = s.split("_");
 		
 		this.x = Float.parseFloat(strings[0]);
@@ -296,7 +296,7 @@ public class GVector3f {
 	public void setZ(float z) {this.z = z;};
 
 	public String toString(){
-		return "[" + x + "x" + y + "x" + z + "]";
+		return "[" + x + "," + y + "x" + z + "]";
 	}
 	
 	public boolean equals(Object o){

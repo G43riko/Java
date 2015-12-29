@@ -23,7 +23,7 @@ public class GVector2f implements Serializable{
 	};
 	
 	public GVector2f(String s){
-		s = s.replace("[", "").replace("]", "").replace("x", "_");
+		s = s.replaceAll("[\\[()\\]]", "").replaceAll("[x,]", "_");
 		String[] strings = s.split("_");
 		
 		this.x = Float.parseFloat(strings[0]);

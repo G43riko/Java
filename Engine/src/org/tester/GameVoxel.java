@@ -11,9 +11,11 @@ import org.engine.component.light.PointLight;
 import org.engine.component.movement.FPS;
 import org.engine.component.object.GameObject;
 import org.engine.core.CoreEngine;
+import org.engine.core.Input;
 import org.engine.core.Scene;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
+import org.engine.rendering.material.Texture2D;
 import org.engine.utils.resource.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.tester.voxel.PointLightObject;
@@ -38,22 +40,23 @@ public class GameVoxel  implements GameAble{
 		this.parent = parent;
 		
 		
-		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 1, 0.5f), new GVector3f(0.8f)));
+//		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 0.5f, 0.5f), new GVector3f(0.8f)));
 		
-		GameObject plane = new GameObject(this, 
-										  new Material("materials/texture.png"),
-										  CoreEngine.getLoader().loadToVAO(Plane.getVertices(100, 100), 
-												  						   Plane.getTextures(100, 100), 
-												  						   Plane.getNormals(), 
-												  						   Plane.getIndices()));
-		plane.setUseFakeLight(true);
-		addToScene(plane);
-		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(0,1,1), new GVector3f(1,0,1))));	
+//		GameObject plane = new GameObject(this, 
+//										  new Material("materials/texture.png"),
+//										  CoreEngine.getLoader().loadToVAO(Plane.getVertices(100, 100), 
+//												  						   Plane.getTextures(100, 100), 
+//												  						   Plane.getNormals(), 
+//												  						   Plane.getIndices()));;
+//		plane.setUseFakeLight(true);
+//		addToScene(plane);
+//		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(-4,2,1), new GVector3f(1,0,1))));	
 		
-		addToScene(new FPS(this, true));
+//		addToScene(new FPS(this, true));
 		
-		addToScene(new Sandbox(this));
+//		addToScene(new Sandbox(this));
 //		addToScene(new World(this));
+//		addToScene(new GameObject(this, new Material(new Texture2D("materials/texture.png")), new Terrain(1,1).getModel()));
 //		addToScene(new Terrain(80, 80, 50));
 //		addToScene(new ChunkNew(this));
 		
@@ -72,7 +75,12 @@ public class GameVoxel  implements GameAble{
 				.peek(a->a.update(delta))
 				.filter(a->a.isDead())
 				.collect(Collectors.toList()));
+
+//		if(parent != null && parent.getRenderingEngine() != null && parent.getRenderingEngine().getSelectedBlock() != null)
+//			if(parent.getRenderingEngine().getSelectedBlock().getBlock() != null)
+//				parent.getRenderingEngine().getSelectedBlock().getBlock().setType(0);
 	}
+	
 	
 	@Override
 	public void input() {

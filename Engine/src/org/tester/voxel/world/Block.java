@@ -12,9 +12,32 @@ public class Block extends BasicBlock{
 	
 	private Block[] neightboars = new Block[6];
 	
-	private boolean[] sides = new boolean[]{true,true,true,true,true,true};
 	
 	private GVector3f direction = new GVector3f();
+	
+	private GVector3f[][] points = new GVector3f[][]{ new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH, Block.HEIGHT, Block.DEPTH)},
+																	  
+													  new GVector3f[]{new GVector3f(-Block.WIDTH, Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH,-Block.HEIGHT, Block.DEPTH)},
+																	  
+													  new GVector3f[]{new GVector3f( Block.WIDTH,-Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f( Block.WIDTH,-Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH,-Block.HEIGHT, Block.DEPTH)},
+																	  
+													  new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f( Block.WIDTH,-Block.HEIGHT, Block.DEPTH)},
+																	  
+													  new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f( Block.WIDTH,-Block.HEIGHT, Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH, Block.HEIGHT, Block.DEPTH)},
+																	  
+													  new GVector3f[]{new GVector3f( Block.WIDTH, Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f( Block.WIDTH,-Block.HEIGHT,-Block.DEPTH),
+																	  new GVector3f(-Block.WIDTH, Block.HEIGHT,-Block.DEPTH)}};
 	
 	public Block(GameAble parent, int type, GVector3f position) {
 		super(parent);
@@ -27,19 +50,31 @@ public class Block extends BasicBlock{
 	
 	@Override
 	public void render(RenderingEngine renderingEngine) {
-		renderingEngine.renderBlock(this);
+		if(isVisible())
+			renderingEngine.renderBlock(this);
 	}
 	
 	//GETTERS
 	
 	public boolean getSide(int i) {
-		return sides[i];
+		return neightboars[i] == null || !neightboars[i].isVisible() ;
+	}
+	
+	public GVector3f getPoint(int i, int j){
+		return points[i][j];
 	}
 	
 	//SETTERS
 	
 	public void setNeighBoard(int num, Block block){
 		neightboars[num] = block;
-		sides[num] = false;
+	}
+	
+	public boolean isSelectable(){
+		return true;
+	}
+
+	public boolean isVisible() {
+		return getType() > 0;
 	}
 }

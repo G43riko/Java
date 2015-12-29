@@ -62,6 +62,31 @@ public class RenderingEngine {
 	protected static HashMap<String, GBasicShader> shaders = new HashMap<String, GBasicShader>(); 
 	private HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
 	
+	/*************************BLOCK*PART***************************/
+	private SelectBlock selectBlock = new SelectBlock();
+	
+	public class SelectBlock{
+		private Block block = null;
+		private int side = -1;
+		private float dist  = -1;
+		
+		public Block getBlock() {
+			return block;
+		}
+		
+		public int getSide() {
+			return side;
+		}
+		
+		public void reset(){
+			block = null;
+			dist = -1;
+		}
+	}
+	
+	public SelectBlock getSelectedBlock(){return selectBlock;}
+	/*************************BLOCK*PART***************************/
+	
 	static{
 		shaders.put("objectShader", new ObjectShader());
 		shaders.put("hudShader", new HudShader());
@@ -71,7 +96,6 @@ public class RenderingEngine {
 	//CONSTRUCTORS
 	
 	public RenderingEngine(Camera camera){
-		
 		mainCamera = camera;
 		updateCamera();
 		
@@ -84,8 +108,8 @@ public class RenderingEngine {
 		setVariable("useLights", true);
 		setVariable("useAmbient", true);
 		setVariable("useTexture", true);
-		setVariable("useSpecular", true);
-		setVariable("useSpecularMap", true);
+		setVariable("useSpecular", false);
+		setVariable("useSpecularMap", false);
 		setVariable("useCameraBlur", false);
 		setVariable("useAntiAliasing", false);
 		setVariable("useNormalMap", false);
@@ -145,7 +169,6 @@ public class RenderingEngine {
 	}
 
 	public void renderScreen(Screen screen) {
-		
 		shaders.get("postFXShader").bind();
 		GL30.glBindVertexArray(screen.getModel().getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -180,9 +203,30 @@ public class RenderingEngine {
 		getShader("objectShader").updateUniform("transformationMatrix", block.getTransformationMatrix());
 		setMaterial(block.getMaterial());
 		
+		float blockToCamDist = block.getPosition().dist(getMainCamera().getPosition());
+		boolean search = (block.isSelectable() && 
+						  blockToCamDist < Config.PLAYER_MAX_CLICK_DIST &&
+				 		  blockToCamDist < block.getPosition().dist(getMainCamera().getPosition().add(getMainCamera().getForward()))) &&
+							(selectBlock.block == null || 
+							blockToCamDist < selectBlock.block.getPosition().dist(getMainCamera().getPosition()) && false);
+		
+		mainCamera.getMousePicker().getCurrentRay();
 		for(int i=0 ; i<6 ; i++)
-			if(block.getSide(i))
+			if(block.getSide(i)){
+				if(search && GVector3f.intersectRayWithSquare(getMainCamera().getPosition(), 
+						getMainCamera().getPosition().add(getMainCamera().getMousePicker().getCurrentRay().mul(1000)),
+															  block.getPosition().add(block.getPoint(i, 0)), 
+															  block.getPosition().add(block.getPoint(i, 1)),  
+															  block.getPosition().add(block.getPoint(i, 2)))){
+					float dist = block.getPosition().add(block.getPoint(i, 1).add(block.getPoint(i, 2)).div(2)).dist(getMainCamera().getPosition());
+					if(selectBlock.dist<0 || selectBlock.dist>dist){
+						selectBlock.dist = dist;
+						selectBlock.side = i;
+					}
+					selectBlock.block = block;
+				}
 				prepareAndDraw(3, Blocks.getModel(i));
+			}
 		
 		getShader("objectShader").updateUniform("receiveLight", false);
 		disableVertex(3);
@@ -202,7 +246,7 @@ public class RenderingEngine {
 		
 		prepareAndDraw(3, block.getModel("top"));
 		
-		
+		//a eöte netreba renderovaù ak su kocky vedla seba
 		if(mainCamera.getPosition().getX() < block.getPosition().getX())
 			prepareAndDraw(3, block.getModel("right"));
 		else
@@ -399,7 +443,6 @@ public class RenderingEngine {
 				val.updateUniform("projectionMatrix", projectionMatrix);
 			}
 		});
-		
 	}
 
 	public void setBackgroundColor(GVector3f backgroundColor) {
@@ -476,4 +519,6 @@ public class RenderingEngine {
 	public Camera getMainCamera() {
 		return mainCamera;
 	}
+	
+	
 }

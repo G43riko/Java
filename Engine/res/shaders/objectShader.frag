@@ -20,6 +20,7 @@ struct PointLight{
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 worldPos;
+in vec3 toCamera;
 
 out vec4 out_Color;
 
@@ -46,12 +47,29 @@ uniform int useNormalMap;
 uniform int useSpecularMap;
 
 vec4 calcLight(BaseLight baseLight, vec3 direction, vec3 normal){
-    float nDotl = dot(normalize(normal), normalize(direction));
-	return vec4(max(max(nDotl,0.0) * baseLight.color, 0.2) * baseLight.intensity, 1);
+	vec3 unitNormal = normalize(normal);
+	vec3 initVectorToCamera = normalize(toCamera);
+	direction = normalize(direction);
+	
+    float nDotl = dot(unitNormal, direction);
+    float bringhtness = max(nDotl, 0.0);
+    vec3 difuse = bringhtness * baseLight.color;
+    
+	vec3 finalSpecular = vec3(0);
+	if(useSpecular > 0.5){
+	    vec3 lightDirection = -direction;
+	    vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+	    
+	    float specularFactor = dot(reflectedLightDirection, initVectorToCamera);
+	    specularFactor = max(specularFactor, 0.0);
+	    float dampedFactor = pow(specularFactor, specularPower);
+	    finalSpecular = dampedFactor * baseLight.color;
+    };
+	return vec4(max(difuse, 0.2) * baseLight.intensity + finalSpecular, 1);
 }
 
 vec4 calcPointLight(PointLight pointLight, vec3 normal){
-    vec3 lightDirection = worldPos - pointLight.position;
+    vec3 lightDirection = pointLight.position - worldPos;
     float distanceToPoint = length(lightDirection);
     
     if(distanceToPoint > pointLight.range){
@@ -60,7 +78,7 @@ vec4 calcPointLight(PointLight pointLight, vec3 normal){
     
     lightDirection = normalize(lightDirection);
     
-    vec4 color = calcLight(pointLight.baseLight, -lightDirection, normal);
+    vec4 color = calcLight(pointLight.baseLight, lightDirection, normal);
     
     float attenuation = pointLight.attenuation.x + 
                         pointLight.attenuation.y * distanceToPoint + 
@@ -71,7 +89,7 @@ vec4 calcPointLight(PointLight pointLight, vec3 normal){
 }
 
 vec4 calcDirectionalLight(DirectionalLight light, vec3 normal){
-	return calcLight(light.baseLight, light.direction, normal);
+	return calcLight(light.baseLight, light.direction , normal);
 }
 
 vec4 calcDirectionalLightSpecular(DirectionalLight sun, vec3 normal){

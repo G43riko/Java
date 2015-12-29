@@ -13,7 +13,7 @@ public class LineLineIntersect {
 							  (long)c.getX(), (long)c.getY(), 
 							  (long)d.getX(), (long)d.getY());
 	}
-	
+
 	private static GVector2f linesIntersetc(long x1 , long y1, long x2, long y2, long x3, long y3, long x4, long y4){
 		long a1, a2, b1, b2, c1, c2; /* Coefficients of line eqns. */
 		long r1, r2, r3, r4;         /* 'Sign' values */

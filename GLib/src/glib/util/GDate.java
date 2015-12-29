@@ -4,12 +4,21 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class GDate {
-	private DateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy");
+	private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 	private Calendar calendar = Calendar.getInstance();
 	
 	//CONSTRUCTORS
+	
+	public GDate(){
+		calendar.setTime(new Date());;
+	}
+	
+	public GDate(long date){
+		calendar.setTime(new Date(date));;
+	}
 	
 	public GDate(String date, String format){
 		dateFormat = new SimpleDateFormat(format);

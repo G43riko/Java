@@ -67,7 +67,7 @@ public class Terrain {
 	
 	//GENERATORS
 	
-	private Model generateTerrain( String heightMap){
+	private Model generateTerrain(String heightMap){
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("res/textures/" +heightMap+ ".png"));

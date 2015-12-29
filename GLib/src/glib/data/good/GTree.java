@@ -11,12 +11,15 @@ public class GTree<T> implements GMap<Integer, T>{
 	private int key;
 	private T value;
 	
+	//CONTRUCTORS
+	
 	public GTree(int key, T value){
 		this.key = key;
 		this.value = value;
 	}
 	
-
+	//ADDERS
+	
 	@Override
 	public T add(Integer key, T value) {
 		if(key < this.key){
@@ -39,6 +42,14 @@ public class GTree<T> implements GMap<Integer, T>{
 		}
 		return null;
 	}
+
+	public void addAll(GMap<Integer,T> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//GETTERS
+	
 	@Override
 	public T get(Integer key) {
 		if(key < this.key)
@@ -51,6 +62,26 @@ public class GTree<T> implements GMap<Integer, T>{
 			return null;
 	}
 
+	public ArrayList<T> getAllValues() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//REMOVERS
+
+	@Override
+	public T remove(Integer key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void removeAll(GMap<Integer,T> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//OTHERS
+	
 	@Override
 	public int getSize() {
 		int result = 1;
@@ -94,32 +125,11 @@ public class GTree<T> implements GMap<Integer, T>{
 		
 	}
 
-	public ArrayList<T> getAllValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void addAll(GMap<Integer,T> list) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void removeAll(GMap<Integer,T> list) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public boolean isEmpty() {
 		return false;
 	}
 
-	@Override
-	public T remove(Integer key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	@Override
 	public boolean constainsValue(T value) {
 		if(this.value == value)

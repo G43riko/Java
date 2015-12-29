@@ -8,23 +8,42 @@ public class GLog2 {
 	public final static boolean CONSTRUCTORS	= false;
 	
 	private static ArrayList<GLog2> logs = new ArrayList<GLog2>();
-	private String 		text; 
+	private String 		text;
+	private String 		methodName;
+	private String 		className;
+	private int			lineNumber;
 	private Exception 	exception;
 	private long 		created = System.currentTimeMillis();;
 	
 	//CONTRUCTORS
 	
-	private GLog2(String text, Exception exception){
+	private GLog2(String text, Exception exception, int lineNumber, String methodName, String className){
 		this.text = text;
 		this.exception = exception;
+		this.className = className;
+		this.methodName = methodName;
+		this.lineNumber = lineNumber;
 	}
 	
 	//OTHERS
 	
-	public static void write(String text){write(text, null, true);}
-	public static void write(String text, boolean value){write(text, null, value);}
+	public static void write(String text){
+		write(text, null, true);
+	}
+	
+	public static void write(String text, boolean value){
+		write(text, null, value);
+	}
+	
+	public static void write(String text,Exception exception){
+		write(text, exception, true);
+	}
+	
 	public static void write(String text, Exception exception, boolean value){
-		logs.add(new GLog2(text, exception));
+		StackTraceElement[] tracker = Thread.currentThread().getStackTrace();
+		StackTraceElement t = tracker[tracker.length - 1];
+		
+		logs.add(new GLog2(text, exception, t.getLineNumber(), t.getMethodName(), t.getClassName()));
 		
 		if(value){
 			System.out.println(text);
@@ -36,7 +55,15 @@ public class GLog2 {
 	public static void printLogs(){
 		logs.stream()	
 			.sorted((a, b) -> Long.compare(a.created, b.created))
-			.map(a -> a.created + ": " + a.text + " = " + a.exception)
 			.forEach(System.out::println);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder(new GDate(created) + " - \"" + text + "\" [ ");
+		result.append(className + " > " + methodName + " > " + lineNumber + " ] ");
+		if(exception != null)
+			result.append(exception);
+		return result.toString();
 	}
 }

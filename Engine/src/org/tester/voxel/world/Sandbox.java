@@ -23,8 +23,10 @@ public class Sandbox extends GameComponent{
 	
 	private void create(){
 		for(int i=0 ; i<SIZE.getX() ; i++)
-			for(int k=0 ; k<SIZE.getZ() ; k++)
-				set(i, 0, k, new Block(getParent(), Blocks.getRandomType(), new GVector3f(i, 0, k).mul(2)));
+			for(int k=0 ; k<SIZE.getZ() ; k++){
+				set(i, 0, k, new Block(getParent(), 1, new GVector3f(i, 0, k).mul(2)));
+				set(i, 1, k, new Block(getParent(), Blocks.getRandomType(), new GVector3f(i, 1, k).mul(2)));
+			}
 	}
 	
 	public void render(RenderingEngine renderingEngine) {
@@ -37,7 +39,7 @@ public class Sandbox extends GameComponent{
 	
 	public void setNeighBoardsAndSides(){
 		forEachBlock((sur, block) -> {
-			if(block == null)
+			if(block == null || !block.isVisible())
 				return;
 			
 			String[] surs = sur.split("_");
@@ -82,6 +84,11 @@ public class Sandbox extends GameComponent{
 	
 	private void set(int x, int y, int z, Block block){
 		blocks.put(x + "_" + y + "_" + z, block);
+	}
+	
+	public boolean isVisible(int x, int y, int z){
+		Block b = get(x, y, z);
+		return b != null && b.isVisible();
 	}
 	
 	public boolean exist(int x, int y, int z){

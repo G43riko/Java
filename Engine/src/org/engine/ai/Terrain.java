@@ -11,4 +11,6 @@ public class Terrain {
 	public float getHeight(GVector3f position){
 		return getHeight(position.getX(), position.getZ());
 	}
+	
+	
 }

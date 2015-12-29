@@ -17,6 +17,7 @@ public class MousePicker {
 	private GMatrix4f projectionMatrix;
 	private GMatrix4f viewMatrix;
 	private Camera camera;
+	private String data = "";
 	
 	public MousePicker(Camera camera) {
 		this.projectionMatrix = camera.getProjectionMatrix();
@@ -25,7 +26,11 @@ public class MousePicker {
 	}
 
 	public GVector3f getCurrentRay() {
-		update();
+		String actData = camera.getData() + " " + Mouse.getX() + " " + Mouse.getY();
+		if(data != actData){
+			data = actData;
+			update();
+		}
 		return currentRay;
 	}
 	

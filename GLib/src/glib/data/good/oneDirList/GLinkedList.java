@@ -7,9 +7,13 @@ import glib.data.good.interfaces.GMap;
 public final class GLinkedList<T> implements GMap<Integer, T>{
 	private Node<T> first;
 	
+	//CONSTRUCTORS
+	
 	public GLinkedList(int key, T value){
 		first = new Node<T>(key, value, null);
 	}
+	
+	//ADDERS
 	
 	public T add(Integer key, T value){
 		if(first == null){
@@ -27,6 +31,8 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 		return null;
 	}
 	
+	//GETTERS
+	
 	@Override
 	public T get(Integer key){
 		if(first == null)
@@ -34,6 +40,8 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 		
 		return first.get(key);
 	}
+	
+	//REMOVERS
 	
 	@Override
 	public T remove(Integer key){
@@ -48,6 +56,8 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 
 		return null;
 	}
+	
+	//OTHERS
 	
 	@Override
 	public int getSize(){

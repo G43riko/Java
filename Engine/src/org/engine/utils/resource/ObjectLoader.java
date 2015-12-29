@@ -12,8 +12,8 @@ public class ObjectLoader {
 	public static GameObject loadModel(GameAble parent, String name){
 		
 		Model model = OBJLoader.loadObjModel(name);
-		Texture2D t = new Texture2D("materials/"+name+"_specular.jpg");
-		Material material = new Material(new Texture2D("materials/"+name+".jpg"), t);
+		Texture2D t = new Texture2D("materials/" + name + "_specular.jpg");
+		Material material = new Material(new Texture2D("materials/" + name + ".jpg"), t);
 		
 		GameObject object = new GameObject(parent, material, model);
 		

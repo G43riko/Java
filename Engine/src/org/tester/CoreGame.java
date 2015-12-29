@@ -74,7 +74,6 @@ public class CoreGame extends CoreEngine implements Controlable{
 
 	@Override
 	protected void input() {
-		
 		if(Input.getKeyDown(Input.KEY_LCONTROL))
 			newGame();
 		

@@ -60,7 +60,6 @@ public abstract class GBasicShader {
 	
 	public GBasicShader(String fileName){
 		this.fileName = fileName;
-		
 		if(loadedShaders.containsKey(fileName))
 			loadedShaders.get(fileName).count++;
 		
@@ -132,11 +131,12 @@ public abstract class GBasicShader {
 			Display.destroy();
 			System.exit(1);
 		}
-		
+
 		glShaderSource(shader,source);
 		glCompileShader(shader);
+
 		if(glGetShaderi(shader,GL_COMPILE_STATUS)==GL_FALSE){
-			GDebug.logError("shader " + file + " nebol skompilovany s dôvodu: " + glGetShaderInfoLog(shader,1024), "GBasicShader");
+			System.out.println("shader " + file + " nebol skompilovany s dôvodu: " + glGetShaderInfoLog(shader,1024));
 			Display.destroy();
 			System.exit(1);
 		}

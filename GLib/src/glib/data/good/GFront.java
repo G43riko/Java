@@ -1,11 +1,11 @@
 package glib.data.good;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
-import glib.data.good.interfaces.GCollection;
+import glib.data.good.interfaces.GSimpleCollection;
 
-public class GFront<T> implements GCollection{
-	private ArrayList<T> list = new ArrayList<T>();
+public class GFront<T> implements GSimpleCollection<T>{
+	private LinkedList<T> list = new LinkedList<T>();
 	
 	public void add(T item){
 		list.add(item);

@@ -31,6 +31,12 @@ void main(void){
 		out_Color = vec4(1 - out_Color.xyz, 1);
 	}
 	
+	if(typeOfView == 6){
+		float levels = 30.0;
+		vec4 tmp = floor(out_Color * levels);
+		out_Color = tmp / levels;
+	}
+	
 	//draw
 	if(0 > 0.5){
 		float value = 8; 

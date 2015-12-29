@@ -16,7 +16,11 @@ import org.engine.gui.Hud;
 import org.engine.rendering.RenderingEngine;
 import org.engine.rendering.material.Material;
 import org.engine.rendering.material.Texture2D;
+import org.engine.utils.resource.OBJLoader;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 import org.tester.voxel.PointLightObject;
 
 import glib.shapes.threeDimensional.Plane;
@@ -32,7 +36,7 @@ public class GameTest implements GameAble{
 
 		addToScene(new Hud(this, new Texture2D("materials/texture.png"), new GVector2f(0.5f,0.5f), new GVector2f(0.25f, 0.25f)));
 		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 1, 0.5f), new GVector3f(0.8f)));
-		addToScene(new FPS(this, false));
+		addToScene(new FPS(this, true));
 		addToScene(new GameObject(this, new Material(new Texture2D("materials/texture.png")), new Terrain(1,1).getModel()));
 		
 //		GameObject g;
@@ -48,20 +52,21 @@ public class GameTest implements GameAble{
 //			addToScene(g);
 //		}
 		
-//		GameObject g = new GameObject(this, 
-//									  new Material(new Texture2D("materials/crossbow.jpg"),
-//				 								   new Texture2D("materials/crossbow_normal.jpg"),
-//				 								   new Texture2D("materials/crossbow_specular.jpg")), 
-//									  OBJLoader.loadObjModel("crossbow")) {
-//			@Override
-//			public void update(float delta) {
-//				rotate(new GVector3f(0, 1, 0));
-//			}
-//		};
-//		g.setScale(new GVector3f(0.1f));
-//		g.setPosition(new GVector3f(0, 0, -15));
-//		
-//		addToScene(g);
+		GameObject g = new GameObject(parent.getGame(), 
+				  new Material(new Texture2D("materials/crossbow.jpg"),
+						  	   new Texture2D("materials/crossbow_normal.jpg"),
+						  	   new Texture2D("materials/crossbow_specular.jpg")), 
+				  OBJLoader.loadObjModel("crossbow")) {
+					@Override
+					public void update(float delta) {
+					rotate(new GVector3f(0, 1, 0));
+					}
+				  };
+		g.setScale(new GVector3f(0.1f));
+		g.setPosition(new GVector3f(0, 0, -15));
+
+		addToScene(g);
+		
 
 		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(0,1,1), new GVector3f(1,0,1))));
 		

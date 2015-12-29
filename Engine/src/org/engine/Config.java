@@ -21,5 +21,7 @@ public class Config {
 	public static final GVector3f	MOUSE_ATTENUATION	= null;
 	public static final GVector3f	MOUSE_LIGHT_COLOR	= null;
 	public static final GVector3f	MOUSE_AMBIENT_COLOR	= null;
+	
+	public static final int PLAYER_MAX_CLICK_DIST 		= 100;
 
 }

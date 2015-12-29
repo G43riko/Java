@@ -12,37 +12,19 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	
 	//CONSTRUCTORS
 	
-	/**
-	 * 
-	 * Constructor
-	 */
 	public GMultiHashMap(){
 		map = new HashMap<S, ArrayList<T>>();
 	}
 	
-	/**
-	 * Parameter je už existujúca GMultiMapa
-	 * @param mapa
-	 */
 	public GMultiHashMap(GMultiHashMap<S, T> mapa){
 		map = mapa.getMap();
 	}
 	
-	/**
-	 * Parameter je klúè a ArrayList na pridanie
-	 * @param key
-	 * @param value
-	 */
 	public GMultiHashMap(S key, ArrayList<T> value){
 		map = new HashMap<S, ArrayList<T>>();
 		addAll(key, value);
 	}
 
-	/**
-	 * Parameter je klúè a hodnota
-	 * @param key
-	 * @param value
-	 */
 	public GMultiHashMap(S key, T value){
 		map = new HashMap<S, ArrayList<T>>();
 		add(key, value);
@@ -50,11 +32,6 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	
 	///ADDERS
 	
-	/**
-	 * pridá hodnotu do GMultiHashMapy podla klúèa
-	 * @param key
-	 * @param value
-	 */
 	public T add(S key, T value){
 		if(!map.containsKey(key))
 			map.put(key, new ArrayList<T>());
@@ -64,11 +41,6 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		return null;
 	}
 
-	/**
-	 * pridá ArrayList do GMultiHashMapy podla klúèa
-	 * @param key
-	 * @param value
-	 */
 	public void addAll(S key, ArrayList<T> value){
 		if(!map.containsKey(key))
 			map.put(key, value);
@@ -77,20 +49,16 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	}
 	
 	//GETTERS
-	
-	/**
-	 * Vráti ArrayList podla klúèa
-	 * @param key
-	 * @return
-	 */
+
+	@Override
+	public T get(S key) {
+		return null;
+	}
+
 	public ArrayList<T> getAll(S key){
 		return map.get(key);
 	}
 
-	/**
-	 * Vráti všeky hodnoty v jednom ArrayListe
-	 * @return
-	 */
 	public ArrayList<T> getAllValues(){
 		ArrayList<T> result = new ArrayList<T>();
 		
@@ -99,29 +67,25 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		return result;
 	}
 	
-	/**
-	 * Vráti kópiu GMultiHashMapy
-	 * @return
-	 */
 	private HashMap<S, ArrayList<T>> getMap(){
 		return new HashMap<S, ArrayList<T>>(map);
 	}
-	
+
+	@Override
+	public void addAll(GMap<S, T> tree) {
+		for(Entry<S, ArrayList<T>> e : map.entrySet()){
+			if(!map.containsKey(e.getKey()))
+				map.put(e.getKey(), new ArrayList<T>());
+			map.get(e.getKey()).addAll(e.getValue());
+		}
+	}
+
 	//OTHERS
 	
-	/**
-	 * Vykoná operáciu pre kažnú hodnotu
-	 * @param condition
-	 */
 	public void forEachElement(Consumer<? super T> condition){
 		map.forEach((key, value)->value.stream().forEach(condition));
 	}
 	
-	/**
-	 * Vráti true ak GMultiHashMapa obsahuje hodnotu zadanú ako parameter. Ináè vráti false
-	 * @param value
-	 * @return
-	 */
 	public boolean constainsValue(T value){
 		for(Entry<S, ArrayList<T>> e: map.entrySet())
 			if(e.getValue().contains(value))
@@ -130,19 +94,10 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		return false;
 	}
 	
-	/**
-	 * Vráti true ak GMultiHashMapa obsahuje klúè zadaný ako parameter. Ináè vráti false
-	 * @param key
-	 * @return
-	 */
 	public boolean containsKey(S key){
 		return map.containsKey(key);
 	}
 	
-	/**
-	 * Vráti poèet hodnôt v GMultiHashMape
-	 * @return
-	 */
 	public int getSize(){
 		int result = 0;
 		
@@ -152,31 +107,29 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		return result;
 	}
 	
-	/**
-	 * Vymaže celú GMultiHashMapu
-	 */
 	public void clear(){
 		for(Entry<S, ArrayList<T>> e: map.entrySet())
 			e.getValue().clear();
 		
 		map.clear();
 	}
-	
+
+	@Override
+	public boolean isEmpty() {
+		for(Entry<S, ArrayList<T>> e : map.entrySet())
+			if(!e.getValue().isEmpty())
+				return false;
+		
+		return true;
+	}
+
 	//REMOVERS
 	
-	/**
-	 * Vymaže všetky uložené pod klúèom zadaným v parametri
-	 * @param key
-	 */
 	public T remove(S key){
 		map.remove(key);
 		return null;
 	}
-	
-	/**
-	 * 
-	 * @param keys
-	 */
+
 	public void removeAll(@SuppressWarnings("unchecked") S... keys){
 		for(S key: keys)
 			if(map.containsKey(key))
@@ -185,26 +138,10 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 	}
 
 	@Override
-	public T get(S key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void addAll(GMap<S, T> tree) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void removeAll(GMap<S, T> tree) {
-		// TODO Auto-generated method stub
+		for(Entry<S, ArrayList<T>> e : map.entrySet())
+			if(map.containsKey(e.getKey()))
+				map.get(e.getKey()).removeAll(e.getValue());
 		
 	}
 }

@@ -6,7 +6,6 @@ import glib.util.Utils;
 import glib.util.vector.GVector2f;
 
 import java.awt.Canvas;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
@@ -15,20 +14,22 @@ import javax.swing.JFrame;
 public abstract class GCanvasCicle{
 	private JFrame 		frame		= new JFrame();
 	private Canvas 		canvas 		= new Canvas();
-	private int 		fps;
+	private int 		fps			= 60;
 	private int 		ticks;
 	private int 		frames;
+	private int 		loopPause	= 1;
 	private boolean 	isRunning 	= false;
 	private float 		frameTime 	= 1000 / (float)fps;
-	private GVector2f 	size;		
+	private GVector2f 	size		= new GVector2f(800, 600);		
 	private GColor 		bgcolor 	= new GColor(255, 255, 255);
+	private boolean 	showTime	= true;
+	
 	
 	//CONSTRUCTORS
 	
 	public GCanvasCicle(int width, int height, int fps){
 		size = new GVector2f(width, height);
 		this.fps = fps;
-		
 		initFrame();
 	}
 	
@@ -52,12 +53,12 @@ public abstract class GCanvasCicle{
 		while(isRunning){
 			startTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() - cicleTime > 1000){
-				GLog2.write("frames: " + frames + " ticks: " + ticks);
+				GLog2.write("frames: " + frames + " ticks: " + ticks, showTime);
 				cicleTime = System.currentTimeMillis();
 				frames = 0;
 				ticks = 0;
 			}
-			Utils.sleep(1);
+			Utils.sleep(loopPause);
 			while(System.currentTimeMillis() - startTime < frameTime){
 				ticks++;
 				input();
@@ -74,11 +75,10 @@ public abstract class GCanvasCicle{
 			canvas.createBufferStrategy(3);
 			return;
 		}
-		Graphics g = buffer.getDrawGraphics();
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D)buffer.getDrawGraphics();
 		clearScreen(g2);
 		render(g2);
-		g.dispose();
+		g2.dispose();
 		buffer.show();
 	}
 	
@@ -95,9 +95,20 @@ public abstract class GCanvasCicle{
 	
 	
 	//GETTERS
-	
+
+	public int getFps() {return fps;}
 	public int getWidth() {return size.getXi();}
 	public int getHeight() {return size.getYi();}
+	public int getLoopPause() {return loopPause;}
+	public GColor getBgcolor() {return bgcolor;}
 	public GVector2f getSize() {return size;}
-	
+
+	//SETTERS
+
+	public void setShowTime(boolean showTime) {this.showTime = showTime;}
+	public void setLoopPause(int loopPause) {this.loopPause = loopPause;}
+	public void setBgcolor(GColor bgcolor) {this.bgcolor = bgcolor;}
+	public void setFps(int fps) {this.fps = fps;}
+
+
 }

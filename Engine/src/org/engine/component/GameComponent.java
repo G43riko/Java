@@ -53,12 +53,13 @@ public abstract class GameComponent implements Interactable{
 	public void rotate(GVector3f vec){
 		if(vec.isNull())
 			return;
+		change = true;
 		rotation = rotation.add(vec);
 		
 	}
 		
 	//GETTERS
-	
+	public String 	 getData(){return position + " " + rotation + " " + scale;}
 	public GVector3f getPosition() {return position;}
 	public GVector3f getRotation() {return rotation;}
 	public GameAble  getParent(){return parent;}

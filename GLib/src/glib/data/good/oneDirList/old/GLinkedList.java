@@ -1,4 +1,4 @@
-package glib.data.good.oneDirList;
+package glib.data.good.oneDirList.old;
 
 import java.util.ArrayList;
 
@@ -103,14 +103,12 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 	}
 
 
-	@Override
 	public ArrayList<T> getAllValues() {
 		if(first == null)
 			return new ArrayList<T>();
 		return first.getAllValues();
 	}
 
-	@Override
 	public void addAll(GMap<Integer, T> list) {
 		((GLinkedList<T>)list).first
 							  .getAllNodes()
@@ -118,7 +116,6 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 							  .forEach(a -> add(a.getKey(), a.getValue()));
 	}
 
-	@Override
 	public void removeAll(GMap<Integer, T> list) {
 		((GLinkedList<T>)list).first
 							  .getAllNodes()

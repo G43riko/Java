@@ -16,26 +16,32 @@ public class GFloatEditor extends JPanel{
 	private float maxVal;
 	private float minVal;
 	
-	public GFloatEditor(String name,float maxVal,float step,float normal){
+	public GFloatEditor(String name, float maxVal, float minVal, float step, float defaultValue){
 		this.maxVal = maxVal;
-		this.minVal = 0;
+		this.minVal = minVal;
 		setPreferredSize(new Dimension(120,40));
 		setLayout(new FlowLayout());
 		
 		add(new JLabel(name));
 		
 		Dimension size = new Dimension(50,20);
-		value = new JSpinner(new SpinnerNumberModel(normal,minVal,maxVal,step));
+		value = new JSpinner(new SpinnerNumberModel(defaultValue, minVal, maxVal, step));
 		value.setPreferredSize(size);
 		add(value);
+		validate();
+		
+	}
+	
+	public void addChangeLister(ChangeListener listener){
+		value.addChangeListener(listener);
 	}
 	
 	public float getValue() {
 		return Float.valueOf(value.getValue().toString());
 	}
 	
-	public void setValue(String val){
-		setValue(Float.parseFloat(val));
+	public void setValue(Object val){
+		setValue(Float.parseFloat(val.toString()));
 	}
 	
 	public void setValue(double val){

@@ -3,6 +3,7 @@ package glib.util;
 import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 
 
@@ -29,6 +30,15 @@ public abstract class Utils {
 			GLog2.write(b + ", ");
 
 		GLog2.write("");
+	}
+	
+	public static String GenerateString(final int length) {
+	    Random r = new Random(); // perhaps make it a class variable so you don't make a new one every time
+	    StringBuilder sb = new StringBuilder();
+	    for(int i = 0; i < length; i++) 
+	        sb.append((char)(r.nextInt((int)(Character.MAX_VALUE))));
+	    
+	    return sb.toString();
 	}
 	
 	public static<T> T[] concatenateArray (T[] a, T[] b) {

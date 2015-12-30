@@ -1,26 +1,132 @@
 package glib.data;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import glib.data.good.GBuffer;
 import glib.data.good.GFront;
 import glib.data.good.GTree;
-import glib.data.good.avlTree.GBinaryTree;
+import glib.data.good.avlTree.AvlTree;
+import glib.data.good.binaryTree.Tree;
 import glib.data.good.interfaces.GCollection;
 import glib.data.good.interfaces.GMap;
 import glib.data.good.interfaces.GSimpleCollection;
-import glib.data.good.oneDirList.GLinkedList;
+import glib.data.good.oneDirList.OneDirList;
+import glib.util.Utils;
 
 public class GTester {
 	
 	public static void main(String[] args) {
-		GBinaryTree<Integer, String> tree = new GBinaryTree<Integer, String>();
+		OneDirList<String> list = new OneDirList<String>();
+		Tree<String> tree = new Tree<String>();
+		AvlTree<String> avlTree = new AvlTree<String>();
 		
-		tree.add(1, "a");
-		tree.add(2, "b");
-//		tree.add(3, "c");
-//		tree.add(4, "d");
-//		tree.add(5, "e");
+		int num = 100000;//4000;
+		int lenght = 5;
+		HashMap<Integer, String> data = new HashMap<Integer, String>();
+		HashMap<String, String> hash = new HashMap<String, String>();
+		HashMap<String, String> link = new LinkedHashMap<String, String>();
+		long avlTotal = 0;
+		long treeTotal = 0;
+		long listTotal = 0;
+		long hashTotal = 0;
+		long linkTotal = 0;
 		
-		System.out.println("strom:\n" + tree);
+		for(int i=0 ; i<num ; i++){
+			String key = Utils.GenerateString(lenght);
+			String value = Utils.GenerateString(lenght);
+			data.put(i, key);
+			
+			
+//			list.add(key, value);
+//			tree.add(key, value);
+//			hash.put(key, value);
+//			link.put(key, value);
+			avlTree.add(key, value);
+			
+//			long time = System.nanoTime();
+//			hash.get(key);
+//			hashTotal += System.nanoTime() - time;
+//			
+//			time = System.nanoTime();
+//			link.get(key);
+//			linkTotal += System.nanoTime() - time;
+			
+			
+//			listTotal += testMapSearchTime(list, key, value);
+//			treeTotal += testMapSearchTime(tree, key, value);
+//			avlTotal += testMapSearchTime(avlTree, key, value);
+		}
+		System.out.println("avl: " + avlTotal + "\nlst: " + listTotal + "\ntre: " + treeTotal + "\nhsh: " + hashTotal + "\nlnk: " + linkTotal);
+		String value = "vevericka";
+		String key = "gabo";
+//		list.add(key, value);
+//		tree.add(key, value);
+		avlTree.add(key, value);;
+//		
+//		testMapSearchTime(list, key, value);
+//		testMapSearchTime(tree, key, value);
+		System.out.println("avl: " + testMapSearchTime(avlTree, key, value));
+		
+//		testujGMap(list);
+//		testujGMap(tree);
+//		testujGMap(avlTree);
+	}
+	public static long testMapSearchTime(GMap<String, String> map, String key, String value){
+		
+		long time = System.nanoTime();
+		String result = map.get(key);
+		time = System.nanoTime() - time;
+		
+//		if(!result.equals(value))
+//			System.out.println("zlý výsledok hladania");
+//		System.out.println(map.getClass().getSimpleName() + " našiel za: " + time +" ns");
+		
+		return time;
+	}
+	
+	public static void testujGMap(GMap map){
+		map.clear();
+		StringBuilder errors = new StringBuilder();
+		
+		if(!map.isEmpty() || map.getSize() != 0)
+			errors.append("mapa: " + map + ", isEmpty: " + map.isEmpty() + ", getSize: " + map.getSize() + "\n");
+		
+		String name1 = "andrej";
+		String name2 = "bartolomej";
+		String name3 = "cecilia";
+		
+		map.add("a", name1);
+		map.add("b", name2);
+		map.add("c", name3);
+		
+		if(map.getSize() != 3)
+			errors.append("mapa: " + map + ", getSize: " + map.getSize() + "\n");
+		
+		if(!map.get("a").equals(name1))
+			errors.append("mapa: " + map + ", get(\"a\"): " + map.get("a") + "\n");
+		if(!map.get("b").equals(name2))
+			errors.append("mapa: " + map + ", get(\"b\"): " + map.get("b") + "\n");
+		if(!map.get("c").equals(name3))
+			errors.append("mapa: " + map + ", get(\"c\"): " + map.get("c") + "\n");
+		
+		map.remove("d");
+		
+		if(map.getSize() != 3)
+			errors.append("mapa: " + map + ", getSize: " + map.getSize() + "\n");
+		
+		if(!map.get("a").equals(name1))
+			errors.append("mapa: " + map + ", get(\"a\"): " + map.get("a") + "\n");
+		if(!map.get("b").equals(name2))
+			errors.append("mapa: " + map + ", get(\"b\"): " + map.get("b") + "\n");
+		if(!map.get("c").equals(name3))
+			errors.append("mapa: " + map + ", get(\"c\"): " + map.get("c") + "\n");
+		
+		map.clear();
+		if(!map.isEmpty() || map.getSize() != 0)
+			errors.append("mapa: " + map + ", isEmpty: " + map.isEmpty() + ", getSize: " + map.getSize() + "\n");
+		
+		System.out.println("vysledok kontroly " + map.getClass().getName() + ": " + (errors.length() == 0 ? " OK" : errors.toString()));
 	}
 	
 	public static void startTests(){
@@ -33,14 +139,6 @@ public class GTester {
 //		System.out.println(testujGMap(linkedList));
 	}
 	
-	private static <T> String testujGMap (GMap<T, Integer> item){
-		String result = testujGCollection(item);
-		
-		
-		return result;
-	}
-	
-	
 	private static String testujGTree(GTree<Integer> item){
 		String result = testujGCollection(item);
 		
@@ -50,8 +148,7 @@ public class GTester {
 	
 	private static String testujGSimpleCollection(GSimpleCollection<Integer> item){
 		String result = testujGCollection(item);
-		
-		item.clear();
+
 		item.add(1);
 		item.add(2);
 		item.add(3);

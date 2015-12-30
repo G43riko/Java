@@ -71,7 +71,6 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		return new HashMap<S, ArrayList<T>>(map);
 	}
 
-	@Override
 	public void addAll(GMap<S, T> tree) {
 		for(Entry<S, ArrayList<T>> e : map.entrySet()){
 			if(!map.containsKey(e.getKey()))
@@ -137,7 +136,6 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 		
 	}
 
-	@Override
 	public void removeAll(GMap<S, T> tree) {
 		for(Entry<S, ArrayList<T>> e : map.entrySet())
 			if(map.containsKey(e.getKey()))

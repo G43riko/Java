@@ -40,22 +40,22 @@ public class GameVoxel  implements GameAble{
 		this.parent = parent;
 		
 		
-//		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 0.5f, 0.5f), new GVector3f(0.8f)));
+		parent.getRenderingEngine().setSun(new DirectionalLight(this, new GVector3f(0.5f, 0.5f, 0.5f), new GVector3f(0.8f)));
 		
-//		GameObject plane = new GameObject(this, 
-//										  new Material("materials/texture.png"),
-//										  CoreEngine.getLoader().loadToVAO(Plane.getVertices(100, 100), 
-//												  						   Plane.getTextures(100, 100), 
-//												  						   Plane.getNormals(), 
-//												  						   Plane.getIndices()));;
-//		plane.setUseFakeLight(true);
-//		addToScene(plane);
-//		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(-4,2,1), new GVector3f(1,0,1))));	
+		GameObject plane = new GameObject(this, 
+										  new Material("materials/texture.png"),
+										  CoreEngine.getLoader().loadToVAO(Plane.getVertices(100, 100), 
+												  						   Plane.getTextures(100, 100), 
+												  						   Plane.getNormals(), 
+												  						   Plane.getIndices()));;
+		plane.setUseFakeLight(true);
+		addToScene(plane);
+		addToSceneLight(new PointLightObject(this, new PointLight(this, new GVector3f(-4,2,1), new GVector3f(1,0,1))));	
 		
-//		addToScene(new FPS(this, true));
+		addToScene(new FPS(this, true));
 		
 //		addToScene(new Sandbox(this));
-//		addToScene(new World(this));
+		addToScene(new World(this));
 //		addToScene(new GameObject(this, new Material(new Texture2D("materials/texture.png")), new Terrain(1,1).getModel()));
 //		addToScene(new Terrain(80, 80, 50));
 //		addToScene(new ChunkNew(this));

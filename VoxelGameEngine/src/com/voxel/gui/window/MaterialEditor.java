@@ -2,7 +2,7 @@ package com.voxel.gui.window;
 
 import glib.swing.GFloatEditor;
 import glib.swing.GVector3Editor;
-import glib.swing.TextureViewer;
+import glib.swing.GTextureViewer;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -31,7 +31,7 @@ public class MaterialEditor extends JDialog{
 	
 	private JComboBox<String> selectedBlock;
 	private GVector3Editor mapColor;
-	private TextureViewer textureViewer;
+	private GTextureViewer textureViewer;
 	private JCheckBox transparent;
 	private JCheckBox repeat;
 	private GFloatEditor specular;
@@ -98,7 +98,7 @@ public class MaterialEditor extends JDialog{
 		c.gridy = 2;
 		c.gridwidth = 3;
 		c.gridheight = 3;
-		textureViewer = new TextureViewer(BlockInfo.BLOCKS[selected+1].getName().toLowerCase()+"_"+MainVoxel2.RESOLUTION+".jpg",256,256);
+		textureViewer = new GTextureViewer(BlockInfo.BLOCKS[selected+1].getName().toLowerCase()+"_"+MainVoxel2.RESOLUTION+".jpg",256,256);
 		getContentPane().add(textureViewer, c);
 		
 		/*
@@ -170,11 +170,11 @@ public class MaterialEditor extends JDialog{
 	private JPanel createRepeater(){
 		JPanel result = new JPanel();
 		result.setLayout(new FlowLayout());
-		repX = new GFloatEditor("RepeatX",10,1,(float)BlockInfo.getBlockInfo(selected+1).getDouble("repX"));
+		repX = new GFloatEditor("RepeatX",10,0,1,(float)BlockInfo.getBlockInfo(selected+1).getDouble("repX"));
 		repX.addChangeListener(changer);
 		result.add(repX);
 		
-		repY = new GFloatEditor("RepeatY",10,1,(float)BlockInfo.getBlockInfo(selected+1).getDouble("repY"));
+		repY = new GFloatEditor("RepeatY",10,0,1,(float)BlockInfo.getBlockInfo(selected+1).getDouble("repY"));
 		repY.addChangeListener(changer);
 		result.add(repY);
 		
@@ -185,11 +185,11 @@ public class MaterialEditor extends JDialog{
 		JPanel result = new JPanel();
 		result.setLayout(new FlowLayout());
 		
-		specular = new GFloatEditor("Specular",5.1f,0.1f,(float)BlockInfo.getBlockInfo(selected+1).getDouble("specular"));
+		specular = new GFloatEditor("Specular",5.1f,0,0.1f,(float)BlockInfo.getBlockInfo(selected+1).getDouble("specular"));
 		specular.addChangeListener(changer);
 		result.add(specular);
 		
-		exponent = new GFloatEditor("Exponent",20,0.5f,(float)BlockInfo.getBlockInfo(selected+1).getDouble("exponent"));
+		exponent = new GFloatEditor("Exponent",20,0,0.5f,(float)BlockInfo.getBlockInfo(selected+1).getDouble("exponent"));
 		exponent.addChangeListener(changer);
 		result.add(exponent);
 		

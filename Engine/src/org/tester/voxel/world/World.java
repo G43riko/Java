@@ -3,7 +3,6 @@ package org.tester.voxel.world;
 import org.engine.app.GameAble;
 import org.engine.component.GameComponent;
 import org.engine.rendering.RenderingEngine;
-
 import glib.util.vector.GVector3f;
 
 public class World extends GameComponent{

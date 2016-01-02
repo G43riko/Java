@@ -82,7 +82,7 @@ public class GameTest implements GameAble{
 		
 //		
 	}
-
+	
 	public GVector2f getCanvasSize() {return new GVector2f(Display.getWidth(), Display.getHeight());}
 	public Camera getCamera() {return parent.getRenderingEngine().getMainCamera();}
 	

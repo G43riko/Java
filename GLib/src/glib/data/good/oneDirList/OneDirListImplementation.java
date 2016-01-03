@@ -1,18 +1,42 @@
 package glib.data.good.oneDirList;
 
 public abstract class OneDirListImplementation<T>{
-	protected OneListNode<T> insert(OneListNode<T> novy, OneListNode<T> stary) {
+	protected OneListNode<T> insert(OneListNode<T> novy, OneListNode<T> stary){
+		if(stary == null)
+			return novy;
+		
+		OneListNode<T> pred, act;
+		
+		for(pred = act = stary ; act != null ; pred = act, act = act.getNext()){
+			int cmpResult = act.getKey().compareTo(novy.getKey());
+			
+			if(cmpResult < 0)
+				continue;
+			
+			if(cmpResult == 0){
+				act.setValue(novy.getValue());
+				break;
+			}
+			
+			if(cmpResult > 0){
+				pred.setNext(novy);
+				if(!act.equals(novy))
+					novy.setNext(act);
+				break;
+			}
+		}
+		return stary;
+	}
+	protected OneListNode<T> insertRecursive(OneListNode<T> novy, OneListNode<T> stary) {
 		if(stary == null)
 			return novy;
 		int cmpResult = stary.getKey().compareTo(novy.getKey());
-		
+		System.out.println(cmpResult);
 		if(cmpResult < 0)
 			stary.setNext(insert(novy, stary.getNext()));
-		
-		if(cmpResult == 0)
+		else if(cmpResult == 0)
 			stary.setValue(novy.getValue());
-		
-		if(cmpResult > 0){
+		else if(cmpResult > 0){
 			novy.setNext(stary);
 			return novy;
 		}

@@ -17,6 +17,51 @@ import glib.util.Utils;
 public class GTester {
 	
 	public static void main(String[] args) {
+		testRecursiveAndIterateList();
+	}
+
+	
+	private static void testRecursiveAndIterateList(){
+		OneDirList<String> recursive = new OneDirList<String>(true);
+		OneDirList<String> iterate = new OneDirList<String>(false);
+		
+		int num = 10;//4000;
+		int lenght = 5;
+		long recursiveTotal = 0;
+		long iterateTotal = 0;
+		
+//		for(int i=0 ; i<num ; i++){
+//			String key = Utils.GenerateString(lenght);
+//			String value = Utils.GenerateString(lenght);
+//			
+//			long time = System.currentTimeMillis();
+//			recursive.add(key, value);
+//			recursiveTotal += System.currentTimeMillis() - time;
+//			
+//			
+////			time = System.currentTimeMillis();
+////			iterate.add(key, value);
+////			iterateTotal += System.currentTimeMillis() - time;
+//			
+//			System.out.println("a");
+//		}
+
+		iterate.add("a", "aa");
+		iterate.add("b", "bb");
+		iterate.add("c", "cc");
+		
+		System.out.println("iterate: " + iterate);
+
+		recursive.add("a", "aa");
+		recursive.add("b", "bb");
+		recursive.add("c", "cc");
+		
+		System.out.println("recursive: " + recursive);
+		
+//		System.out.println("iterate: " + iterateTotal + ", recursive: " + recursiveTotal);
+	}
+
+	private static void tmpTests(){
 		OneDirList<String> list = new OneDirList<String>();
 		Tree<String> tree = new Tree<String>();
 		AvlTree<String> avlTree = new AvlTree<String>();
@@ -72,6 +117,7 @@ public class GTester {
 //		testujGMap(tree);
 //		testujGMap(avlTree);
 	}
+	
 	public static long testMapSearchTime(GMap<String, String> map, String key, String value){
 		
 		long time = System.nanoTime();

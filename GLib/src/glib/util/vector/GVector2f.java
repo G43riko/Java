@@ -205,7 +205,11 @@ public class GVector2f implements Serializable{
 		return new GVector2f(this);
 	}
 	
-	public boolean equals(GVector2f v){
+	public boolean equals(Object obj){
+		if(!(obj instanceof GVector2f))
+			return false;
+		GVector2f v = (GVector2f)obj;
+		
 		return x == v.x && y == v.y;
 	};
 	

@@ -5,9 +5,21 @@ import glib.data.good.interfaces.GMap;
 
 public class OneDirList<T> extends OneDirListImplementation<T> implements GMap<String, T>{
 	private OneListNode<T> first;
+	private boolean recursive;
+	
+	public OneDirList() {
+		this(false);
+	}
+	
+	public OneDirList(boolean recursive) {
+		this.recursive = recursive;
+	}
 	
 	public T add(String key,T value){
-		first = insert(new OneListNode<T>(key, value), first);
+		if(recursive)
+			first = insertRecursive(new OneListNode<T>(key, value), first);
+		else
+			first = insert(new OneListNode<T>(key, value), first);
 		return value;
 	}
 	

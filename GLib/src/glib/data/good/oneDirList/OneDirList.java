@@ -15,7 +15,7 @@ public class OneDirList<T> extends OneDirListImplementation<T> implements GMap<S
 		this.recursive = recursive;
 	}
 	
-	public T add(String key,T value){
+	public T put(String key,T value){
 		if(recursive)
 			first = insertRecursive(new OneListNode<T>(key, value), first);
 		else

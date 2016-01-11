@@ -15,7 +15,7 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 	
 	//ADDERS
 	
-	public T add(Integer key, T value){
+	public T put(Integer key, T value){
 		if(first == null){
 			first = new Node<T>(key, value, null);
 			return null;
@@ -113,7 +113,7 @@ public final class GLinkedList<T> implements GMap<Integer, T>{
 		((GLinkedList<T>)list).first
 							  .getAllNodes()
 							  .stream()
-							  .forEach(a -> add(a.getKey(), a.getValue()));
+							  .forEach(a -> put(a.getKey(), a.getValue()));
 	}
 
 	public void removeAll(GMap<Integer, T> list) {

@@ -27,12 +27,12 @@ public class GMultiHashMap<S, T> implements GMap<S, T>{
 
 	public GMultiHashMap(S key, T value){
 		map = new HashMap<S, ArrayList<T>>();
-		add(key, value);
+		put(key, value);
 	}
 	
 	///ADDERS
 	
-	public T add(S key, T value){
+	public T put(S key, T value){
 		if(!map.containsKey(key))
 			map.put(key, new ArrayList<T>());
 		

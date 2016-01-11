@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class MainDjikstra {
+public class Djikstra {
 	public static void main(String[] args){
 		Vertex<?> v0 = new Vertex<String>("Harrisburg");
 		Vertex<?> v1 = new Vertex<String>("Baltimore");
@@ -23,21 +23,25 @@ public class MainDjikstra {
 		v2.addAdjacencies(new Edge(v1, 38.65));
 		
 		Vertex<?>[] vertices = { v0, v1, v2, v3, v4, v5, v6 };
-		computePaths(v0);
+		computePaths(v0, v1);
 		for (Vertex<?> v : vertices){
 			System.out.println("Distance to " + v + ": " + v.getMinDistance());
 			List<Vertex<?>> path = getShortestPathTo(v);
 			System.out.println("Path: " + path);
 		}
 	}
-	
 	public static void computePaths(Vertex<?> source){
+		computePaths(source, null);
+	}
+	public static void computePaths(Vertex<?> source, Vertex<?> target){
 		source.setMinDistance(0);
 		PriorityQueue<Vertex<?>> vertexQueue = new PriorityQueue<Vertex<?>>();
 		vertexQueue.add(source);
 		 
 		while (!vertexQueue.isEmpty()) {
 			Vertex<?> u = vertexQueue.poll();
+			if(u == target)
+				return;
 			for (Edge e : u.getAdjacencies()){
 				Vertex<?> v = e.target;
 				double weight = e.weight;
@@ -49,6 +53,7 @@ public class MainDjikstra {
 					vertexQueue.add(v);
 				}
 			}
+			
 		}
 	}
 	 

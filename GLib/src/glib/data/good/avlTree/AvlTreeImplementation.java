@@ -1,7 +1,7 @@
 package glib.data.good.avlTree;
 
-public abstract class AvlTreeImplementation<T> {
-	protected AvlTreeNode<T> insert(AvlTreeNode<T> nova, AvlTreeNode<T> stara){
+public abstract class AvlTreeImplementation<S extends Comparable<S>, T> {
+	protected AvlTreeNode<S, T> insert(AvlTreeNode<S, T> nova, AvlTreeNode<S, T> stara){
 		if(stara == null)
 			return nova;
 		
@@ -36,7 +36,7 @@ public abstract class AvlTreeImplementation<T> {
 		return stara;
 	}
 	
-	protected AvlTreeNode<T> find(String key, AvlTreeNode<T> stara){
+	protected AvlTreeNode<S, T> find(S key, AvlTreeNode<S, T> stara){
 		if(stara == null)
 			return null;
 		
@@ -51,7 +51,7 @@ public abstract class AvlTreeImplementation<T> {
 		return stara;
 	}
 	
-	protected AvlTreeNode<T> remove(String key, AvlTreeNode<T> stara){
+	protected AvlTreeNode<S, T> remove(S key, AvlTreeNode<S, T> stara){
 		if(stara == null)
 			return null;
 		
@@ -95,7 +95,7 @@ public abstract class AvlTreeImplementation<T> {
 		return stara;
 	}
 	
-	protected AvlTreeNode<T> clear(AvlTreeNode<T> stara) {
+	protected AvlTreeNode<S, T> clear(AvlTreeNode<S, T> stara) {
 		if(stara == null)
 			return null;
 		
@@ -105,7 +105,7 @@ public abstract class AvlTreeImplementation<T> {
 		return null;
 	}
 	
-	protected boolean hasKey(String key, AvlTreeNode<T> stara) {
+	protected boolean hasKey(S key, AvlTreeNode<S, T> stara) {
 		if(stara == null)
 			return false;
 		
@@ -120,7 +120,7 @@ public abstract class AvlTreeImplementation<T> {
 		return true;
 	}
 	
-	protected boolean hasValue(T value, AvlTreeNode<T> stara) {
+	protected boolean hasValue(T value, AvlTreeNode<S, T> stara) {
 		if(stara == null)
 			return false;
 		
@@ -140,8 +140,8 @@ public abstract class AvlTreeImplementation<T> {
 	
 	//TRANSFORMATIONS
 	
-	private AvlTreeNode<T> leftRotation(AvlTreeNode<T> k2){
-		AvlTreeNode<T> k1 = k2.getLeft();
+	private AvlTreeNode<S, T> leftRotation(AvlTreeNode<S, T> k2){
+		AvlTreeNode<S, T> k1 = k2.getLeft();
 
 		k2.setLeft(k1.getRight());
 		k1.setRight(k2);
@@ -152,8 +152,8 @@ public abstract class AvlTreeImplementation<T> {
 	}
 	
 	
-	private AvlTreeNode<T> rightRotation(AvlTreeNode<T> k1){
-		AvlTreeNode<T> k2 = k1.getRight();
+	private AvlTreeNode<S, T> rightRotation(AvlTreeNode<S, T> k1){
+		AvlTreeNode<S, T> k2 = k1.getRight();
 
 		k1.setRight(k2.getLeft());
 		k2.setLeft(k1);
@@ -165,24 +165,24 @@ public abstract class AvlTreeImplementation<T> {
 	}
 
 	
-	private AvlTreeNode<T> doubleLeftRotation(AvlTreeNode<T> k3){
+	private AvlTreeNode<S, T> doubleLeftRotation(AvlTreeNode<S, T> k3){
 		k3.setLeft(rightRotation(k3.getLeft()));
 		return leftRotation(k3);
 	}
 
 	
-	private AvlTreeNode<T> doubleRightRotation(AvlTreeNode<T> k1){
+	private AvlTreeNode<S, T> doubleRightRotation(AvlTreeNode<S, T> k1){
 		k1.setRight(leftRotation(k1.getRight()));
 		return rightRotation(k1);
 	}
 	//HELPERS
 	
-	private int height(AvlTreeNode<T> tree){
+	private int height(AvlTreeNode<S, T> tree){
 		return (tree == null ? - 1 : tree.getHeight());
 	}
 	
-	private AvlTreeNode<T> removeFull(AvlTreeNode<T> tree){
-		AvlTreeNode<T> act, pred;
+	private AvlTreeNode<S, T> removeFull(AvlTreeNode<S, T> tree){
+		AvlTreeNode<S, T> act, pred;
 		for(pred = act = tree.getLeft(); act.getRight() != null ; pred = act, act = act.getRight());
 
 		if(pred != act)
@@ -196,7 +196,7 @@ public abstract class AvlTreeImplementation<T> {
 		return act;
 	}
 
-	private int calcDirDesc(AvlTreeNode<T> node){
+	private int calcDirDesc(AvlTreeNode<S, T> node){
 		int result = 0;
 		
 		if(node.getLeft() != null)
@@ -208,7 +208,7 @@ public abstract class AvlTreeImplementation<T> {
 		return result;
 	}
 
-	private int calcChild(AvlTreeNode<T> node){
+	private int calcChild(AvlTreeNode<S, T> node){
 		if(node == null)
 			return 0;
 		
@@ -220,7 +220,7 @@ public abstract class AvlTreeImplementation<T> {
 		return childrens;
 	}
 	
-	private int calcChildRecursive(AvlTreeNode<T> node){
+	private int calcChildRecursive(AvlTreeNode<S, T> node){
 		if(node.getLeft() != null)
 			node.getLeft().setChildrens(calcChildRecursive(node.getLeft()));
 		if(node.getRight() != null)

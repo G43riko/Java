@@ -19,20 +19,20 @@ public class Tester {
 	private static void testujGMap(){
 		GTree<String> tree = new GTree<String>(4,"Gabriel");
 		
-		tree.add(5, "Kika");
-		tree.add(3, "fero");
-		tree.add(7, "juro");
-		tree.add(2, "maroš");
+		tree.put(5, "Kika");
+		tree.put(3, "fero");
+		tree.put(7, "juro");
+		tree.put(2, "maroš");
 		System.out.println(1E5);
 	}
 	
 	private static void testujGLinkedList(){
 		GLinkedList<String> list = new GLinkedList<String>(4,"Gabriel");
 		
-		list.add(5, "Kika");
-		list.add(3, "fero");
-		list.add(7, "juro");
-		list.add(2, "maroš");
+		list.put(5, "Kika");
+		list.put(3, "fero");
+		list.put(7, "juro");
+		list.put(2, "maroš");
 		
 		
 		GLinkedList<String> list2 = new GLinkedList<String>(1, "sjngh");
@@ -49,7 +49,7 @@ public class Tester {
 		
 		System.out.println(list);
 		list.clear();
-		list.add(3, "ferosafewsf");
+		list.put(3, "ferosafewsf");
 		
 		System.out.println(list);
 	}

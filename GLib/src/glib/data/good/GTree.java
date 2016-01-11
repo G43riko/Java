@@ -21,19 +21,19 @@ public class GTree<T> implements GMap<Integer, T>{
 	//ADDERS
 	
 	@Override
-	public T add(Integer key, T value) {
+	public T put(Integer key, T value) {
 		if(key < this.key){
 			if(leftChild == null)
 				leftChild = new GTree<T>(key, value);
 			else
-				leftChild.add(key, value);
+				leftChild.put(key, value);
 		}
 		
 		else if(key > this.key){
 			if(rightChild == null)
 				rightChild = new GTree<T>(key, value);
 			else
-				rightChild.add(key, value);
+				rightChild.put(key, value);
 		}
 		else{
 			T old = this.value;

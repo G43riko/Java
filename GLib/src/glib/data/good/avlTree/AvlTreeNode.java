@@ -1,14 +1,14 @@
 package glib.data.good.avlTree;
 
-public class AvlTreeNode<T> {
-	private AvlTreeNode<T> left;
-	private AvlTreeNode<T> right;
-	private String key;
+public class AvlTreeNode<S extends Comparable<S>, T> {
+	private AvlTreeNode<S, T> left;
+	private AvlTreeNode<S, T> right;
+	private S key;
 	private T value;
 	private int height = 0;
 	private int childrens = 1;
 	
-	public AvlTreeNode(String key, T value) {
+	public AvlTreeNode(S key, T value) {
 		super();
 		this.key = key;
 		this.value = value;
@@ -20,15 +20,15 @@ public class AvlTreeNode<T> {
 	}
 	
 	public T getValue() {return value;}
-	public String getKey() {return key;}
+	public S getKey() {return key;}
 	public int getHeight() {return height;}
-	public AvlTreeNode<T> getLeft() {return left;}
-	public AvlTreeNode<T> getRight() {return right;}
+	public AvlTreeNode<S, T> getLeft() {return left;}
+	public AvlTreeNode<S, T> getRight() {return right;}
 	public int getChildrens() {return childrens;}
 	
 	public void setValue(T value) {this.value = value;}
 	public void setHeight(int height) {this.height = height;}
-	public void setLeft(AvlTreeNode<T> left) {this.left = left;}
-	public void setRight(AvlTreeNode<T> right) {this.right = right;}
+	public void setLeft(AvlTreeNode<S, T> left) {this.left = left;}
+	public void setRight(AvlTreeNode<S, T> right) {this.right = right;}
 	public void setChildrens(int childrens) {this.childrens = childrens;}
 }

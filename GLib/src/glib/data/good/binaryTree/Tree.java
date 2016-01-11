@@ -5,7 +5,7 @@ import glib.data.good.interfaces.GMap;
 public class Tree<T> extends TreeImplementation<T> implements GMap<String, T>{
 	private TreeNode<T> root;
 	
-	public T add(String key,T value){
+	public T put(String key,T value){
 		root = insert(new TreeNode<T>(key, value), root);
 		return value;
 	}

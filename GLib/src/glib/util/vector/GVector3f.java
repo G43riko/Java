@@ -21,15 +21,11 @@ public class GVector3f {
 	}
 	
 	public GVector3f(float val){
-		this.x = val;
-		this.y = val;
-		this.z = val;
+		this(val, val, val);
 	}
 	
 	public GVector3f(double x, double y, double z){
-		this.x = (float)x;
-		this.y = (float)y;
-		this.z = (float)z;
+		this((float)x, (float)y, (float)z);
 	}
 	
 	public GVector3f(float x, float y, float z){
@@ -304,5 +300,9 @@ public class GVector3f {
 		return x == v.x && y == v.y && z == v.z;
 	}
 
+	public int hashCode(int num) {
+		return (getXi() + getYi() * num) * num + getZi();
+	}
+	
 
 }

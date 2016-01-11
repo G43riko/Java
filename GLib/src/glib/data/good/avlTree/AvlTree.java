@@ -2,25 +2,25 @@ package glib.data.good.avlTree;
 
 import glib.data.good.interfaces.GMap;
 
-public final class AvlTree<T> extends AvlTreeImplementation<T> implements GMap<String, T>{
-	private AvlTreeNode<T> root;
+public final class AvlTree<S extends Comparable<S>, T> extends AvlTreeImplementation<S, T> implements GMap<S, T>{
+	private AvlTreeNode<S, T> root;
 	
-	public T add(String key,T value){
-		root = insert(new AvlTreeNode<T>(key, value), root);
+	public T put(S key,T value){
+		root = insert(new AvlTreeNode<S, T>(key, value), root);
 		return value;
 	}
 	
-	public T remove(String key){
+	public T remove(S key){
 		root = remove(key, root);
 		return null;
 	}
 	
-	public T get(String key){
-		AvlTreeNode<T> result = find(key, root); 
+	public T get(S key){
+		AvlTreeNode<S, T> result = find(key, root); 
 		return (result != null ? result.getValue() : null);
 	}
 	
-	public boolean containsKey(String key){
+	public boolean containsKey(S key){
 		return hasKey(key, root);
 	}
 

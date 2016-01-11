@@ -1,7 +1,7 @@
 package glib.util.noise;
 
 public class PerlinNoise {
-	public static float[][] GeneratePerlinNoise(float[][] baseNoise, int octaveCount,float persistance,boolean normalize){
+	public static float[][] GeneratePerlinNoise(float[][] baseNoise, int octaveCount,float persistance, boolean normalize){
 		int width = baseNoise.length;
 		int height = baseNoise[0].length;
 		

@@ -3,11 +3,11 @@ package glib.data;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import glib.data.good.GBuffer;
-import glib.data.good.GFront;
 import glib.data.good.GTree;
 import glib.data.good.avlTree.AvlTree;
 import glib.data.good.binaryTree.Tree;
+import glib.data.good.buffer.GBuffer;
+import glib.data.good.front.GFront;
 import glib.data.good.interfaces.GCollection;
 import glib.data.good.interfaces.GMap;
 import glib.data.good.interfaces.GSimpleCollection;
@@ -17,9 +17,36 @@ import glib.util.Utils;
 public class GTester {
 	
 	public static void main(String[] args) {
-		testRecursiveAndIterateList();
-	}
+//		testRecursiveAndIterateList();
+//		GBuffer<Integer> buffer = new GBuffer<Integer>();
+//		GFront<Integer> buffer = new GFront<Integer>();
 
+//		System.out.println(testujGSimpleCollection(buffer));
+		//AvlTree<Integer, Integer> avl = new AvlTree<Integer, Integer>();
+		glib.data.good.hashMap.HashMap<Integer, Integer> avl = new glib.data.good.hashMap.HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		
+		int max = 100000;
+		long time;
+		int[] keys = new int[max];
+		int[] values = new int[max];
+		
+		for(int i=0 ; i<max ; i++){
+			keys[i] = (int)(Math.random() * Integer.MAX_VALUE);
+			values[i] = (int)(Math.random() * Integer.MAX_VALUE);
+		}
+		time = System.currentTimeMillis();
+		for(int i=0 ; i<max ; i++)
+			avl.put(keys[i], values[i]);
+		time = System.currentTimeMillis() - time;
+		System.out.println("avl trval: " + time);
+		
+		time = System.currentTimeMillis();
+		for(int i=0 ; i<max ; i++)
+			map.put(keys[i], values[i]);
+		time = System.currentTimeMillis() - time;
+		System.out.println("mapa trvala: " + time);
+	}
 	
 	private static void testRecursiveAndIterateList(){
 		OneDirList<String> recursive = new OneDirList<String>(true);
@@ -46,15 +73,15 @@ public class GTester {
 //			System.out.println("a");
 //		}
 
-		iterate.add("a", "aa");
-		iterate.add("b", "bb");
-		iterate.add("c", "cc");
+		iterate.put("a", "aa");
+		iterate.put("b", "bb");
+		iterate.put("c", "cc");
 		
 		System.out.println("iterate: " + iterate);
 
-		recursive.add("a", "aa");
-		recursive.add("b", "bb");
-		recursive.add("c", "cc");
+		recursive.put("a", "aa");
+		recursive.put("b", "bb");
+		recursive.put("c", "cc");
 		
 		System.out.println("recursive: " + recursive);
 		
@@ -64,7 +91,7 @@ public class GTester {
 	private static void tmpTests(){
 		OneDirList<String> list = new OneDirList<String>();
 		Tree<String> tree = new Tree<String>();
-		AvlTree<String> avlTree = new AvlTree<String>();
+		AvlTree<String, String> avlTree = new AvlTree<String, String>();
 		
 		int num = 100000;//4000;
 		int lenght = 5;
@@ -87,7 +114,7 @@ public class GTester {
 //			tree.add(key, value);
 //			hash.put(key, value);
 //			link.put(key, value);
-			avlTree.add(key, value);
+			avlTree.put(key, value);
 			
 //			long time = System.nanoTime();
 //			hash.get(key);
@@ -107,7 +134,7 @@ public class GTester {
 		String key = "gabo";
 //		list.add(key, value);
 //		tree.add(key, value);
-		avlTree.add(key, value);;
+		avlTree.put(key, value);;
 //		
 //		testMapSearchTime(list, key, value);
 //		testMapSearchTime(tree, key, value);
@@ -142,9 +169,9 @@ public class GTester {
 		String name2 = "bartolomej";
 		String name3 = "cecilia";
 		
-		map.add("a", name1);
-		map.add("b", name2);
-		map.add("c", name3);
+		map.put("a", name1);
+		map.put("b", name2);
+		map.put("c", name3);
 		
 		if(map.getSize() != 3)
 			errors.append("mapa: " + map + ", getSize: " + map.getSize() + "\n");

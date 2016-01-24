@@ -1,9 +1,5 @@
 package glib.math;
 
-import java.util.Arrays;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
@@ -43,18 +39,18 @@ public class GMath {
 	public static GVector2f getClosestPointOnSegment(float sx1, float sy1, float sx2, float sy2, float px, float py){
 		double xDelta = sx2 - sx1;
 		double yDelta = sy2 - sy1;
-
+	
 		double u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
-
+	
 		final GVector2f closestPoint;
 		if (u < 0)
 			closestPoint = new GVector2f(sx1, sy1);	
 		else if (u > 1)
 			closestPoint = new GVector2f(sx2, sy2);
-	    else
-	    	closestPoint = new GVector2f(sx1 + u * xDelta, sy1 + u * yDelta);
+		else
+			closestPoint = new GVector2f(sx1 + u * xDelta, sy1 + u * yDelta);
 		
-	    return closestPoint;
+		return closestPoint;
 	}
 	
 	public static GVector3f getClosestPointOnSegment(GVector3f ss, GVector3f se, GVector3f p){
@@ -65,9 +61,9 @@ public class GMath {
 		double xDelta = sx2 - sx1;
 		double yDelta = sy2 - sy1;
 		double zDelta = sz2 - sz1;
-
+	
 		double u = ((px - sx1) * xDelta + (py - sy1) * yDelta + (pz - sz1) * zDelta) / (xDelta * xDelta + yDelta * yDelta + zDelta * zDelta);
-
+	
 		if (u < 0)
 			return new GVector3f(sx1, sy1, sz1);	
 		else if (u > 1)
@@ -77,89 +73,78 @@ public class GMath {
 	}
 	
 	public static float choose(float ... argc){
-		return argc[(int)Math.floor(Math.random() * argc.length)];
+		return argc[(int)(Math.random() * argc.length)];
 	};
 	
 	public static float average(float ... argc){
-		float sum=0;
-		for(float co : argc){
-			sum+=co;
-		}
+		float sum = 0;
+		
+		for(float co : argc)
+			sum += co;
+		
 		return sum/argc.length;
 	};
 	
 	public static GVector2f center(GVector2f... vectors){
-		float sumX = 0;
-		float sumY = 0;
-		for(GVector2f vec : vectors){
-			sumX += vec.getX();
-			sumY += vec.getY();
-		}
-		return new GVector2f(sumX / vectors.length, 
-							 sumY / vectors.length);
+		GVector2f sum = new GVector2f();
+		for(GVector2f vec : vectors)
+			sum = sum.add(vec);
+		return sum.div(vectors.length);
 	};
 	
 	public static GVector3f center(GVector3f... vectors){
-		float sumX = 0;
-		float sumY = 0;
-		float sumZ = 0;
-		for(GVector3f vec : vectors){
-			sumX += vec.getX();
-			sumY += vec.getY();
-			sumZ += vec.getZ();
-		}
-		return new GVector3f(sumX / vectors.length, 
-							 sumY / vectors.length, 
-							 sumZ / vectors.length);
+		GVector3f sum = new GVector3f();
+		for(GVector3f vec : vectors)
+			sum = sum.add(vec);
+		
+		return sum.div(vectors.length);
 	};
 	
 	public static int fastfloor(double x) {
-		return x>0 ? (int)x : (int)x-1;
+		return x > 0 ? (int)x : (int)x-1;
 	};
 	
-	public static float interpolateLinear(float scale, float startValue, float endValue) {
-        if (startValue == endValue)
-            return startValue;
-        if (scale <= 0f)
-            return startValue;
-        if (scale >= 1f)
-            return endValue;
-        return (endValue - startValue) * scale + startValue;
-    };
-    
-    public static float randomize(float value, float level){
-    	return value + (float)(Math.random() * 2 * level - level);
-    };
-    
-    public static float between(float value, float min, float max){
-    	return Math.max(min, Math.min(value, max));
-    };
-
-    public static float max(float... args){
-    	float max = args[0];
-    	int num = args.length;
-    	for(int i=1 ; i<num ; i++)
-    		if(args[i] > max)
-    			max = args[i];
-    	
-    	return max;
-    }
-    
-    public static float min(float... args){
-    	float min = args[0];
-    	int num = args.length;
-    	for(int i=1 ; i<num ; i++)
-    		if(args[i] < min)
-    			min = args[i];
-    	
-    	return min;
-    }
-
-    public static int rand(int min, int max){
-    	return (int)(Math.random() * (max - min)) + min;
-    }
-    
-    public static float rand(float min, float max){
-    	return (float)(Math.random() * (max - min)) + min;
-    }
+	public static float interpolateLinear(float minValue, float maxValue, float scale) {
+	    return between((maxValue - minValue) * scale + minValue, minValue, maxValue);
+	};
+	
+	public static float interpolateLinearSmooth(float a, float b, float scale) {
+	    double theta = scale * Math.PI;
+	    float f = (float)(1f - Math.cos(theta)) * 0.5f;
+	    return a * (1f - f) + b * f;
+	};
+	
+	public static float randomize(float value, float level){
+		return value + (float)(Math.random() * 2 * level - level);
+	};
+	
+	public static float between(float value, float min, float max){
+		return Math.max(min, Math.min(value, max));
+	};
+	
+	public static float max(float... args){
+		float max = args[0];
+		
+		for(int i=1 ; i<args.length ; i++)
+			max = Math.max(max, args[i]);
+		
+		return max;
+	}
+	
+	public static float min(float... args){
+		float min = args[0];
+		
+		for(int i=1 ; i<args.length ; i++)
+				min = Math.min(min, args[i]);
+		
+		return min;
+	}
+	
+	public static int rand(int min, int max){
+		return (int)(Math.random() * (max - min)) + min;
+	}
+	
+	public static float rand(float min, float max){
+		return (float)(Math.random() * (max - min)) + min;
+	}
 }

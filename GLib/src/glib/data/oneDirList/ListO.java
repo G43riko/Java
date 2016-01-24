@@ -6,7 +6,6 @@ public class ListO {
 	private Node p_prvy;
 	private int num;
 	private boolean vzostupne;
-	private GLog vypis = new GLog();
 	
 	public ListO(int a,int b){
 		p_prvy = null;
@@ -21,18 +20,18 @@ public class ListO {
 				if(p_act==p_prvy){
 					p_prvy = p_prvy.getP_dalsi();
 					num--;
-					vypis.log("uspeöne sa vymazal "+p_act.getValue());
+					GLog.write("uspeöne sa vymazal "+p_act.getValue());
 					return;
 				}
 				p_pred.setP_dalsi(p_act.getP_dalsi());
 				num--;
-				vypis.log("uspeöne sa vymazal "+p_act.getValue());
+				GLog.write("uspeöne sa vymazal "+p_act.getValue());
 				return;
 			}
 		}
 		if(p_act.getKey()==key){
 			num--;
-			vypis.log("uspeöne sa vymazal "+p_act.getValue());
+			GLog.write("uspeöne sa vymazal "+p_act.getValue());
 			p_pred.setP_dalsi(null);
 		}
 		
@@ -41,11 +40,11 @@ public class ListO {
 	public void set(int key, String value){
 		Node find = getNode(key);
 		if(find!=null){
-			vypis.log(find.getValue()+" sa uspeöne prepÌsal na "+value);
+			GLog.write(find.getValue()+" sa uspeöne prepÌsal na "+value);
 			find.setValue(value);
 			return;
 		}
-		vypis.log(value+" sa nepodarilo n·jsù");
+		GLog.write(value+" sa nepodarilo n·jsù");
 	}
 	
 	public String get(int key){
@@ -71,7 +70,7 @@ public class ListO {
 				return p_act;
 			}
 		}
-		vypis.log("lutujeme ale "+key+" sa v zozname nenach·dza");
+		GLog.write("lutujeme ale "+key+" sa v zozname nenach·dza");
 		return null;
 	}
 	
@@ -101,13 +100,8 @@ public class ListO {
 				}
 			}
 			p_pred.setP_dalsi(p_novy);
-			vypis.log(value+" bol ˙speöne pridan˝");
+			GLog.write(value+" bol ˙speöne pridan˝");
 		}
-	}
-	
-
-	public void setVypis(boolean vypis) {
-		this.vypis.setShow(vypis);
 	}
 
 	public int getNum() {

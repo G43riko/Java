@@ -35,7 +35,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import glib.util.GColor;
-import glib.util.GDebug;
+import glib.util.GLog;
 import glib.util.ResourceLoader;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -107,7 +107,7 @@ public class Texture2D {
 			id = texture.getTextureID();
 			resolution = new GVector2f(texture.getImageWidth(), texture.getImageHeight());
 		} catch (IOException e) {
-			GDebug.logError("bastala chyba pri naËÌtavanÌ obr·zku", "Texture2D", e);
+			GLog.write("bastala chyba pri naËÌtavanÌ obr·zku", e);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class Texture2D {
 			buffer.flip();
 		}
 		catch(Exception e){
-			GDebug.logError("obr·zok " + fileName + " sa nepodarilo naËÌtaù", "Texture2D", e);
+			GLog.write("obr·zok " + fileName + " sa nepodarilo naËÌtaù", e);
 		}
 		return buffer;
 	}

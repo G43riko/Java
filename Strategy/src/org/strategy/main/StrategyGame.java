@@ -11,7 +11,7 @@ import org.strategy.object.Lamp;
 import org.strategy.rendering.RenderingEngineStrategy;
 import org.strategy.world.World;
 
-import glib.util.GLog;
+import glib.util.Utils;
 import glib.util.vector.GVector3f;
 
 public class StrategyGame extends CoreStrategy{
@@ -19,7 +19,7 @@ public class StrategyGame extends CoreStrategy{
 	public static final boolean FLY_MODE = true;
 	
 	public void init(){
-		GLog.sleep(100);
+		Utils.sleep(100);
 		
 		setRenderingEngine(new RenderingEngineStrategy());
 		

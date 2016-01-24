@@ -50,7 +50,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLContext;
 
-import glib.util.GDebug;
+import glib.util.GLog;
 import glib.util.vector.GVector2f;
 
 public class ToFrameBufferRendering {
@@ -64,7 +64,7 @@ public class ToFrameBufferRendering {
 	
 	public ToFrameBufferRendering(GVector2f resolution){
 		if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) {
-			GDebug.logError("FBO nieje podporovaný!!!", "ToFrameBufferRendering");
+			GLog.write("FBO nieje podporovaný!!!");
 			System.exit(0);
 		}
 		else {

@@ -2,7 +2,7 @@ package glib.sorts;
 
 import java.util.Arrays;
 
-public class CountingSort {
+public class GCountingSort {
 	public void sort(int[] a, int low, int high){
 	    int[] counts = new int[high - low + 1]; // this will hold all possible values, from low to high
 	    for (int x : a)

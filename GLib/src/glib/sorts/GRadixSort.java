@@ -1,6 +1,6 @@
 package glib.sorts;
 
-public class RadixSort implements GOldSort{
+public class GRadixSort{
 	/*
 	 * hlavne pri rovnakých
 	 */

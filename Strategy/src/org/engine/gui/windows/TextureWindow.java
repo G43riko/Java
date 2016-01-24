@@ -1,6 +1,6 @@
 package org.engine.gui.windows;
 
-import glib.util.Loader;
+import glib.util.ResourceLoader;
 import glib.util.vector.GVector4f;
 
 import java.awt.BorderLayout;
@@ -55,7 +55,7 @@ public class TextureWindow extends JPanel{
 	
 	public TextureWindow(String fileName){
 		try {
-			image = ImageIO.read(Loader.loadFile("res/textures/"+fileName));
+			image = ImageIO.read(ResourceLoader.load("textures/"+fileName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,29 +1,39 @@
 package glib.sorts;
 
-public class HeapSort implements GOldSort{
-    private int[] a;
+public class GHeapSort<T extends Comparable<? super T>> implements GSort<T>{
+    private T[] a;
     private int n;
     private int left;
     private int right;
     private int largest;
 
+    public void sort(T[] array){
+        a = array;
+        buildheap(a);
+        
+        for(int i=n ; i>0 ; i--){
+            exchange(0, i);
+            n--;
+            maxheap(a, 0);
+        }
+    }
     
-    public void buildheap(int []a){
+    private void buildheap(T[] a){
         n = a.length - 1;
         
         for(int i=n/2 ; i>=0 ; i--)
             maxheap(a,i);
     }
     
-    public void maxheap(int[] a, int i){ 
+    private void maxheap(T[] a, int i){ 
         left = 2 * i;
         right = 2 * i + 1;
-        if(left <= n && a[left] > a[i])
+        if(left <= n && a[left].compareTo(a[i]) > 0)
             largest = left;
         else
             largest = i;
         
-        if(right <= n && a[right] > a[largest])
+        if(right <= n && a[right].compareTo(a[largest]) > 0)
             largest = right;
         
         if(largest != i){
@@ -32,20 +42,9 @@ public class HeapSort implements GOldSort{
         }
     }
     
-    public void exchange(int i, int j){
-        int t = a[i];
+    private void exchange(int i, int j){
+        T t = a[i];
         a[i] = a[j];
         a[j] = t; 
-    }
-    
-    public void sort(int[] array){
-        a = array;
-        buildheap(a);
-        
-        for(int i=n;i>0;i--){
-            exchange(0, i);
-            n--;
-            maxheap(a, 0);
-        }
     }
 }

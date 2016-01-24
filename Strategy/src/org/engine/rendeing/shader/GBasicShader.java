@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
-import glib.util.Loader;
+import glib.util.ResourceLoader;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -126,7 +126,7 @@ public abstract class GBasicShader {
 		StringBuilder source  = new StringBuilder();
 		try{
 			//add include option
-			BufferedReader reader = new BufferedReader(new FileReader(Loader.loadFile("res/shaders/"+file)));
+			BufferedReader reader = new BufferedReader(ResourceLoader.loadShader(file));
 			String line;
 			while((line = reader.readLine())!=null){
 				source.append(line+"\n");

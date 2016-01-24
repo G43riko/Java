@@ -1,8 +1,9 @@
-package glib.util;
+package glib.pathFinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,12 +27,12 @@ public class PathFinder{
 	 * @param diagonal
 	 * @return
 	 */
-	public static ArrayList<GVector2f> findPath(HashMap<String, Integer> map, String start, String ciel, boolean diagonal){
+	public static List<GVector2f> findPath(HashMap<String, Integer> map, String start, String ciel, boolean diagonal){
 		diagonal = !diagonal;
 		Map<String, Float> dists = new HashMap<String, Float>();
 		Set<String> checked = new HashSet<String>();
 		Set<String> act = new HashSet<String>();
-		ArrayList<GVector2f> res = new ArrayList<GVector2f>();
+		List<GVector2f> res = new ArrayList<GVector2f>();
 		dists.put(start, 0f);
 		act.add(start);
 

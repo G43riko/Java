@@ -23,9 +23,11 @@ public class SpriteAnimation {
 		frame = 0;
 		numberOfImages = numX * numY;
 	}
+	
 	public boolean renderAndCheckLastFrame(Graphics2D g2, GVector2f pos){
 		return renderAndCheckLastFrame(g2, pos, imageSize);
 	}
+	
 	public boolean renderAndCheckLastFrame(Graphics2D g2, GVector2f pos, GVector2f size){
 		GVector2f point = new GVector2f(frame % images.getXi(),
 										frame / images.getXi());

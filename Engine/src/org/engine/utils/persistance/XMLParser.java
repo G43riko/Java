@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import glib.util.GDebug;
+import glib.util.GLog;
 import glib.util.ResourceLoader;
 
 
@@ -28,7 +28,7 @@ public class XMLParser{
 			doc = docBuilder.parse(ResourceLoader.load(fileName));
 		}catch (SAXException | IOException | ParserConfigurationException e){
 			e.printStackTrace();
-			GDebug.logError("Nastala chyba pri èítaní zo súboru: " + fileName, "XMLParser", e);
+			GLog.write("Nastala chyba pri èítaní zo súboru: " + fileName, e);
 		};
 	}
 	

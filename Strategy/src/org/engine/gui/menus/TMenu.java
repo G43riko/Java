@@ -147,7 +147,7 @@ public class TMenu extends JMenuBar{
 		JMenuItem menuItem = new JMenuItem("Exit", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				GLog.write("klikol si na Exit","menu");
+				GLog.write("klikol si na Exit");
 				System.exit(0);
 			}
 		});
@@ -158,7 +158,7 @@ public class TMenu extends JMenuBar{
 		JMenuItem menuItem = new JMenuItem("Save Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				GLog.write("klikol si na Save Map","menu");
+				GLog.write("klikol si na Save Map");
 			}
 		});
 		menuA.add(menuItem);
@@ -168,7 +168,7 @@ public class TMenu extends JMenuBar{
 		JMenuItem menuItem = new JMenuItem("Opem Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				GLog.write("klikol si na Open Map","menu");
+				GLog.write("klikol si na Open Map");
 			}
 		});
 		menuA.add(menuItem);
@@ -178,7 +178,7 @@ public class TMenu extends JMenuBar{
 		JMenuItem menuItem = new JMenuItem("New Map", KeyEvent.VK_T);
 		menuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				GLog.write("klikol si na New Map","menu");
+				GLog.write("klikol si na New Map");
 			}
 		});
 		menuA.add(menuItem);

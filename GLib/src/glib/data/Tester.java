@@ -1,7 +1,6 @@
 package glib.data;
 
 import glib.data.good.GTree;
-import glib.data.good.oneDirList.OneDirList;
 import glib.data.good.oneDirList.old.GLinkedList;
 import glib.data.oneDirList.ListO;
 

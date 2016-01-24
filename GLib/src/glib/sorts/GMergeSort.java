@@ -1,25 +1,23 @@
 package glib.sorts;
 
-public class MergeSort implements GOldSort{
-	private int[] array;
-	private int[] tempMergArr;
+public class GMergeSort<T extends Comparable<? super T>> implements GSort<T>{
+	private T[] array;
+	private T[] tempMergArr;
     private int length;
      
-    public void sort(int inputArr[]) {
-        this.array = inputArr;
-        this.length = inputArr.length;
-        this.tempMergArr = new int[length];
+    @SuppressWarnings("unchecked")
+	public void sort(T[] array) {
+        this.array = array;
+        this.length = array.length;
+        this.tempMergArr = (T[])new Object[length];
         doMergeSort(0, length - 1);
     }
  
     private void doMergeSort(int lowerIndex, int higherIndex) {
         if (lowerIndex < higherIndex) {
             int middle = lowerIndex + (higherIndex - lowerIndex) / 2;
-            // Below step sorts the left side of the array
             doMergeSort(lowerIndex, middle);
-            // Below step sorts the right side of the array
             doMergeSort(middle + 1, higherIndex);
-            // Now merge both sides
             mergeParts(lowerIndex, middle, higherIndex);
         }
     }
@@ -32,7 +30,7 @@ public class MergeSort implements GOldSort{
         int j = middle + 1;
         int k = lowerIndex;
         while (i <= middle && j <= higherIndex) {
-            if (tempMergArr[i] <= tempMergArr[j])
+            if (tempMergArr[i].compareTo(tempMergArr[j]) <= 0)
                 array[k] = tempMergArr[i++];
              else
                 array[k] = tempMergArr[j++];

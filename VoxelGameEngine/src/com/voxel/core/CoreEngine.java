@@ -74,7 +74,7 @@ public class CoreEngine {
 				game.update((float) frameTime);
 				
 				if(frameCounter >= 1.0){
-					GLog.write("FPS: "+frames,"mainLoop");
+					GLog.write("FPS: "+frames);
 					frames = 0;
 					frameCounter = 0;
 				}

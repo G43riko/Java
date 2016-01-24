@@ -1,15 +1,17 @@
 package colors;
 
 import java.awt.Color;
+import java.util.Random;
+
+import glib.math.GMath;
 
 public class MainColor {
 
-	public static void main(String[] args) {
-		
-		Color color = new Color(255/2, 255/2, 255/2);
-		for(int i=0 ; i<5 ; i++){
-			System.out.println(calcColor(color,30));
-		}
+	public static void main(String[] args) {	
+//		Color color = new Color(255/2, 255/2, 255/2);
+//		for(int i=0 ; i<5 ; i++){
+//			System.out.println(calcColor(color,30));
+//		}
 	}
 	
 	public static Color calcColor(Color color, float offset){

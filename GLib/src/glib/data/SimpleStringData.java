@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 
-import glib.util.GLog2;
+import glib.util.GLog;
 import glib.util.ResourceLoader;
 
 public class SimpleStringData {
@@ -34,7 +34,7 @@ public class SimpleStringData {
 			    data.put(datas[0], datas[1]);
 			}
 		} catch (IOException e) {
-			GLog2.write("nastala chyba pri naËÌtavanÌ profilu",e , true);
+			GLog.write("nastala chyba pri naËÌtavanÌ profilu",e , true);
 			e.printStackTrace();
 		} 
 	}
@@ -64,7 +64,7 @@ public class SimpleStringData {
 			fw.close();
             bw.close();
 		} catch (IOException e) {
-			GLog2.write("nepodarilo sa uloûiù profil do s˙boru" + fileName, e, true);
+			GLog.write("nepodarilo sa uloûiù profil do s˙boru" + fileName, e, true);
 		}
 	}
 }

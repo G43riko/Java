@@ -72,7 +72,7 @@ public class World extends GameObject{
 				addChild(c);
 			}
 		}
-		GLog.write("vytvorilo sa "+sum+" kociek", "mapa");
+		GLog.write("vytvorilo sa "+sum+" kociek");
 	}
 	
 	private void save(String name){

@@ -1,6 +1,6 @@
 package org.engine.utils;
 
-import glib.util.GDebug;
+import glib.util.GLog;
 import glib.util.vector.GVector2f;
 
 public class Utils {
@@ -9,7 +9,7 @@ public class Utils {
 			Thread.sleep(num);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			GDebug.logError("Nepodarilo sa uspaù vl·kno", "Utils", e);
+			GLog.write("Nepodarilo sa uspaù vl·kno",  e);
 		}
 	}
 	

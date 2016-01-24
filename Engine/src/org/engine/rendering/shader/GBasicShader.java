@@ -27,8 +27,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL20;
 
-import glib.util.GDebug;
-import glib.util.Loader;
+import glib.util.GLog;
+import glib.util.ResourceLoader;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -120,14 +120,14 @@ public abstract class GBasicShader {
 		StringBuilder source  = new StringBuilder();
 		try{
 			//add include option
-			BufferedReader reader = new BufferedReader(new FileReader(Loader.loadFile("res/shaders/"+file)));
+			BufferedReader reader = new BufferedReader(ResourceLoader.loadShader(file));
 			String line;
 			while((line = reader.readLine())!=null){
 				source.append(line + "\n");
 			}
 			reader.close();
 		}catch(IOException e){
-			GDebug.logError("s˙bor " + fileName + " sa nepodarilo naËÌtaù", "GBasicShader", e);
+			GLog.write("s˙bor " + fileName + " sa nepodarilo naËÌtaù", e);
 			Display.destroy();
 			System.exit(1);
 		}

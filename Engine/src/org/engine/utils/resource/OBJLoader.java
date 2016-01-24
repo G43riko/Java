@@ -13,7 +13,7 @@ import org.engine.rendering.model.Model;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import glib.util.GDebug;
+import glib.util.GLog;
 
 
 public class OBJLoader {
@@ -28,7 +28,7 @@ public class OBJLoader {
 		try {
 			fr = new FileReader(new File("res/models/"+fileName+".obj"));
 		} catch (FileNotFoundException e) {
-			GDebug.logError("nieje moné naèíta súbor: " + fileName, "OBJLoader");
+			GLog.write("nieje moné naèíta súbor: " + fileName);
 			e.printStackTrace();
 		}
 		BufferedReader reader = new BufferedReader(fr);
@@ -98,7 +98,7 @@ public class OBJLoader {
 			}
 			reader.close();
 		}catch(Exception e){
-			GDebug.logError("Nastala chyba pri èítaní zo súboru v " + fileName + " na riadku " + line, "OBJLoader");
+			GLog.write("Nastala chyba pri èítaní zo súboru v " + fileName + " na riadku " + line);
 		}
 		verticesArray = new float[vertices.size()*3];
 		indicesArray = new int[indices.size()];

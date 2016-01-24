@@ -1,5 +1,7 @@
 package glib.util.noise;
 
+import glib.math.GMath;
+
 public class SimplexNoise {
 	private static int grad3[][] = {{1,1,0},{-1,1,0},{1,-1,0},{-1,-1,0},
 									{1,0,1},{-1,0,1},{1,0,-1},{-1,0,-1},
@@ -27,7 +29,11 @@ public class SimplexNoise {
 							  138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
 	private static int perm[] = new int[512];
 	
-	static { for(int i=0; i<512; i++) perm[i]=p[i & 255]; }
+	static {
+		for(int i=0; i<512; i++) 
+			perm[i] = p[i & 255]; 
+	}
+	
 	private static int simplex[][] = {{0,1,2,3},{0,1,3,2},{0,0,0,0},{0,2,3,1},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,2,3,0},
 									  {0,2,1,3},{0,0,0,0},{0,3,1,2},{0,3,2,1},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,3,2,0},
 									  {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},
@@ -36,10 +42,6 @@ public class SimplexNoise {
 									  {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},
 									  {2,0,1,3},{0,0,0,0},{0,0,0,0},{0,0,0,0},{3,0,1,2},{3,0,2,1},{0,0,0,0},{3,1,2,0},
 									  {2,1,0,3},{0,0,0,0},{0,0,0,0},{0,0,0,0},{3,1,0,2},{0,0,0,0},{3,2,0,1},{3,2,1,0}};
-	
-	private static int fastfloor(double x) {
-		return x>0 ? (int)x : (int)x-1;
-	}
 	
 	private static double dot(int g[], double x, double y) {
 		return g[0]*x + g[1]*y; 
@@ -110,8 +112,8 @@ public class SimplexNoise {
 		double n0, n1, n2;
 		final double F2 = 0.5*(Math.sqrt(3.0)-1.0);
 		double s = (xin+yin)*F2;
-		int i = fastfloor(xin+s);
-		int j = fastfloor(yin+s);
+		int i = GMath.fastfloor(xin+s);
+		int j = GMath.fastfloor(yin+s);
 		final double G2 = (3.0-Math.sqrt(3.0))/6.0;
 		double t = (i+j)*G2;
 		double X0 = i-t;
@@ -164,9 +166,9 @@ public class SimplexNoise {
 		double n0, n1, n2, n3;
 		final double F3 = 1.0/3.0;
 		double s = (xin+yin+zin)*F3;
-		int i = fastfloor(xin+s);
-		int j = fastfloor(yin+s);
-		int k = fastfloor(zin+s);
+		int i = GMath.fastfloor(xin+s);
+		int j = GMath.fastfloor(yin+s);
+		int k = GMath.fastfloor(zin+s);
 		final double G3 = 1.0/6.0;
 		double t = (i+j+k)*G3;
 		double X0 = i-t; 
@@ -278,10 +280,10 @@ public class SimplexNoise {
 	    final double G4 = (5.0-Math.sqrt(5.0))/20.0;
 	    double n0, n1, n2, n3, n4;
 	    double s = (x + y + z + w) * F4;
-	    int i = fastfloor(x + s);
-	    int j = fastfloor(y + s);
-	    int k = fastfloor(z + s);
-	    int l = fastfloor(w + s);
+	    int i = GMath.fastfloor(x + s);
+	    int j = GMath.fastfloor(y + s);
+	    int k = GMath.fastfloor(z + s);
+	    int l = GMath.fastfloor(w + s);
 	    
 	    double t = (i + j + k + l) * G4;
 	    double X0 = i - t;

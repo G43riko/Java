@@ -1,6 +1,6 @@
 package org.engine.rendeing.material;
 
-import glib.util.Loader;
+import glib.util.ResourceLoader;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
 
@@ -125,7 +125,7 @@ public class Texture2D {
 	
 	public ByteBuffer makeByteBufferFILE(String fileName){
 		try{
-			BufferedImage image = ImageIO.read(Loader.loadFile("res/textures/"+fileName));
+			BufferedImage image = ImageIO.read(ResourceLoader.load("textures/" + fileName));
 			size = new GVector2f(image.getWidth(), image.getHeight());
 			int[] pixels = image.getRGB(0, 0, size.getXi(), size.getYi(), null, 0, image.getWidth());
 			

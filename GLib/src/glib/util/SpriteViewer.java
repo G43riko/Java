@@ -4,14 +4,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Map;
 
 import glib.util.vector.GVector2f;
 
 public class SpriteViewer {
-	private static HashMap<String, SpriteViewer> loadedImages = new HashMap<String, SpriteViewer>();
+	private static Map<String, SpriteViewer> loadedImages = new HashMap<String, SpriteViewer>();
 	private GVector2f images;
 	private GVector2f imageSize;
 	private Image image;
+	
 	static{
 		setImage("tileset.png", 29, 3);
 		setImage("tileset2.png", 12, 10);

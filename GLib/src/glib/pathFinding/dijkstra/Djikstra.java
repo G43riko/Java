@@ -30,9 +30,11 @@ public class Djikstra {
 			System.out.println("Path: " + path);
 		}
 	}
+	
 	public static void computePaths(Vertex<?> source){
 		computePaths(source, null);
 	}
+	
 	public static void computePaths(Vertex<?> source, Vertex<?> target){
 		source.setMinDistance(0);
 		PriorityQueue<Vertex<?>> vertexQueue = new PriorityQueue<Vertex<?>>();

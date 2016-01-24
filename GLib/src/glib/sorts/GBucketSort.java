@@ -1,6 +1,6 @@
 package glib.sorts;
 
-public class BucketSort{
+public class GBucketSort{
 	public void sort(int[] a, int maxVal) {
 		int [] bucket = new int[maxVal + 1];
  

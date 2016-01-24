@@ -27,7 +27,7 @@ public class ResourceLoader {
 		try {
 			return ImageIO.read(load(TEXTURES_FOLDER + "/" + fileName));
 		} catch (IOException e) {
-			GLog2.write("Nepodarilo sa naèítaš súbor: " + TEXTURES_FOLDER + "/" + fileName);
+			GLog.write("Nepodarilo sa naèítaš súbor: " + TEXTURES_FOLDER + "/" + fileName);
 		}
 		return null;
 	}
@@ -40,7 +40,7 @@ public class ResourceLoader {
 		try {
 			return AudioSystem.getAudioInputStream(load(fileName));
 		} catch (UnsupportedAudioFileException | IOException e) {
-			GLog2.write("Nepodarilo sa naèítaš súbor: " + fileName);
+			GLog.write("Nepodarilo sa naèítaš súbor: " + fileName);
 		}
 		return null;
 	}

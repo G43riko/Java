@@ -1,7 +1,7 @@
 package glib.cycle;
 
 import glib.util.GColor;
-import glib.util.GLog2;
+import glib.util.GLog;
 import glib.util.Utils;
 import glib.util.vector.GVector2f;
 
@@ -53,7 +53,7 @@ public abstract class GCanvasCicle{
 		while(isRunning){
 			startTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() - cicleTime > 1000){
-				GLog2.write("frames: " + frames + " ticks: " + ticks, showTime);
+				GLog.write("frames: " + frames + " ticks: " + ticks, showTime);
 				cicleTime = System.currentTimeMillis();
 				frames = 0;
 				ticks = 0;

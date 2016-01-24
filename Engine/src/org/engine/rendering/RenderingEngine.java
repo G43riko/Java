@@ -37,7 +37,7 @@ import org.tester.voxel.PointLightObject;
 import org.tester.voxel.world.Block;
 import org.tester.voxel.world.Blocks;
 
-import glib.util.GDebug;
+import glib.util.GLog;
 import glib.util.vector.GMatrix4f;
 import glib.util.vector.GVector2f;
 import glib.util.vector.GVector3f;
@@ -124,7 +124,7 @@ public class RenderingEngine {
 	
 	public void renderObject(GameObject object) {
 		if(mainCamera == null){
-			GDebug.logError("nieje nastaven· hlavn· kamera", "RenderingEngine");
+			GLog.write("nieje nastaven· hlavn· kamera");
 			return;
 		}
 			
@@ -193,7 +193,7 @@ public class RenderingEngine {
 	
 	public void renderBlock(Block block){
 		if(mainCamera == null){
-			GDebug.logError("nieje nastaven· hlavn· kamera", "RenderingEngine");
+			GLog.write("nieje nastaven· hlavn· kamera");
 			return;
 		}
 		
@@ -234,7 +234,7 @@ public class RenderingEngine {
 	
 	public void renderBlockBomber(org.tester.bomber.level.Block block) {
 		if(mainCamera == null){
-			GDebug.logError("nieje nastaven· hlavn· kamera", "RenderingEngine");
+			GLog.write("nieje nastaven· hlavn· kamera");
 			return;
 		}
 		
@@ -292,7 +292,7 @@ public class RenderingEngine {
 	
 	private void prepareAndDraw(int i, Model model) {
 		if(model == null){
-			GDebug.logError("chce sa vykresliù model ktor˝ je null", "RenderignEngine");
+			GLog.write("chce sa vykresliù model ktor˝ je null");
 			return;
 		}
 			
@@ -408,7 +408,7 @@ public class RenderingEngine {
 	
 	private void setEyePos() {
 		if(mainCamera == null){
-			GDebug.logError("nieje nastaven· hlavn· kamera", "RenderingEngine");
+			GLog.write("nieje nastaven· hlavn· kamera");
 			return;
 		}
 		
@@ -423,7 +423,7 @@ public class RenderingEngine {
 
 	private void setViewMatrix(GMatrix4f matrix) {
 		if(mainCamera == null){
-			GDebug.logError("nieje nastaven· hlavn· kamera", "RenderingEngine");
+			GLog.write("nieje nastaven· hlavn· kamera");
 			return;
 		}
 		

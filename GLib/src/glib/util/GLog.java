@@ -1,60 +1,70 @@
 package glib.util;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GLog {
-	private static HashMap<String,Boolean> data = new HashMap<String,Boolean>();
-	private static boolean showAll = false;
-	private static boolean hideAll = false;
-	private boolean show = true;
+	public final static boolean EXCEPTION 		= false;
+	public final static boolean DEBUG 	  		= false;
+	public final static boolean CONSTRUCTORS	= false;
 	
-	static{
-		data.put("mainLoop",true);
-		data.put("menu",true);
-		data.put("mapa", true);
-		data.put("updateUniforms",true);
+	private static List<GLog> logs = new ArrayList<GLog>();
+	private String 		text;
+	private String 		methodName;
+	private String 		className;
+	private int			lineNumber;
+	private Exception 	exception;
+	private long 		created = System.currentTimeMillis();;
+	
+	//CONTRUCTORS
+	
+	private GLog(String text, Exception exception, int lineNumber, String methodName, String className){
+		this.text = text;
+		this.exception = exception;
+		this.className = className;
+		this.methodName = methodName;
+		this.lineNumber = lineNumber;
 	}
 	
-	public void log(String msg){
-		if(show){
-			System.out.println(msg);
+	//OTHERS
+	
+	public static void write(String text){
+		write(text, null, true);
+	}
+	
+	public static void write(String text, boolean value){
+		write(text, null, value);
+	}
+	
+	public static void write(String text,Exception exception){
+		write(text, exception, true);
+	}
+	
+	public static void write(String text, Exception exception, boolean value){
+		StackTraceElement[] tracker = Thread.currentThread().getStackTrace();
+		StackTraceElement t = tracker[tracker.length - 1];
+		
+		logs.add(new GLog(text, exception, t.getLineNumber(), t.getMethodName(), t.getClassName()));
+		
+		if(value){
+			System.out.println(text);
+			if(exception != null)
+				exception.printStackTrace();
 		}
 	}
 	
-	public static void write(String msg){
-		if(hideAll)
-			return;
-		System.out.println(msg);
+	public static void printLogs(){
+		logs.stream()	
+			.sorted((a, b) -> Long.compare(a.created, b.created))
+			.forEach(System.out::println);
 	}
 	
-	public static void write(String msg, String name){
-		if(hideAll)
-			return;
-		if(data.get(name)||showAll){
-			System.out.println(msg);
-		}
-	}
-	
-	public static void set(String name,boolean value){
-		data.put(name, value);
-	}
-	
-	public static void change(String name){
-		if(data.get(name))
-			data.put(name, false);
-		else
-			data.put(name, true);
-	}
-
-	public void setShow(boolean show) {
-		this.show = show;
-	}
-	
-	public static void sleep(int mili){
-		try {
-			Thread.sleep(mili);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder(new GDate(created) + " - \"" + text + "\" [ ");
+		result.append(className + " > " + methodName + " > " + lineNumber + " ] ");
+		if(exception != null)
+			result.append(exception);
+		return result.toString();
 	}
 }
